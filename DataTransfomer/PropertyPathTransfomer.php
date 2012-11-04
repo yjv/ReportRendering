@@ -1,0 +1,58 @@
+<?php
+namespace Yjv\Bundle\ReportRenderingBundle\DataTransformer;
+
+use Symfony\Component\Form\Exception\FormException;
+
+use Symfony\Component\Form\Exception\PropertyAccessDeniedException;
+
+use Symfony\Component\Form\Exception\InvalidPropertyException;
+
+use Symfony\Component\Form\Util\PropertyPath;
+
+use Yjv\BUndle\ReportRenderingBundle\DataTransformer\AbstractDataTransformer;
+
+class PropertyPathTransfomer extends AbstractDataTransformer{
+
+	/**
+	 * @param unknown $data
+	 */
+	public function transform($data, $orginalData) {
+
+		$propertyPath = new PropertyPath($this->options['path']);
+		
+		try {
+			
+			return $propertyPath->getValue($data);
+		} catch (InvalidPropertyException $e) {
+			
+			return $this->handlePathSearchException($e);
+		} catch(PropertyAccessDeniedException $e){
+			
+			return $this->handlePathSearchException($e);
+		}
+	}
+
+	protected function getOptionsResolver(){
+		
+		return parent::getOptionsResolver()
+			->setRequired(array('path'))
+			->setOptional(array('required', 'empty_value'))
+			->setDefaults(array('required' => true, 'empty_value' => ''))
+			->setAllowedTypes(array(
+					'path' => array('string', 'Symfony\Component\Form\Util\PropertyPath'),
+					'required' => array('bool'),
+					'default_value' => array('scalar')
+			))
+		;
+	}
+	
+	protected function handlePathSearchException(FormException $e) {
+		
+			if (!$this->options['required']) {
+				
+				return $this->options['empty_value'];
+			}
+				
+			throw $e;
+	}
+}

@@ -1,0 +1,238 @@
+<?php
+namespace Yjv\Bundle\ReportRenderingBundle\Report;
+
+use Yjv\Bundle\ReportRenderingBundle\ReportData\ImmutableDataInterface;
+
+use Yjv\Bundle\ReportRenderingBundle\Event\FilterDataEvent;
+
+use Yjv\Bundle\ReportRenderingBundle\Event\DataEvent;
+
+use Yjv\Bundle\ReportRenderingBundle\ReportData\ImmutableReportData;
+
+use Yjv\Bundle\ReportRenderingBundle\Renderer\FilterAwareRendererInterface;
+
+use Yjv\Bundle\ReportRenderingBundle\Filter\FilterCollectionInterface;
+
+use Symfony\EventDispatcher\EventSubscriberInterface;
+
+use Symfony\EventDispatcher\EventDispatcherInterface;
+
+use Yjv\Bundle\ReportRenderingBundle\Filter\NullFilterCollection;
+
+use Yjv\Bundle\ReportRenderingBundle\Renderer\RendererNotFoundException;
+
+use Yjv\Bundle\ReportRenderingBundle\Renderer\RendererInterface;
+
+use Yjv\Bundle\ReportRenderingBundle\Datasource\DatasourceInterface;
+
+/**
+ * 
+ * @author yosefderay
+ *
+ */
+class Report {
+
+	static protected $reportCount = 0;
+	protected $datasource;
+	protected $renderers = array();
+	protected $filters;
+	protected $eventDispatcher;
+	protected $id;
+
+	public function __construct(DatasourceInterface $datasource, RendererInterface $defaultRenderer, EventDispatcherInterface $eventDispatcher) {
+
+		self::$reportCount++;
+		
+		$this->datasource = $datasource;
+		$this->renderers['default'] = $defaultRenderer;
+		$this->eventDispatcher = $eventDispatcher;
+		$this->filters = new NullFilterCollection();
+		$this->id = sha1(self::$reportCount);
+	}
+
+	/**
+	 * 
+	 * @param string $name
+	 * @param RendererInterface $renderer
+	 * @return \Yjv\Bundle\ReportRenderingBundle\Report\Report
+	 */
+	public function addRenderer($name, RendererInterface $renderer) {
+
+		$this->renderers[$name] = $renderer;
+		return $this;
+	}
+
+	/**
+	 * 
+	 * @param string $name
+	 * @throws RendererNotFoundException
+	 * @return RendererInterface
+	 */
+	public function getRenderer($name) {
+
+		if (!isset($this->renderers[$name])) {
+
+			throw new RendererNotFoundException($name);
+		}
+
+		$renderer = $this->renderers[$name];
+		
+		if ($renderer instanceof FilterAwareRendererInterface) {
+			
+			$renderer->setFilters($this->getFilters());
+		}
+		
+		$renderer->setData($this->getData($name, $renderer));
+		
+		return $renderer;
+	}
+	
+	/**
+	 * @return array
+	 */
+	public function getRenderers() {
+	
+		return $this->renderers;
+	}
+	
+	/**
+	 * 
+	 * @param string $name
+	 * @return \Yjv\Bundle\ReportRenderingBundle\Report\Report
+	 */
+	public function removeRenderer($name) {
+		
+		unset($this->renderers[$name]);
+		
+		return $this;
+	}
+	
+	/**
+	 * 
+	 * @param string $event
+	 * @param callable $listener
+	 * @param number $priority
+	 * @return \Yjv\Bundle\ReportRenderingBundle\Report\Report
+	 */
+	public function addEventListener($event, $listener, $priority = 0) {
+
+		$this->eventDispatcher->addListener($eventName, $listener, $priority);
+		return $this;
+	}
+
+	/**
+	 * 
+	 * @param EventSubscriberInterface $eventSubscriber
+	 * @return \Yjv\Bundle\ReportRenderingBundle\Report\Report
+	 */
+	public function addEventSubscriber(EventSubscriberInterface $eventSubscriber) {
+
+		$this->eventDispatcher->addSubscriber($subscriber);
+		return $this;
+	}
+
+	/**
+	 * 
+	 * @return mixed the data returned from the datasoucre filtered by the post load listeners
+	 */
+	public function getData($rendererName, RendererInterface $renderer) {
+
+		$dataEvent = new DataEvent($rendererName, $renderer, $this->datasource, $this->filters);
+		$this->eventDispatcher->dispatch(ReportEvents::PRE_LOAD_DATA, $dataEvent);
+		
+		$this->datasource->setFilters($dataEvent->getFilters());
+		$data = $this->datasource->getReportData($renderer->getForceReload());
+		$dataEvent = new FilterDataEvent($rendererName, $renderer, $this->datasource, $this->filters, $data);
+		
+		$this->eventDispatcher->dispatch(ReportEvents::POST_LOAD_DATA, $dataEvent);
+		return $this->lockData($dataEvent->getData());
+	}
+
+	/**
+	 * @return DatasourceInterface
+	 */
+	public function getDatasource() {
+		
+		return $this->datasource;
+	}
+
+	/**
+	 * 
+	 * @param DatasourceInterface $datasource
+	 * @return \Yjv\Bundle\ReportRenderingBundle\Report\Report
+	 */
+	public function setDatasource(DatasourceInterface $datasource) {
+		
+		$this->datasource = $datasource;
+		return $this;
+	}
+
+	/**
+	 * @return FilterCollectionInterface
+	 */
+	public function getFilters() {
+		
+		return $this->filters;
+	}
+
+	/**
+	 * 
+	 * @param FilterCollectionInterface $filters
+	 * @return \Yjv\Bundle\ReportRenderingBundle\Report\Report
+	 */
+	public function setFilters(FilterCollectionInterface $filters) {
+		$this->filters = $filters;
+		return $this;
+	}
+
+	/**
+	 * @return EventDispatcherInterface
+	 */
+	public function getEventDispatcher() {
+		
+		return $this->eventDispatcher;
+	}
+
+	/**
+	 * 
+	 * @param EventDispatcherInterface $eventDispatcher
+	 * @return \Yjv\Bundle\ReportRenderingBundle\Report\Report
+	 */
+	public function setEventDispatcher(EventDispatcherInterface $eventDispatcher) {
+		
+		$this->eventDispatcher = $eventDispatcher;
+		return $this;
+	}
+	
+	public function getId() {
+		
+		$this->generateId();
+		return $this->id;
+	}
+	
+	public function setId($id) {
+		
+		$this->id = $id;
+		return $this;
+	}
+
+	/**
+	 * 
+	 * @param ImmutableDataInterface $data
+	 * @return \Yjv\Bundle\ReportRenderingBundle\ReportData\ImmutableReportData
+	 */
+	protected function lockData(ImmutableDataInterface $data) {
+		
+		return ImmutableReportData::createFromData($data);
+	}
+	
+	protected function generateId() {
+		
+		if (empty($this->id)) {
+			
+			$this->id = $this->idGenerator->getId($this);
+		}
+		
+		return $this;
+	}
+}
