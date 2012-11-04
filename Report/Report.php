@@ -1,6 +1,10 @@
 <?php
 namespace Yjv\Bundle\ReportRenderingBundle\Report;
 
+use Yjv\Bundle\ReprotRenderingBundle\IdGenerator\CallCountIdGenerator;
+
+use Yjv\Bundle\ReportRenderingBundle\IdGenerator\IdGeneratorInterface;
+
 use Yjv\Bundle\ReportRenderingBundle\ReportData\ImmutableDataInterface;
 
 use Yjv\Bundle\ReportRenderingBundle\Event\FilterDataEvent;
@@ -32,22 +36,19 @@ use Yjv\Bundle\ReportRenderingBundle\Datasource\DatasourceInterface;
  */
 class Report {
 
-	static protected $reportCount = 0;
 	protected $datasource;
 	protected $renderers = array();
 	protected $filters;
 	protected $eventDispatcher;
-	protected $id;
+	protected $idGenerator;
 
-	public function __construct(DatasourceInterface $datasource, RendererInterface $defaultRenderer, EventDispatcherInterface $eventDispatcher) {
+	public function __construct(DatasourceInterface $datasource, RendererInterface $defaultRenderer, EventDispatcherInterface $eventDispatcher, IdGeneratorInterface $idGenerator) {
 
-		self::$reportCount++;
-		
 		$this->datasource = $datasource;
 		$this->renderers['default'] = $defaultRenderer;
 		$this->eventDispatcher = $eventDispatcher;
 		$this->filters = new NullFilterCollection();
-		$this->id = sha1(self::$reportCount);
+		$this->idGenerator = new CallCountIdGenerator();
 	}
 
 	/**
@@ -210,9 +211,9 @@ class Report {
 		return $this->id;
 	}
 	
-	public function setId($id) {
+	public function setIdGenerator(IdGeneratorInterface $idGenerator) {
 		
-		$this->id = $id;
+		$this->idGenerator = $idGenerator;
 		return $this;
 	}
 
