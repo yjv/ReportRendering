@@ -43,7 +43,7 @@ class Report {
 	protected $idGenerator;
 	protected $id;
 
-	public function __construct(DatasourceInterface $datasource, RendererInterface $defaultRenderer, EventDispatcherInterface $eventDispatcher, IdGeneratorInterface $idGenerator) {
+	public function __construct(DatasourceInterface $datasource, RendererInterface $defaultRenderer, EventDispatcherInterface $eventDispatcher) {
 
 		$this->datasource = $datasource;
 		$this->renderers['default'] = $defaultRenderer;
