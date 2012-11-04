@@ -41,6 +41,7 @@ class Report {
 	protected $filters;
 	protected $eventDispatcher;
 	protected $idGenerator;
+	protected $id;
 
 	public function __construct(DatasourceInterface $datasource, RendererInterface $defaultRenderer, EventDispatcherInterface $eventDispatcher, IdGeneratorInterface $idGenerator) {
 
