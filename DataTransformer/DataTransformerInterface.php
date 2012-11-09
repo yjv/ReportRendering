@@ -1,5 +1,5 @@
 <?php
-namespace Yjv\BundleReportRenderingBundle\DataTransformer;
+namespace Yjv\Bundle\ReportRenderingBundle\DataTransformer;
 
 interface DataTransformerInterface {
 

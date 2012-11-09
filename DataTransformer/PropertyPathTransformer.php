@@ -11,14 +11,14 @@ use Symfony\Component\Form\Util\PropertyPath;
 
 use Yjv\BUndle\ReportRenderingBundle\DataTransformer\AbstractDataTransformer;
 
-class PropertyPathTransfomer extends AbstractDataTransformer{
+class PropertyPathTransformer extends AbstractDataTransformer{
 
 	/**
 	 * @param unknown $data
 	 */
 	public function transform($data, $orginalData) {
 
-		$propertyPath = new PropertyPath($this->options['path']);
+		$propertyPath = new PropertyPath($this->getOption('path'));
 		
 		try {
 			
@@ -41,16 +41,16 @@ class PropertyPathTransfomer extends AbstractDataTransformer{
 			->setAllowedTypes(array(
 					'path' => array('string', 'Symfony\Component\Form\Util\PropertyPath'),
 					'required' => array('bool'),
-					'default_value' => array('scalar')
+					'empty_value' => array('scalar')
 			))
 		;
 	}
 	
 	protected function handlePathSearchException(FormException $e) {
 		
-			if (!$this->options['required']) {
+			if (!$this->getOption('required')) {
 				
-				return $this->options['empty_value'];
+				return $this->getOption('empty_value');
 			}
 				
 			throw $e;
