@@ -1,13 +1,15 @@
 <?php
 namespace Yjv\Bundle\ReportRenderingBundle\Event;
 
+use Symfony\Component\EventDispatcher\Event;
+
 use Yjv\Bundle\ReportRenderingBundle\Renderer\RendererInterface;
 
 use Yjv\Bundle\ReportRenderingBundle\Filter\FilterCollectionInterface;
 
 use Yjv\Bundle\ReportRenderingBundle\Datasource\DatasourceInterface;
 
-class DataEvent {
+class DataEvent extends Event{
 
 	protected $data;
 	protected $datasource;

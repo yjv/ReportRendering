@@ -1,6 +1,8 @@
 <?php
 namespace Yjv\Bundle\ReportRenderingBundle\Event;
 
+use Yjv\Bundle\ReportRenderingBundle\ReportData\DataInterface;
+
 use Yjv\Bundle\ReportRenderingBundle\Renderer\RendererInterface;
 
 use Yjv\Bundle\ReportRenderingBundle\ReportData\ImmutableDataInterface;
