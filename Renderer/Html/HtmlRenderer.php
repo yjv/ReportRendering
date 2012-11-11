@@ -22,13 +22,13 @@ class HtmlRenderer implements FilterAwareRendererInterface, WidgetInterface {
 	protected $attributes = array();
 	protected $filterForm;
 	protected $grid;
+	protected $reportId;
 
 	public function __construct(WidgetRenderer $renderer, GridInterface $grid, $template) {
 		
 		$this->renderer = $renderer;
 		$this->template = $template;
 		$this->grid = $grid;
-		parent::__construct();
 	}
 	
 	public function setData(ImmutableDataInterface $data) {
@@ -50,16 +50,23 @@ class HtmlRenderer implements FilterAwareRendererInterface, WidgetInterface {
 	
 	public function getRows() {
 		
-		return $this->grid->render();
+		return $this->grid->getRows();
+	}
+	
+	public function getColumns(){
+		
+		return $this->grid->getColumns();
 	}
 
 	public function getUnfilteredCount() {
 		
+		$this->assertDataSet();
 		return $this->data->getUnfilteredCount();
 	}
 	
 	public function getCount(){
 		
+		$this->assertDataSet();
 		return $this->data->getCount();
 	}
 
@@ -76,7 +83,7 @@ class HtmlRenderer implements FilterAwareRendererInterface, WidgetInterface {
 
 	public function getAttribute($name, $default = null) {
 
-		if (array_key_exists($name, $this->attributes)) {
+		if (!array_key_exists($name, $this->attributes)) {
 			
 			return $default;
 		}
@@ -98,11 +105,55 @@ class HtmlRenderer implements FilterAwareRendererInterface, WidgetInterface {
 	
 	public function getFilterForm() {
 		
-		return $this->filterForm->bind($this->filters->all());
+		$this->assertFilterFormSet();
+		$this->assertFiltersSet();
+		$this->filterForm->bind($this->filters->all());
+		return $this->filterForm;
+	}
+	
+	public function hasFilterForm() {
+		
+		return $this->filterForm instanceof FormInterface;
 	}
 	
 	public function getTemplate() {
 
 		return $this->template;
+	}
+	
+	public function setReportId($reportId) {
+		
+		$this->reportId = $reportId;
+		$this->grid->setReportId($reportId);
+		return $this;
+	}
+	
+	public function getReportId() {
+		
+		return $this->reportId;
+	}
+	
+	protected function assertDataSet() {
+		
+		if (empty($this->data)) {
+			
+			throw new \BadMethodCallException('data must be set to use this method');
+		}
+	}
+	
+	protected function assertFilterFormSet() {
+		
+		if (empty($this->filterForm)) {
+			
+			throw new \BadMethodCallException('filterForm must be set to use this method');
+		}
+	}
+	
+	protected function assertFiltersSet() {
+		
+		if (empty($this->filters)) {
+			
+			throw new \BadMethodCallException('filters must be set to use this method');
+		}
 	}
 }
