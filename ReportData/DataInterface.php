@@ -8,6 +8,6 @@ namespace Yjv\Bundle\ReportRenderingBundle\ReportData;
  */
 interface DataInterface extends ImmutableDataInterface{
 
-	public function setData();
-	public function setUnfilteredCount();
+	public function setData($data);
+	public function setUnfilteredCount($unFilteredCount);
 }
