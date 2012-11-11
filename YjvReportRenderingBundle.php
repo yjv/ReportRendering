@@ -2,7 +2,7 @@
 
 namespace Yjv\Bundle\ReportRenderingBundle;
 
-use Symfony\HttpKernel\Bundle\Bundle;
+use Symfony\Component\HttpKernel\Bundle\Bundle;
 
 class YjvReportRenderingBundle extends Bundle
 {
