@@ -1,5 +1,5 @@
 <?php
-namespace Yjv\Bundle\ReprotRenderingBundle\IdGenerator;
+namespace Yjv\Bundle\ReportRenderingBundle\IdGenerator;
 
 use Yjv\Bundle\ReportRenderingBundle\Report\Report;
 
