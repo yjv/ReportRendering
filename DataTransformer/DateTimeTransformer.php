@@ -1,7 +1,7 @@
 <?php
 namespace Yjv\Bundle\ReportRenderingBundle\DataTransformer;
 
-use Yjv\BUndle\ReportRenderingBundle\DataTransformer\AbstractDataTransformer;
+use Yjv\Bundle\ReportRenderingBundle\DataTransformer\AbstractDataTransformer;
 
 class DateTimeTransformer extends AbstractDataTransformer{
 
@@ -14,10 +14,10 @@ class DateTimeTransformer extends AbstractDataTransformer{
 		
 		if (!$data instanceof \DateTime) {
 			
-			throw new \InvalidArgumentException('$data must be an instance of DateTime, a string or an integer timestamp');
+			throw new \InvalidArgumentException('$data must be an instance of DateTime, a valid date string or an integer timestamp');
 		}
 		
-		return $data->format($this->options['format']);
+		return $data->format($this->getOption('format'));
 	}
 	
 	public function getOptionsResolver(){
