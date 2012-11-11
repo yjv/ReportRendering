@@ -1,6 +1,8 @@
 <?php
 namespace Yjv\Bundle\ReportRenderingBundle\Test\DataTransformer;
 
+use Symfony\Component\Form\Exception\InvalidPropertyException;
+
 use Yjv\Bundle\ReportRenderingBundle\DataTransformer\FormatStringTransformer;
 
 
@@ -39,4 +41,19 @@ class FormatStringTransformerTest extends \PHPUnit_Framework_TestCase{
 		
 		$this->assertEquals('Name Unknown', $this->transformer->transform($this->data, $this->data));
 	}
+
+	public function testExceptionOnNotFound() {
+	
+		$this->transformer->setOptions(array(
+			'format_string' => '{name}',
+		));
+	
+		try {
+				
+			$this->transformer->transform($this->data, $this->data);
+			$this->fail('did not throw exception on path not found');
+		} catch (InvalidPropertyException $e) {
+		}
+	}
+	
 }
