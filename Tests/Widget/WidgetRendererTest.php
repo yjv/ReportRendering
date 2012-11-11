@@ -3,9 +3,8 @@ namespace Yjv\Bundle\ReportRenderingBundle\Tests\Widget;
 
 use Yjv\Bundle\ReportRenderingBundle\Widget\WidgetRenderer;
 
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
-class WidgetRendererTest extends WebTestCase{
+class WidgetRendererTest extends \PHPUnit_Framework_TestCase{
 
 	protected $renderer;
 	protected $templatingEngine;

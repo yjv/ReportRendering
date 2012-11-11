@@ -7,9 +7,8 @@ use Yjv\Bundle\ReportRenderingBundle\ReportData\ReportData;
 
 use Yjv\Bundle\ReportRenderingBundle\Renderer\Html\HtmlRenderer;
 
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
-class HtmlRendererTest extends WebTestCase{
+class HtmlRendererTest extends \PHPUnit_Framework_TestCase{
 
 	protected $grid;
 	protected $template;

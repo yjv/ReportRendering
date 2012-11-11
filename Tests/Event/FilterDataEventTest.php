@@ -4,7 +4,6 @@ use Yjv\Bundle\ReportRenderingBundle\ReportData\ReportData;
 
 use Yjv\Bundle\ReportRenderingBundle\Event\FilterDataEvent;
 
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class FilterDataEventTest extends DataEventTest{
 

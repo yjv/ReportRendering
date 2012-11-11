@@ -9,9 +9,8 @@ use Yjv\Bundle\ReportRenderingBundle\Datasource\FakeDatasource;
 
 use Yjv\Bundle\ReportRenderingBundle\Event\DataEvent;
 
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
-class DataEventTest extends WebTestCase{
+class DataEventTest extends \PHPUnit_Framework_TestCase{
 
 	protected $rendererName;
 	protected $grid;

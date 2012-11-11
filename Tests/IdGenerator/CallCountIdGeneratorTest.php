@@ -10,9 +10,8 @@ use Yjv\Bundle\ReportRenderingBundle\Report\Report;
 
 use Yjv\Bundle\ReportRenderingBundle\IdGenerator\CallCountIdGenerator;
 
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
-class CallCountIdGeneratorTest extends WebTestCase {
+class CallCountIdGeneratorTest extends \PHPUnit_Framework_TestCase {
 
 	public function setUp(){
 		

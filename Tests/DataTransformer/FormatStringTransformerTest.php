@@ -3,9 +3,8 @@ namespace Yjv\Bundle\ReportRenderingBundle\Test\DataTransformer;
 
 use Yjv\Bundle\ReportRenderingBundle\DataTransformer\FormatStringTransformer;
 
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
-class FormatStringTransformerTest extends WebTestCase{
+class FormatStringTransformerTest extends \PHPUnit_Framework_TestCase{
 
 	public function setUp(){
 		

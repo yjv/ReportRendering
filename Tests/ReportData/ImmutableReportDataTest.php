@@ -3,9 +3,8 @@ namespace Yjv\Bundle\ReportRenderingBundle\Tests\ReportData;
 
 use Yjv\Bundle\ReportRenderingBundle\ReportData\ImmutableReportData;
 
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
-class ImmutableReportDataTest extends WebTestCase{
+class ImmutableReportDataTest extends \PHPUnit_Framework_TestCase{
 
 	protected $data;
 	protected $unfilteredCount;

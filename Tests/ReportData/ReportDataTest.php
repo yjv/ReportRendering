@@ -3,7 +3,6 @@ namespace Yjv\Bundle\ReportRenderingBundle\Tests\ReportData;
 
 use Yjv\Bundle\ReportRenderingBundle\ReportData\ImmutableReportData;
 
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class ReportDataTest extends ImmutableReportDataTest{
 
