@@ -1,3 +1,54 @@
-<div>
-
+{% javascripts
+    '@YjvReportRenderingBundle/Resources/public/js/html_report.js'
+%}
+<script type="text/javascript" src="{{ asset_url }}"></script>
+{% endjavascripts %}
+<div{{ widget.attributes|attributes({"id": widget.reportId, "class": "report"}) }}>
+{% if widget.hasFilterForm %}
+{% block report_filters %}
+<div id="report-filters{{ widget.reportId }}" class="report-filters well well-small collapse">
+	<div>
+		<button type="button" data-toggle="collapse" data-target="#report-filters{{ widget.reportId }}" class="btn" style="">Filters</button>
+	</div>
+	<div>
+		<form>
+			{% for formWidget in widget.getFilterForm.createView() %}
+			{{ form_label(formWidget) }}
+			{{ form_widget(formWidget) }}
+			{% endfor %}
+		</form>
+	</div>
+</div>
+{% endblock %}
+{% endif %}
+{% block report_data %}
+<table class="report-data table table-striped table-bordered table-hover">
+	{% block report_header %}
+	<thead>
+		<tr>
+			{% for name, options in widget.columns %}
+			<th>
+				{% if options.sortable %}
+				<a href="javascript:void()">{{ name }}</a>
+				{% else %}
+				{{ name }}
+				{% endif %}
+			</th>
+			{% endfor %}
+		</tr>
+	</thead>
+	{% endblock %}
+	{% block report_body %}
+	<tbody>
+		{% for row in widget.getRows() %}
+		<tr{{ row.attributes|attributes }}>
+			{% for cell in row.cells %}
+			<td{{ cell.attributes|attributes }}>{{ cell.data|raw }}</td>
+			{% endfor %}
+		</tr>
+		{% endfor %}
+	</tbody>
+	{% endblock %}
+</table>
+{% endblock %}
 </div>

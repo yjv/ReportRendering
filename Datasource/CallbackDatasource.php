@@ -46,7 +46,9 @@ class CallbackDatasource implements DatasourceInterface {
 			}
 		}
 		
-		return $this->data = $reflectionFunction->invoke($args);
+		$this->data = $reflectionFunction->invoke($args);
+		
+		return $this->data;
 	}
 	
 	public function setFilters(FilterCollectionInterface $filters) {

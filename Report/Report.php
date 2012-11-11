@@ -1,7 +1,9 @@
 <?php
 namespace Yjv\Bundle\ReportRenderingBundle\Report;
 
-use Yjv\Bundle\ReprotRenderingBundle\IdGenerator\CallCountIdGenerator;
+use Yjv\Bundle\ReportRenderingBundle\Filter\MultiReportFilterCollectionInterface;
+
+use Yjv\Bundle\ReportRenderingBundle\IdGenerator\CallCountIdGenerator;
 
 use Yjv\Bundle\ReportRenderingBundle\IdGenerator\IdGeneratorInterface;
 
@@ -17,9 +19,9 @@ use Yjv\Bundle\ReportRenderingBundle\Renderer\FilterAwareRendererInterface;
 
 use Yjv\Bundle\ReportRenderingBundle\Filter\FilterCollectionInterface;
 
-use Symfony\EventDispatcher\EventSubscriberInterface;
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
-use Symfony\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 use Yjv\Bundle\ReportRenderingBundle\Filter\NullFilterCollection;
 
@@ -46,7 +48,7 @@ class Report {
 	public function __construct(DatasourceInterface $datasource, RendererInterface $defaultRenderer, EventDispatcherInterface $eventDispatcher) {
 
 		$this->datasource = $datasource;
-		$this->renderers['default'] = $defaultRenderer;
+		$this->addRenderer('default', $defaultRenderer);
 		$this->eventDispatcher = $eventDispatcher;
 		$this->filters = new NullFilterCollection();
 		$this->idGenerator = new CallCountIdGenerator();
@@ -70,7 +72,7 @@ class Report {
 	 * @throws RendererNotFoundException
 	 * @return RendererInterface
 	 */
-	public function getRenderer($name) {
+	public function getRenderer($name = 'default') {
 
 		if (!isset($this->renderers[$name])) {
 
@@ -78,6 +80,8 @@ class Report {
 		}
 
 		$renderer = $this->renderers[$name];
+		
+		$renderer->setReportId($this->getId());
 		
 		if ($renderer instanceof FilterAwareRendererInterface) {
 			
@@ -111,12 +115,12 @@ class Report {
 	
 	/**
 	 * 
-	 * @param string $event
+	 * @param string $eventName
 	 * @param callable $listener
 	 * @param number $priority
 	 * @return \Yjv\Bundle\ReportRenderingBundle\Report\Report
 	 */
-	public function addEventListener($event, $listener, $priority = 0) {
+	public function addEventListener($eventName, $listener, $priority = 0) {
 
 		$this->eventDispatcher->addListener($eventName, $listener, $priority);
 		return $this;
@@ -127,7 +131,7 @@ class Report {
 	 * @param EventSubscriberInterface $eventSubscriber
 	 * @return \Yjv\Bundle\ReportRenderingBundle\Report\Report
 	 */
-	public function addEventSubscriber(EventSubscriberInterface $eventSubscriber) {
+	public function addEventSubscriber(EventSubscriberInterface $subscriber) {
 
 		$this->eventDispatcher->addSubscriber($subscriber);
 		return $this;
@@ -183,7 +187,14 @@ class Report {
 	 * @return \Yjv\Bundle\ReportRenderingBundle\Report\Report
 	 */
 	public function setFilters(FilterCollectionInterface $filters) {
+		
+		if ($filters instanceof MultiReportFilterCollectionInterface) {
+			
+			$filters->setReportId($this->getId());
+		}
+		
 		$this->filters = $filters;
+		
 		return $this;
 	}
 

@@ -5,4 +5,6 @@ use Yjv\Bundle\ReportRenderingBundle\Renderer\RendererInterface;
 interface GridInterface extends RendererInterface{
 
 	public function addColumn($name, array $options);
+	public function getColumns();
+	public function getRows();
 }

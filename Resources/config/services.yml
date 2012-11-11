@@ -1,0 +1,10 @@
+services:
+  
+  yjv.report_rendering.widget_renderer:
+    class: Yjv\Bundle\ReportRenderingBundle\Widget\WidgetRenderer
+    arguments: ['@templating']
+    
+  yjv.rerpot_rendering.twig_extension:
+    class: Yjv\Bundle\ReportRenderingBundle\Twig\ReportRenderingExtension
+    tags:
+      - { name: twig.extension }

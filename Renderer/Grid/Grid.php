@@ -1,6 +1,8 @@
 <?php
 namespace Yjv\Bundle\ReportRenderingBundle\Renderer\Grid;
-use Yjv\BundleReportRenderingBundle\DataTransformer\DataTransformerInterface;
+use Yjv\Bundle\ReportRenderingBundle\ReportData\ImmutableDataInterface;
+
+use Yjv\Bundle\ReportRenderingBundle\DataTransformer\DataTransformerInterface;
 
 use Yjv\Bundle\ReportRenderingBundle\Renderer\Grid\Row\Row;
 
@@ -8,12 +10,13 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 use Yjv\Bundle\ReportRenderingBundle\Renderer\RendererInterface;
 
-class Grid implements RendererInterface {
+class Grid implements GridInterface {
 	
 	protected $data;
 	protected $columns = array();
 	protected $columnOptionsResolver;
 	protected $rows = array();
+	protected $reportId;
 	
 	public function __construct() {
 		
@@ -57,10 +60,18 @@ class Grid implements RendererInterface {
 	/**
 	 * @param array $options
 	 */
-	public function render(array $options = array()) {
+	public function getRows() {
 
 		$this->loadRows();
 		return $this->rows;
+	}
+
+	/**
+	 * @param array $options
+	 */
+	public function render(array $options = array()) {
+
+		return $this->getRows();
 	}
 
 	public function addColumn($name, array $options) {
@@ -69,9 +80,15 @@ class Grid implements RendererInterface {
 		return $this;
 	}
 	
-	public function getColumnNames() {
+	public function getColumns() {
 		
-		return array_keys($this->columns);
+		return $this->columns;
+	}
+	
+	public function setReportId($reportId){
+		
+		$this->reportId = $reportId;
+		return $this;
 	}
 	
 	protected function loadRows() {
@@ -132,8 +149,10 @@ class Grid implements RendererInterface {
 				$attributes[$name] = $value($data, $attributes);
 			}elseif (is_object($value) && !method_exists($value, '__toString')){
 				
-				throw new \InvalidArgumentException('the value of an attribute must be either castable to a string or an instance of \Callable');'
+				throw new \InvalidArgumentException('the value of an attribute must be either castable to a string or an instance of \Callable');
 			}
 		}
+		
+		return $attributes;
 	}
 }
