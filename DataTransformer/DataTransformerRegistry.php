@@ -3,8 +3,6 @@ namespace Yjv\Bundle\ReportRenderingBundle\DataTransformer;
 
 use Yjv\Bundle\ReportRenderingBundle\DataTransformer\DataTransformerNotFoundException;
 
-use Yjv\BundleReportRenderingBundle\DatatTransfomer\DataTransformerInterface;
-
 class DataTransformerRegistry {
 
 	protected $dataTransformers = array();
