@@ -32,7 +32,7 @@ class ArrayFilterCollection implements DefaultedFilterCollectionInterface {
 	public function setAll(array $values) {
 		
 		$this->filters = array_replace($this->filters, $values);
-		return $this->syncFilters();
+		return $this;
 	}
 
 	/**

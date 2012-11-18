@@ -147,7 +147,7 @@ class Report {
 		$this->eventDispatcher->dispatch(ReportEvents::PRE_LOAD_DATA, $dataEvent);
 		
 		$this->datasource->setFilters($dataEvent->getFilters());
-		$data = $this->datasource->getReportData($renderer->getForceReload());
+		$data = $this->datasource->getData($renderer->getForceReload());
 		$dataEvent = new FilterDataEvent($rendererName, $renderer, $this->datasource, $this->filters, $data);
 		
 		$this->eventDispatcher->dispatch(ReportEvents::POST_LOAD_DATA, $dataEvent);

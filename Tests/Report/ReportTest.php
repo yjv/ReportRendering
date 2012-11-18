@@ -57,7 +57,7 @@ class ReportTest extends \PHPUnit_Framework_TestCase {
 		$name = 'renderer';
 		$this->datasource
 			->expects($this->any())
-			->method('getReportData')
+			->method('getData')
 			->will($this->returnValue(new ReportData(array(), 10)))
 		;
 		
@@ -151,7 +151,7 @@ class ReportTest extends \PHPUnit_Framework_TestCase {
 		
 		$this->datasource
 			->expects($this->once())
-			->method('getReportData')
+			->method('getData')
 			->will($this->returnValue($data))
 		;
 		
