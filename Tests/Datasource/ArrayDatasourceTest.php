@@ -23,6 +23,17 @@ class ArrayDatasourceTest extends \PHPUnit_Framework_TestCase{
 		$this->datasource = new ArrayDatasource($this->data);
 	}
 	
+	public function testConstructor() {
+		
+		try {
+			new ArrayDatasource(new \stdClass());
+			$this->fail('did not throw exception on invalid data');
+		} catch (\InvalidArgumentException $e) {}
+		
+		$datasource = new ArrayDatasource(new \ArrayIterator(array()));
+		$this->assertInternalType('array', $datasource->getData());
+	}
+	
 	public function testGetData() {
 		
 		$this->assertEquals($this->data, $this->datasource->getData());
