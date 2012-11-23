@@ -5,7 +5,7 @@ use Yjv\Bundle\ReportRenderingBundle\Twig\ReportRenderingExtension;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
-class ReportRenderingExtensionTest extends WebTestCase {
+class ReportRenderingExtensionTest extends \PHPUnit_Framework_TestCase {
 
 	protected $extension;
 	

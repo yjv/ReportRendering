@@ -19,17 +19,19 @@
         </testsuite>
     </testsuites>
 
+<!--
     <php>
         <server name="SYMFONY" value="/path/to/symfony/" />
         <server name="TWIG" value="/path/to/twig/" />
     </php>
-
+-->
     <filter>
         <whitelist>
             <directory>./</directory>
             <exclude>
                 <directory>./Resources</directory>
                 <directory>./Tests</directory>
+ 				<directory>./vendor</directory>
             </exclude>
         </whitelist>
     </filter>
