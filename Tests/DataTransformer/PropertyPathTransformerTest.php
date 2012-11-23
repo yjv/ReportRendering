@@ -31,7 +31,7 @@ class PropertyPathTransformerTest extends \PHPUnit_Framework_TestCase{
 		}
 	}
 	
-	public function testFormatStringTranform() {
+	public function testPropertyPathTranform() {
 		
 		$this->transformer->setOptions(array('path' => '[firstName]'));
 		$this->assertEquals('John', $this->transformer->transform($this->data, $this->data));

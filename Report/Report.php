@@ -36,7 +36,7 @@ use Yjv\Bundle\ReportRenderingBundle\Datasource\DatasourceInterface;
  * @author yosefderay
  *
  */
-class Report {
+class Report implements ReportInterface{
 
 	protected $datasource;
 	protected $renderers = array();
