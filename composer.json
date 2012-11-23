@@ -1,18 +1,21 @@
 {
 	"name": "yjv/report-rendering-bundle",
+	"description": "bundle with classes that allow easy rendering of report data",
 	"require": {
 	    
 	    "php": ">=5.3.0",
 	    "symfony/options-resolver": ">=2.1",
 	    "symfony/form": ">=2.1",
-	    "symfony/event-dispatcher": ">=2.0"
+	    "symfony/event-dispatcher": ">=2.0",
+	    "twig/twig": "*"
 	},
 	"require-dev":{
-	    "twig/twig": "*",
-	    "symfony/symfony": ">=2.1,<2.3-dev"
+	    "twig/twig": "*"
 	},
 	"autoload": {
-	    "psr-0": "Yjv\\Bundle\\ReportRenderingBundle"
+	    "psr-0": {
+	        "Yjv\\Bundle\\ReportRenderingBundle": ""
+	    }
 	},
 	"target-dir": "Yjv/Bundle/ReportRenderingBundle"
 }
