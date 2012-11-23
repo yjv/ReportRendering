@@ -14,7 +14,7 @@ class ReportRenderingExtensionTest extends WebTestCase {
 		$this->extension = new ReportRenderingExtension();
 	}
 	
-	public function testGetttersSetters() {
+	public function testGettersSetters() {
 		
 		$filters = $this->extension->getFilters();
 		$this->assertArrayHasKey('attributes', $filters);
