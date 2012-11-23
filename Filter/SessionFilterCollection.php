@@ -1,6 +1,6 @@
 <?php
 namespace Yjv\Bundle\ReportRenderingBundle\Filter;
-use Symfony\HttpFoundation\Session\SessionInterface;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 /**
  * filter collection that holds filter values in the session for multiple reports
@@ -11,7 +11,7 @@ class SessionFilterCollection implements MultiReportFilterCollectionInterface, D
 	
 	protected $session;
 	protected $reportId;
-	protected $filters;
+	protected $filters = array();
 	
 	public function __construct(SessionInterface $session){
 		
@@ -88,7 +88,8 @@ class SessionFilterCollection implements MultiReportFilterCollectionInterface, D
 	 */
 	public function setDefault($name, $value){
 		
-		if (!array_key_exists($name, $value)) {
+		
+		if (!array_key_exists($name, $this->filters)) {
 			
 			$this->filters[$name] = $value;
 		}
