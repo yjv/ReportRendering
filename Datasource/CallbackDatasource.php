@@ -1,5 +1,7 @@
 <?php
 namespace Yjv\Bundle\ReportRenderingBundle\Datasource;
+use Yjv\Bundle\ReportRenderingBundle\Filter\NullFilterCollection;
+
 use Yjv\Bundle\ReportRenderingBundle\ReportData\ImmutableReportData;
 
 use Yjv\Bundle\ReportRenderingBundle\Filter\FilterCollectionInterface;
@@ -7,19 +9,34 @@ use Yjv\Bundle\ReportRenderingBundle\Filter\FilterCollectionInterface;
 class CallbackDatasource implements DatasourceInterface {
 
 	protected $callback;
+	protected $callbackObject;
 	protected $params;
 	protected $filters;
 	protected $data;
 
 	public function __construct($callback, array $params = array()) {
 		
-		if (!is_callable($callback)) {
+		if (is_callable($callback)) {
 			
-			throw new \InvalidArgumentException('$callback must be callable');
+			if (is_array($callback)) {
+				
+				$this->callbackObject = is_object($callback[0]) ? $callback[0] : null;
+				$callback = new \ReflectionMethod($callback[0], $callback[1]);
+			}else{
+				
+				$callback = new \ReflectionFunction($callback);
+			}
+			
+		}
+		
+		if (!$callback instanceof \ReflectionFunctionAbstract) {
+			
+			throw new \InvalidArgumentException('$callback must be callable or an instance of ReflectionFunction');
 		}
 		
 		$this->callback = $callback;
 		$this->params = $params;
+		$this->filters = new NullFilterCollection();
 	}
 	
 	public function getData($forceReload = false) {
@@ -29,24 +46,35 @@ class CallbackDatasource implements DatasourceInterface {
 			return $this->data;
 		}
 		
-		$params = array_merge($this->params, $this->filters->getValues());
-		
-		$reflectionFunction = new \ReflectionFunction($this->callback);
+		$params = array_replace($this->params, $this->filters->all());
+		$params['params'] = $params;
 		
 		$args = array();
 		
-		foreach ($reflectionFunction->getParameters() as $parameter) {
+		foreach ($this->callback->getParameters() as $parameter) {
 			
 			if (array_key_exists($parameter->getName(), $params)) {
 				
 				$args[] = $params[$parameter->getName()];
-			}else{
+			}elseif($parameter->isDefaultValueAvailable()){
+				
+				$args[] = $parameter->getDefaultValue();
+			}elseif($parameter->allowsNull()){
 				
 				$args[] = null;
+			}else{
+				
+				throw new \InvalidArgumentException(sprintf('the parameter $%s was not defined in the filters or the default params', $parameter->getName()));
 			}
 		}
 		
-		$this->data = $reflectionFunction->invoke($args);
+		
+		if ($this->callback instanceof \ReflectionMethod) {
+			
+			$this->data = $this->callback->invokeArgs($this->callbackObject, $args);
+		}else{
+			$this->data = $this->callback->invokeArgs($args);
+		}
 		
 		return $this->data;
 	}
