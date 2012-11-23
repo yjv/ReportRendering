@@ -36,7 +36,15 @@ class ArrayDatasourceTest extends \PHPUnit_Framework_TestCase{
 	
 	public function testGetData() {
 		
-		$this->assertEquals($this->data, $this->datasource->getData());
+		$this->assertSame($this->data, $this->datasource->getData());
+		
+		$filters = new ArrayFilterCollection();
+		$this->datasource->setFilters($filters);
+		
+		$filters->set('[column1]', 'test');
+		
+		$this->assertSame($this->data, $this->datasource->getData(false));
+		$this->assertSame($this->data, $this->datasource->getData());
 	}
 	
 	public function testSort() {
