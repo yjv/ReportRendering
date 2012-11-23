@@ -7,7 +7,7 @@
 	    "symfony/form": ">=2.1",
 	    "symfony/event-dispatcher": ">=2.0"
 	},
-	"reqiure-dev":{
+	"require-dev":{
 	    "twig/twig": "*",
 	    "symfony/symfony": ">=2.1,<2.3-dev"
 	},
