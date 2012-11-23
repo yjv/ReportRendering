@@ -10,7 +10,7 @@
 	"reqiure-dev":{
 	    "twig/twig": "*",
 	    "symfony/symfony": ">=2.1,<2.3-dev"
-	}
+	},
 	"autoload": {
 	    "psr-0": "Yjv\\Bundle\\ReportRenderingBundle"
 	},
