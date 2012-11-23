@@ -39,15 +39,24 @@ class ReportTest extends \PHPUnit_Framework_TestCase {
 		$datasource = $this->getMock('Yjv\\Bundle\\ReportRenderingBundle\\Datasource\\DatasourceInterface');
 		$eventDispatcher = $this->getMock('Symfony\\Component\\EventDispatcher\\EventDispatcher');
 		$idGenerator = $this->getMock('Yjv\\Bundle\\ReportRenderingBundle\\IdGenerator\\IdGeneratorInterface');
+		$id = 'reportId';
 		$this->assertSame($this->datasource, $this->report->getDatasource());
 		$this->report->setDatasource($datasource);
 		$this->assertSame($datasource,	$this->report->getDatasource());
 		$this->assertSame($this->eventDispatcher, $this->report->getEventDispatcher());
 		$this->report->setEventDispatcher($eventDispatcher);
 		$this->assertSame($eventDispatcher, $this->report->getEventDispatcher());
-		$this->assertNotEmpty($this->report->getId());
 		$this->report->setIdGenerator($idGenerator);
-		$this->assertSame($idGenerator, $this->readAttribute($this->report, 'idGenerator'));
+		
+		$idGenerator
+			->expects($this->once())
+			->method('getId')
+			->with($this->report)
+			->will($this->returnValue($id))
+		;
+		
+		$this->assertEquals($id, $this->report->getId());
+		$this->assertEquals($id, $this->report->getId());
 	}
 	
 	public function testRendererGettersSetters() {
