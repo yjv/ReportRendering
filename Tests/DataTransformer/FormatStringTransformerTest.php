@@ -1,6 +1,10 @@
 <?php
 namespace Yjv\Bundle\ReportRenderingBundle\Test\DataTransformer;
 
+use Yjv\Bundle\ReportRenderingBundle\Tests\DataTransformer\DataWithHiddenProperty;
+
+use Symfony\Component\Form\Exception\PropertyAccessDeniedException;
+
 use Symfony\Component\Form\Exception\InvalidPropertyException;
 
 use Yjv\Bundle\ReportRenderingBundle\DataTransformer\FormatStringTransformer;
@@ -53,6 +57,13 @@ class FormatStringTransformerTest extends \PHPUnit_Framework_TestCase{
 			$this->transformer->transform($this->data, $this->data);
 			$this->fail('did not throw exception on path not found');
 		} catch (InvalidPropertyException $e) {
+		}
+	
+		try {
+				
+			$this->transformer->transform(new DataWithHiddenProperty(), $this->data);
+			$this->fail('did not throw exception on path not found');
+		} catch (PropertyAccessDeniedException $e) {
 		}
 	}
 	

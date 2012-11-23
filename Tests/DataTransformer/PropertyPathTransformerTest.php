@@ -1,6 +1,8 @@
 <?php
 namespace Yjv\Bundle\ReportRenderingBundle\Tests\DataTransformer;
 
+use Symfony\Component\Form\Exception\PropertyAccessDeniedException;
+
 use Symfony\Component\Form\Exception\InvalidPropertyException;
 
 use Symfony\Component\OptionsResolver\Exception\MissingOptionsException;
@@ -58,5 +60,19 @@ class PropertyPathTransformerTest extends \PHPUnit_Framework_TestCase{
 			$this->fail('did not throw exception on path not found');
 		} catch (InvalidPropertyException $e) {
 		}
+		
+
+		try {
+		
+			$this->transformer->transform(new DataWithHiddenProperty(), $this->data);
+			$this->fail('did not throw exception on path not found');
+		} catch (PropertyAccessDeniedException $e) {
+		}
 	}
 }
+
+class DataWithHiddenProperty{
+
+	protected $name = 'sdsss';
+}
+
