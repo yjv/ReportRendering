@@ -19,11 +19,10 @@
         </testsuite>
     </testsuites>
 
-    <!--
     <php>
         <server name="SYMFONY" value="/path/to/symfony/" />
+        <server name="TWIG" value="/path/to/twig/" />
     </php>
-    -->
 
     <filter>
         <whitelist>

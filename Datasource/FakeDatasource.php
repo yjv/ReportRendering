@@ -7,7 +7,7 @@ use Yjv\Bundle\ReportRenderingBundle\ReportData\ReportData;
 
 class FakeDatasource implements DatasourceInterface {
 	
-	public function getReportData($forceReload = false) {
+	public function getData($forceReload = false) {
 
 		$data = array(
 			array('hello' => 'goodbye'),		

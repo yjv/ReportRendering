@@ -22,7 +22,7 @@ class CallbackDatasource implements DatasourceInterface {
 		$this->params = $params;
 	}
 	
-	public function getReportData($forceReload = false) {
+	public function getData($forceReload = false) {
 
 		if (!empty($this->data) && !$forceReload) {
 			
