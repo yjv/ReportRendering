@@ -122,7 +122,7 @@ class HtmlRendererTest extends \PHPUnit_Framework_TestCase{
 	public function testFilterMethods() {
 		
 		$filters = new NullFilterCollection();
-		$filterForm = $this->getMock('Symfony\\Component\\Form\\Tests\\FormInterface');
+		$filterForm = $this->getMock('Yjv\\Bundle\\ReportRenderingBundle\\Tests\\TestClasses\\FormInterface');
 		
 		$this->assertFalse($this->renderer->hasFilterForm());
 		

@@ -13,7 +13,7 @@ class SessionFilterCollectionTest extends ArrayFilterCollectionTest{
 	
 	public function setUp() {
 		
-		$this->session = $this->getMockBuilder('Symfony\\Component\HttpFoundation\\Session\\SessionInterface')->getMock();
+		$this->session = $this->getMockBuilder('Symfony\\Component\\HttpFoundation\\Session\\SessionInterface')->getMock();
 		$this->filters = new SessionFilterCollection($this->session);
 	}
 	
