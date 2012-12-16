@@ -1,3 +1,6 @@
 /phpunit.xml
 /cov
 /vendor
+/.settings
+/.buildpath
+/.project
