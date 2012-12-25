@@ -23,6 +23,7 @@ class HtmlRenderer implements FilterAwareRendererInterface, WidgetInterface {
 	protected $filterForm;
 	protected $grid;
 	protected $reportId;
+	protected $forceReload = true;
 
 	public function __construct(WidgetRenderer $renderer, GridInterface $grid, $template) {
 		
@@ -38,9 +39,15 @@ class HtmlRenderer implements FilterAwareRendererInterface, WidgetInterface {
 		return $this;
 	}
 	
+	public function setForceReload($forceReload) {
+		
+		$this->forceReload = $forceReload;
+		return $this;
+	}
+	
 	public function getForceReload() {
 
-		return true;
+		return $this->forceReload;
 	}
 
 	public function render(array $options = array()) {
@@ -50,7 +57,7 @@ class HtmlRenderer implements FilterAwareRendererInterface, WidgetInterface {
 	
 	public function getRows() {
 		
-		return $this->grid->getRows();
+		return $this->grid->getRows($this->getForceReload());
 	}
 	
 	public function getColumns(){
@@ -113,7 +120,7 @@ class HtmlRenderer implements FilterAwareRendererInterface, WidgetInterface {
 	
 	public function hasFilterForm() {
 		
-		return $this->filterForm instanceof FormInterface;
+		return !empty($this->filterForm);
 	}
 	
 	public function getTemplate() {
@@ -124,7 +131,6 @@ class HtmlRenderer implements FilterAwareRendererInterface, WidgetInterface {
 	public function setReportId($reportId) {
 		
 		$this->reportId = $reportId;
-		$this->grid->setReportId($reportId);
 		return $this;
 	}
 	

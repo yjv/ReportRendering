@@ -13,7 +13,7 @@ use Yjv\Bundle\ReportRenderingBundle\Event\DataEvent;
 class DataEventTest extends \PHPUnit_Framework_TestCase{
 
 	protected $rendererName;
-	protected $grid;
+	protected $renderer;
 	protected $datasource;
 	protected $filters;
 	protected $dataEvent;
@@ -21,16 +21,16 @@ class DataEventTest extends \PHPUnit_Framework_TestCase{
 	public function setUp() {
 		
 		$this->rendererName = 'test';
-		$this->grid = new Grid();
+		$this->renderer = $this->getMockBuilder('Yjv\Bundle\ReportRenderingBundle\Renderer\RendererInterface')->getMock();
 		$this->datasource = new FakeDatasource();
 		$this->filters = new NullFilterCollection();
-		$this->dataEvent = new DataEvent($this->rendererName, $this->grid, $this->datasource, $this->filters);
+		$this->dataEvent = new DataEvent($this->rendererName, $this->renderer, $this->datasource, $this->filters);
 	}
 	
 	public function testGettersSetters() {
 		
 		$this->assertEquals($this->rendererName, $this->dataEvent->getRendererName());
-		$this->assertEquals($this->grid, $this->dataEvent->getRenderer());
+		$this->assertEquals($this->renderer, $this->dataEvent->getRenderer());
 		$this->assertEquals($this->datasource, $this->dataEvent->getDatasource());
 		$this->assertEquals($this->filters, $this->dataEvent->getFilters());
 	}

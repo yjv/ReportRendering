@@ -19,8 +19,21 @@ class HtmlRendererTest extends \PHPUnit_Framework_TestCase{
 		
 		$this->grid = $this->getMock('Yjv\\Bundle\\ReportRenderingBundle\\Renderer\\Grid\\GridInterface');
 		$this->template = 'template';
-		$this->widgetRenderer = $this->getMock('Yjv\\Bundle\\ReportRenderingBundle\\Widget\\WidgetRenderer', array(), array($this->getMock('Symfony\\Component\\Templating\\EngineInterface')));
+		$this->widgetRenderer = $this->getMockBuilder('Yjv\\Bundle\\ReportRenderingBundle\\Widget\\WidgetRenderer')
+			->disableOriginalConstructor()
+			->getMock();
 		$this->renderer = new HtmlRenderer($this->widgetRenderer, $this->grid, $this->template);
+	}
+	
+	public function testGettersSetters() {
+		
+		$reportId = 'sddsffsdsfsd';
+		
+		$this->renderer->setReportId($reportId);
+		$this->assertEquals($reportId, $this->renderer->getReportId()); 
+		$this->assertTrue($this->renderer->getForceReload());
+		$this->renderer->setForceReload(false);
+		$this->assertFalse($this->renderer->getForceReload());
 	}
 	
 	public function testSetData() {

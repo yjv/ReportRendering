@@ -16,7 +16,8 @@ class CallCountIdGeneratorTest extends \PHPUnit_Framework_TestCase {
 	public function setUp(){
 		
 		$this->idGenerator = new CallCountIdGenerator();
-		$this->report = new Report(new FakeDatasource(), new Grid(), new EventDispatcher());
+		$renderer = $this->getMockBuilder('Yjv\Bundle\ReportRenderingBundle\Renderer\RendererInterface')->getMock();
+		$this->report = new Report(new FakeDatasource(), $renderer, new EventDispatcher());
 	}
 	
 	public function testGetId() {

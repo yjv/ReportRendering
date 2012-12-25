@@ -1,5 +1,7 @@
 <?php
 namespace Yjv\Bundle\ReportRenderingBundle\Renderer\Grid;
+use Yjv\Bundle\ReportRenderingBundle\Renderer\Grid\Column\ColumnInterface;
+
 use Yjv\Bundle\ReportRenderingBundle\ReportData\ImmutableDataInterface;
 
 use Yjv\Bundle\ReportRenderingBundle\DataTransformer\DataTransformerInterface;
@@ -14,30 +16,8 @@ class Grid implements GridInterface {
 	
 	protected $data;
 	protected $columns = array();
-	protected $columnOptionsResolver;
 	protected $rows = array();
-	protected $reportId;
-	
-	public function __construct() {
 		
-		$this->columnOptionsResolver = new OptionsResolver();
-		$this->columnOptionsResolver
-			->setOptional(array('transformers', 'sortable', 'row_attributes', 'cell_attributes'))
-			->setDefaults(array(
-					'transformers' => array(),
-					'sortable' => false,
-					'row_attributes' => array(),
-					'cell_attributes' => array(),
-			))
-			->setAllowedTypes(array(
-					'transformers' => 'array',
-					'sortable' => 'bool',		
-					'row_attributes' => 'array',
-					'row_attributes' => 'array',
-			))
-		;
-	}
-	
 	/**
 	 * (non-PHPdoc)
 	 * @see \Yjv\Bundle\ReportRenderingBundle\Renderer\RendererInterface::setData()
@@ -49,34 +29,17 @@ class Grid implements GridInterface {
 	}
 	
 	/**
-	 * (non-PHPdoc)
-	 * @see \Yjv\Bundle\ReportRenderingBundle\Renderer\RendererInterface::getForceReload()
-	 */
-	public function getForceReload() {
-
-		return true;
-	}
-	
-	/**
 	 * @param array $options
 	 */
-	public function getRows() {
+	public function getRows($forceReload = false) {
 
-		$this->loadRows();
+		$this->loadRows($forceReload);
 		return $this->rows;
 	}
 
-	/**
-	 * @param array $options
-	 */
-	public function render(array $options = array()) {
-
-		return $this->getRows();
-	}
-
-	public function addColumn($name, array $options) {
+	public function addColumn(ColumnInterface $column) {
 		
-		$this->columns[$name] = $this->columnOptionsResolver->resolve($options);
+		$this->columns[] = $column;
 		return $this;
 	}
 	
@@ -85,18 +48,14 @@ class Grid implements GridInterface {
 		return $this->columns;
 	}
 	
-	public function setReportId($reportId){
+	protected function loadRows($forceReload) {
 		
-		$this->reportId = $reportId;
-		return $this;
-	}
-	
-	protected function loadRows() {
-		
-		if (!empty($this->rows)) {
+		if (!empty($this->rows) && !$forceReload) {
 			
 			return;
 		}
+		
+		$this->rows = array();
 		
 		foreach ($this->data->getData() as $rowData) {
 			
@@ -106,53 +65,17 @@ class Grid implements GridInterface {
 			
 			foreach ($this->columns as $column) {
 				
-				$row['cells'][] = array(
-					'options' => $column,
-					'attributes' => $this->processAttributes($column['cell_attributes'], $rowData),
-					'data' => $this->processColumn($rowData, $column['transformers'])
-				);
+				$column->setData($rowData);
 				
-				$row['attributes'] = array_merge($row['attributes'], $this->processAttributes($row['attributes'], $column['row_attributes']));
+				$row['cells'][] = array(
+					'attributes' => $column->getCellAttributes(),
+					'data' => $column->getCellData()
+				);
+
+				$row['attributes'] = $column->getRowAttributes($row['attributes']);
 			}
 			
 			$this->rows[] = $row;
 		}
-	}
-	
-	protected function processColumn($data, array $transformers) {
-		
-		$newData = $data;
-		
-		foreach ($transformers as $transformer) {
-			
-			if ($transformer instanceof DataTransformerInterface){
-				
-				$newData = $transformer->transform($newData, $data);
-			}elseif ($transformer instanceof \Closure && !$transformer($newData, $data)) {
-				
-				break;
-			}else{
-				
-				throw new \InvalidArgumentException("The column's transformers must follow the Yjv\Bundle\ReportRenderingBundle\DataTransformer\DataTransformerInterface or be a \Closure instance");
-			}
-		}
-		
-		return $newData;
-	}
-	
-	protected function processAttributes(array $attributes, $data) {
-		
-		foreach ($attributes as $name => $value) {
-			
-			if ($value instanceof \Closure) {
-				
-				$attributes[$name] = $value($data, $attributes);
-			}elseif (is_object($value) && !method_exists($value, '__toString')){
-				
-				throw new \InvalidArgumentException('the value of an attribute must be either castable to a string or an instance of \Callable');
-			}
-		}
-		
-		return $attributes;
 	}
 }

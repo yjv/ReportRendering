@@ -13,7 +13,7 @@ class FilterDataEventTest extends DataEventTest{
 	
 		parent::setUp();
 		$this->data = new ReportData(array(), 10);
-		$this->dataEvent = new FilterDataEvent($this->rendererName, $this->grid, $this->datasource, $this->filters, $this->data);
+		$this->dataEvent = new FilterDataEvent($this->rendererName, $this->renderer, $this->datasource, $this->filters, $this->data);
 	}
 	
 	public function testGettersSetters(){
