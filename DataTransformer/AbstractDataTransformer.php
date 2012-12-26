@@ -13,7 +13,7 @@ abstract class AbstractDataTransformer implements DataTransformerInterface {
 	public function setOptions(array $options){
 		
 		$this->options = $options;
-		$this->resolveOptions();
+		$this->resolveOptions(true);
 		return $this;
 	}
 	
@@ -23,9 +23,9 @@ abstract class AbstractDataTransformer implements DataTransformerInterface {
 		return $this->resolvedOptions[$name];
 	}
 	
-	protected function resolveOptions() {
+	protected function resolveOptions($force = false) {
 		
-		if (is_null($this->resolvedOptions)) {
+		if (is_null($this->resolvedOptions) || $force) {
 		
 			$this->resolvedOptions = $this->getOptionsResolver()->resolve($this->options);
 		}

@@ -7,7 +7,7 @@ use Symfony\Component\Form\Util\PropertyPath;
 
 use Yjv\Bundle\ReportRenderingBundle\Filter\FilterCollectionInterface;
 
-class ArrayDatasource implements MappedSortDatasource {
+class ArrayDatasource implements MappedSortDatasourceInterface {
 
 	protected $data;
 	protected $processedData;

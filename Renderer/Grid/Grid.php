@@ -61,8 +61,6 @@ class Grid implements GridInterface {
 			
 			$row = array('cells' => array(), 'attributes' => array());
 			
-			$rowAttributes = array();
-			
 			foreach ($this->columns as $column) {
 				
 				$column->setData($rowData);
