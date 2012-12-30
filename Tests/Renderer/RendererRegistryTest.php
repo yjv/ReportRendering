@@ -22,15 +22,15 @@ class RendererRegistryTest extends \PHPUnit_Framework_TestCase{
 		$renderer2Name = 'renderer2Name';
 		$renderer3Name = 'renderer3Name';
 		
-		$this->rendererRegistry->addRenderer($renderer1Name, $renderer1);
-		$this->rendererRegistry->addRenderer($renderer2Name, $renderer2);
+		$this->rendererRegistry->set($renderer1Name, $renderer1);
+		$this->rendererRegistry->set($renderer2Name, $renderer2);
 		
-		$this->assertSame($renderer1, $this->rendererRegistry->getRenderer($renderer1Name));
-		$this->assertSame($renderer2, $this->rendererRegistry->getRenderer($renderer2Name));
+		$this->assertSame($renderer1, $this->rendererRegistry->get($renderer1Name));
+		$this->assertSame($renderer2, $this->rendererRegistry->get($renderer2Name));
 		
 		try {
 			
-			$this->rendererRegistry->getRenderer($renderer3Name);
+			$this->rendererRegistry->get($renderer3Name);
 			$this->fail('Failed to throw exception on non existant renderer');
 		} catch (RendererNotFoundException $e) {
 		}

@@ -21,7 +21,7 @@ class WidgetRendererTest extends \PHPUnit_Framework_TestCase{
 	public function testRender() {
 		
 		$params = array();
-		$expextedParams = array_merge(array('widget' => $this->widget), $params);
+		$expextedParams = array_merge($params, array('widget' => $this->widget));
 		$expected = 'sdfssdfs';
 		
 		$this->widget

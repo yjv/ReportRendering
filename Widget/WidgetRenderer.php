@@ -14,6 +14,6 @@ class WidgetRenderer {
 	
 	public function render(WidgetInterface $widget, array $params = array()) {
 		
-		return $this->templating->render($widget->getTemplate(), array_merge(array('widget' => $widget), $params));
+		return $this->templating->render($widget->getTemplate(), array_merge($params, array('widget' => $widget)));
 	}
 }

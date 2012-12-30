@@ -14,7 +14,7 @@ use Yjv\Bundle\ReportRenderingBundle\Renderer\FilterAwareRendererInterface;
 
 use Yjv\Bundle\ReportRenderingBundle\Widget\WidgetInterface;
 
-class HtmlRenderer implements FilterAwareRendererInterface, WidgetInterface {
+class HtmlRenderer implements FilterAwareRendererInterface, WidgetInterface, \IteratorAggregate {
 
 	protected $filters;
 	protected $renderer;
@@ -137,6 +137,11 @@ class HtmlRenderer implements FilterAwareRendererInterface, WidgetInterface {
 	public function getReportId() {
 		
 		return $this->reportId;
+	}
+	
+	public function getIterator(){
+		
+		return new \ArrayIterator($this->getRows());
 	}
 	
 	protected function assertDataSet() {

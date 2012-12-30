@@ -1,8 +1,10 @@
+{% block javascripts %}
 {% javascripts
     '@YjvReportRenderingBundle/Resources/public/js/html_report.js'
 %}
 <script type="text/javascript" src="{{ asset_url }}"></script>
 {% endjavascripts %}
+{% endblock %}
 <div{{ widget.attributes|attributes({"id": widget.reportId, "class": "report"}) }}>
 {% if widget.hasFilterForm %}
 {% block report_filters %}
@@ -12,9 +14,9 @@
 	</div>
 	<div>
 		<form>
-			{% for formWidget in widget.getFilterForm.createView() %}
-			{{ form_label(formWidget) }}
-			{{ form_widget(formWidget) }}
+			{% for filter in widget.filterForm.createView() %}
+			{{ form_label(filter) }}
+			{{ form_widget(filter) }}
 			{% endfor %}
 		</form>
 	</div>
@@ -25,27 +27,36 @@
 <table class="report-data table table-striped table-bordered table-hover">
 	{% block report_header %}
 	<thead>
+		{% block report_header_row %}
 		<tr>
-			{% for name, options in widget.columns %}
-			<th>
-				{% if options.sortable %}
-				<a href="javascript:void()">{{ name }}</a>
-				{% else %}
-				{{ name }}
-				{% endif %}
-			</th>
+			{% for column in widget.columns %}
+				{% block report_header_cell %}
+				{% set attributes = column.attributes %}
+				<th {{ attributes.attr|default({})|attributes }}>
+					{% if attributes.sortable|default(false) %}
+						<a href="javascript:void()">{{ attributes.name|default('') }}</a>
+					{% else %}
+						{{ attributes.name|default('') }}
+					{% endif %}
+				</th>
+				{% endblock %}
 			{% endfor %}
 		</tr>
+		{% endblock %}
 	</thead>
 	{% endblock %}
 	{% block report_body %}
 	<tbody>
-		{% for row in widget.getRows() %}
-		<tr{{ row.attributes|attributes }}>
-			{% for cell in row.cells %}
-			<td{{ cell.attributes|attributes }}>{{ cell.data|raw }}</td>
-			{% endfor %}
-		</tr>
+		{% for row in widget %}
+			{% block report_row %}
+			<tr {{ row.attributes|attributes }}>
+				{% for cell in row.cells %}
+					{% block report_cell %}
+					<td {{ cell.attributes|attributes }}>{{ cell.data|raw }}</td>
+					{% endblock %}
+				{% endfor %}
+			</tr>
+			{% endblock %}
 		{% endfor %}
 	</tbody>
 	{% endblock %}

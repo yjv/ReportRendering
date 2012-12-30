@@ -165,4 +165,25 @@ class HtmlRendererTest extends \PHPUnit_Framework_TestCase{
 		
 		$this->assertEquals($this->template, $this->renderer->getTemplate());
 	}
+	
+	public function testIteration() {
+		
+		$this->assertInstanceOf('Traversable', $this->renderer);
+		$rows = array(array('asdas' => 'sdfdf'));
+		
+		$this->grid
+			->expects($this->once())
+			->method('getRows')
+			->will($this->returnValue($rows))
+		;
+		
+		$retrievedRows = array();
+		
+		foreach ($this->renderer as $key => $row) {
+			
+			$retrievedRows[$key] = $row;
+		}
+		
+		$this->assertEquals($rows, $retrievedRows);
+	}
 }

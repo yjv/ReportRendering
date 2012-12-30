@@ -9,13 +9,25 @@ class RendererRegistry {
 
 	protected $renderers = array();
 	
-	public function addRenderer($name, RendererInterface $renderer) {
+	/**
+	 * 
+	 * @param string $name
+	 * @param RendererInterface $renderer
+	 * @return \Yjv\Bundle\ReportRenderingBundle\Renderer\RendererRegistry
+	 */
+	public function set($name, RendererInterface $renderer) {
 		
 		$this->renderers[$name] = $renderer;
 		return $this;
 	}
 	
-	public function getRenderer($name) {
+	/**
+	 * 
+	 * @param string $name
+	 * @throws RendererNotFoundException
+	 * @return RendererInterface a renderer
+	 */
+	public function get($name) {
 		
 		if (!isset($this->renderers[$name])) {
 			
