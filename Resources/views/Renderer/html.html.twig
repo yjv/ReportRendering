@@ -34,7 +34,7 @@
 				{% set attributes = column.attributes %}
 				<th {{ attributes.attr|default({})|attributes }}>
 					{% if attributes.sortable|default(false) %}
-						<a href="javascript:void()">{{ attributes.name|default('') }}</a>
+						<a href="javascript:void(0)">{{ attributes.name|default('') }}</a>
 					{% else %}
 						{{ attributes.name|default('') }}
 					{% endif %}
