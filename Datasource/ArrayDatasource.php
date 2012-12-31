@@ -1,6 +1,8 @@
 <?php
 namespace Yjv\Bundle\ReportRenderingBundle\Datasource;
 
+use Yjv\Bundle\ReportRenderingBundle\ReportData\ReportData;
+
 use Yjv\Bundle\ReportRenderingBundle\Filter\NullFilterCollection;
 
 use Symfony\Component\Form\Util\PropertyPath;
@@ -38,7 +40,7 @@ class ArrayDatasource implements MappedSortDatasourceInterface {
 			$this->processData();
 		}
 		
-		return $this->processedData;
+		return new ReportData($this->processedData, count($this->data));
 	}
 	
 	public function setFilters(FilterCollectionInterface $filters) {

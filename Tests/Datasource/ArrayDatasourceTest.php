@@ -31,20 +31,25 @@ class ArrayDatasourceTest extends \PHPUnit_Framework_TestCase{
 		} catch (\InvalidArgumentException $e) {}
 		
 		$datasource = new ArrayDatasource(new \ArrayIterator(array()));
-		$this->assertInternalType('array', $datasource->getData());
+		$data = $datasource->getData();
+		$this->assertInstanceOf('Yjv\Bundle\ReportRenderingBundle\ReportData\DataInterface', $data);
+		$this->assertInternalType('array', $data->getData());
 	}
 	
 	public function testGetData() {
 		
-		$this->assertSame($this->data, $this->datasource->getData());
+		$data = $this->datasource->getData();
+		$this->assertSame($this->data, $data->getData());
 		
 		$filters = new ArrayFilterCollection();
 		$this->datasource->setFilters($filters);
 		
 		$filters->set('[column1]', 'test');
 		
-		$this->assertSame($this->data, $this->datasource->getData(false));
-		$this->assertSame($this->data, $this->datasource->getData());
+		$data = $this->datasource->getData(false);
+		$this->assertSame($this->data, $data->getData());
+		$data = $this->datasource->getData();
+		$this->assertSame($this->data, $data->getData());
 	}
 	
 	public function testSort() {
@@ -56,23 +61,26 @@ class ArrayDatasourceTest extends \PHPUnit_Framework_TestCase{
 
 		$data = $this->data;
 		uasort($data, function ($a, $b){return strcasecmp($a['column2'], $b['column2']);});
-		$this->assertSame($data, $this->datasource->getData(true));
+		
+		$dataObject = $this->datasource->getData(true);
+		$this->assertSame($data, $dataObject->getData());
 		
 		$filters->set('sort', array('[column1]' => 'asc'));
 		
 		$data = $this->data;
 		uasort($data, function ($a, $b){return strcasecmp($a['column1'], $b['column1']);});
-		$this->assertSame($data, $this->datasource->getData(true));
+		$dataObject = $this->datasource->getData(true);
+		$this->assertSame($data, $dataObject->getData());
 		
 		$filters->set('sort', array('[column1]' => 'desc'));
 		
 		$data = $this->data;
 		uasort($data, function ($a, $b){return -strcasecmp($a['column1'], $b['column1']);});
-		$this->assertSame($data, $this->datasource->getData(true));
+		$dataObject = $this->datasource->getData(true);
+		$this->assertSame($data, $dataObject->getData());
 	}
 	
 	public function testMappedSort() {
-		
 		$filters = new ArrayFilterCollection();
 		$this->datasource->setFilters($filters);
 		$this->datasource->setSortMap(array('[column1]', '[column2]'));
@@ -81,7 +89,8 @@ class ArrayDatasourceTest extends \PHPUnit_Framework_TestCase{
 		
 		$data = $this->data;
 		uasort($data, function ($a, $b){return strcasecmp($a['column2'], $b['column2']);});
-		$this->assertSame($data, $this->datasource->getData(true));
+		$dataObject = $this->datasource->getData(true);
+		$this->assertSame($data, $dataObject->getData());
 	}
 	
 	public function testFilters() {
@@ -93,10 +102,11 @@ class ArrayDatasourceTest extends \PHPUnit_Framework_TestCase{
 		
 		$data = $this->data;
 		unset($data[4]);
-		$this->assertSame($data, $this->datasource->getData(true));
+		$dataObject = $this->datasource->getData(true);
+		$this->assertSame($data, $dataObject->getData());
 	}
 	
-	public function testMappedFIlters() {
+	public function testMappedFilters() {
 		
 		$filters = new ArrayFilterCollection();
 		$this->datasource->setFilters($filters);
@@ -106,6 +116,7 @@ class ArrayDatasourceTest extends \PHPUnit_Framework_TestCase{
 		
 		$data = $this->data;
 		unset($data[4]);
-		$this->assertSame($data, $this->datasource->getData(true));
+		$dataObject = $this->datasource->getData(true);
+		$this->assertSame($data, $dataObject->getData());
 	}
 }
