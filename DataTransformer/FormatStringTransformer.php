@@ -9,8 +9,6 @@ use Symfony\Component\Form\Exception\InvalidPropertyException;
 
 use Symfony\Component\Form\Util\PropertyPath;
 
-use Yjv\Bundle\ReportRenderingBundle\DataTransformer\AbstractDataTransformer;
-
 class FormatStringTransformer extends AbstractDataTransformer{
 
 	/**

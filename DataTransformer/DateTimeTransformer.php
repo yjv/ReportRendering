@@ -1,8 +1,6 @@
 <?php
 namespace Yjv\Bundle\ReportRenderingBundle\DataTransformer;
 
-use Yjv\Bundle\ReportRenderingBundle\DataTransformer\AbstractDataTransformer;
-
 class DateTimeTransformer extends AbstractDataTransformer{
 
 	public function transform($data, $originalData){
