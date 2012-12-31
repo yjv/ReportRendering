@@ -1,5 +1,9 @@
 <?php
 namespace Yjv\Bundle\ReportRenderingBundle\Datasource;
+use Yjv\Bundle\ReportRenderingBundle\ReportData\ReportData;
+
+use Yjv\Bundle\ReportRenderingBundle\ReportData\DataInterface;
+
 use Yjv\Bundle\ReportRenderingBundle\Filter\NullFilterCollection;
 
 use Yjv\Bundle\ReportRenderingBundle\ReportData\ImmutableReportData;
@@ -74,6 +78,12 @@ class CallbackDatasource implements DatasourceInterface {
 			$this->data = $this->callback->invokeArgs($this->callbackObject, $args);
 		}else{
 			$this->data = $this->callback->invokeArgs($args);
+		}
+		
+		if (!$this->data instanceof DataInterface) {
+			
+			$unFilteredCount = is_array($this->data) || $this->data instanceof \Countable ? count($this->data) : 0;
+			$this->data = new ReportData($this->data, $unFilteredCount);
 		}
 		
 		return $this->data;
