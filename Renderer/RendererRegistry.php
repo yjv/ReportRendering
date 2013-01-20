@@ -34,6 +34,6 @@ class RendererRegistry {
 			throw new RendererNotFoundException($name);
 		}
 		
-		return $this->renderers[$name];
+		return clone $this->renderers[$name];
 	}
 }

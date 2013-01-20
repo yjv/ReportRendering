@@ -25,8 +25,10 @@ class RendererRegistryTest extends \PHPUnit_Framework_TestCase{
 		$this->rendererRegistry->set($renderer1Name, $renderer1);
 		$this->rendererRegistry->set($renderer2Name, $renderer2);
 		
-		$this->assertSame($renderer1, $this->rendererRegistry->get($renderer1Name));
-		$this->assertSame($renderer2, $this->rendererRegistry->get($renderer2Name));
+		$this->assertNotSame($renderer1, $this->rendererRegistry->get($renderer1Name));
+		$this->assertNotSame($renderer2, $this->rendererRegistry->get($renderer2Name));
+		$this->assertEquals($renderer1, $this->rendererRegistry->get($renderer1Name));
+		$this->assertEquals($renderer2, $this->rendererRegistry->get($renderer2Name));
 		
 		try {
 			
