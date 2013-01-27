@@ -16,7 +16,12 @@ class PropertyPathTransformer extends AbstractDataTransformer{
 	 */
 	public function transform($data, $orginalData) {
 
-		$propertyPath = new PropertyPath($this->getOption('path'));
+		$propertyPath = $this->getOption('path');
+		
+		if (!is_object($propertyPath)) {
+			
+			$propertyPath = new PropertyPath($propertyPath);
+		}
 		
 		try {
 			
