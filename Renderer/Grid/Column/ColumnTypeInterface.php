@@ -9,4 +9,5 @@ interface ColumnTypeInterface {
 	public function getName();
 	public function getParent();
 	public function setDefaultOptions(OptionsResolverInterface $resolver);
+	public function getOptionsResolver();
 }
