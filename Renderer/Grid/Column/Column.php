@@ -5,7 +5,7 @@ use Yjv\Bundle\ReportRenderingBundle\DataTransformer\DataTransformerInterface;
 class Column implements ColumnInterface {
 	
 	protected $dataTransformers = array();
-	protected $options = array('sortable' => false);
+	protected $options = array();
 	protected $rowOptions = array();
 	protected $cellOptions = array();
 	protected $data;
@@ -28,6 +28,11 @@ class Column implements ColumnInterface {
 		
 		$this->dataTransformers = $dataTransformers;
 		return $this;
+	}
+	
+	public function getDataTransformers() {
+		
+		return $this->dataTransformers;
 	}
 	
 	/**

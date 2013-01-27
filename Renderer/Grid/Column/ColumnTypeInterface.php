@@ -5,7 +5,7 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 interface ColumnTypeInterface {
 
 	public function buildColumn(ColumnInterface $column, array $options);
-	public function createColumn(array $options = array());
+	public function createColumn(array $options);
 	public function getName();
 	public function getParent();
 	public function setDefaultOptions(OptionsResolverInterface $resolver);
