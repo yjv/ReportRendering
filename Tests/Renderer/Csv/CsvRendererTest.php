@@ -100,10 +100,10 @@ CSV;
 	protected function setupGridForRender($expectedCallCount) {
 		
 		$column1 = new Column();
-		$column1->setAttributes(array('name' => 'column1'));
+		$column1->setOptions(array('name' => 'column1'));
 		
 		$column2 = new Column();
-		$column2->setAttributes(array('name' => 'column2'));
+		$column2->setOptions(array('name' => 'column2'));
 		
 		$this->grid
 			->expects($this->exactly($expectedCallCount))
