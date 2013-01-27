@@ -55,8 +55,8 @@ class CsvRenderer implements ResponseAwareRendererInterface {
 		
 		foreach ($this->grid->getColumns() as $column) {
 			
-			$attributes = $column->getAttributes();
-			$columnNames[] = isset($attributes['name']) ? $attributes['name'] : '';
+			$options = $column->getOptions();
+			$columnNames[] = isset($options['name']) ? $options['name'] : '';
 		}
 		
 		$data[] = $columnNames;

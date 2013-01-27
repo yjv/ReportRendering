@@ -31,12 +31,12 @@
 		<tr>
 			{% for column in widget.columns %}
 				{% block report_header_cell %}
-				{% set attributes = column.attributes %}
-				<th {{ attributes.attr|default({})|attributes }}>
-					{% if attributes.sortable|default(false) %}
-						<a href="javascript:void(0)">{{ attributes.name|default('') }}</a>
+				{% set options = column.options %}
+				<th {{ options.attr|default({})|attributes }}>
+					{% if options.sortable|default(false) %}
+						<a href="javascript:void(0)">{{ options.name|default('') }}</a>
 					{% else %}
-						{{ attributes.name|default('') }}
+						{{ options.name|default('') }}
 					{% endif %}
 				</th>
 				{% endblock %}
@@ -49,10 +49,16 @@
 	<tbody>
 		{% for row in widget %}
 			{% block report_row %}
-			<tr {{ row.attributes|attributes }}>
+			<tr {{ row.options.attr|default({})|attributes }}>
 				{% for cell in row.cells %}
 					{% block report_cell %}
-					<td {{ cell.attributes|attributes }}>{{ cell.data|raw }}</td>
+					<td {{ cell.options.attr|default({})|attributes }}>
+						{% if cell.options.escape_output|default(false) %}
+							{{ cell.data }}
+						{% else %}
+							{{ cell.data|raw }}
+						{% endif %}
+					</td>
 					{% endblock %}
 				{% endfor %}
 			</tr>

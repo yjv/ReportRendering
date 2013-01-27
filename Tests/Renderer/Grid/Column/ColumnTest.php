@@ -23,75 +23,72 @@ class ColumnTest extends \PHPUnit_Framework_TestCase {
 		$this->transformer3->setOptions(array('map' => array('3' => '4')));
 	}
 	
-	public function testGetRowAttributes() {
+	public function testGetRowOptions() {
 		
-		$rowAttributes = array('attribute1' => 'fdsdfs');
-		$previousAttributes = array('attribute2' => 'sddsfsd');
+		$rowOptions = array('option1' => 'fdsdfs');
+		$previousOptions = array('option2' => 'sddsfsd');
 		
-		$this->column->setRowAttributes($rowAttributes);
-		$this->assertEquals($rowAttributes, $this->column->getRowAttributes());
-		$this->assertEquals(array_merge($previousAttributes, $rowAttributes), $this->column->getRowAttributes($previousAttributes));
+		$this->column->setRowOptions($rowOptions);
+		$this->assertEquals($rowOptions, $this->column->getRowOptions());
+		$this->assertEquals(array_merge($previousOptions, $rowOptions), $this->column->getRowOptions($previousOptions));
 		
-		$rowAttributes['attribute3'] = function ($data) {
+		$this->column->setRowOption('option3', function ($data) {
 			
 			return $data['column1'];
-		};
+		});
 		
-		$this->column->setRowAttributes($rowAttributes);
-		$this->assertEquals(array_merge($previousAttributes, array('attribute1' => 'fdsdfs', 'attribute3' => 'test')), $this->column->getRowAttributes($previousAttributes));
+		$this->assertEquals(array_merge($previousOptions, array('option1' => 'fdsdfs', 'option3' => 'test')), $this->column->getRowOptions($previousOptions));
 		
-		$rowAttributes['attribute4'] = new \stdClass();
+		$rowOptions['option4'] = new \stdClass();
 		
-		$this->column->setRowAttributes($rowAttributes);
+		$this->column->setRowOptions($rowOptions);
 		
 		$this->setExpectedException('InvalidArgumentException');
-		$this->column->getRowAttributes($previousAttributes);
+		$this->column->getRowOptions($previousOptions);
 	}
 	
-	public function testGetCellAttributes() {
+	public function testGetCellOptions() {
 		
-		$cellAttributes = array('attribute1' => 'fdsdfs');
+		$cellOptions = array('option1' => 'fdsdfs');
 		
-		$this->column->setCellAttributes($cellAttributes);
-		$this->assertEquals($cellAttributes, $this->column->getCellAttributes());
+		$this->column->setCellOptions($cellOptions);
+		$this->assertEquals($cellOptions, $this->column->getCellOptions());
 		
-		$cellAttributes['attribute3'] = function ($data) {
+		$this->column->setCellOption('option3', function ($data) {
 			
 			return $data['column1'];
-		};
+		});
 		
-		$this->column->setCellAttributes($cellAttributes);
-		$this->assertEquals(array('attribute1' => 'fdsdfs', 'attribute3' => 'test'), $this->column->getCellAttributes());
+		$this->assertEquals(array('option1' => 'fdsdfs', 'option3' => 'test'), $this->column->getCellOptions());
 			
-		$cellAttributes['attribute4'] = new \stdClass();
+		$cellOptions['option4'] = new \stdClass();
 		
-		$this->column->setCellAttributes($cellAttributes);
+		$this->column->setCellOptions($cellOptions);
 		
 		$this->setExpectedException('InvalidArgumentException');
-		$this->column->getCellAttributes();
+		$this->column->getCellOptions();
 	}
 	
-	public function testGetAttributes() {
+	public function testGetOptions() {
 		
-		$attributes = array('attribute1' => 'fdsdfs');
+		$options = array('option1' => 'fdsdfs');
 		
-		$this->column->setAttributes($attributes);
-		$this->assertEquals($attributes, $this->column->getAttributes());
+		$this->column->setOptions($options);
+		$this->assertEquals($options, $this->column->getOptions());
 		
-		$attributes['attribute3'] = function ($data) {
+		$this->column->setOption('option3', function ($data) {
 			
 			return $data['column1'];
-		};
+		});
 		
-		$this->column->setAttributes($attributes);
-		$this->assertEquals(array('attribute1' => 'fdsdfs', 'attribute3' => 'test'), $this->column->getAttributes());
+		$this->assertEquals(array('option1' => 'fdsdfs', 'option3' => 'test'), $this->column->getOptions());
 				
-		$attributes['attribute4'] = new \stdClass();
+		$options['option4'] = new \stdClass();
 		
-		$this->column->setAttributes($attributes);
+		$this->column->setOptions($options);
 		
 		$this->setExpectedException('InvalidArgumentException');
-		$this->column->getAttributes();
+		$this->column->getOptions();
 	}
 	
 	public function testGetCellData() {

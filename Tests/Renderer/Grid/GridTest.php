@@ -57,58 +57,58 @@ class GridTest extends \PHPUnit_Framework_TestCase{
 		$this->grid->addColumn($column2);
 		$this->grid->setData($this->data);
 		
-		$rowAttributes = array('attribute1' => 'fghdhg');
-		$cellAttributes = array('attribute2' => 'sdsfds');
+		$rowOptions = array('option1' => 'fghdhg');
+		$cellOptions = array('option2' => 'sdsfds');
 		
 		$expectedRowData = array(
 				array(
-						'attributes' => $rowAttributes, 
+						'options' => $rowOptions, 
 						'cells' => array(
 								array(
-									'attributes' => $cellAttributes,
+									'options' => $cellOptions,
 									'data' => 'test'
 								),
 								array(
-									'attributes' => $cellAttributes,
+									'options' => $cellOptions,
 									'data' => 'noTest3'
 								),
 						)
 				),
 				array(
-						'attributes' => $rowAttributes, 
+						'options' => $rowOptions, 
 						'cells' => array(
 								array(
-									'attributes' => $cellAttributes,
+									'options' => $cellOptions,
 									'data' => 'test1'
 								),
 								array(
-									'attributes' => $cellAttributes,
+									'options' => $cellOptions,
 									'data' => 'noTest2'
 								),
 						)
 				),
 				array(
-						'attributes' => $rowAttributes, 
+						'options' => $rowOptions, 
 						'cells' => array(
 								array(
-									'attributes' => $cellAttributes,
+									'options' => $cellOptions,
 									'data' => 'test2'
 								),
 								array(
-									'attributes' => $cellAttributes,
+									'options' => $cellOptions,
 									'data' => 'noTest1'
 								),
 						)
 				),
 				array(
-						'attributes' => $rowAttributes, 
+						'options' => $rowOptions, 
 						'cells' => array(
 								array(
-									'attributes' => $cellAttributes,
+									'options' => $cellOptions,
 									'data' => 'test3'
 								),
 								array(
-									'attributes' => $cellAttributes,
+									'options' => $cellOptions,
 									'data' => 'noTest'
 								),
 						)
@@ -129,18 +129,18 @@ class GridTest extends \PHPUnit_Framework_TestCase{
 		
 		$column1
 			->expects($this->exactly($expectedCount))
-			->method('getCellAttributes')
-			->will($this->returnValue($cellAttributes))
+			->method('getCellOptions')
+			->will($this->returnValue($cellOptions))
 		;
 		
 		$column1
 			->expects($this->exactly($expectedCount))
-			->method('getRowAttributes')
-			->will($this->returnCallback(function($previousAttributes) use ($tester, $rowAttributes){
+			->method('getRowOptions')
+			->will($this->returnCallback(function($previousOptions) use ($tester, $rowOptions){
 			
-				$tester->assertEmpty($previousAttributes);
-				$savedAttributes = $rowAttributes;
-				return $rowAttributes;
+				$tester->assertEmpty($previousOptions);
+				$savedOptions = $rowOptions;
+				return $rowOptions;
 			}))
 		;
 		
@@ -170,17 +170,17 @@ class GridTest extends \PHPUnit_Framework_TestCase{
 		
 		$column2
 			->expects($this->exactly($expectedCount))
-			->method('getCellAttributes')
-			->will($this->returnValue($cellAttributes))
+			->method('getCellOptions')
+			->will($this->returnValue($cellOptions))
 		;
 		
 		$column2
 			->expects($this->exactly($expectedCount))
-			->method('getRowAttributes')
-			->will($this->returnCallback(function($previousAttributes) use ($tester, $rowAttributes){
+			->method('getRowOptions')
+			->will($this->returnCallback(function($previousOptions) use ($tester, $rowOptions){
 			
-				$tester->assertEquals($rowAttributes, $previousAttributes);
-				return $rowAttributes;
+				$tester->assertEquals($rowOptions, $previousOptions);
+				return $rowOptions;
 			}))
 		;
 		

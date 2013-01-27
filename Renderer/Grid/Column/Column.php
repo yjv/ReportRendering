@@ -5,9 +5,9 @@ use Yjv\Bundle\ReportRenderingBundle\DataTransformer\DataTransformerInterface;
 class Column implements ColumnInterface {
 	
 	protected $dataTransformers = array();
-	protected $attributes = array('sortable' => false);
-	protected $rowAttributes = array();
-	protected $cellAttributes = array();
+	protected $options = array('sortable' => false);
+	protected $rowOptions = array();
+	protected $cellOptions = array();
 	protected $data;
 	
 	/**
@@ -53,66 +53,99 @@ class Column implements ColumnInterface {
 	}
 	
 	/**
-	 * sets the columns attributes
+	 * sets the columns options
 	 * combination of key value pairs values being either castable to a string or callable
-	 * @param array $attributes
+	 * @param array $options
 	 * @return \Yjv\Bundle\ReportRenderingBundle\Renderer\Grid\Column\Column
 	 */
-	public function setAttributes(array $attributes) {
+	public function setOptions(array $options) {
 		
-		$this->attributes = $attributes;
+		$this->options = $options;
 		return $this;
 	}
 	
 	/**
-	 * (non-PHPdoc)
-	 * @see Yjv\Bundle\ReportRenderingBundle\Renderer\Grid\Column.ColumnInterface::getAttributes()
+	 * @param unknown $name
+	 * @param unknown $value
 	 */
-	public function getAttributes() {
-		
-		return $this->processAttributes($this->attributes);
-	}
-	
-	/**
-	 * sets the row attributes
-	 * combination of key value pairs values being either castable to a string or callable
-	 * @param array $rowAttributes
-	 * @return \Yjv\Bundle\ReportRenderingBundle\Renderer\Grid\Column\Column
-	 */
-	public function setRowAttributes(array $rowAttributes) {
-		
-		$this->rowAttributes = $rowAttributes;
-		return $this;
-	}
-	
-	/**
-	 * (non-PHPdoc)
-	 * @see Yjv\Bundle\ReportRenderingBundle\Renderer\Grid\Column.ColumnInterface::getRowAttributes()
-	 */
-	public function getRowAttributes(array $previousAttributes = array()) {
+	public function setOption($name, $value) {
 
-		return array_merge($previousAttributes, $this->processAttributes($this->rowAttributes));
+		$this->options[$name] = $value;
+		return $this;
+	}
+
+	
+	/**
+	 * (non-PHPdoc)
+	 * @see Yjv\Bundle\ReportRenderingBundle\Renderer\Grid\Column.ColumnInterface::getOptions()
+	 */
+	public function getOptions() {
+		
+		return $this->processOptions($this->options);
 	}
 	
 	/**
-	 * sets the columns attributes
+	 * sets the row options
 	 * combination of key value pairs values being either castable to a string or callable
-	 * @param array $cellAttributes
+	 * @param array $rowOptions
 	 * @return \Yjv\Bundle\ReportRenderingBundle\Renderer\Grid\Column\Column
 	 */
-	public function setCellAttributes(array $cellAttributes) {
+	public function setRowOptions(array $rowOptions) {
 		
-		$this->cellAttributes = $cellAttributes;
+		$this->rowOptions = $rowOptions;
 		return $this;
 	}
 	
 	/**
-	 * (non-PHPdoc)
-	 * @see Yjv\Bundle\ReportRenderingBundle\Renderer\Grid\Column.ColumnInterface::getCellAttributes()
+	 * @param unknown $name
+	 * @param unknown $value
 	 */
-	public function getCellAttributes() {
+	public function setRowOption($name, $value) {
 
-		return $this->processAttributes($this->cellAttributes);
+		$this->rowOptions[$name] = $value;
+		return $this;
+	}
+
+	
+	/**
+	 * (non-PHPdoc)
+	 * @see Yjv\Bundle\ReportRenderingBundle\Renderer\Grid\Column.ColumnInterface::getRowOptions()
+	 */
+	public function getRowOptions(array $previousOptions = array()) {
+
+		return array_merge($previousOptions, $this->processOptions($this->rowOptions));
+	}
+	
+	/**
+	 * sets the columns options
+	 * combination of key value pairs values being either castable to a string or callable
+	 * @param array $cellOptions
+	 * @return \Yjv\Bundle\ReportRenderingBundle\Renderer\Grid\Column\Column
+	 */
+	public function setCellOptions(array $cellOptions) {
+		
+		$this->cellOptions = $cellOptions;
+		return $this;
+	}
+	
+	/**
+	 * @param unknown $name
+	 * @param unknown $value
+	 */
+	public function setCellOption($name, $value) {
+
+		$this->cellOptions[$name] = $value;
+		return $this;
+	}
+
+	
+	/**
+	 * (non-PHPdoc)
+	 * @see Yjv\Bundle\ReportRenderingBundle\Renderer\Grid\Column.ColumnInterface::getCellOptions()
+	 */
+	public function getCellOptions() {
+
+		return $this->processOptions($this->cellOptions);
 	}
 	
 	/**
@@ -143,23 +176,23 @@ class Column implements ColumnInterface {
 	}
 
 	/**
-	 * processes the passed attributes based on the data set for the column
-	 * @param array $attributes
+	 * processes the passed options based on the data set for the column
+	 * @param array $options
 	 * @throws \InvalidArgumentException
 	 */
-	protected function processAttributes(array $attributes) {
+	protected function processOptions(array $options) {
 	
-		foreach ($attributes as $name => $value) {
+		foreach ($options as $name => $value) {
 				
 			if (is_callable($value)) {
 	
-				$attributes[$name] = call_user_func($value, $this->data, $attributes);
+				$options[$name] = call_user_func($value, $this->data, $options);
 			}elseif (is_object($value) && !method_exists($value, '__toString')){
 	
-				throw new \InvalidArgumentException('the value of an attribute must be either castable to a string or callable');
+				throw new \InvalidArgumentException('the value of an option must be either castable to a string or callable');
 			}
 		}
 	
-		return $attributes;
+		return $options;
 	}
 }
