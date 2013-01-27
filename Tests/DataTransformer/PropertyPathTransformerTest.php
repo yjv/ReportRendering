@@ -1,6 +1,8 @@
 <?php
 namespace Yjv\Bundle\ReportRenderingBundle\Tests\DataTransformer;
 
+use Symfony\Component\Form\Util\PropertyPath;
+
 use Symfony\Component\Form\Exception\PropertyAccessDeniedException;
 
 use Symfony\Component\Form\Exception\InvalidPropertyException;
@@ -33,7 +35,10 @@ class PropertyPathTransformerTest extends \PHPUnit_Framework_TestCase{
 	
 	public function testPropertyPathTranform() {
 		
+		
 		$this->transformer->setOptions(array('path' => '[firstName]'));
+		$this->assertEquals('John', $this->transformer->transform($this->data, $this->data));
+		$this->transformer->setOptions(array('path' => new PropertyPath('[firstName]')));
 		$this->assertEquals('John', $this->transformer->transform($this->data, $this->data));
 	}
 	
