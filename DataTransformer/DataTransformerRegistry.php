@@ -20,6 +20,6 @@ class DataTransformerRegistry {
 			throw new DataTransformerNotFoundException($name);
 		}
 		
-		return $this->dataTransformers[$name];
+		return clone $this->dataTransformers[$name];
 	}
 }

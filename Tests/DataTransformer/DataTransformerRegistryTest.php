@@ -19,12 +19,11 @@ class DataTransformerRegistryTest extends \PHPUnit_Framework_TestCase{
 		$transformer = $this->getMock('Yjv\\Bundle\\ReportRenderingBundle\\DataTransformer\\DataTransformerInterface');
 		$name = 'trans';
 		$this->registry->add($name, $transformer);
-		$this->assertSame($transformer, $this->registry->get($name));
 		
-		try {
-			$this->registry->get('nonExistent');
-			$this->fail('did not throw exception when asked for non-existent transformer');
-		} catch (DataTransformerNotFoundException $e) {
-		}
+		$this->assertNotSame($transformer, $this->registry->get($name));
+		$this->assertEquals($transformer, $this->registry->get($name));
+		
+		$this->setExpectedException('Yjv\Bundle\ReportRenderingBundle\DataTransformer\DataTransformerNotFoundException');
+		$this->registry->get('nonExistent');
 	}
 }
