@@ -17,7 +17,7 @@ abstract class AbstractDataTransformer implements DataTransformerInterface {
 		return $this;
 	}
 	
-	protected function getOption($name) {
+	public function getOption($name) {
 		
 		$this->resolveOptions();
 		return $this->resolvedOptions[$name];
