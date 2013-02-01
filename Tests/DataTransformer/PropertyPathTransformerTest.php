@@ -24,17 +24,11 @@ class PropertyPathTransformerTest extends \PHPUnit_Framework_TestCase{
 	
 	public function testMissingRequiredOptions(){
 	
-		try {
-			$this->transformer->transform($this->data, $this->data);
-			$this->fail('transform failed to throw an exception');
-		} catch (MissingOptionsException $e) {
-	
-			$this->assertInstanceOf('Symfony\\Component\\OptionsResolver\\Exception\\MissingOptionsException', $e);
-		}
+		$this->setExpectedException('Symfony\\Component\\OptionsResolver\\Exception\\MissingOptionsException');
+		$this->transformer->transform($this->data, $this->data);
 	}
 	
 	public function testPropertyPathTranform() {
-		
 		
 		$this->transformer->setOptions(array('path' => '[firstName]'));
 		$this->assertEquals('John', $this->transformer->transform($this->data, $this->data));
