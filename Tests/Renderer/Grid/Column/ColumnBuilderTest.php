@@ -82,4 +82,25 @@ class ColumnBuilderTest extends \PHPUnit_Framework_TestCase {
 		$this->columnFactory->expects($this->once())->method('getDataTransformerRegistry')->will($this->returnValue($dataTransformerRegistry));
 		$this->assertSame($dataTransformerRegistry, $this->builder->getDataTransformerRegistry());
 	}
+	
+	public function testGetColumn() {
+		
+		$options = array('options1' => 'value1');
+		$rowOptions = array('option2' => 'value2');
+		$cellOptions = array('option3' => 'value3');
+		$dataTransformers = array(new MappedDataTransformer());
+		
+		$column = $this->builder
+			->setOptions($options)
+			->setRowOptions($rowOptions)
+			->setCellOptions($cellOptions)
+			->setDataTransformers($dataTransformers)
+			->getColumn()
+		;
+		
+		$this->assertEquals($options, $column->getOptions());
+		$this->assertEquals($rowOptions, $column->getRowOptions());
+		$this->assertEquals($cellOptions, $column->getCellOptions());
+		$this->assertEquals($dataTransformers, $column->getDataTransformers());
+	}
 }
