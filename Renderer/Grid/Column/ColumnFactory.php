@@ -19,7 +19,7 @@ class ColumnFactory extends AbstractTypeFactory{
 	protected $dataTransformerRegistry;
 	
 	public function create($type, array $options = array()){
-		
+
 		return $this->createBuilder($type, $options)->getColumn();
 	}
 	

@@ -29,6 +29,7 @@ class AbstractColumnTypeTest extends \PHPUnit_Framework_TestCase{
 	
 	public function testBuildColumn(){
 		
+		$this->assertNull($this->type->build($this->getMock('Yjv\Bundle\ReportRenderingBundle\Renderer\Grid\Column\ColumnBuilderInterface'), array()));
 		$this->assertNull($this->type->buildColumn($this->getMock('Yjv\Bundle\ReportRenderingBundle\Renderer\Grid\Column\ColumnBuilderInterface'), array()));
 	}
 	

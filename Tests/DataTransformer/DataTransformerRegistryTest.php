@@ -14,11 +14,11 @@ class DataTransformerRegistryTest extends \PHPUnit_Framework_TestCase{
 		$this->registry = new DataTransformerRegistry();
 	}
 	
-	public function testAddGet() {
+	public function testSetGet() {
 		
 		$transformer = $this->getMock('Yjv\\Bundle\\ReportRenderingBundle\\DataTransformer\\DataTransformerInterface');
 		$name = 'trans';
-		$this->registry->add($name, $transformer);
+		$this->registry->set($name, $transformer);
 		
 		$this->assertNotSame($transformer, $this->registry->get($name));
 		$this->assertEquals($transformer, $this->registry->get($name));

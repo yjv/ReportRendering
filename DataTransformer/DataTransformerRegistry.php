@@ -7,7 +7,7 @@ class DataTransformerRegistry {
 
 	protected $dataTransformers = array();
 	
-	public function add($name, DataTransformerInterface $dataTransformer) {
+	public function set($name, DataTransformerInterface $dataTransformer) {
 		
 		$this->dataTransformers[$name] = $dataTransformer;
 		return $this;

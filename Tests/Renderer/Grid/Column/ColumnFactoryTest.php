@@ -38,7 +38,19 @@ class ColumnFactoryTest extends \PHPUnit_Framework_TestCase{
 	 */
 	public function testCreate(){
 		
+		$type = 'type';
+		$options = array('key' => 'value');
+		$column = new Column();
+		$builder = $this->getMock('Yjv\Bundle\ReportRenderingBundle\Renderer\Grid\Column\ColumnBuilderInterface');
+		$builder->expects($this->once())->method('getColumn')->will($this->returnValue($column));
 		
+		$factory = $this
+			->getMockBuilder(get_class($this->factory))
+			->disableOriginalConstructor()
+			->setMethods(array('createBuilder'))
+			->getMock();
+		$factory->expects($this->once())->method('createBuilder')->with($type, $options)->will($this->returnValue($builder));
+		$this->assertSame($column, $factory->create($type, $options));
 	}
 	
 	public function testGetAddType(){
@@ -48,57 +60,17 @@ class ColumnFactoryTest extends \PHPUnit_Framework_TestCase{
 		$this->assertSame($columnType1, $this->factory->getType($columnType1->getName()));
 	}
 	
-	protected function getColumnType($name, $parent = false, $index = 0, &$array = array(), $column = false, $optionsResolver = false, $passedOptions = array()) {
+	public function testGetBuilderInterfaceName(){
+		
+		$this->assertEquals('Yjv\Bundle\ReportRenderingBundle\Renderer\Grid\Column\ColumnBuilderInterface', $this->factory->getBuilderInterfaceName());
+	}
+	
+	protected function getColumnType($name, $parent = false) {
 	
 		$tester = $this;
 		$type = $this->getMockBuilder('Yjv\Bundle\ReportRenderingBundle\Factory\TypeInterface')->getMock();
 		$type->expects($this->any())->method('getName')->will($this->returnValue($name));
 		$type->expects($this->any())->method('getParent')->will($this->returnValue($parent));
-		
-		$type
-			->expects($this->any())
-			->method('getOptionsResolver')
-			->will($this->returnCallback(function() use (&$array, $index, $optionsResolver){
-				
-				$array[] = $index;
-				return $optionsResolver;
-			}));
-		$type
-			->expects($this->any())
-			->method('setDefaultOptions')
-			->will($this->returnCallback(function(OptionsResolverInterface $sentOptionsResolver) use (&$array, $index, $optionsResolver, $tester){
-				
-				if ($optionsResolver) {
-					
-					$tester->assertEquals($optionsResolver, $sentOptionsResolver);
-				}
-				
-				$array[] = $index;
-			}));
-		$type
-			->expects($this->any())
-			->method('createColumn')
-			->will($this->returnCallback(function(array $options) use (&$array, $index, $column, $tester, $passedOptions){
-				
-				$tester->assertEquals($passedOptions, $options);
-				
-				$array[] = $index;
-				return $column;
-			}));
-		$type
-			->expects($this->any())
-			->method('buildColumn')
-			->will($this->returnCallback(function(ColumnInterface $sentColumn, array $options) use (&$array, $index, $column, $tester, $passedOptions){
-				
-				$tester->assertEquals($passedOptions, $options);
-				
-				if ($column) {
-						
-					$tester->assertEquals($column, $sentColumn);
-				}
-				
-				$array[] = $index;
-			}));
 		return $type;
 	}
 }
