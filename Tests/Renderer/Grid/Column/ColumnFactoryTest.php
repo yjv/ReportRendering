@@ -1,6 +1,10 @@
 <?php
 namespace Yjv\Bundle\ReportRenderingBundle\Tests\Renderer\Grid\Column;
 
+use Yjv\Bundle\ReportRenderingBundle\Factory\TypeRegistry;
+
+use Yjv\Bundle\ReportRenderingBundle\DataTransformer\DataTransformerRegistry;
+
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 use Yjv\Bundle\ReportRenderingBundle\Renderer\Grid\Column\ColumnInterface;
@@ -17,52 +21,24 @@ class ColumnFactoryTest extends \PHPUnit_Framework_TestCase{
 
 	protected $factory;
 	protected $registry;
+	protected $dataTransformerRegistry;
 	
 	/**
 	 * 
 	 */
 	protected function setUp() {
 
-		$this->registry = new ColumnRegistry();
-		$this->factory = new ColumnFactory($this->registry);
+		$this->registry = new TypeRegistry();
+		$this->dataTransformerRegistry = new DataTransformerRegistry();
+		$this->factory = new ColumnFactory($this->registry, $this->dataTransformerRegistry);
 	}
 	
 	/**
 	 * 
-	 * @dataProvider createDataProvider
 	 */
-	public function testCreate($optionsResolverIndex, $columnIndex, array $expectedArray){
+	public function testCreate(){
 		
-		$passedOptions = array('option1' => '1');
-		$returnedOptions = array('option1' => '1', 'option2' => '2');
-		$array = array();
-		$column = new Column();
-		$optionsResolver = $this->getMockBuilder('Symfony\Component\OptionsResolver\OptionsResolver')->getMock();
-		$optionsResolver->expects($this->once())->method('resolve')->with($passedOptions)->will($this->returnValue($returnedOptions));
-		$name1 = 'name1';
-		$name2 = 'name2';
-		$name3 = 'name3';
-		$columnType3 = $this->getColumnType($name3, false, 3, $array, $columnIndex == 3 ? $column : false, $optionsResolverIndex == 3 ? $optionsResolver : false, $returnedOptions);
-		$columnType2 = $this->getColumnType($name2, $columnType3, 2, $array, $columnIndex == 2 ? $column : false, $optionsResolverIndex == 2 ? $optionsResolver : false, $returnedOptions);
-		$columnType1 = $this->getColumnType($name1, $name2, 1, $array, $columnIndex == 1 ? $column : false, $optionsResolverIndex == 1 ? $optionsResolver : false, $returnedOptions);
 		
-		$this->factory->addType($columnType2)
-		->addType($columnType1);
-		
-		$this->assertSame($column, $this->factory->create('name1', $passedOptions));
-		$this->assertSame($expectedArray, $array);
-	}
-	
-	public function createDataProvider(){
-		
-		return array(
-			array(3, 2, array(1, 2, 3, 3, 2, 1, 1, 2, 3, 2, 1)),	
-			array(3, 1, array(1, 2, 3, 3, 2, 1, 1, 3, 2, 1)),		
-			array(2, 1, array(1, 2, 3, 2, 1, 1, 3, 2, 1)),		
-			array(2, 3, array(1, 2, 3, 2, 1, 1, 2, 3, 3, 2, 1)),		
-			array(1, 3, array(1, 3, 2, 1, 1, 2, 3, 3, 2, 1)),		
-			array(1, 2, array(1, 3, 2, 1, 1, 2, 3, 2, 1)),		
-		);
 	}
 	
 	public function testGetAddType(){
@@ -72,41 +48,10 @@ class ColumnFactoryTest extends \PHPUnit_Framework_TestCase{
 		$this->assertSame($columnType1, $this->factory->getType($columnType1->getName()));
 	}
 	
-	public function testGetTypeList(){
-		
-		$name1 = 'name1';
-		$name2 = 'name2';
-		$name3 = 'name3';
-		
-		$columnType3 = $this->getColumnType($name3);
-		$columnType2 = $this->getColumnType($name2, $columnType3);
-		$columnType1 = $this->getColumnType($name1, $name2);
-		
-		$this->factory->addType($columnType2)
-		->addType($columnType1);
-		
-		$this->assertSame(array($columnType3, $columnType2, $columnType1), $this->factory->getTypeList($columnType1));
-		$this->assertSame(array($columnType3, $columnType2, $columnType1), $this->factory->getTypeList($name1));
-	}
-	
-	public function testResolveType(){
-		
-		$name1 = 'name1';
-		$name2 = 'name2';
-		$columnType1 = $this->getColumnType($name1);
-		$columnType2 = $this->getColumnType($name2);
-		
-		$this->registry->set($columnType1);
-		
-		$this->assertSame($columnType1, $this->factory->resolveType($columnType1));
-		$this->assertSame($columnType2, $this->factory->resolveType($columnType2));
-		$this->assertSame($columnType1, $this->factory->resolveType($name1));
-	}
-	
 	protected function getColumnType($name, $parent = false, $index = 0, &$array = array(), $column = false, $optionsResolver = false, $passedOptions = array()) {
 	
 		$tester = $this;
-		$type = $this->getMockBuilder('Yjv\Bundle\ReportRenderingBundle\Renderer\Grid\Column\ColumnTypeInterface')->getMock();
+		$type = $this->getMockBuilder('Yjv\Bundle\ReportRenderingBundle\Factory\TypeInterface')->getMock();
 		$type->expects($this->any())->method('getName')->will($this->returnValue($name));
 		$type->expects($this->any())->method('getParent')->will($this->returnValue($parent));
 		

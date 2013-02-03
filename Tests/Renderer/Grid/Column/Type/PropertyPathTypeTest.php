@@ -1,24 +1,23 @@
 <?php
 namespace Yjv\Bundle\ReportRenderingBundle\Tests\Renderer\Grid\Column\Type;
 
+use Yjv\Bundle\ReportRenderingBundle\DataTransformer\PropertyPathTransformer;
+
 use Yjv\Bundle\ReportRenderingBundle\Renderer\Grid\Column\Type\PropertyPathType;
 
 use Yjv\Bundle\ReportRenderingBundle\Renderer\Grid\Column\Column;
 
-class PropertyPathTypeTest extends \PHPUnit_Framework_TestCase{
+class PropertyPathTypeTest extends TypeTestCase{
 
 	protected $type;
 	
 	protected function setUp() {
 
+		parent::setUp();
+		$this->dataTransformerRegistry->set('property_path', new PropertyPathTransformer());
 		$this->type = new PropertyPathType();
 	}
 	
-	public function testGetParent() {
-		
-		$this->assertEquals('escaped_column', $this->type->getParent());
-	}
-
 	public function testGetName() {
 		
 		$this->assertEquals('property_path', $this->type->getName());
@@ -27,8 +26,8 @@ class PropertyPathTypeTest extends \PHPUnit_Framework_TestCase{
 	public function testBuildColumn(){
 		
 		$options = array('path' => 'column', 'required' => true, 'empty_value' => '', 'ignored_option' => 'ignored');
-		$column = new Column();
-		$this->type->buildColumn($column, $options);
+		$this->type->buildColumn($this->builder, $options);
+		$column = $this->builder->getColumn();
 		$dataTransformers = $column->getDataTransformers();
 		$this->assertCount(1, $dataTransformers);
 		$transformer = $dataTransformers[0];

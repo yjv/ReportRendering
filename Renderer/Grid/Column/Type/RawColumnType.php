@@ -5,7 +5,7 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 use Yjv\Bundle\ReportRenderingBundle\Renderer\Grid\Column\AbstractColumnType;
 
-class EscapedColumnType extends AbstractColumnType{
+class RawColumnType extends AbstractColumnType{
 
 	public function getParent() {
 		
@@ -14,14 +14,14 @@ class EscapedColumnType extends AbstractColumnType{
 	
 	public function getName() {
 		
-		return 'escaped_column';
+		return 'raw_column';
 	}
 	
 	public function setDefaultOptions(OptionsResolverInterface $resolver){
 		
 		$resolver
 			->setDefaults(array(
-					'escape_output' => true, 
+					'escape_output' => false, 
 			))		
 		;
 	}

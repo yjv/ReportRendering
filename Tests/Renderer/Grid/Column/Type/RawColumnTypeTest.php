@@ -1,7 +1,7 @@
 <?php
 namespace Yjv\Bundle\ReportRenderingBundle\Tests\Renderer\Grid\Column\Type;
 
-use Yjv\Bundle\ReportRenderingBundle\Renderer\Grid\Column\Type\EscapedColumnType;
+use Yjv\Bundle\ReportRenderingBundle\Renderer\Grid\Column\Type\RawColumnType;
 
 use Yjv\Bundle\ReportRenderingBundle\Renderer\Grid\Column\Column;
 
@@ -11,7 +11,8 @@ class EscapedColumnTypeTest extends \PHPUnit_Framework_TestCase{
 	
 	protected function setUp() {
 
-		$this->type = new EscapedColumnType();
+		parent::setUp();
+		$this->type = new RawColumnType();
 	}
 	
 	public function testGetParent() {
@@ -21,7 +22,7 @@ class EscapedColumnTypeTest extends \PHPUnit_Framework_TestCase{
 
 	public function testGetName() {
 		
-		$this->assertEquals('escaped_column', $this->type->getName());
+		$this->assertEquals('raw_column', $this->type->getName());
 	}
 	
 	public function testSetDefaultOptions() {
@@ -31,7 +32,7 @@ class EscapedColumnTypeTest extends \PHPUnit_Framework_TestCase{
 			->expects($this->once())
 			->method('setDefaults')
 			->with(array(
-				'escape_output' => true,
+				'escape_output' => false,
 			))
 			->will($this->returnValue($optionsResolver))
 		;

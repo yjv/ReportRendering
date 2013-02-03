@@ -1,6 +1,8 @@
 <?php
 namespace Yjv\Bundle\ReportRenderingBundle\Renderer\Grid\Column\Type;
 
+use Yjv\Bundle\ReportRenderingBundle\Renderer\Grid\Column\ColumnBuilderInterface;
+
 use Yjv\Bundle\ReportRenderingBundle\Renderer\Grid\Column\ColumnInterface;
 
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
@@ -19,22 +21,22 @@ class ColumnType extends AbstractColumnType{
 		return 'column';
 	}
 	
-	public function buildColumn(ColumnInterface $column, array $options){
+	public function buildColumn(ColumnBuilderInterface $builder, array $options){
 		
-		$column->setOptions(array(
+		$builder->setOptions(array(
 				'name' => $options['name'],
 				'sortable' => $options['sortable'],
 				'escape_output' => $options['escape_output']
 		));
 		
-		$column->setCellOptions(array('escape_output' => $options['escape_output']));
+		$builder->setCellOptions(array('escape_output' => $options['escape_output']));
 	}
 	
 	public function setDefaultOptions(OptionsResolverInterface $resolver){
 		
 		$resolver
 			->setDefaults(array(
-					'escape_output' => false, 
+					'escape_output' => true, 
 					'sortable' => true,
 					'name' => ''
 			))

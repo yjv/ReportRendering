@@ -1,90 +1,47 @@
 <?php
 namespace Yjv\Bundle\ReportRenderingBundle\Renderer\Grid\Column;
 
+use Yjv\Bundle\ReportRenderingBundle\Factory\TypeInterface;
+
+use Yjv\Bundle\ReportRenderingBundle\Factory\TypeRegistry;
+
+use Yjv\Bundle\ReportRenderingBundle\DataTransformer\DataTransformerRegistry;
+
+use Yjv\Bundle\ReportRenderingBundle\Factory\AbstractTypeFactory;
+
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 use Yjv\Bundle\ReportRenderingBundle\Renderer\Grid\Column\ColumnRegistry;
 
-class ColumnFactory {
+class ColumnFactory extends AbstractTypeFactory{
 
-	protected $columnRegistry;
+	protected $registry;
+	protected $dataTransformerRegistry;
 	
-	public function __construct(ColumnRegistry $columnRegistry){
+	public function create($type, array $options = array()){
 		
-		$this->columnRegistry = $columnRegistry;
+		return $this->createBuilder($type, $options)->getColumn();
 	}
 	
-	public function create($type, array $options = array()) {
+	public function __construct(TypeRegistry $columnRegistry, DataTransformerRegistry $dataTransformerRegistry){
 		
-		$types = $this->getTypeList($type);
-		
-		foreach (array_reverse($types) as $type) {
-			
-			$optionsResolver = $type->getOptionsResolver();
-			
-			if ($optionsResolver) {
-				
-				break;
-			}
-		}
-		
-		foreach ($types as $type) {
-			
-			$type->setDefaultOptions($optionsResolver);
-		}
-		
-		$options = $optionsResolver->resolve($options);
-		
-		foreach (array_reverse($types) as $type) {
-			
-			$column = $type->createColumn($options);
-			
-			if ($column) {
-				
-				break;
-			}
-		}
-		
-		foreach ($types as $type) {
-			
-			$type->buildColumn($column, $options);
-		}
-		
-		return $column;
+		$this->registry = $columnRegistry;
+		$this->dataTransformerRegistry = $dataTransformerRegistry;
 	}
 	
-	public function getType($name){
+	public function addType(TypeInterface $type){
 	
-		return $this->columnRegistry->get($name);
-	}
-	
-	public function addType(ColumnTypeInterface $type){
-	
-		$this->columnRegistry->set($type);
+		$this->registry->set($type);
 		return $this;
 	}
 	
-	public function getTypeList($type){
-	
-		$type = $this->resolveType($type);
-		$types = array($type);
-	
-		while ($type = $type->getParent()) {
-				
-			$type = $this->resolveType($type);
-			array_unshift($types, $type);
-		}
-	
-		return $types;
+	public function getBuilderInterfaceName(){
+		
+		return 'Yjv\Bundle\ReportRenderingBundle\Renderer\Grid\Column\ColumnBuilderInterface';
 	}
 	
-	public function resolveType($type){
-	
-		if ($type instanceof ColumnTypeInterface) {
-				
-			return $type;
-		}
-	
-		return $this->getType($type);
+	public function getDataTransformerRegistry() {
+		
+		return $this->dataTransformerRegistry;
 	}
 }

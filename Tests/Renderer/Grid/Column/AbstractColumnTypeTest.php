@@ -16,6 +16,7 @@ use Yjv\Bundle\ReportRenderingBundle\Renderer\Grid\Column\ColumnFactory;
 class AbstractColumnTypeTest extends \PHPUnit_Framework_TestCase{
 
 	protected $type;
+	protected $factory;
 	
 	/**
 	 * 
@@ -23,11 +24,12 @@ class AbstractColumnTypeTest extends \PHPUnit_Framework_TestCase{
 	protected function setUp() {
 
 		$this->type = $this->getMockForAbstractClass('Yjv\Bundle\ReportRenderingBundle\Renderer\Grid\Column\AbstractColumnType');
+		$this->factory = $this->getMockBuilder('Yjv\Bundle\ReportRenderingBundle\Renderer\Grid\Column\ColumnFactory')->disableOriginalConstructor()->getMock();
 	}
 	
 	public function testBuildColumn(){
 		
-		$this->assertNull($this->type->buildColumn($this->getMock('Yjv\Bundle\ReportRenderingBundle\Renderer\Grid\Column\ColumnInterface'), array()));
+		$this->assertNull($this->type->buildColumn($this->getMock('Yjv\Bundle\ReportRenderingBundle\Renderer\Grid\Column\ColumnBuilderInterface'), array()));
 	}
 	
 	public function testSetDefaultOptions(){
@@ -35,9 +37,9 @@ class AbstractColumnTypeTest extends \PHPUnit_Framework_TestCase{
 		$this->assertNull($this->type->setDefaultOptions($this->getMock('Symfony\Component\OptionsResolver\OptionsResolverInterface')));
 	}
 	
-	public function testCreateColumn() {
+	public function testCreateBuilder() {
 		
-		$this->assertInstanceOf('Yjv\Bundle\ReportRenderingBundle\Renderer\Grid\Column\ColumnInterface', $this->type->createColumn(array()));
+		$this->assertInstanceOf('Yjv\Bundle\ReportRenderingBundle\Renderer\Grid\Column\ColumnBuilderInterface', $this->type->createBuilder($this->factory, array()));
 	}
 	
 	public function testGetParent(){
