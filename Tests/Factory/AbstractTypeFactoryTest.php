@@ -31,7 +31,7 @@ class TypeFactoryTest extends \PHPUnit_Framework_TestCase{
 	 * @dataProvider createDataProvider
 	 */
 	public function testCreateBuilder($optionsResolverIndex, $builderIndex, array $expectedArray){
-		
+
 		$passedOptions = array('option1' => '1');
 		$returnedOptions = array('option1' => '1', 'option2' => '2');
 		$array = array();
@@ -53,6 +53,18 @@ class TypeFactoryTest extends \PHPUnit_Framework_TestCase{
 		$this->assertSame($expectedArray, $array);
 	}
 	
+	public function createDataProvider(){
+		
+		return array(
+			array(3, 2, array(1, 2, 3, 3, 2, 1, 1, 2, 3, 2, 1)),	
+			array(3, 1, array(1, 2, 3, 3, 2, 1, 1, 3, 2, 1)),		
+			array(2, 1, array(1, 2, 3, 2, 1, 1, 3, 2, 1)),		
+			array(2, 3, array(1, 2, 3, 2, 1, 1, 2, 3, 3, 2, 1)),		
+			array(1, 3, array(1, 3, 2, 1, 1, 2, 3, 3, 2, 1)),		
+			array(1, 2, array(1, 3, 2, 1, 1, 2, 3, 2, 1)),		
+		);
+	}
+	
 	/**
 	 * 
 	 */
@@ -72,16 +84,37 @@ class TypeFactoryTest extends \PHPUnit_Framework_TestCase{
 		$this->factory->createBuilder('name1');
 	}
 	
-	public function createDataProvider(){
+	/**
+	 * 
+	 */
+	public function testCreateBuilderWithBuilderNotReturned(){
 		
-		return array(
-			array(3, 2, array(1, 2, 3, 3, 2, 1, 1, 2, 3, 2, 1)),	
-			array(3, 1, array(1, 2, 3, 3, 2, 1, 1, 3, 2, 1)),		
-			array(2, 1, array(1, 2, 3, 2, 1, 1, 3, 2, 1)),		
-			array(2, 3, array(1, 2, 3, 2, 1, 1, 2, 3, 3, 2, 1)),		
-			array(1, 3, array(1, 3, 2, 1, 1, 2, 3, 3, 2, 1)),		
-			array(1, 2, array(1, 3, 2, 1, 1, 2, 3, 2, 1)),		
-		);
+		$array = array();
+		$optionsResolver = $this->getMockBuilder('Symfony\Component\OptionsResolver\OptionsResolver')->getMock();
+		$optionsResolver->expects($this->once())->method('resolve')->will($this->returnValue(array()));
+		$name1 = 'name1';
+		$type1 = $this->getType($name1, false, 1, $array, false, $optionsResolver);
+		
+		$this->registry->set($type1);
+		
+		$this->setExpectedException('Yjv\Bundle\ReportRenderingBundle\Factory\BuilderNotReturnedException');
+		$this->factory->createBuilder('name1');
+	}
+	
+	/**
+	 * 
+	 */
+	public function testCreateBuilderWithOptionsResolverNotReturned(){
+		
+		$array = array();
+		$builder = new \stdClass();
+		$name1 = 'name1';
+		$type1 = $this->getType($name1, false, 1, $array, false, false);
+		
+		$this->registry->set($type1);
+		
+		$this->setExpectedException('Yjv\Bundle\ReportRenderingBundle\Factory\OptionsResolverNotReturnedException');
+		$this->factory->createBuilder('name1');
 	}
 	
 	public function testGetType(){
@@ -104,8 +137,8 @@ class TypeFactoryTest extends \PHPUnit_Framework_TestCase{
 		$this->registry->set($type2)
 		->set($type1);
 		
-		$this->assertSame(array($type3, $type2, $type1), $this->factory->getTypeChain($type1));
-		$this->assertSame(array($type3, $type2, $type1), $this->factory->getTypeChain($name1));
+		$this->assertSame(array($type3, $type2, $type1), iterator_to_array($this->factory->getTypeChain($type1)));
+		$this->assertSame(array($type3, $type2, $type1), iterator_to_array($this->factory->getTypeChain($name1)));
 	}
 	
 	public function testResolveType(){
