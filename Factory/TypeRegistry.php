@@ -1,40 +1,44 @@
 <?php
 namespace Yjv\Bundle\ReportRenderingBundle\Factory;
 
-class TypeRegistry {
+class TypeRegistry implements TypeRegistryInterface
+{
+    protected $types = array();
+    protected $typeName;
 
-	protected $types = array();
-	
-	public function set(TypeInterface $type) {
-		
-		$this->types[$type->getName()] = $type;
-		return $this;
-	}
-	
-	public function get($name) {
-		
-		if (!isset($this->types[$name])) {
-			
-			throw new TypeNotFoundException($name);
-		}
-		
-		return $this->types[$name];
-	}
-	
-	public function all() {
-		
-		return $this->types;
-	}
-	
-	public function has($name) {
-		
-		try {
-			
-			$this->get($name);
-			return true;
-		} catch (TypeNotFoundException $e) {
-			
-			return false;
-		}
-	}
+    public function __construct($typeName = null)
+    {
+        $this->typeName = $typeName;
+    }
+
+    public function add(TypeInterface $type)
+    {
+        if ($this->typeName && !$type instanceof $this->typeName) {
+
+            throw new TypeNotSupportedException($type, $this->typeName);
+        }
+
+        $this->types[$type->getName()] = $type;
+        return $this;
+    }
+
+    public function get($name)
+    {
+        if (!$this->has($name)) {
+
+            throw new TypeNotFoundException($this->typeName, $name);
+        }
+
+        return $this->types[$name];
+    }
+
+    public function all()
+    {
+        return $this->types;
+    }
+
+    public function has($name)
+    {
+        return isset($this->types[$name]);
+    }
 }

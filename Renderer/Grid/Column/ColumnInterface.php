@@ -1,73 +1,34 @@
 <?php
 namespace Yjv\Bundle\ReportRenderingBundle\Renderer\Grid\Column;
 
-interface ColumnInterface {
+interface ColumnInterface
+{
+    /**
+     * @return array an array of options for the column
+     */
+    public function getOptions();
 
-	/**
-	 * @return array an array of options for the column
-	 */
-	public function getOptions();
-	
-	/**
-	 * should return the options for the row taking the previous options into account
-	 * @param array $previousOptions
-	 * @return array the options for the row given the data the column has at that point, probably merged with the previous columns options
-	 */
-	public function getRowOptions(array $previousOptions = array());
-	
-	/**
-	 * @return array the options for the cell given the data the column has at that point
-	 */
-	public function getCellOptions();
-	
-	/**
-	 * @return array the data for the given cell given the data set in setData
-	 */
-	public function getCellData();
-	
-	/**
-	 * set the current row data
-	 * @param mixed $data
-	 * @return mixed should be something castable to a string
-	 */
-	public function setData($data);
-	
-	/**
-	 * sets the column's options
-	 * @param array $options
-	 */
-	public function setOptions(array $options);
-	
-	/**
-	 * 
-	 * @param string $name
-	 * @param stinrg|callable $value
-	 */
-	public function setOption($name, $value);
-	
-	/**
-	 * sets the columns row options
-	 * @param array $options
-	 */
-	public function setRowOptions(array $options);
-	
-	/**
-	 * 
-	 * @param string $name
-	 * @param string|callable $value
-	 */
-	public function setRowOption($name, $value);
-	
-	/**
-	 * sets a columns cell options
-	 * @param array $options
-	 */
-	public function setCellOptions(array $options);
-	
-	/**
-	 * 
-	 * @param string $name
-	 * @param string|callable $value
-	 */
-	public function setCellOption($name, $value);
+    /**
+     * should return the options for the row taking the previous options into account
+     * @param array $previousOptions
+     * @return array the options for the row given the data the column has at that point, probably merged with the previous columns options
+     */
+    public function getRowOptions(array $previousOptions = array());
+
+    /**
+     * @return array the options for the cell given the data the column has at that point
+     */
+    public function getCellOptions();
+
+    /**
+     * @return array the data for the given cell given the data set in setData
+     */
+    public function getCellData();
+
+    /**
+     * set the current row data
+     * @param mixed $data
+     * @return mixed should be something castable to a string
+     */
+    public function setData($data);
 }

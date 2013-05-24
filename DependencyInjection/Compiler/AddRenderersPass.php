@@ -19,7 +19,7 @@ class AddRenderersPass implements CompilerPassInterface {
 		
 		foreach ($container->findTaggedServiceIds('yjv.report_renderer') as $id => $attributes) {
 			
-			$registryDefinition->addMethodCall('set', array(new Reference($id)));
+			$registryDefinition->addMethodCall('add', array(new Reference($id)));
 		}
 	}
 }

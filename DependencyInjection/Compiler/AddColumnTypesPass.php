@@ -19,7 +19,7 @@ class AddColumnTypesPass implements CompilerPassInterface {
 		
 		foreach ($container->findTaggedServiceIds('yjv.column_type') as $id => $attributes) {
 			
-			$registryDefinition->addMethodCall('set', array(new Reference($id)));
+			$registryDefinition->addMethodCall('add', array(new Reference($id)));
 		}
 	}
 }

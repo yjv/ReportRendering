@@ -1,10 +1,10 @@
 <?php
 namespace Yjv\Bundle\ReportRenderingBundle\Data;
 
-class DataEscaper implements DataEscaperInterface{
-
-	public function escape($strategy, $value){
-		
+class DataEscaper implements DataEscaperInterface
+{
+	public function escape($strategy, $value)
+	{
 		switch ($strategy) {
 	        case 'js':
 	            return $this->escapeJs($value);
@@ -26,8 +26,8 @@ class DataEscaper implements DataEscaperInterface{
 	    }
 	}
 	
-	public function getSupportedStrategies(){
-		
+	public function getSupportedStrategies()
+	{
 		return array(
 				'js',
 				'css',
@@ -37,8 +37,8 @@ class DataEscaper implements DataEscaperInterface{
 		);
 	}
 	
-	public function escapeJs($value) {
-	
+	public function escapeJs($value)
+	{
 		// escape all non-alphanumeric characters
 		// into their \xHH or \uHHHH representations
 		if ('UTF-8' != $charset) {
@@ -58,8 +58,8 @@ class DataEscaper implements DataEscaperInterface{
 		return $string;
 	}
 	
-	public function escapeCss($value) {
-
+	public function escapeCss($value)
+	{
 		if ('UTF-8' != $charset) {
 			$string = mb_convert_encoding($string, 'UTF-8', $charset);
 		}
@@ -77,8 +77,8 @@ class DataEscaper implements DataEscaperInterface{
 		return $string;
 	}
 	
-	public function escapeHtmlAttr($value) {
-				
+	public function escapeHtmlAttr($value)
+	{
 		if ('UTF-8' != $charset) {
 			
 			$string = mb_convert_encoding($string, 'UTF-8', $charset);
@@ -97,8 +97,8 @@ class DataEscaper implements DataEscaperInterface{
 		return $string;
 	}
 	
-	public function escapeHtml($value) {
-				
+	public function escapeHtml($value)
+	{
 		// see http://php.net/htmlspecialchars
 
 		// Using a static variable to avoid initializing the array
@@ -131,19 +131,18 @@ class DataEscaper implements DataEscaperInterface{
 		return mb_convert_encoding($string, $charset, 'UTF-8');
 	}
 	
-	public function escapeUrl($value) {
-				
+	public function escapeUrl($value)
+	{
 		if (version_compare(PHP_VERSION, '5.3.0', '<')) {
 				
 			return str_replace('%7E', '~', rawurlencode($string));
 		}
 	
 		return rawurlencode($string);
-	
 	}
 	
-	protected function escapeJsCallback($matches) {
-	
+	protected function escapeJsCallback($matches)
+	{
 		$char = $matches[0];
 	
 		// \xHH
@@ -155,7 +154,6 @@ class DataEscaper implements DataEscaperInterface{
 		$char = mb_convert_encoding($char, 'UTF-16BE', 'UTF-8');
 	
 		return '\\u'.strtoupper(substr('0000'.bin2hex($char), -4));
-		;
 	}
 	
 	protected function escapeCssCallback($matches)

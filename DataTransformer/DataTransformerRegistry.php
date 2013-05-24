@@ -3,23 +3,23 @@ namespace Yjv\Bundle\ReportRenderingBundle\DataTransformer;
 
 use Yjv\Bundle\ReportRenderingBundle\DataTransformer\DataTransformerNotFoundException;
 
-class DataTransformerRegistry {
+class DataTransformerRegistry
+{
+    protected $dataTransformers = array();
 
-	protected $dataTransformers = array();
-	
-	public function set($name, DataTransformerInterface $dataTransformer) {
-		
-		$this->dataTransformers[$name] = $dataTransformer;
-		return $this;
-	}
-	
-	public function get($name) {
-		
-		if (!isset($this->dataTransformers[$name])) {
-			
-			throw new DataTransformerNotFoundException($name);
-		}
-		
-		return clone $this->dataTransformers[$name];
-	}
+    public function set($name, DataTransformerInterface $dataTransformer)
+    {
+        $this->dataTransformers[$name] = $dataTransformer;
+        return $this;
+    }
+
+    public function get($name)
+    {
+        if (!isset($this->dataTransformers[$name])) {
+
+            throw new DataTransformerNotFoundException($name);
+        }
+
+        return clone $this->dataTransformers[$name];
+    }
 }

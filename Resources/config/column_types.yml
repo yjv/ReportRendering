@@ -4,8 +4,8 @@ services:
     tags:
       - { name: 'yjv.column_type' }
   
-  yjv.report_rendering.escaped_column:
-    class: Yjv\Bundle\ReportRenderingBundle\Renderer\Grid\Column\Type\EscapedColumnType
+  yjv.report_rendering.raw_column:
+    class: Yjv\Bundle\ReportRenderingBundle\Renderer\Grid\Column\Type\RawColumnType
     tags:
       - { name: 'yjv.column_type' }
   

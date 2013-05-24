@@ -1,10 +1,12 @@
 <?php
 namespace Yjv\Bundle\ReportRenderingBundle\Factory;
 
-class OptionsResolverNotReturnedException extends \Exception{
+class OptionsResolverNotReturnedException extends \Exception
+{
+    public function __construct()
+    {
 
-	public function __construct(){
-		
-		parent::__construct('No options resolver was returned from any of the types');
-	}
+        parent::__construct(
+            'No options resolver was returned from any of the types');
+    }
 }

@@ -6,42 +6,41 @@ namespace Yjv\Bundle\ReportRenderingBundle\Filter;
  * @author yosefderay
  *
  */
-class NullFilterCollection implements FilterCollectionInterface {
-	
-	/**
-	 * (non-PHPdoc)
-	 * @see \Yjv\Bundle\ReportRenderingBundle\Filter\FilterCollectionInterface::set()
-	 */
-	public function set($name, $value) {
+class NullFilterCollection implements FilterCollectionInterface
+{
+    /**
+     * (non-PHPdoc)
+     * @see \Yjv\Bundle\ReportRenderingBundle\Filter\FilterCollectionInterface::set()
+     */
+    public function set($name, $value)
+    {
+        return $this;
+    }
 
-		return $this;
-	}
-	
-	/**
-	 * (non-PHPdoc)
-	 * @see \Yjv\Bundle\ReportRenderingBundle\Filter\FilterCollectionInterface::setAll()
-	 */
-	public function setAll(array $values) {
+    /**
+     * (non-PHPdoc)
+     * @see \Yjv\Bundle\ReportRenderingBundle\Filter\FilterCollectionInterface::setAll()
+     */
+    public function setAll(array $values)
+    {
+        return $this;
+    }
 
-		return $this;
-	}
-	
-	/**
-	 * (non-PHPdoc)
-	 * @see \Yjv\Bundle\ReportRenderingBundle\Filter\FilterCollectionInterface::get()
-	 */
-	public function get($name, $default = null) {
+    /**
+     * (non-PHPdoc)
+     * @see \Yjv\Bundle\ReportRenderingBundle\Filter\FilterCollectionInterface::get()
+     */
+    public function get($name, $default = null)
+    {
+        return $default;
+    }
 
-		return $default;
-	}
-	
-	/**
-	 * (non-PHPdoc)
-	 * @see \Yjv\Bundle\ReportRenderingBundle\Filter\FilterCollectionInterface::all()
-	 */
-	public function all() {
-
-		return array();
-	}
-
+    /**
+     * (non-PHPdoc)
+     * @see \Yjv\Bundle\ReportRenderingBundle\Filter\FilterCollectionInterface::all()
+     */
+    public function all()
+    {
+        return array();
+    }
 }

@@ -6,20 +6,20 @@ namespace Yjv\Bundle\ReportRenderingBundle\ReportData;
  * @author yosefderay
  *
  */
-interface ImmutableDataInterface{
+interface ImmutableDataInterface
+{
+    /**
+     * should return an iterable result that can be sent to a foreach
+     */
+    public function getData();
 
-	/**
-	 * should return an iterable result that can be sent to a foreach
-	 */
-	public function getData();
-	
-	/**
-	 * should return the count of the data to be iterated
-	 */
-	public function getCount();
-	
-	/**
-	 * shoiuld return the mount of results without filters
-	 */
-	public function getUnfilteredCount();
+    /**
+     * should return the count of the data to be iterated
+     */
+    public function getCount();
+
+    /**
+     * shoiuld return the mount of results without filters
+     */
+    public function getUnfilteredCount();
 }

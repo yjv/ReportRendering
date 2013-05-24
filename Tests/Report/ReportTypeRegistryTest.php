@@ -1,5 +1,7 @@
 <?php
-namespace Yjv\Bundle\ReportRenderingBundle\Report;
+namespace Yjv\Bundle\ReportRenderingBundle\Tests\Report;
+
+use Yjv\Bundle\ReportRenderingBundle\Report\ReportTypeRegistry;
 
 class ReportTypeRegistryTest extends \PHPUnit_Framework_TestCase {
 

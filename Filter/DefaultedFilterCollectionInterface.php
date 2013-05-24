@@ -7,18 +7,18 @@ namespace Yjv\Bundle\ReportRenderingBundle\Filter;
  * @author yosefderay
  *
  */
-interface DefaultedFilterCollectionInterface extends FilterCollectionInterface {
+interface DefaultedFilterCollectionInterface extends FilterCollectionInterface
+{
+    /**
+     * this method should override these defaults with whats already set
+     * @param array $defaults
+     */
+    public function setDefaults(array $defaults);
 
-	/**
-	 * this method should override these defaults with whats already set
-	 * @param array $defaults
-	 */
-	public function setDefaults(array $defaults);
-	
-	/**
-	 * this method should override the defaults with whats already set
-	 * @param scalar $name
-	 * @param mixed $value
-	 */
-	public function setDefault($name, $value);
+    /**
+     * this method should override the defaults with whats already set
+     * @param scalar $name
+     * @param mixed $value
+     */
+    public function setDefault($name, $value);
 }

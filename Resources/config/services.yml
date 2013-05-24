@@ -9,5 +9,26 @@ services:
     tags:
       - { name: twig.extension }
       
+  yjv.report_rendering.data_transformer_registry:
+    class: Yjv\Bundle\ReportRenderingBundle\DataTransformer\DataTransformerRegistry
+      
   yjv.report_rendering.renderer_registry:
-    class: Yjv\Bundle\ReportRenderingBundle\Renderer\RendererRegistry
+    class: Yjv\Bundle\ReportRenderingBundle\Factory\TypeRegistry
+      
+  yjv.report_rendering.renderer_factory:
+    class: Yjv\Bundle\ReportRenderingBundle\Renderer\RendererFactory
+    arguments: ['@yjv.report_rendering.renderer_registry', '@yjv.report_rendering.column_factory']
+      
+  yjv.report_rendering.column_registry:
+    class: Yjv\Bundle\ReportRenderingBundle\Factory\TypeRegistry
+      
+  yjv.report_rendering.column_factory:
+    class: Yjv\Bundle\ReportRenderingBundle\Renderer\Grid\Column\ColumnFactory
+    arguments: ['@yjv.report_rendering.column_registry', '@yjv.report_rendering.data_transformer_registry']
+    
+  yjv.report_rendering.report_registry:
+    class: Yjv\Bundle\ReportRenderingBundle\Factory\TypeRegistry
+  
+  yjv.report_rendering.report_factory:
+    class: Yjv\Bundle\ReportRenderingBundle\Report\ReportFactory
+    arguments: ['@yjv.report_rendering.report_registry', '@yjv.report_rendering.renderer_factory']

@@ -5,7 +5,7 @@ use Yjv\Bundle\ReportRenderingBundle\Renderer\Grid\Column\Type\RawColumnType;
 
 use Yjv\Bundle\ReportRenderingBundle\Renderer\Grid\Column\Column;
 
-class EscapedColumnTypeTest extends \PHPUnit_Framework_TestCase{
+class RawColumnTypeTest extends \PHPUnit_Framework_TestCase{
 
 	protected $type;
 	
