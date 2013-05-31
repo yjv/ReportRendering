@@ -3,8 +3,19 @@ namespace Yjv\Bundle\ReportRenderingBundle\Factory;
 
 class TypeNotFoundException extends \Exception
 {
-    public function __construct($typeName, $name)
+    protected $message = 'type with name "%s" not found';
+    protected $typedMessage = 'type of class "%s" with name "%s" not found';
+    
+    public function __construct($name, $typeName = null)
     {
-        parent::__construct(sprintf('type "%s" with name "%s" not found', $typeName, $name));
+        if ($typeName) {
+            
+            $message = sprintf($this->typedMessage, $name);
+        } else {
+            
+            $message = sprintf($this->message, $typeName, $name);
+        }
+        
+        parent::__construct($message);
     }
 }

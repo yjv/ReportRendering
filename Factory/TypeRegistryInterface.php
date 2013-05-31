@@ -3,6 +3,8 @@ namespace Yjv\Bundle\ReportRenderingBundle\Factory;
 
 interface TypeRegistryInterface
 {
-    public function get($name);
-    public function has($name);
+    public function getType($name);
+    public function hasType($name);
+    public function getTypeExtensions($name);
+    public function hasTypeExtensions($name);
 }

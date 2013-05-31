@@ -53,7 +53,7 @@ abstract class AbstractTypeFactory implements TypeFactoryInterface
             return $type;
         }
 
-        return $this->registry->get((string) $type);
+        return $this->registry->getType((string) $type);
     }
 
     public function getTypeRegistry()

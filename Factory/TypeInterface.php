@@ -10,7 +10,7 @@ interface TypeInterface
      * @param object $builder the object builder
      * @param array $options
      */
-    public function build($builder, array $options);
+    public function build(BuilderInterface $builder, array $options);
 
     /**
      * 

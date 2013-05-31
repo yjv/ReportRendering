@@ -1,5 +1,5 @@
 <?php
-namespace Yjv\ReportRenderingBundle\Factory;
+namespace Yjv\Bundle\ReportRenderingBundle\Factory;
 
 interface RegistryExtensionInterface
 {
