@@ -1,1 +1,1 @@
-[![Build Status](https://secure.travis-ci.org/yjv/ReportRenderingBundle.png?branch=master)](http://travis-ci.org/yjv/ReportRenderingBundle)
+[![Build Status](https://travis-ci.org/yjv/ReportRendering.png?branch=master)](https://travis-ci.org/yjv/ReportRendering)
