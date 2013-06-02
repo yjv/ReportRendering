@@ -1,6 +1,8 @@
 <?php
 namespace Yjv\Bundle\ReportRenderingBundle\Factory;
 
+use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+
 class TypeChain implements \Iterator, TypeChainInterface
 {
     protected $index = 0;
@@ -40,5 +42,78 @@ class TypeChain implements \Iterator, TypeChainInterface
     public function valid()
     {
         return isset($this->types[$this->index]);
+    }
+
+    public function getOptionsResolver()
+    {
+        $this->setIterationDirection(TypeChainInterface::ITERATION_DIRECTION_BOTTOM_UP);
+    
+        $optionsResolver = null;
+        
+        foreach ($this as $type) {
+    
+            if ($optionsResolver = $type->getOptionsResolver()) {
+    
+                break;
+            }
+        }
+    
+        return $optionsResolver;
+    }
+    
+    public function getOptions(OptionsResolverInterface $optionsResolver, array $options)
+    {
+        $this->setIterationDirection(TypeChainInterface::ITERATION_DIRECTION_TOP_DOWN);
+    
+        foreach ($this as $type) {
+    
+            $type->setDefaultOptions($optionsResolver);
+        }
+    
+        return $optionsResolver->resolve($options);
+    }
+    
+    public function getBuilder(TypeFactoryInterface $factory, array $options)
+    {
+        $this->setIterationDirection(TypeChainInterface::ITERATION_DIRECTION_BOTTOM_UP);
+    
+        $builder = null;
+        
+        foreach ($this as $type) {
+    
+            if ($builder = $type->createBuilder($factory, $options)) {
+    
+                break;
+            }
+        }
+    
+        return $builder;
+    }
+    
+    public function build(BuilderInterface $builder, array $options)
+    {
+        $this->setIterationDirection(TypeChainInterface::ITERATION_DIRECTION_TOP_DOWN);
+    
+        foreach ($this as $type) {
+    
+            $type->build($builder, $options);
+        }
+    
+        return $builder;
+    }
+    
+    public function finalize($object, array $options)
+    {
+        $this->setIterationDirection(TypeChainInterface::ITERATION_DIRECTION_TOP_DOWN);
+    
+        foreach ($this as $type) {
+    
+            if ($type instanceof FinalizingTypeInterface) {
+    
+                $type->finalize($object, $options);
+            }
+        }
+    
+        return $object;
     }
 }

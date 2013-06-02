@@ -7,4 +7,5 @@ interface BuilderInterface
     public function getOption($name, $default = null);
     public function getOptions();
     public function setOptions(array $options);
+    public function getFactory();
 }

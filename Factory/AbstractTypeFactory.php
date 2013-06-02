@@ -7,12 +7,12 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 abstract class AbstractTypeFactory implements TypeFactoryInterface
 {
-    protected $registry;
+    protected $typeResolver;
     protected $supportsFinalizing;
 
-    public function __construct(TypeRegistryInterface $registry, $supportsFinalizing = false)
+    public function __construct(TypeResolverInterface $typeResolver, $supportsFinalizing = false)
     {
-        $this->registry = $registry;
+        $this->typeResolver = $typeResolver;
         $this->supportsFinalizing = $supportsFinalizing;
     }
 
@@ -22,48 +22,26 @@ abstract class AbstractTypeFactory implements TypeFactoryInterface
         $optionsResolver = $this->getOptionsResolver($typeChain);
         $options = $this->getOptions($typeChain, $optionsResolver, $options);
         $builder = $this->getBuilder($typeChain, $options);
-        $object = $this->build($typeChain, $builder, $options);
+        $this->build($typeChain, $builder, $options);
 
-        if ($this->supportsFinalizing) {
-
-            $object = $this->finalize($object, $typeChain, $options);
-        }
-
-        return $object;
+        return $builder;
     }
 
     public function getTypeChain($type)
     {
-        $type = $this->resolveType($type);
-        $types = array($type);
-
-        while ($type = $type->getParent()) {
-
-            $type = $this->resolveType($type);
-            array_unshift($types, $type);
-        }
-
-        return new TypeChain($types);
-    }
-
-    public function resolveType($type)
-    {
-        if ($type instanceof TypeInterface) {
-
-            return $type;
-        }
-
-        return $this->registry->getType((string) $type);
+        return $this->typeResolver->resolveTypeChain($type);
     }
 
     public function getTypeRegistry()
     {
-        return $this->registry;
+        return $this->typeResolver->getTypeRegistry();
     }
     
     /**
-    * 
-    */
+     * (non-PHPdoc)
+     * @see \Yjv\Bundle\ReportRenderingBundle\Factory\TypeFactoryInterface::getBuilderInterfaceName()
+     * @codeCoverageIgnore
+     */
     public function getBuilderInterfaceName() {
 
         return 'Yjv\Bundle\ReportRenderingBundle\Factory\BuilderInterface';
@@ -71,19 +49,7 @@ abstract class AbstractTypeFactory implements TypeFactoryInterface
 
     protected function getOptionsResolver(TypeChainInterface $typeChain)
     {
-        $typeChain->setIterationDirection(TypeChainInterface::ITERATION_DIRECTION_BOTTOM_UP);
-
-        foreach ($typeChain as $type) {
-
-            $optionsResolver = $type->getOptionsResolver();
-
-            if ($optionsResolver) {
-
-                break;
-            }
-        }
-
-        if (!$optionsResolver) {
+        if (!$optionsResolver = $typeChain->getOptionsResolver()) {
 
             throw new OptionsResolverNotReturnedException();
         }
@@ -96,42 +62,21 @@ abstract class AbstractTypeFactory implements TypeFactoryInterface
         OptionsResolverInterface $optionsResolver, 
         array $options
     ) {
-
-        $typeChain->setIterationDirection(TypeChainInterface::ITERATION_DIRECTION_TOP_DOWN);
-
-        foreach ($typeChain as $type) {
-
-            $type->setDefaultOptions($optionsResolver);
-        }
-
-        return $optionsResolver->resolve($options);
+        return $typeChain->getOptions($optionsResolver, $options);
     }
 
     protected function getBuilder(TypeChainInterface $typeChain, array $options)
     {
-        $typeChain->setIterationDirection(TypeChainInterface::ITERATION_DIRECTION_BOTTOM_UP);
-
-        foreach ($typeChain as $type) {
-
-            $builder = $type->createBuilder($this, $options);
-
-            if ($builder) {
-
-                $requiredInterface = $this->getBuilderInterfaceName();
-
-                if (!$builder instanceof $requiredInterface) {
-
-                    throw new BuilderNotSupportedException($builder,
-                        $requiredInterface);
-                }
-
-                break;
-            }
-        }
-
-        if (empty($builder)) {
-
+        if (!$builder = $typeChain->getBuilder($this, $options)) {
+            
             throw new BuilderNotReturnedException();
+        }
+        
+        $requiredInterface = $this->getBuilderInterfaceName();
+        
+        if (!$builder instanceof $requiredInterface) {
+        
+            throw new BuilderNotSupportedException($builder, $requiredInterface);
         }
         
         return $builder;
@@ -139,28 +84,6 @@ abstract class AbstractTypeFactory implements TypeFactoryInterface
 
     protected function build(TypeChainInterface $typeChain, $builder, array $options)
     {
-        $typeChain->setIterationDirection(TypeChainInterface::ITERATION_DIRECTION_TOP_DOWN);
-
-        foreach ($typeChain as $type) {
-
-            $type->build($builder, $options);
-        }
-
-        return $builder;
-    }
-
-    protected function finalize($object, TypeChainInterface $typeChain, array $options)
-    {
-        $typeChain->setIterationDirection(TypeChainInterface::ITERATION_DIRECTION_TOP_DOWN);
-
-        foreach ($typeChain as $type) {
-
-            if ($type instanceof FinalizingBuilderInterface) {
-
-                $type->finalize($object, $options);
-            }
-        }
-
-        return $object;
+        $typeChain->build($builder, $options);
     }
 }

@@ -42,7 +42,7 @@ abstract class AbstractExtension implements RegistryExtensionInterface
     
     protected function initTypes()
     {
-        if ($this->types) {
+        if (is_array($this->types)) {
             
             return;
         }
@@ -55,7 +55,7 @@ abstract class AbstractExtension implements RegistryExtensionInterface
     
     protected function initTypeExtensions()
     {
-        if ($this->typeExtensions) {
+        if (is_array($this->typeExtensions)) {
             
             return;
         }
