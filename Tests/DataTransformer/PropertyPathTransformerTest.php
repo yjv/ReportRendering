@@ -1,5 +1,5 @@
 <?php
-namespace Yjv\Bundle\ReportRenderingBundle\Tests\DataTransformer;
+namespace Yjv\ReportRendering\Tests\DataTransformer;
 
 use Symfony\Component\PropertyAccess\Exception\ExceptionInterface;
 
@@ -11,7 +11,7 @@ use Symfony\Component\Form\Exception\InvalidPropertyException;
 
 use Symfony\Component\OptionsResolver\Exception\MissingOptionsException;
 
-use Yjv\Bundle\ReportRenderingBundle\DataTransformer\PropertyPathTransformer;
+use Yjv\ReportRendering\DataTransformer\PropertyPathTransformer;
 
 class PropertyPathTransformerTest extends \PHPUnit_Framework_TestCase{
 
@@ -26,7 +26,7 @@ class PropertyPathTransformerTest extends \PHPUnit_Framework_TestCase{
 	}
 	
 	/**
-	 * @expectedException Yjv\Bundle\ReportRenderingBundle\DataTransformer\Config\ConfigValueRequiredException
+	 * @expectedException Yjv\ReportRendering\DataTransformer\Config\ConfigValueRequiredException
 	 */
 	public function testMissingRequiredOptions(){
 	

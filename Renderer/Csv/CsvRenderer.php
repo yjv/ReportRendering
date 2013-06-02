@@ -1,10 +1,10 @@
 <?php
-namespace Yjv\Bundle\ReportRenderingBundle\Renderer\Csv;
+namespace Yjv\ReportRendering\Renderer\Csv;
 
-use Yjv\Bundle\ReportRenderingBundle\ReportData\ImmutableDataInterface;
-use Yjv\Bundle\ReportRenderingBundle\Renderer\Grid\GridInterface;
+use Yjv\ReportRendering\ReportData\ImmutableDataInterface;
+use Yjv\ReportRendering\Renderer\Grid\GridInterface;
 use Symfony\Component\HttpFoundation\Response;
-use Yjv\Bundle\ReportRenderingBundle\Renderer\ResponseAwareRendererInterface;
+use Yjv\ReportRendering\Renderer\ResponseAwareRendererInterface;
 
 class CsvRenderer implements ResponseAwareRendererInterface
 {

@@ -1,7 +1,7 @@
 <?php
-namespace Yjv\Bundle\ReportRenderingBundle\Tests\Renderer\Csv;
+namespace Yjv\ReportRendering\Tests\Renderer\Csv;
 
-use Yjv\Bundle\ReportRenderingBundle\Renderer\Csv\CsvEncoder;
+use Yjv\ReportRendering\Renderer\Csv\CsvEncoder;
 
 class CsvEncoderTest extends \PHPUnit_Framework_TestCase{
 

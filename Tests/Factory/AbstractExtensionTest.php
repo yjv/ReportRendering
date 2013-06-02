@@ -1,7 +1,7 @@
 <?php
-namespace Yjv\Bundle\ReportRenderingBundle\Tests\Factory;
+namespace Yjv\ReportRendering\Tests\Factory;
 
-use Yjv\Bundle\ReportRenderingBundle\Factory\AbstractExtension;
+use Yjv\ReportRendering\Factory\AbstractExtension;
 
 use Mockery;
 
@@ -13,12 +13,12 @@ class AbstractExtensionTest extends \PHPUnit_Framework_TestCase
     
     public function setUp()
     {
-        $this->type = Mockery::mock('Yjv\Bundle\ReportRenderingBundle\Factory\TypeInterface')
+        $this->type = Mockery::mock('Yjv\ReportRendering\Factory\TypeInterface')
             ->shouldReceive('getName')
             ->andReturn('name')
             ->getMock()
         ;
-        $this->typeExtension = Mockery::mock('Yjv\Bundle\ReportRenderingBundle\Factory\TypeExtensionInterface')
+        $this->typeExtension = Mockery::mock('Yjv\ReportRendering\Factory\TypeExtensionInterface')
             ->shouldReceive('getExtendedType')
             ->andReturn('name')
             ->getMock()
@@ -34,7 +34,7 @@ class AbstractExtensionTest extends \PHPUnit_Framework_TestCase
     }
     
     /**
-     * @expectedException Yjv\Bundle\ReportRenderingBundle\Factory\TypeNotFoundException
+     * @expectedException Yjv\ReportRendering\Factory\TypeNotFoundException
      * @expectedExceptionMessage type with name "name2" not found
      */
     public function testExceptionOnTypeNotFound()

@@ -1,7 +1,7 @@
 <?php
-namespace Yjv\Bundle\ReportRenderingBundle\Factory;
+namespace Yjv\ReportRendering\Factory;
 
-use Yjv\Bundle\ReportRenderingBundle\Factory\RegistryExtensionInterface;
+use Yjv\ReportRendering\Factory\RegistryExtensionInterface;
 
 class TypeRegistry implements TypeRegistryInterface
 {

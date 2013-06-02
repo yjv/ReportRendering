@@ -1,5 +1,5 @@
 <?php
-namespace Yjv\Bundle\ReportRenderingBundle\Data;
+namespace Yjv\ReportRendering\Data;
 
 class EscapeStrategyNotSupportedException extends \Exception
 {

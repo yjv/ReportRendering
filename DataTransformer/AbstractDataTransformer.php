@@ -1,9 +1,9 @@
 <?php
-namespace Yjv\Bundle\ReportRenderingBundle\DataTransformer;
+namespace Yjv\ReportRendering\DataTransformer;
 
-use Yjv\Bundle\ReportRenderingBundle\DataTransformer\Config\Config;
-use Yjv\Bundle\ReportRenderingBundle\DataTransformer\Config\ConfigInterface;
-use Yjv\Bundle\ReportRenderingBundle\DataTransformer\DataTransformerInterface;
+use Yjv\ReportRendering\DataTransformer\Config\Config;
+use Yjv\ReportRendering\DataTransformer\Config\ConfigInterface;
+use Yjv\ReportRendering\DataTransformer\DataTransformerInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 abstract class AbstractDataTransformer implements DataTransformerInterface

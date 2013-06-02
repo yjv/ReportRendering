@@ -1,15 +1,15 @@
 <?php
-namespace Yjv\Bundle\ReportRenderingBundle\Test\DataTransformer;
+namespace Yjv\ReportRendering\Test\DataTransformer;
 
 use Symfony\Component\PropertyAccess\Exception\ExceptionInterface;
 
-use Yjv\Bundle\ReportRenderingBundle\Tests\DataTransformer\DataWithHiddenProperty;
+use Yjv\ReportRendering\Tests\DataTransformer\DataWithHiddenProperty;
 
 use Symfony\Component\Form\Exception\PropertyAccessDeniedException;
 
 use Symfony\Component\Form\Exception\InvalidPropertyException;
 
-use Yjv\Bundle\ReportRenderingBundle\DataTransformer\FormatStringTransformer;
+use Yjv\ReportRendering\DataTransformer\FormatStringTransformer;
 
 
 class FormatStringTransformerTest extends \PHPUnit_Framework_TestCase{
@@ -22,7 +22,7 @@ class FormatStringTransformerTest extends \PHPUnit_Framework_TestCase{
 	}
 	
 	/**
-	 * @expectedException Yjv\Bundle\ReportRenderingBundle\DataTransformer\Config\ConfigValueRequiredException
+	 * @expectedException Yjv\ReportRendering\DataTransformer\Config\ConfigValueRequiredException
 	 */
 	public function testMissingRequiredOptions(){
 		

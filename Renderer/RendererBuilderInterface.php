@@ -1,12 +1,12 @@
 <?php
-namespace Yjv\Bundle\ReportRenderingBundle\Report;
+namespace Yjv\ReportRendering\Report;
 
-use Yjv\Bundle\ReportRenderingBundle\Factory\BuilderInterface;
+use Yjv\ReportRendering\Factory\BuilderInterface;
 
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use Yjv\Bundle\ReportRenderingBundle\Renderer\RendererTypeDelegateInterface;
-use Yjv\Bundle\ReportRenderingBundle\Renderer\RendererInterface;
-use Yjv\Bundle\ReportRenderingBundle\Datasource\DatasourceInterface;
+use Yjv\ReportRendering\Renderer\RendererTypeDelegateInterface;
+use Yjv\ReportRendering\Renderer\RendererInterface;
+use Yjv\ReportRendering\Datasource\DatasourceInterface;
 
 interface RendererBuilderInterface extends BuilderInterface
 {

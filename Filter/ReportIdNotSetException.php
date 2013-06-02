@@ -1,5 +1,5 @@
 <?php
-namespace Yjv\Bundle\ReportRenderingBundle\Filter;
+namespace Yjv\ReportRendering\Filter;
 
 class ReportIdNotSetException extends \Exception
 {

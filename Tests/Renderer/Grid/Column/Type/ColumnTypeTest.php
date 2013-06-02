@@ -1,11 +1,11 @@
 <?php
-namespace Yjv\Bundle\ReportRenderingBundle\Tests\Renderer\Grid\Column\Type;
+namespace Yjv\ReportRendering\Tests\Renderer\Grid\Column\Type;
 
-use Yjv\Bundle\ReportRenderingBundle\Renderer\Grid\Column\ColumnBuilder;
+use Yjv\ReportRendering\Renderer\Grid\Column\ColumnBuilder;
 
-use Yjv\Bundle\ReportRenderingBundle\Renderer\Grid\Column\Column;
+use Yjv\ReportRendering\Renderer\Grid\Column\Column;
 
-use Yjv\Bundle\ReportRenderingBundle\Renderer\Grid\Column\Type\ColumnType;
+use Yjv\ReportRendering\Renderer\Grid\Column\Type\ColumnType;
 
 class ColumnTypeTest extends TypeTestCase{
 
@@ -66,6 +66,6 @@ class ColumnTypeTest extends TypeTestCase{
 	
 	public function testCreateBuilder() {
 		
-		$this->assertInstanceOf('Yjv\Bundle\ReportRenderingBundle\Renderer\Grid\Column\ColumnBuilderInterface', $this->type->createBuilder($this->factory, array()));
+		$this->assertInstanceOf('Yjv\ReportRendering\Renderer\Grid\Column\ColumnBuilderInterface', $this->type->createBuilder($this->factory, array()));
 	}
 }

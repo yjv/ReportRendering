@@ -1,8 +1,8 @@
 <?php
-namespace Yjv\Bundle\ReportRenderingBundle\Renderer\Grid\Column\Type;
+namespace Yjv\ReportRendering\Renderer\Grid\Column\Type;
 
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
-use Yjv\Bundle\ReportRenderingBundle\Renderer\Grid\Column\AbstractColumnType;
+use Yjv\ReportRendering\Renderer\Grid\Column\AbstractColumnType;
 
 class RawColumnType extends AbstractColumnType
 {

@@ -1,11 +1,11 @@
 <?php
-namespace Yjv\Bundle\ReportRenderingBundle\Tests\Renderer\Html;
+namespace Yjv\ReportRendering\Tests\Renderer\Html;
 
-use Yjv\Bundle\ReportRenderingBundle\Filter\NullFilterCollection;
+use Yjv\ReportRendering\Filter\NullFilterCollection;
 
-use Yjv\Bundle\ReportRenderingBundle\ReportData\ReportData;
+use Yjv\ReportRendering\ReportData\ReportData;
 
-use Yjv\Bundle\ReportRenderingBundle\Renderer\Html\HtmlRenderer;
+use Yjv\ReportRendering\Renderer\Html\HtmlRenderer;
 
 
 class HtmlRendererTest extends \PHPUnit_Framework_TestCase{

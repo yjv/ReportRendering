@@ -1,14 +1,14 @@
 <?php
-namespace Yjv\Bundle\ReportRenderingBundle\Report\Type;
+namespace Yjv\ReportRendering\Report\Type;
 
 use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\EventDispatcher\EventDispatcher;
-use Yjv\Bundle\ReportRenderingBundle\Report\ReportBuilder;
-use Yjv\Bundle\ReportRenderingBundle\Factory\TypeFactoryInterface;
-use Yjv\Bundle\ReportRenderingBundle\Filter\NullFilterCollection;
-use Yjv\Bundle\ReportRenderingBundle\Report\ReportBuilderInterface;
+use Yjv\ReportRendering\Report\ReportBuilder;
+use Yjv\ReportRendering\Factory\TypeFactoryInterface;
+use Yjv\ReportRendering\Filter\NullFilterCollection;
+use Yjv\ReportRendering\Report\ReportBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
-use Yjv\Bundle\ReportRenderingBundle\Report\AbstractReportType;
+use Yjv\ReportRendering\Report\AbstractReportType;
 
 class ReportType extends AbstractReportType
 {
@@ -53,13 +53,13 @@ class ReportType extends AbstractReportType
                 'renderers' => array()
             ))
             ->setAllowedTypes(array(
-                'datasource' => 'Yjv\Bundle\ReportRenderingBundle\Datasource\DatasourceInterface',
+                'datasource' => 'Yjv\ReportRendering\Datasource\DatasourceInterface',
                 'filter_collection' => array(
-                    'Yjv\Bundle\ReportRenderingBundle\Filter\FilterCollectionInterface', 
+                    'Yjv\ReportRendering\Filter\FilterCollectionInterface', 
                     'null'
                 ),
                 'default_renderer' => array(
-                    'Yjv\Bundle\ReportRenderingBundle\Renderer\RendererInterface',
+                    'Yjv\ReportRendering\Renderer\RendererInterface',
                     'null'
                 ), 
                 'renderers' => 'array'

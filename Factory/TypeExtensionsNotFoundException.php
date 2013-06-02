@@ -1,5 +1,5 @@
 <?php
-namespace Yjv\Bundle\ReportRenderingBundle\Factory;
+namespace Yjv\ReportRendering\Factory;
 
 class TypeExtensionsNotFoundException extends TypeNotFoundException
 {

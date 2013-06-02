@@ -1,7 +1,7 @@
 <?php
-namespace Yjv\Bundle\ReportRenderingBundle\Tests\ReportData;
+namespace Yjv\ReportRendering\Tests\ReportData;
 
-use Yjv\Bundle\ReportRenderingBundle\ReportData\ImmutableReportData;
+use Yjv\ReportRendering\ReportData\ImmutableReportData;
 
 
 class ImmutableReportDataTest extends \PHPUnit_Framework_TestCase{

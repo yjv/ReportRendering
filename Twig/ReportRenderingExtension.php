@@ -1,5 +1,5 @@
 <?php
-namespace Yjv\Bundle\ReportRenderingBundle\Twig;
+namespace Yjv\ReportRendering\Twig;
 
 class ReportRenderingExtension extends \Twig_Extension
 {

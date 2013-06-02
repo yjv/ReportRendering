@@ -1,7 +1,7 @@
 <?php
-namespace Yjv\Bundle\ReportRenderingBundle\Renderer;
+namespace Yjv\ReportRendering\Renderer;
 
-use Yjv\Bundle\ReportRenderingBundle\ReportData\ImmutableDataInterface;
+use Yjv\ReportRendering\ReportData\ImmutableDataInterface;
 
 /**
  * @author yosefderay

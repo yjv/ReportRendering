@@ -1,8 +1,8 @@
 <?php
-namespace Yjv\Bundle\ReportRenderingBundle\Factory;
+namespace Yjv\ReportRendering\Factory;
 
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
-use Yjv\Bundle\ReportRenderingBundle\Factory\TypeInterface;
+use Yjv\ReportRendering\Factory\TypeInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 abstract class AbstractTypeFactory implements TypeFactoryInterface
@@ -37,12 +37,12 @@ abstract class AbstractTypeFactory implements TypeFactoryInterface
     
     /**
      * (non-PHPdoc)
-     * @see \Yjv\Bundle\ReportRenderingBundle\Factory\TypeFactoryInterface::getBuilderInterfaceName()
+     * @see \Yjv\ReportRendering\Factory\TypeFactoryInterface::getBuilderInterfaceName()
      * @codeCoverageIgnore
      */
     public function getBuilderInterfaceName() {
 
-        return 'Yjv\Bundle\ReportRenderingBundle\Factory\BuilderInterface';
+        return 'Yjv\ReportRendering\Factory\BuilderInterface';
     }
 
     protected function getOptionsResolver(TypeChainInterface $typeChain)

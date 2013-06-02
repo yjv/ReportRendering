@@ -1,5 +1,5 @@
 <?php
-namespace Yjv\Bundle\ReportRenderingBundle\Report;
+namespace Yjv\ReportRendering\Report;
 
 class ReportEvents
 {

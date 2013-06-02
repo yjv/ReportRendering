@@ -1,5 +1,5 @@
 <?php
-namespace Yjv\Bundle\ReportRenderingBundle\Renderer\Csv;
+namespace Yjv\ReportRendering\Renderer\Csv;
 
 use Symfony\Component\OptionsResolver\OptionsResolver;
 

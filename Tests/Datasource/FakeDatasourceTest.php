@@ -1,9 +1,9 @@
 <?php
-namespace Yjv\Bundle\ReportRenderingBundle\Tests\Datasource;
+namespace Yjv\ReportRendering\Tests\Datasource;
 
-use Yjv\Bundle\ReportRenderingBundle\Filter\NullFilterCollection;
+use Yjv\ReportRendering\Filter\NullFilterCollection;
 
-use Yjv\Bundle\ReportRenderingBundle\Datasource\FakeDatasource;
+use Yjv\ReportRendering\Datasource\FakeDatasource;
 
 class FakeDatasourceTest extends \PHPUnit_Framework_TestCase {
 

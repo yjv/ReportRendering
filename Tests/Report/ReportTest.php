@@ -1,25 +1,25 @@
 <?php
-namespace Yjv\Bundle\ReportRenderingBundle\Tests\Report;
+namespace Yjv\ReportRendering\Tests\Report;
 
-use Yjv\Bundle\ReportRenderingBundle\Event\FilterDataEvent;
+use Yjv\ReportRendering\Event\FilterDataEvent;
 
 use Mockery;
 
-use Yjv\Bundle\ReportRenderingBundle\Event\DataEvent;
+use Yjv\ReportRendering\Event\DataEvent;
 
-use Yjv\Bundle\ReportRenderingBundle\Report\ReportEvents;
+use Yjv\ReportRendering\Report\ReportEvents;
 
-use Yjv\Bundle\ReportRenderingBundle\ReportData\ReportData;
+use Yjv\ReportRendering\ReportData\ReportData;
 
-use Yjv\Bundle\ReportRenderingBundle\Renderer\RendererNotFoundException;
+use Yjv\ReportRendering\Renderer\RendererNotFoundException;
 
-use Yjv\Bundle\ReportRenderingBundle\Datasource\FakeDatasource;
+use Yjv\ReportRendering\Datasource\FakeDatasource;
 
-use Yjv\Bundle\ReportRenderingBundle\Renderer\Grid\Grid;
+use Yjv\ReportRendering\Renderer\Grid\Grid;
 
 use Symfony\Component\EventDispatcher\EventDispatcher;
 
-use Yjv\Bundle\ReportRenderingBundle\Report\Report;
+use Yjv\ReportRendering\Report\Report;
 
 class ReportTest extends \PHPUnit_Framework_TestCase {
 
@@ -106,8 +106,8 @@ class ReportTest extends \PHPUnit_Framework_TestCase {
 	
 	public function testGetRendererWithLazyLoadedRenderer()
 	{
-	    $renderer = Mockery::mock('Yjv\Bundle\ReportRenderingBundle\Renderer\RendererInterface');
-	    $lazyRenderer = Mockery::mock('Yjv\Bundle\ReportRenderingBundle\Renderer\LazyLoadedRendererInterface')
+	    $renderer = Mockery::mock('Yjv\ReportRendering\Renderer\RendererInterface');
+	    $lazyRenderer = Mockery::mock('Yjv\ReportRendering\Renderer\LazyLoadedRendererInterface')
 	        ->shouldReceive('getRenderer')
 	        ->once()
 	        ->andReturn($renderer)

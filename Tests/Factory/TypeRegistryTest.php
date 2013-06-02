@@ -1,9 +1,9 @@
 <?php
-namespace Yjv\Bundle\ReportRenderingBundle\Tests\Renderer\Grid\Column;
+namespace Yjv\ReportRendering\Tests\Renderer\Grid\Column;
 
-use Yjv\Bundle\ReportRenderingBundle\Tests\Factory\TestExtension;
+use Yjv\ReportRendering\Tests\Factory\TestExtension;
 
-use Yjv\Bundle\ReportRenderingBundle\Factory\TypeRegistry;
+use Yjv\ReportRendering\Factory\TypeRegistry;
 
 use Mockery;
 
@@ -67,27 +67,27 @@ class TypeRegistryTest extends \PHPUnit_Framework_TestCase{
 	}
 	
 	/**
-	 * @expectedException Yjv\Bundle\ReportRenderingBundle\Factory\TypeNotFoundException
+	 * @expectedException Yjv\ReportRendering\Factory\TypeNotFoundException
 	 * @expectedExceptionMessage type with name "name3" not found
 	 */
 	public function testExceptionOnTypeNotFound(){
 		
-		$this->setExpectedException('Yjv\Bundle\ReportRenderingBundle\Factory\TypeNotFoundException');
+		$this->setExpectedException('Yjv\ReportRendering\Factory\TypeNotFoundException');
 		$this->registry->getType('name3');
 	}	
 	
 	/**
-	 * @expectedException Yjv\Bundle\ReportRenderingBundle\Factory\TypeNotFoundException
-	 * @expectedExceptionMessage type of class "Yjv\Bundle\ReportRenderingBundle\Factory\TypeInterface" with name "name1" not found
+	 * @expectedException Yjv\ReportRendering\Factory\TypeNotFoundException
+	 * @expectedExceptionMessage type of class "Yjv\ReportRendering\Factory\TypeInterface" with name "name1" not found
 	 */
 	public function testExceptionOnTypeNotFoundAndRegistryAllowsOnlyCertainClassTypes()
 	{
-	    $registry = new TypeRegistry('Yjv\Bundle\ReportRenderingBundle\Factory\TypeInterface');
+	    $registry = new TypeRegistry('Yjv\ReportRendering\Factory\TypeInterface');
 	    $registry->getType('name1');
 	}
 	
 	/**
-	 * @expectedException Yjv\Bundle\ReportRenderingBundle\Factory\TypeNotSupportedException
+	 * @expectedException Yjv\ReportRendering\Factory\TypeNotSupportedException
 	 * @expectedExceptionMessage stdClass
 	 */
 	public function testExceptionOnNonSupportedType()
@@ -100,7 +100,7 @@ class TypeRegistryTest extends \PHPUnit_Framework_TestCase{
 	
 	public function testClearResolved()
 	{
-	    $extension = Mockery::mock('Yjv\Bundle\ReportRenderingBundle\Factory\RegistryExtensionInterface')
+	    $extension = Mockery::mock('Yjv\ReportRendering\Factory\RegistryExtensionInterface')
 	        ->shouldReceive('hasType')
 	        ->twice()
 	        ->with('name')
@@ -133,7 +133,7 @@ class TypeRegistryTest extends \PHPUnit_Framework_TestCase{
 	
 	public function testGetExtensions()
 	{
-	    $extension = Mockery::mock('Yjv\Bundle\ReportRenderingBundle\Factory\RegistryExtensionInterface');
+	    $extension = Mockery::mock('Yjv\ReportRendering\Factory\RegistryExtensionInterface');
 	    $this->assertSame(array($this->extension), $this->registry->getExtensions());
 	    $this->registry->addExtension($extension);
 	    $this->assertSame(array($this->extension, $extension), $this->registry->getExtensions());
@@ -141,7 +141,7 @@ class TypeRegistryTest extends \PHPUnit_Framework_TestCase{
 
 	protected function getType($name) {
 		
-		return Mockery::mock('Yjv\Bundle\ReportRenderingBundle\Factory\TypeInterface')
+		return Mockery::mock('Yjv\ReportRendering\Factory\TypeInterface')
 		    ->shouldReceive('getName')
 		    ->andReturn($name)
 		    ->getMock()
@@ -150,7 +150,7 @@ class TypeRegistryTest extends \PHPUnit_Framework_TestCase{
 	
 	protected function getTypeExtension($name)
 	{
-	    return Mockery::mock('Yjv\Bundle\ReportRenderingBundle\Factory\TypeExtensionInterface')
+	    return Mockery::mock('Yjv\ReportRendering\Factory\TypeExtensionInterface')
 	        ->shouldReceive('getExtendedType')
 	        ->andReturn($name)
 	        ->getMock()

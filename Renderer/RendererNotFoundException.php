@@ -1,5 +1,5 @@
 <?php
-namespace Yjv\Bundle\ReportRenderingBundle\Renderer;
+namespace Yjv\ReportRendering\Renderer;
 
 class RendererNotFoundException extends \Exception
 {

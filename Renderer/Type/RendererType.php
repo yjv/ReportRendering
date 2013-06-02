@@ -1,15 +1,15 @@
 <?php
-namespace Yjv\Bundle\ReportRenderingBundle\Renderer\Type;
+namespace Yjv\ReportRendering\Renderer\Type;
 
-use Yjv\Bundle\ReportRenderingBundle\Report\RendererBuilder;
+use Yjv\ReportRendering\Report\RendererBuilder;
 
-use Yjv\Bundle\ReportRenderingBundle\Factory\TypeFactoryInterface;
+use Yjv\ReportRendering\Factory\TypeFactoryInterface;
 
-use Yjv\Bundle\ReportRenderingBundle\Report\RendererBuilderInterface;
+use Yjv\ReportRendering\Report\RendererBuilderInterface;
 
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
-use Yjv\Bundle\ReportRenderingBundle\Renderer\AbstractRendererType;
+use Yjv\ReportRendering\Renderer\AbstractRendererType;
 
 class RendererType extends AbstractRendererType
 {

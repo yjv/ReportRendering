@@ -1,5 +1,5 @@
 <?php
-namespace Yjv\Bundle\ReportRenderingBundle\Filter;
+namespace Yjv\ReportRendering\Filter;
 
 /**
  * class meant to just follow the filter collection interface but not do anything
@@ -10,7 +10,7 @@ class NullFilterCollection implements FilterCollectionInterface
 {
     /**
      * (non-PHPdoc)
-     * @see \Yjv\Bundle\ReportRenderingBundle\Filter\FilterCollectionInterface::set()
+     * @see \Yjv\ReportRendering\Filter\FilterCollectionInterface::set()
      */
     public function set($name, $value)
     {
@@ -19,7 +19,7 @@ class NullFilterCollection implements FilterCollectionInterface
 
     /**
      * (non-PHPdoc)
-     * @see \Yjv\Bundle\ReportRenderingBundle\Filter\FilterCollectionInterface::setAll()
+     * @see \Yjv\ReportRendering\Filter\FilterCollectionInterface::setAll()
      */
     public function setAll(array $values)
     {
@@ -28,7 +28,7 @@ class NullFilterCollection implements FilterCollectionInterface
 
     /**
      * (non-PHPdoc)
-     * @see \Yjv\Bundle\ReportRenderingBundle\Filter\FilterCollectionInterface::get()
+     * @see \Yjv\ReportRendering\Filter\FilterCollectionInterface::get()
      */
     public function get($name, $default = null)
     {
@@ -37,7 +37,7 @@ class NullFilterCollection implements FilterCollectionInterface
 
     /**
      * (non-PHPdoc)
-     * @see \Yjv\Bundle\ReportRenderingBundle\Filter\FilterCollectionInterface::all()
+     * @see \Yjv\ReportRendering\Filter\FilterCollectionInterface::all()
      */
     public function all()
     {

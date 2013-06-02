@@ -1,11 +1,11 @@
 <?php
-namespace Yjv\Bundle\ReportRenderingBundle\Tests\Datasource;
+namespace Yjv\ReportRendering\Tests\Datasource;
 
-use Yjv\Bundle\ReportRenderingBundle\Filter\ArrayFilterCollection;
+use Yjv\ReportRendering\Filter\ArrayFilterCollection;
 
-use Yjv\Bundle\ReportRenderingBundle\Datasource\CallbackDatasource;
+use Yjv\ReportRendering\Datasource\CallbackDatasource;
 
-use Yjv\Bundle\ReportRenderingBundle\ReportData\ReportData;
+use Yjv\ReportRendering\ReportData\ReportData;
 
 class CallbackDatasourceTest extends \PHPUnit_Framework_TestCase{
 

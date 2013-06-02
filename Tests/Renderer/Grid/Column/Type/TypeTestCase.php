@@ -1,25 +1,25 @@
 <?php
-namespace Yjv\Bundle\ReportRenderingBundle\Tests\Renderer\Grid\Column\Type;
+namespace Yjv\ReportRendering\Tests\Renderer\Grid\Column\Type;
 
-use Yjv\Bundle\ReportRenderingBundle\Factory\TypeResolver;
+use Yjv\ReportRendering\Factory\TypeResolver;
 
-use Yjv\Bundle\ReportRenderingBundle\Tests\Factory\TestExtension;
+use Yjv\ReportRendering\Tests\Factory\TestExtension;
 
-use Yjv\Bundle\ReportRenderingBundle\Renderer\Grid\Column\Type\PropertyPathType;
+use Yjv\ReportRendering\Renderer\Grid\Column\Type\PropertyPathType;
 
-use Yjv\Bundle\ReportRenderingBundle\Renderer\Grid\Column\Type\RawColumnType;
+use Yjv\ReportRendering\Renderer\Grid\Column\Type\RawColumnType;
 
-use Yjv\Bundle\ReportRenderingBundle\Renderer\Grid\Column\ColumnFactory;
+use Yjv\ReportRendering\Renderer\Grid\Column\ColumnFactory;
 
-use Yjv\Bundle\ReportRenderingBundle\DataTransformer\DataTransformerRegistry;
+use Yjv\ReportRendering\DataTransformer\DataTransformerRegistry;
 
-use Yjv\Bundle\ReportRenderingBundle\Factory\TypeRegistry;
+use Yjv\ReportRendering\Factory\TypeRegistry;
 
-use Yjv\Bundle\ReportRenderingBundle\Renderer\Grid\Column\ColumnBuilder;
+use Yjv\ReportRendering\Renderer\Grid\Column\ColumnBuilder;
 
-use Yjv\Bundle\ReportRenderingBundle\Renderer\Grid\Column\Column;
+use Yjv\ReportRendering\Renderer\Grid\Column\Column;
 
-use Yjv\Bundle\ReportRenderingBundle\Renderer\Grid\Column\Type\ColumnType;
+use Yjv\ReportRendering\Renderer\Grid\Column\Type\ColumnType;
 
 class TypeTestCase extends \PHPUnit_Framework_TestCase{
 

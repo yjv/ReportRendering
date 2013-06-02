@@ -1,5 +1,5 @@
 <?php
-namespace Yjv\Bundle\ReportRenderingBundle\Filter;
+namespace Yjv\ReportRendering\Filter;
 
 /**
  * interface for filtercollections that want to store filters for more that one report to follow

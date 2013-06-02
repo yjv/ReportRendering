@@ -1,7 +1,7 @@
 <?php
-namespace Yjv\Bundle\ReportRenderingBundle\Tests\Twig;
+namespace Yjv\ReportRendering\Tests\Twig;
 
-use Yjv\Bundle\ReportRenderingBundle\Twig\ReportRenderingExtension;
+use Yjv\ReportRendering\Twig\ReportRenderingExtension;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 

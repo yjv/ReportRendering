@@ -1,9 +1,9 @@
 <?php
-namespace Yjv\Bundle\ReportRenderingBundle\Renderer\Grid\Column;
+namespace Yjv\ReportRendering\Renderer\Grid\Column;
 
-use Yjv\Bundle\ReportRenderingBundle\Factory\Builder;
+use Yjv\ReportRendering\Factory\Builder;
 
-use Yjv\Bundle\ReportRenderingBundle\DataTransformer\DataTransformerInterface;
+use Yjv\ReportRendering\DataTransformer\DataTransformerInterface;
 
 class ColumnBuilder extends Builder implements ColumnBuilderInterface
 {
@@ -99,7 +99,7 @@ class ColumnBuilder extends Builder implements ColumnBuilderInterface
     }
 
     /**
-     * @return \Yjv\Bundle\ReportRenderingBundle\Renderer\Grid\Column\ColumnInterface
+     * @return \Yjv\ReportRendering\Renderer\Grid\Column\ColumnInterface
      */
     public function getColumn()
     {

@@ -1,5 +1,5 @@
 <?php
-namespace Yjv\Bundle\ReportRenderingBundle\Renderer\Grid\Column;
+namespace Yjv\ReportRendering\Renderer\Grid\Column;
 
 interface ColumnInterface
 {

@@ -1,5 +1,5 @@
 <?php
-namespace Yjv\Bundle\ReportRenderingBundle\DataTransformer;
+namespace Yjv\ReportRendering\DataTransformer;
 
 use Symfony\Component\PropertyAccess\Exception\ExceptionInterface;
 

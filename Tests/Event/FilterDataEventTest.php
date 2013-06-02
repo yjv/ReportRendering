@@ -1,8 +1,8 @@
 <?php
-namespace Yjv\Bundle\ReportRenderingBundle\Test\Event;
-use Yjv\Bundle\ReportRenderingBundle\ReportData\ReportData;
+namespace Yjv\ReportRendering\Test\Event;
+use Yjv\ReportRendering\ReportData\ReportData;
 
-use Yjv\Bundle\ReportRenderingBundle\Event\FilterDataEvent;
+use Yjv\ReportRendering\Event\FilterDataEvent;
 
 
 class FilterDataEventTest extends DataEventTest{

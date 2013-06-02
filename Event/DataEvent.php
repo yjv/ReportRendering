@@ -1,10 +1,10 @@
 <?php
-namespace Yjv\Bundle\ReportRenderingBundle\Event;
+namespace Yjv\ReportRendering\Event;
 
 use Symfony\Component\EventDispatcher\Event;
-use Yjv\Bundle\ReportRenderingBundle\Renderer\RendererInterface;
-use Yjv\Bundle\ReportRenderingBundle\Filter\FilterCollectionInterface;
-use Yjv\Bundle\ReportRenderingBundle\Datasource\DatasourceInterface;
+use Yjv\ReportRendering\Renderer\RendererInterface;
+use Yjv\ReportRendering\Filter\FilterCollectionInterface;
+use Yjv\ReportRendering\Datasource\DatasourceInterface;
 
 class DataEvent extends Event
 {

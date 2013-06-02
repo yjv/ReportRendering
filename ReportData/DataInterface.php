@@ -1,5 +1,5 @@
 <?php
-namespace Yjv\Bundle\ReportRenderingBundle\ReportData;
+namespace Yjv\ReportRendering\ReportData;
 
 /**
  * 

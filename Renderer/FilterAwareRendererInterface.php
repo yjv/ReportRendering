@@ -1,7 +1,7 @@
 <?php
-namespace Yjv\Bundle\ReportRenderingBundle\Renderer;
+namespace Yjv\ReportRendering\Renderer;
 
-use Yjv\Bundle\ReportRenderingBundle\Filter\FilterCollectionInterface;
+use Yjv\ReportRendering\Filter\FilterCollectionInterface;
 
 interface FilterAwareRendererInterface extends RendererInterface
 {

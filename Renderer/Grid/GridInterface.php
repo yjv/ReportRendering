@@ -1,10 +1,10 @@
 <?php
-namespace Yjv\Bundle\ReportRenderingBundle\Renderer\Grid;
-use Yjv\Bundle\ReportRenderingBundle\ReportData\ImmutableDataInterface;
+namespace Yjv\ReportRendering\Renderer\Grid;
+use Yjv\ReportRendering\ReportData\ImmutableDataInterface;
 
-use Yjv\Bundle\ReportRenderingBundle\Renderer\Grid\Column\ColumnInterface;
+use Yjv\ReportRendering\Renderer\Grid\Column\ColumnInterface;
 
-use Yjv\Bundle\ReportRenderingBundle\Renderer\RendererInterface;
+use Yjv\ReportRendering\Renderer\RendererInterface;
 
 interface GridInterface{
 

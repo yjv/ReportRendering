@@ -1,7 +1,7 @@
 <?php
-namespace Yjv\Bundle\ReportRenderingBundle\IdGenerator;
+namespace Yjv\ReportRendering\IdGenerator;
 
-use Yjv\Bundle\ReportRenderingBundle\Report\Report;
+use Yjv\ReportRendering\Report\Report;
 
 interface IdGeneratorInterface
 {

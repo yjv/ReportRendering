@@ -1,14 +1,14 @@
 <?php
-namespace Yjv\Bundle\ReportRenderingBundle\Renderer\Grid\Column\Type;
+namespace Yjv\ReportRendering\Renderer\Grid\Column\Type;
 
-use Yjv\Bundle\ReportRenderingBundle\Renderer\Grid\Column\ColumnBuilder;
+use Yjv\ReportRendering\Renderer\Grid\Column\ColumnBuilder;
 
-use Yjv\Bundle\ReportRenderingBundle\Factory\TypeFactoryInterface;
+use Yjv\ReportRendering\Factory\TypeFactoryInterface;
 
-use Yjv\Bundle\ReportRenderingBundle\Renderer\Grid\Column\ColumnBuilderInterface;
-use Yjv\Bundle\ReportRenderingBundle\Renderer\Grid\Column\ColumnInterface;
+use Yjv\ReportRendering\Renderer\Grid\Column\ColumnBuilderInterface;
+use Yjv\ReportRendering\Renderer\Grid\Column\ColumnInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
-use Yjv\Bundle\ReportRenderingBundle\Renderer\Grid\Column\AbstractColumnType;
+use Yjv\ReportRendering\Renderer\Grid\Column\AbstractColumnType;
 
 class ColumnType extends AbstractColumnType
 {

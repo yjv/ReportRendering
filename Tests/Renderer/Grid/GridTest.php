@@ -1,9 +1,9 @@
 <?php
-namespace Yjv\Bundle\ReportRenderingBundle\Tests\Renderer\Grid;
+namespace Yjv\ReportRendering\Tests\Renderer\Grid;
 
-use Yjv\Bundle\ReportRenderingBundle\ReportData\ImmutableReportData;
+use Yjv\ReportRendering\ReportData\ImmutableReportData;
 
-use Yjv\Bundle\ReportRenderingBundle\Renderer\Grid\Grid;
+use Yjv\ReportRendering\Renderer\Grid\Grid;
 
 class GridTest extends \PHPUnit_Framework_TestCase{
 

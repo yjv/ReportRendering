@@ -1,15 +1,15 @@
 <?php
-namespace Yjv\Bundle\ReportRenderingBundle\Tests\Renderer\Csv;
+namespace Yjv\ReportRendering\Tests\Renderer\Csv;
 
 use Symfony\Component\HttpFoundation\Response;
 
-use Yjv\Bundle\ReportRenderingBundle\Renderer\Csv\CsvEncoder;
+use Yjv\ReportRendering\Renderer\Csv\CsvEncoder;
 
-use Yjv\Bundle\ReportRenderingBundle\Renderer\Grid\Column\Column;
+use Yjv\ReportRendering\Renderer\Grid\Column\Column;
 
-use Yjv\Bundle\ReportRenderingBundle\ReportData\ImmutableReportData;
+use Yjv\ReportRendering\ReportData\ImmutableReportData;
 
-use Yjv\Bundle\ReportRenderingBundle\Renderer\Csv\CsvRenderer;
+use Yjv\ReportRendering\Renderer\Csv\CsvRenderer;
 
 class CsvRendererTest extends \PHPUnit_Framework_TestCase{
 
@@ -18,7 +18,7 @@ class CsvRendererTest extends \PHPUnit_Framework_TestCase{
 	
 	public function setUp() {
 		
-		$this->grid = $this->getMockBuilder('Yjv\Bundle\ReportRenderingBundle\Renderer\Grid\GridInterface')
+		$this->grid = $this->getMockBuilder('Yjv\ReportRendering\Renderer\Grid\GridInterface')
 			->getMock()
 		;
 		$this->renderer = new CsvRenderer($this->grid);

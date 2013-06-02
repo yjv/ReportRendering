@@ -1,9 +1,9 @@
 <?php
-namespace Yjv\Bundle\ReportRenderingBundle\Tests\Renderer\Grid\Column\Type;
+namespace Yjv\ReportRendering\Tests\Renderer\Grid\Column\Type;
 
-use Yjv\Bundle\ReportRenderingBundle\Renderer\Grid\Column\Type\RawColumnType;
+use Yjv\ReportRendering\Renderer\Grid\Column\Type\RawColumnType;
 
-use Yjv\Bundle\ReportRenderingBundle\Renderer\Grid\Column\Column;
+use Yjv\ReportRendering\Renderer\Grid\Column\Column;
 
 class RawColumnTypeTest extends \PHPUnit_Framework_TestCase{
 

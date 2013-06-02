@@ -1,7 +1,7 @@
 <?php
-namespace Yjv\Bundle\ReportRenderingBundle\Tests\Widget;
+namespace Yjv\ReportRendering\Tests\Widget;
 
-use Yjv\Bundle\ReportRenderingBundle\Widget\WidgetRenderer;
+use Yjv\ReportRendering\Widget\WidgetRenderer;
 
 
 class WidgetRendererTest extends \PHPUnit_Framework_TestCase{

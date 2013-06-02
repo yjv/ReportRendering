@@ -1,7 +1,7 @@
 <?php
-namespace Yjv\Bundle\ReportRenderingBundle\Tests\Report;
+namespace Yjv\ReportRendering\Tests\Report;
 
-use Yjv\Bundle\ReportRenderingBundle\Report\ReportBuilder;
+use Yjv\ReportRendering\Report\ReportBuilder;
 
 use Mockery;
 
@@ -16,8 +16,8 @@ class ReportBuilderTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->eventDispatcher = Mockery::mock('Symfony\Component\EventDispatcher\EventDispatcherInterface');
-        $this->rendererFactory = Mockery::mock('Yjv\Bundle\ReportRenderingBundle\Renderer\RendererFactoryInterface');
-        $this->factory = Mockery::mock('Yjv\Bundle\ReportRenderingBundle\Report\ReportFactoryInterface')
+        $this->rendererFactory = Mockery::mock('Yjv\ReportRendering\Renderer\RendererFactoryInterface');
+        $this->factory = Mockery::mock('Yjv\ReportRendering\Report\ReportFactoryInterface')
             ->shouldReceive('getRendererFactory')
             ->andReturn($this->rendererFactory)
             ->getMock()
@@ -33,10 +33,10 @@ class ReportBuilderTest extends \PHPUnit_Framework_TestCase
     
     public function testGetReport()
     {
-        $datasource = Mockery::mock('Yjv\Bundle\ReportRenderingBundle\Datasource\DatasourceInterface');
-        $defaultRenderer = Mockery::mock('Yjv\Bundle\ReportRenderingBundle\Renderer\RendererInterface');
-        $renderer = Mockery::mock('Yjv\Bundle\ReportRenderingBundle\Renderer\RendererInterface');
-        $filterCollection = Mockery::mock('Yjv\Bundle\ReportRenderingBundle\Filter\FilterCollectionInterface');
+        $datasource = Mockery::mock('Yjv\ReportRendering\Datasource\DatasourceInterface');
+        $defaultRenderer = Mockery::mock('Yjv\ReportRendering\Renderer\RendererInterface');
+        $renderer = Mockery::mock('Yjv\ReportRendering\Renderer\RendererInterface');
+        $filterCollection = Mockery::mock('Yjv\ReportRendering\Filter\FilterCollectionInterface');
         $this->assertSame($this->builder, $this->builder
             ->setDatasource($datasource)
             ->setDefaultRenderer($defaultRenderer)
@@ -49,7 +49,7 @@ class ReportBuilderTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($report->hasRenderer('default'));
         $this->assertSame($datasource, $report->getDatasource());
         $this->assertSame($this->eventDispatcher, $report->getEventDispatcher());
-        $this->assertInstanceOf('Yjv\Bundle\ReportRenderingBundle\Filter\NullFilterCollection', $report->getFilters());
+        $this->assertInstanceOf('Yjv\ReportRendering\Filter\NullFilterCollection', $report->getFilters());
         $this->builder->setFilterCollection($filterCollection);
         $report = $this->builder->getReport();
         $this->assertSame($filterCollection, $report->getFilters());
@@ -70,7 +70,7 @@ class ReportBuilderTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetReportWithDefaultRendererNotSet()
     {
-        $this->builder->setDatasource(Mockery::mock('Yjv\Bundle\ReportRenderingBundle\Datasource\DatasourceInterface'));
+        $this->builder->setDatasource(Mockery::mock('Yjv\ReportRendering\Datasource\DatasourceInterface'));
         $this->builder->getReport();
     }
     

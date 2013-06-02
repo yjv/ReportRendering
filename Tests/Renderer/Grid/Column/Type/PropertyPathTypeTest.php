@@ -1,11 +1,11 @@
 <?php
-namespace Yjv\Bundle\ReportRenderingBundle\Tests\Renderer\Grid\Column\Type;
+namespace Yjv\ReportRendering\Tests\Renderer\Grid\Column\Type;
 
-use Yjv\Bundle\ReportRenderingBundle\DataTransformer\PropertyPathTransformer;
+use Yjv\ReportRendering\DataTransformer\PropertyPathTransformer;
 
-use Yjv\Bundle\ReportRenderingBundle\Renderer\Grid\Column\Type\PropertyPathType;
+use Yjv\ReportRendering\Renderer\Grid\Column\Type\PropertyPathType;
 
-use Yjv\Bundle\ReportRenderingBundle\Renderer\Grid\Column\Column;
+use Yjv\ReportRendering\Renderer\Grid\Column\Column;
 
 class PropertyPathTypeTest extends TypeTestCase{
 
@@ -31,7 +31,7 @@ class PropertyPathTypeTest extends TypeTestCase{
 		$dataTransformers = $column->getDataTransformers();
 		$this->assertCount(1, $dataTransformers);
 		$transformer = $dataTransformers[0];
-		$this->assertInstanceOf('Yjv\Bundle\ReportRenderingBundle\DataTransformer\PropertyPathTransformer', $transformer);
+		$this->assertInstanceOf('Yjv\ReportRendering\DataTransformer\PropertyPathTransformer', $transformer);
 		$this->assertEquals('column', $transformer->getConfig()->get('path'));
 		$this->assertEquals(true, $transformer->getConfig()->get('required'));
 		$this->assertEquals('', $transformer->getConfig()->get('empty_value'));

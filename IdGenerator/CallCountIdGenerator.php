@@ -1,8 +1,8 @@
 <?php
-namespace Yjv\Bundle\ReportRenderingBundle\IdGenerator;
+namespace Yjv\ReportRendering\IdGenerator;
 
-use Yjv\Bundle\ReportRenderingBundle\Report\Report;
-use Yjv\Bundle\ReportRenderingBundle\IdGenerator\IdGeneratorInterface;
+use Yjv\ReportRendering\Report\Report;
+use Yjv\ReportRendering\IdGenerator\IdGeneratorInterface;
 
 class CallCountIdGenerator implements IdGeneratorInterface
 {

@@ -1,22 +1,22 @@
 <?php
-namespace Yjv\Bundle\ReportRenderingBundle\Report;
+namespace Yjv\ReportRendering\Report;
 
-use Yjv\Bundle\ReportRenderingBundle\Renderer\LazyLoadedRendererInterface;
-use Yjv\Bundle\ReportRenderingBundle\Filter\MultiReportFilterCollectionInterface;
-use Yjv\Bundle\ReportRenderingBundle\IdGenerator\CallCountIdGenerator;
-use Yjv\Bundle\ReportRenderingBundle\IdGenerator\IdGeneratorInterface;
-use Yjv\Bundle\ReportRenderingBundle\ReportData\ImmutableDataInterface;
-use Yjv\Bundle\ReportRenderingBundle\Event\FilterDataEvent;
-use Yjv\Bundle\ReportRenderingBundle\Event\DataEvent;
-use Yjv\Bundle\ReportRenderingBundle\ReportData\ImmutableReportData;
-use Yjv\Bundle\ReportRenderingBundle\Renderer\FilterAwareRendererInterface;
-use Yjv\Bundle\ReportRenderingBundle\Filter\FilterCollectionInterface;
+use Yjv\ReportRendering\Renderer\LazyLoadedRendererInterface;
+use Yjv\ReportRendering\Filter\MultiReportFilterCollectionInterface;
+use Yjv\ReportRendering\IdGenerator\CallCountIdGenerator;
+use Yjv\ReportRendering\IdGenerator\IdGeneratorInterface;
+use Yjv\ReportRendering\ReportData\ImmutableDataInterface;
+use Yjv\ReportRendering\Event\FilterDataEvent;
+use Yjv\ReportRendering\Event\DataEvent;
+use Yjv\ReportRendering\ReportData\ImmutableReportData;
+use Yjv\ReportRendering\Renderer\FilterAwareRendererInterface;
+use Yjv\ReportRendering\Filter\FilterCollectionInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use Yjv\Bundle\ReportRenderingBundle\Filter\NullFilterCollection;
-use Yjv\Bundle\ReportRenderingBundle\Renderer\RendererNotFoundException;
-use Yjv\Bundle\ReportRenderingBundle\Renderer\RendererInterface;
-use Yjv\Bundle\ReportRenderingBundle\Datasource\DatasourceInterface;
+use Yjv\ReportRendering\Filter\NullFilterCollection;
+use Yjv\ReportRendering\Renderer\RendererNotFoundException;
+use Yjv\ReportRendering\Renderer\RendererInterface;
+use Yjv\ReportRendering\Datasource\DatasourceInterface;
 
 /**
  * 
@@ -49,7 +49,7 @@ class Report implements ReportInterface
      * 
      * @param string $name
      * @param RendererInterface $renderer
-     * @return \Yjv\Bundle\ReportRenderingBundle\Report\Report
+     * @return \Yjv\ReportRendering\Report\Report
      */
     public function addRenderer($name, RendererInterface $renderer)
     {
@@ -105,7 +105,7 @@ class Report implements ReportInterface
     /**
      * 
      * @param string $name
-     * @return \Yjv\Bundle\ReportRenderingBundle\Report\Report
+     * @return \Yjv\ReportRendering\Report\Report
      */
     public function removeRenderer($name)
     {
@@ -118,7 +118,7 @@ class Report implements ReportInterface
      * @param string $eventName
      * @param callable $listener
      * @param number $priority
-     * @return \Yjv\Bundle\ReportRenderingBundle\Report\Report
+     * @return \Yjv\ReportRendering\Report\Report
      */
     public function addEventListener($eventName, $listener, $priority = 0)
     {
@@ -129,7 +129,7 @@ class Report implements ReportInterface
     /**
      * 
      * @param EventSubscriberInterface $eventSubscriber
-     * @return \Yjv\Bundle\ReportRenderingBundle\Report\Report
+     * @return \Yjv\ReportRendering\Report\Report
      */
     public function addEventSubscriber(EventSubscriberInterface $subscriber)
     {
@@ -165,7 +165,7 @@ class Report implements ReportInterface
     /**
      * 
      * @param DatasourceInterface $datasource
-     * @return \Yjv\Bundle\ReportRenderingBundle\Report\Report
+     * @return \Yjv\ReportRendering\Report\Report
      */
     public function setDatasource(DatasourceInterface $datasource)
     {
@@ -184,7 +184,7 @@ class Report implements ReportInterface
     /**
      * 
      * @param FilterCollectionInterface $filters
-     * @return \Yjv\Bundle\ReportRenderingBundle\Report\Report
+     * @return \Yjv\ReportRendering\Report\Report
      */
     public function setFilters(FilterCollectionInterface $filters)
     {
@@ -209,7 +209,7 @@ class Report implements ReportInterface
     /**
      * 
      * @param EventDispatcherInterface $eventDispatcher
-     * @return \Yjv\Bundle\ReportRenderingBundle\Report\Report
+     * @return \Yjv\ReportRendering\Report\Report
      */
     public function setEventDispatcher(EventDispatcherInterface $eventDispatcher)
     {
@@ -237,7 +237,7 @@ class Report implements ReportInterface
     /**
      * 
      * @param ImmutableDataInterface $data
-     * @return \Yjv\Bundle\ReportRenderingBundle\ReportData\ImmutableReportData
+     * @return \Yjv\ReportRendering\ReportData\ImmutableReportData
      */
     protected function lockData(ImmutableDataInterface $data)
     {

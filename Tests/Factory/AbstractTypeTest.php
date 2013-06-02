@@ -1,11 +1,11 @@
 <?php
-namespace Yjv\Bundle\ReportRenderingBundle\Tests\Factory;
+namespace Yjv\ReportRendering\Tests\Factory;
 
-use Yjv\Bundle\ReportRenderingBundle\Factory\TypeFactoryInterface;
+use Yjv\ReportRendering\Factory\TypeFactoryInterface;
 
-use Yjv\Bundle\ReportRenderingBundle\Factory\BuilderInterface;
+use Yjv\ReportRendering\Factory\BuilderInterface;
 
-use Yjv\Bundle\ReportRenderingBundle\Factory\AbstractType;
+use Yjv\ReportRendering\Factory\AbstractType;
 
 use Mockery;
 

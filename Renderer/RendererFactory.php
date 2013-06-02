@@ -1,9 +1,9 @@
 <?php
-namespace Yjv\Bundle\ReportRenderingBundle\Renderer;
+namespace Yjv\ReportRendering\Renderer;
 
-use Yjv\Bundle\ReportRenderingBundle\Factory\TypeRegistryInterface;
-use Yjv\Bundle\ReportRenderingBundle\Renderer\Grid\Column\ColumnFactoryInterface;
-use Yjv\Bundle\ReportRenderingBundle\Factory\AbstractTypeFactory;
+use Yjv\ReportRendering\Factory\TypeRegistryInterface;
+use Yjv\ReportRendering\Renderer\Grid\Column\ColumnFactoryInterface;
+use Yjv\ReportRendering\Factory\AbstractTypeFactory;
 
 class RendererFactory extends AbstractTypeFactory implements RendererFactoryInterface
 {
@@ -22,7 +22,7 @@ class RendererFactory extends AbstractTypeFactory implements RendererFactoryInte
 
     public function getBuilderInterfaceName()
     {
-        return 'Yjv\Bundle\ReportRenderingBundle\Renderer\RendererBuilderInterface';
+        return 'Yjv\ReportRendering\Renderer\RendererBuilderInterface';
     }
 
     /**

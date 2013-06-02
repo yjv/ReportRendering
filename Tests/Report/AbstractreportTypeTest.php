@@ -1,7 +1,7 @@
 <?php
-namespace Yjv\Bundle\ReportRenderingBundle\Tests\Report;
+namespace Yjv\ReportRendering\Tests\Report;
 
-use Yjv\Bundle\ReportRenderingBundle\Report\AbstractReportType;
+use Yjv\ReportRendering\Report\AbstractReportType;
 
 use Mockery;
 
@@ -16,7 +16,7 @@ class AbstractreportTypeTest extends \PHPUnit_Framework_TestCase
     
     public function testCreateBuilder()
     {
-        $this->type->createBuilder(Mockery::mock('Yjv\Bundle\ReportRenderingBundle\Factory\TypeFactoryInterface'), array());
+        $this->type->createBuilder(Mockery::mock('Yjv\ReportRendering\Factory\TypeFactoryInterface'), array());
     }
     
     public function testSetDefaultOptions()
@@ -26,22 +26,22 @@ class AbstractreportTypeTest extends \PHPUnit_Framework_TestCase
     
     public function testBuild()
     {
-        $this->type->build(Mockery::mock('Yjv\Bundle\ReportRenderingBundle\Report\ReportBuilderInterface'), array());
+        $this->type->build(Mockery::mock('Yjv\ReportRendering\Report\ReportBuilderInterface'), array());
     }
     
     public function testBuildReport()
     {
-        $this->type->buildReport(Mockery::mock('Yjv\Bundle\ReportRenderingBundle\Report\ReportBuilderInterface'), array());
+        $this->type->buildReport(Mockery::mock('Yjv\ReportRendering\Report\ReportBuilderInterface'), array());
     }
     
     public function testFinalize()
     {
-        $this->type->finalize(Mockery::mock('Yjv\Bundle\ReportRenderingBundle\Report\ReportInterface'), array());
+        $this->type->finalize(Mockery::mock('Yjv\ReportRendering\Report\ReportInterface'), array());
     }
     
     public function testFinalizeReport()
     {
-        $this->type->finalizeReport(Mockery::mock('Yjv\Bundle\ReportRenderingBundle\Report\ReportInterface'), array());
+        $this->type->finalizeReport(Mockery::mock('Yjv\ReportRendering\Report\ReportInterface'), array());
     }
     
     public function testGetParent()

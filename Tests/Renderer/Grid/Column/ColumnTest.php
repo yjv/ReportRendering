@@ -1,9 +1,9 @@
 <?php
-namespace Yjv\Bundle\ReportRenderingBundle\Tests\Renderer\Grid\Column;
+namespace Yjv\ReportRendering\Tests\Renderer\Grid\Column;
 
-use Yjv\Bundle\ReportRenderingBundle\DataTransformer\MappedDataTransformer;
+use Yjv\ReportRendering\DataTransformer\MappedDataTransformer;
 
-use Yjv\Bundle\ReportRenderingBundle\Renderer\Grid\Column\Column;
+use Yjv\ReportRendering\Renderer\Grid\Column\Column;
 
 class ColumnTest extends \PHPUnit_Framework_TestCase {
 

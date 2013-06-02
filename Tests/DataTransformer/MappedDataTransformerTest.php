@@ -1,7 +1,7 @@
 <?php
-namespace Yjv\Bundle\ReportRenderingBundle\Tests\DataTransformer;
+namespace Yjv\ReportRendering\Tests\DataTransformer;
 
-use Yjv\Bundle\ReportRenderingBundle\DataTransformer\MappedDataTransformer;
+use Yjv\ReportRendering\DataTransformer\MappedDataTransformer;
 
 use Symfony\Component\Form\Exception\PropertyAccessDeniedException;
 
@@ -9,7 +9,7 @@ use Symfony\Component\Form\Exception\InvalidPropertyException;
 
 use Symfony\Component\OptionsResolver\Exception\MissingOptionsException;
 
-use Yjv\Bundle\ReportRenderingBundle\DataTransformer\PropertyPathTransformer;
+use Yjv\ReportRendering\DataTransformer\PropertyPathTransformer;
 
 class MappedDataTransformerTest extends \PHPUnit_Framework_TestCase{
 
@@ -24,7 +24,7 @@ class MappedDataTransformerTest extends \PHPUnit_Framework_TestCase{
 	}
 	
 	/**
-	 * @expectedException Yjv\Bundle\ReportRenderingBundle\DataTransformer\Config\ConfigValueRequiredException
+	 * @expectedException Yjv\ReportRendering\DataTransformer\Config\ConfigValueRequiredException
 	 */
 	public function testMissingRequiredOptions(){
 	

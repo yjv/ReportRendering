@@ -1,5 +1,5 @@
 <?php
-namespace Yjv\Bundle\ReportRenderingBundle\Filter;
+namespace Yjv\ReportRendering\Filter;
 
 /**
  * holds fileter values optionaly set as an array on construction
@@ -17,7 +17,7 @@ class ArrayFilterCollection implements DefaultedFilterCollectionInterface
 
     /**
      * (non-PHPdoc)
-     * @see \Yjv\Bundle\ReportRenderingBundle\Filter\FilterCollectionInterface::set()
+     * @see \Yjv\ReportRendering\Filter\FilterCollectionInterface::set()
      */
     public function set($name, $value)
     {
@@ -27,7 +27,7 @@ class ArrayFilterCollection implements DefaultedFilterCollectionInterface
 
     /**
      * (non-PHPdoc)
-     * @see \Yjv\Bundle\ReportRenderingBundle\Filter\FilterCollectionInterface::setAll()
+     * @see \Yjv\ReportRendering\Filter\FilterCollectionInterface::setAll()
      */
     public function setAll(array $values)
     {
@@ -37,7 +37,7 @@ class ArrayFilterCollection implements DefaultedFilterCollectionInterface
 
     /**
      * (non-PHPdoc)
-     * @see \Yjv\Bundle\ReportRenderingBundle\Filter\FilterCollectionInterface::get()
+     * @see \Yjv\ReportRendering\Filter\FilterCollectionInterface::get()
      */
     public function get($name, $default = null)
     {
@@ -46,7 +46,7 @@ class ArrayFilterCollection implements DefaultedFilterCollectionInterface
 
     /**
      * (non-PHPdoc)
-     * @see \Yjv\Bundle\ReportRenderingBundle\Filter\FilterCollectionInterface::all()
+     * @see \Yjv\ReportRendering\Filter\FilterCollectionInterface::all()
      */
     public function all()
     {
@@ -56,7 +56,7 @@ class ArrayFilterCollection implements DefaultedFilterCollectionInterface
     /**
      * 
      * @param array $defaults
-     * @return \Yjv\Bundle\ReportRenderingBundle\Filter\ArrayFilterCollection
+     * @return \Yjv\ReportRendering\Filter\ArrayFilterCollection
      */
     public function setDefaults(array $defaults)
     {
@@ -68,7 +68,7 @@ class ArrayFilterCollection implements DefaultedFilterCollectionInterface
      * 
      * @param scalar $name
      * @param mixed $value
-     * @return \Yjv\Bundle\ReportRenderingBundle\Filter\ArrayFilterCollection
+     * @return \Yjv\ReportRendering\Filter\ArrayFilterCollection
      */
     public function setDefault($name, $value)
     {

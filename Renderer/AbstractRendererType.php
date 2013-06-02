@@ -1,11 +1,11 @@
 <?php
-namespace Yjv\Bundle\ReportRenderingBundle\Renderer;
+namespace Yjv\ReportRendering\Renderer;
 
-use Yjv\Bundle\ReportRenderingBundle\Report\RendererBuilderInterface;
+use Yjv\ReportRendering\Report\RendererBuilderInterface;
 
-use Yjv\Bundle\ReportRenderingBundle\Factory\AbstractType;
+use Yjv\ReportRendering\Factory\AbstractType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Yjv\Bundle\ReportRenderingBundle\Factory\TypeInterface;
+use Yjv\ReportRendering\Factory\TypeInterface;
 
 abstract class AbstractRendererType extends AbstractType
 {

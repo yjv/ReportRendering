@@ -1,15 +1,15 @@
 <?php
-namespace Yjv\Bundle\ReportRenderingBundle\Tests\DataTransformer;
+namespace Yjv\ReportRendering\Tests\DataTransformer;
 
 use MyProject\Proxies\__CG__\OtherProject\Proxies\__CG__\stdClass;
 
-use Yjv\Bundle\ReportRenderingBundle\DataTransformer\DateTimeTransformer;
+use Yjv\ReportRendering\DataTransformer\DateTimeTransformer;
 
 use Symfony\Component\Form\Exception\InvalidPropertyException;
 
 use Symfony\Component\OptionsResolver\Exception\MissingOptionsException;
 
-use Yjv\Bundle\ReportRenderingBundle\DataTransformer\PropertyPathTransformer;
+use Yjv\ReportRendering\DataTransformer\PropertyPathTransformer;
 
 class DateTimeTransformerTest extends \PHPUnit_Framework_TestCase{
 

@@ -1,9 +1,9 @@
 <?php
-namespace Yjv\Bundle\ReportRenderingBundle\Tests\DataTransformer;
+namespace Yjv\ReportRendering\Tests\DataTransformer;
 
-use Yjv\Bundle\ReportRenderingBundle\DataTransformer\DataTransformerNotFoundException;
+use Yjv\ReportRendering\DataTransformer\DataTransformerNotFoundException;
 
-use Yjv\Bundle\ReportRenderingBundle\DataTransformer\DataTransformerRegistry;
+use Yjv\ReportRendering\DataTransformer\DataTransformerRegistry;
 
 class DataTransformerRegistryTest extends \PHPUnit_Framework_TestCase{
 
@@ -23,7 +23,7 @@ class DataTransformerRegistryTest extends \PHPUnit_Framework_TestCase{
 		$this->assertNotSame($transformer, $this->registry->get($name));
 		$this->assertEquals($transformer, $this->registry->get($name));
 		
-		$this->setExpectedException('Yjv\Bundle\ReportRenderingBundle\DataTransformer\DataTransformerNotFoundException');
+		$this->setExpectedException('Yjv\ReportRendering\DataTransformer\DataTransformerNotFoundException');
 		$this->registry->get('nonExistent');
 	}
 }

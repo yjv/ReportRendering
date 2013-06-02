@@ -1,14 +1,14 @@
 <?php
-namespace Yjv\Bundle\ReportRenderingBundle\Report;
+namespace Yjv\ReportRendering\Report;
 
-use Yjv\Bundle\ReportRenderingBundle\Filter\MultiReportFilterCollectionInterface;
-use Yjv\Bundle\ReportRenderingBundle\IdGenerator\IdGeneratorInterface;
-use Yjv\Bundle\ReportRenderingBundle\ReportData\ImmutableDataInterface;
-use Yjv\Bundle\ReportRenderingBundle\Filter\FilterCollectionInterface;
+use Yjv\ReportRendering\Filter\MultiReportFilterCollectionInterface;
+use Yjv\ReportRendering\IdGenerator\IdGeneratorInterface;
+use Yjv\ReportRendering\ReportData\ImmutableDataInterface;
+use Yjv\ReportRendering\Filter\FilterCollectionInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use Yjv\Bundle\ReportRenderingBundle\Renderer\RendererInterface;
-use Yjv\Bundle\ReportRenderingBundle\Datasource\DatasourceInterface;
+use Yjv\ReportRendering\Renderer\RendererInterface;
+use Yjv\ReportRendering\Datasource\DatasourceInterface;
 
 /**
  * 
@@ -21,7 +21,7 @@ interface ReportInterface
      * 
      * @param string $name
      * @param RendererInterface $renderer
-     * @return \Yjv\Bundle\ReportRenderingBundle\Report\Report
+     * @return \Yjv\ReportRendering\Report\Report
      */
     public function addRenderer($name, RendererInterface $renderer);
 
@@ -48,7 +48,7 @@ interface ReportInterface
     /**
      * 
      * @param string $name
-     * @return \Yjv\Bundle\ReportRenderingBundle\Report\Report
+     * @return \Yjv\ReportRendering\Report\Report
      */
     public function removeRenderer($name);
 
@@ -57,14 +57,14 @@ interface ReportInterface
      * @param string $eventName
      * @param callable $listener
      * @param number $priority
-     * @return \Yjv\Bundle\ReportRenderingBundle\Report\Report
+     * @return \Yjv\ReportRendering\Report\Report
      */
     public function addEventListener($eventName, $listener, $priority = 0);
 
     /**
      * 
      * @param EventSubscriberInterface $eventSubscriber
-     * @return \Yjv\Bundle\ReportRenderingBundle\Report\Report
+     * @return \Yjv\ReportRendering\Report\Report
      */
     public function addEventSubscriber(EventSubscriberInterface $subscriber);
 
@@ -82,7 +82,7 @@ interface ReportInterface
     /**
      * 
      * @param DatasourceInterface $datasource
-     * @return \Yjv\Bundle\ReportRenderingBundle\Report\Report
+     * @return \Yjv\ReportRendering\Report\Report
      */
     public function setDatasource(DatasourceInterface $datasource);
 
@@ -94,7 +94,7 @@ interface ReportInterface
     /**
      * 
      * @param FilterCollectionInterface $filters
-     * @return \Yjv\Bundle\ReportRenderingBundle\Report\Report
+     * @return \Yjv\ReportRendering\Report\Report
      */
     public function setFilters(FilterCollectionInterface $filters);
 
@@ -106,7 +106,7 @@ interface ReportInterface
     /**
      * 
      * @param EventDispatcherInterface $eventDispatcher
-     * @return \Yjv\Bundle\ReportRenderingBundle\Report\Report
+     * @return \Yjv\ReportRendering\Report\Report
      */
     public function setEventDispatcher(EventDispatcherInterface $eventDispatcher);
 

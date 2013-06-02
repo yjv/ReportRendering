@@ -1,8 +1,8 @@
 <?php
-namespace Yjv\Bundle\ReportRenderingBundle\Renderer;
+namespace Yjv\ReportRendering\Renderer;
 
-use Yjv\Bundle\ReportRenderingBundle\ReportData\ImmutableDataInterface;
-use Yjv\Bundle\ReportRenderingBundle\Renderer\RendererFactoryInterface;
+use Yjv\ReportRendering\ReportData\ImmutableDataInterface;
+use Yjv\ReportRendering\Renderer\RendererFactoryInterface;
 
 class LazyLoadedRenderer implements LazyLoadedRendererInterface
 {

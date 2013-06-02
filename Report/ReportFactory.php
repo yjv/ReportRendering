@@ -1,12 +1,12 @@
 <?php
-namespace Yjv\Bundle\ReportRenderingBundle\Report;
+namespace Yjv\ReportRendering\Report;
 
-use Yjv\Bundle\ReportRenderingBundle\Factory\TypeResolverInterface;
+use Yjv\ReportRendering\Factory\TypeResolverInterface;
 
-use Yjv\Bundle\ReportRenderingBundle\Renderer\RendererFactoryInterface;
-use Yjv\Bundle\ReportRenderingBundle\Factory\TypeRegistryInterface;
-use Yjv\Bundle\ReportRenderingBundle\Factory\TypeRegistry;
-use Yjv\Bundle\ReportRenderingBundle\Factory\AbstractTypeFactory;
+use Yjv\ReportRendering\Renderer\RendererFactoryInterface;
+use Yjv\ReportRendering\Factory\TypeRegistryInterface;
+use Yjv\ReportRendering\Factory\TypeRegistry;
+use Yjv\ReportRendering\Factory\AbstractTypeFactory;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class ReportFactory extends AbstractTypeFactory implements ReportFactoryInterface
@@ -29,7 +29,7 @@ class ReportFactory extends AbstractTypeFactory implements ReportFactoryInterfac
 
     public function getBuilderInterfaceName()
     {
-        return 'Yjv\Bundle\ReportRenderingBundle\Report\ReportBuilderInterface';
+        return 'Yjv\ReportRendering\Report\ReportBuilderInterface';
     }
 
     /**

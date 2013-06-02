@@ -1,9 +1,9 @@
 <?php
-namespace Yjv\Bundle\ReportRenderingBundle\Tests\Filter;
+namespace Yjv\ReportRendering\Tests\Filter;
 
-use Yjv\Bundle\ReportRenderingBundle\Filter\SessionFilterCollection;
+use Yjv\ReportRendering\Filter\SessionFilterCollection;
 
-use Yjv\Bundle\ReportRenderingBundle\Filter\ArrayFilterCollection;
+use Yjv\ReportRendering\Filter\ArrayFilterCollection;
 
 class SessionFilterCollectionTest extends ArrayFilterCollectionTest{
 

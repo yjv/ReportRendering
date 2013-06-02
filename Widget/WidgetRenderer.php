@@ -1,5 +1,5 @@
 <?php
-namespace Yjv\Bundle\ReportRenderingBundle\Widget;
+namespace Yjv\ReportRendering\Widget;
 
 use Symfony\Component\Templating\EngineInterface;
 

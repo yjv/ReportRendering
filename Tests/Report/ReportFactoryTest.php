@@ -1,7 +1,7 @@
 <?php
-namespace Yjv\Bundle\ReportRenderingBundle\Tests\Report;
+namespace Yjv\ReportRendering\Tests\Report;
 
-use Yjv\Bundle\ReportRenderingBundle\Report\ReportFactory;
+use Yjv\ReportRendering\Report\ReportFactory;
 
 use Mockery;
 
@@ -13,8 +13,8 @@ class ReportFactoryTest extends \PHPUnit_Framework_TestCase {
 	
 	public function setUp(){
 		
-		$this->resolver = Mockery::mock('Yjv\Bundle\ReportRenderingBundle\Factory\TypeResolverInterface');
-		$this->rendererFactory = Mockery::mock('Yjv\Bundle\ReportRenderingBundle\Renderer\RendererFactoryInterface');
+		$this->resolver = Mockery::mock('Yjv\ReportRendering\Factory\TypeResolverInterface');
+		$this->rendererFactory = Mockery::mock('Yjv\ReportRendering\Renderer\RendererFactoryInterface');
 		$this->factory = new ReportFactory($this->resolver, $this->rendererFactory);
 	}
 	
@@ -29,16 +29,16 @@ class ReportFactoryTest extends \PHPUnit_Framework_TestCase {
 	    
 	    $type = 'type';
 	    $options = array('key' => 'value');
-	    $report = Mockery::mock('Yjv\Bundle\ReportRenderingBundle\Report\ReportInterface');
+	    $report = Mockery::mock('Yjv\ReportRendering\Report\ReportInterface');
 	    
-	    $typeChain = Mockery::mock('Yjv\Bundle\ReportRenderingBundle\Factory\TypeChainInterface')
+	    $typeChain = Mockery::mock('Yjv\ReportRendering\Factory\TypeChainInterface')
 	        ->shouldReceive('finalize')
 	        ->with($report, $options)
 	        ->once()
 	        ->getMock()
 	    ;
 	    
-	    $builder = Mockery::mock('Yjv\Bundle\ReportRenderingBundle\Report\ReportBuilderInterface')
+	    $builder = Mockery::mock('Yjv\ReportRendering\Report\ReportBuilderInterface')
 	        ->shouldReceive('getTypeChain')
 	        ->once()
 	        ->andReturn($typeChain)
@@ -65,7 +65,7 @@ class ReportFactoryTest extends \PHPUnit_Framework_TestCase {
 	
 	public function testGetBuilderInterfaceName()
 	{
-	    $this->assertEquals('Yjv\Bundle\ReportRenderingBundle\Report\ReportBuilderInterface', $this->factory->getBuilderInterfaceName());
+	    $this->assertEquals('Yjv\ReportRendering\Report\ReportBuilderInterface', $this->factory->getBuilderInterfaceName());
 	}
 	
 	public function testGetRendererFactory()

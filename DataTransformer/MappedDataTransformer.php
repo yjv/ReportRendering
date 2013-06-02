@@ -1,5 +1,5 @@
 <?php
-namespace Yjv\Bundle\ReportRenderingBundle\DataTransformer;
+namespace Yjv\ReportRendering\DataTransformer;
 
 class MappedDataTransformer extends AbstractDataTransformer
 {

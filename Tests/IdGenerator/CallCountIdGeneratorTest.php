@@ -1,14 +1,14 @@
 <?php
-namespace Yjv\Bundle\ReportRenderingBundle\Tests\IdGenerator;
+namespace Yjv\ReportRendering\Tests\IdGenerator;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 
-use Yjv\Bundle\ReportRenderingBundle\Renderer\Grid\Grid;
+use Yjv\ReportRendering\Renderer\Grid\Grid;
 
-use Yjv\Bundle\ReportRenderingBundle\Datasource\FakeDatasource;
+use Yjv\ReportRendering\Datasource\FakeDatasource;
 
-use Yjv\Bundle\ReportRenderingBundle\Report\Report;
+use Yjv\ReportRendering\Report\Report;
 
-use Yjv\Bundle\ReportRenderingBundle\IdGenerator\CallCountIdGenerator;
+use Yjv\ReportRendering\IdGenerator\CallCountIdGenerator;
 
 
 class CallCountIdGeneratorTest extends \PHPUnit_Framework_TestCase {
@@ -16,7 +16,7 @@ class CallCountIdGeneratorTest extends \PHPUnit_Framework_TestCase {
 	public function setUp(){
 		
 		$this->idGenerator = new CallCountIdGenerator();
-		$renderer = $this->getMockBuilder('Yjv\Bundle\ReportRenderingBundle\Renderer\RendererInterface')->getMock();
+		$renderer = $this->getMockBuilder('Yjv\ReportRendering\Renderer\RendererInterface')->getMock();
 		$this->report = new Report(new FakeDatasource(), $renderer, new EventDispatcher());
 	}
 	

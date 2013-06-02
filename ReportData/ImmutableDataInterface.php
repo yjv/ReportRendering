@@ -1,5 +1,5 @@
 <?php
-namespace Yjv\Bundle\ReportRenderingBundle\ReportData;
+namespace Yjv\ReportRendering\ReportData;
 
 /**
  * interface for the data from a report that isnt editable anymore

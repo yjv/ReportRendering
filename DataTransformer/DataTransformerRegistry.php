@@ -1,7 +1,7 @@
 <?php
-namespace Yjv\Bundle\ReportRenderingBundle\DataTransformer;
+namespace Yjv\ReportRendering\DataTransformer;
 
-use Yjv\Bundle\ReportRenderingBundle\DataTransformer\DataTransformerNotFoundException;
+use Yjv\ReportRendering\DataTransformer\DataTransformerNotFoundException;
 
 class DataTransformerRegistry
 {

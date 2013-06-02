@@ -1,9 +1,9 @@
 <?php
-namespace Yjv\Bundle\ReportRenderingBundle\Tests\DataTransformer;
+namespace Yjv\ReportRendering\Tests\DataTransformer;
 
-use Yjv\Bundle\ReportRenderingBundle\DataTransformer\Config\Config;
+use Yjv\ReportRendering\DataTransformer\Config\Config;
 
-use Yjv\Bundle\ReportRenderingBundle\DataTransformer\AbstractDataTransformer;
+use Yjv\ReportRendering\DataTransformer\AbstractDataTransformer;
 
 class AbstractDataTransformerTest extends \PHPUnit_Framework_TestCase
 {

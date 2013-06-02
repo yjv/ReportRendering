@@ -1,7 +1,7 @@
 <?php
-namespace Yjv\Bundle\ReportRenderingBundle\Renderer\Grid\Column;
+namespace Yjv\ReportRendering\Renderer\Grid\Column;
 
-use Yjv\Bundle\ReportRenderingBundle\Factory\TypeFactoryInterface;
+use Yjv\ReportRendering\Factory\TypeFactoryInterface;
 
 interface ColumnFactoryInterface extends TypeFactoryInterface
 {

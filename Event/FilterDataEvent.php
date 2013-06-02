@@ -1,11 +1,11 @@
 <?php
-namespace Yjv\Bundle\ReportRenderingBundle\Event;
+namespace Yjv\ReportRendering\Event;
 
-use Yjv\Bundle\ReportRenderingBundle\ReportData\DataInterface;
-use Yjv\Bundle\ReportRenderingBundle\Renderer\RendererInterface;
-use Yjv\Bundle\ReportRenderingBundle\ReportData\ImmutableDataInterface;
-use Yjv\Bundle\ReportRenderingBundle\Filter\FilterCollectionInterface;
-use Yjv\Bundle\ReportRenderingBundle\Datasource\DatasourceInterface;
+use Yjv\ReportRendering\ReportData\DataInterface;
+use Yjv\ReportRendering\Renderer\RendererInterface;
+use Yjv\ReportRendering\ReportData\ImmutableDataInterface;
+use Yjv\ReportRendering\Filter\FilterCollectionInterface;
+use Yjv\ReportRendering\Datasource\DatasourceInterface;
 
 class FilterDataEvent extends DataEvent
 {
@@ -35,7 +35,7 @@ class FilterDataEvent extends DataEvent
     /**
      * 
      * @param ImmutableDataInterface $data
-     * @return \Yjv\Bundle\ReportRenderingBundle\Event\FilterDataEvent
+     * @return \Yjv\ReportRendering\Event\FilterDataEvent
      */
     public function setData(ImmutableDataInterface $data)
     {

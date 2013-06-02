@@ -1,14 +1,14 @@
 <?php
-namespace Yjv\Bundle\ReportRenderingBundle\Datasource;
+namespace Yjv\ReportRendering\Datasource;
 
 use Symfony\Component\PropertyAccess\PropertyAccess;
 
 use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
 
-use Yjv\Bundle\ReportRenderingBundle\ReportData\ReportData;
-use Yjv\Bundle\ReportRenderingBundle\Filter\NullFilterCollection;
+use Yjv\ReportRendering\ReportData\ReportData;
+use Yjv\ReportRendering\Filter\NullFilterCollection;
 use Symfony\Component\Form\Util\PropertyPath;
-use Yjv\Bundle\ReportRenderingBundle\Filter\FilterCollectionInterface;
+use Yjv\ReportRendering\Filter\FilterCollectionInterface;
 
 class ArrayDatasource implements MappedSortDatasourceInterface
 {

@@ -1,7 +1,7 @@
 <?php
-namespace Yjv\Bundle\ReportRenderingBundle\Renderer\Type;
+namespace Yjv\ReportRendering\Renderer\Type;
 
-use Yjv\Bundle\ReportRenderingBundle\Renderer\AbstractRendererType;
+use Yjv\ReportRendering\Renderer\AbstractRendererType;
 
 class HtmlType extends AbstractRendererType
 {

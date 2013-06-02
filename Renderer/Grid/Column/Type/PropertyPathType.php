@@ -1,11 +1,11 @@
 <?php
-namespace Yjv\Bundle\ReportRenderingBundle\Renderer\Grid\Column\Type;
+namespace Yjv\ReportRendering\Renderer\Grid\Column\Type;
 
-use Yjv\Bundle\ReportRenderingBundle\Renderer\Grid\Column\ColumnBuilderInterface;
-use Yjv\Bundle\ReportRenderingBundle\DataTransformer\PropertyPathTransformer;
-use Yjv\Bundle\ReportRenderingBundle\Renderer\Grid\Column\ColumnInterface;
+use Yjv\ReportRendering\Renderer\Grid\Column\ColumnBuilderInterface;
+use Yjv\ReportRendering\DataTransformer\PropertyPathTransformer;
+use Yjv\ReportRendering\Renderer\Grid\Column\ColumnInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
-use Yjv\Bundle\ReportRenderingBundle\Renderer\Grid\Column\AbstractColumnType;
+use Yjv\ReportRendering\Renderer\Grid\Column\AbstractColumnType;
 
 class PropertyPathType extends AbstractColumnType
 {

@@ -1,7 +1,7 @@
 <?php
-namespace Yjv\Bundle\ReportRenderingBundle\Tests\Filter;
+namespace Yjv\ReportRendering\Tests\Filter;
 
-use Yjv\Bundle\ReportRenderingBundle\Filter\NullFilterCollection;
+use Yjv\ReportRendering\Filter\NullFilterCollection;
 
 class NullFilterCollectionTest extends \PHPUnit_Framework_TestCase{
 

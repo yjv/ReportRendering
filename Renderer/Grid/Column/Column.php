@@ -1,7 +1,7 @@
 <?php
-namespace Yjv\Bundle\ReportRenderingBundle\Renderer\Grid\Column;
+namespace Yjv\ReportRendering\Renderer\Grid\Column;
 
-use Yjv\Bundle\ReportRenderingBundle\DataTransformer\DataTransformerInterface;
+use Yjv\ReportRendering\DataTransformer\DataTransformerInterface;
 
 class Column implements ColumnInterface
 {
@@ -13,7 +13,7 @@ class Column implements ColumnInterface
 
     /**
      * (non-PHPdoc)
-     * @see Yjv\Bundle\ReportRenderingBundle\Renderer\Grid\Column.ColumnInterface::setData()
+     * @see Yjv\ReportRendering\Renderer\Grid\Column.ColumnInterface::setData()
      */
     public function setData($data)
     {
@@ -39,7 +39,7 @@ class Column implements ColumnInterface
     /**
      * appends a datatransformer to the array
      * @param DataTransofrmerInterface|callable $dataTransformer
-     * @return \Yjv\Bundle\ReportRenderingBundle\Renderer\Grid\Column\Column
+     * @return \Yjv\ReportRendering\Renderer\Grid\Column\Column
      */
     public function appendDataTransformer($dataTransformer)
     {
@@ -50,7 +50,7 @@ class Column implements ColumnInterface
     /**
      * prepends a datatransformer to the array
      * @param DataTransofrmerInterface|callable $dataTransformer
-     * @return \Yjv\Bundle\ReportRenderingBundle\Renderer\Grid\Column\Column
+     * @return \Yjv\ReportRendering\Renderer\Grid\Column\Column
      */
     public function prependDataTransformer($dataTransformer)
     {
@@ -62,7 +62,7 @@ class Column implements ColumnInterface
      * sets the columns options
      * combination of key value pairs values being either castable to a string or callable
      * @param array $options
-     * @return \Yjv\Bundle\ReportRenderingBundle\Renderer\Grid\Column\Column
+     * @return \Yjv\ReportRendering\Renderer\Grid\Column\Column
      */
     public function setOptions(array $options)
     {
@@ -82,7 +82,7 @@ class Column implements ColumnInterface
 
     /**
      * (non-PHPdoc)
-     * @see Yjv\Bundle\ReportRenderingBundle\Renderer\Grid\Column.ColumnInterface::getOptions()
+     * @see Yjv\ReportRendering\Renderer\Grid\Column.ColumnInterface::getOptions()
      */
     public function getOptions()
     {
@@ -93,7 +93,7 @@ class Column implements ColumnInterface
      * sets the row options
      * combination of key value pairs values being either castable to a string or callable
      * @param array $rowOptions
-     * @return \Yjv\Bundle\ReportRenderingBundle\Renderer\Grid\Column\Column
+     * @return \Yjv\ReportRendering\Renderer\Grid\Column\Column
      */
     public function setRowOptions(array $rowOptions)
     {
@@ -113,7 +113,7 @@ class Column implements ColumnInterface
 
     /**
      * (non-PHPdoc)
-     * @see Yjv\Bundle\ReportRenderingBundle\Renderer\Grid\Column.ColumnInterface::getRowOptions()
+     * @see Yjv\ReportRendering\Renderer\Grid\Column.ColumnInterface::getRowOptions()
      */
     public function getRowOptions(array $previousOptions = array())
     {
@@ -124,7 +124,7 @@ class Column implements ColumnInterface
      * sets the columns options
      * combination of key value pairs values being either castable to a string or callable
      * @param array $cellOptions
-     * @return \Yjv\Bundle\ReportRenderingBundle\Renderer\Grid\Column\Column
+     * @return \Yjv\ReportRendering\Renderer\Grid\Column\Column
      */
     public function setCellOptions(array $cellOptions)
     {
@@ -144,7 +144,7 @@ class Column implements ColumnInterface
 
     /**
      * (non-PHPdoc)
-     * @see Yjv\Bundle\ReportRenderingBundle\Renderer\Grid\Column.ColumnInterface::getCellOptions()
+     * @see Yjv\ReportRendering\Renderer\Grid\Column.ColumnInterface::getCellOptions()
      */
     public function getCellOptions()
     {
@@ -153,7 +153,7 @@ class Column implements ColumnInterface
 
     /**
      * (non-PHPdoc)
-     * @see Yjv\Bundle\ReportRenderingBundle\Renderer\Grid\Column.ColumnInterface::getCellData()
+     * @see Yjv\ReportRendering\Renderer\Grid\Column.ColumnInterface::getCellData()
      */
     public function getCellData()
     {
@@ -173,7 +173,7 @@ class Column implements ColumnInterface
             } else {
 
                 throw new \InvalidArgumentException(
-                    "The column's transformers must follow the Yjv\Bundle\ReportRenderingBundle\DataTransformer\DataTransformerInterface or callable"
+                    "The column's transformers must follow the Yjv\ReportRendering\DataTransformer\DataTransformerInterface or callable"
                 );
             }
         }

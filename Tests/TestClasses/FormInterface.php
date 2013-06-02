@@ -1,5 +1,5 @@
 <?php
-namespace Yjv\Bundle\ReportRenderingBundle\Tests\TestClasses;
+namespace Yjv\ReportRendering\Tests\TestClasses;
 
 use Symfony\Component\Form\FormInterface as BaseFormInterface;
 

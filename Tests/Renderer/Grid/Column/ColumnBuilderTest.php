@@ -1,11 +1,11 @@
 <?php
-namespace Yjv\Bundle\ReportRenderingBundle\Tests\Renderer\Grid\Column;
+namespace Yjv\ReportRendering\Tests\Renderer\Grid\Column;
 
-use Yjv\Bundle\ReportRenderingBundle\Renderer\Grid\Column\ColumnBuilder;
+use Yjv\ReportRendering\Renderer\Grid\Column\ColumnBuilder;
 
-use Yjv\Bundle\ReportRenderingBundle\DataTransformer\MappedDataTransformer;
+use Yjv\ReportRendering\DataTransformer\MappedDataTransformer;
 
-use Yjv\Bundle\ReportRenderingBundle\Renderer\Grid\Column\Column;
+use Yjv\ReportRendering\Renderer\Grid\Column\Column;
 
 class ColumnBuilderTest extends \PHPUnit_Framework_TestCase {
 
@@ -14,7 +14,7 @@ class ColumnBuilderTest extends \PHPUnit_Framework_TestCase {
 	
 	public function setUp() {
 		
-		$this->columnFactory = $this->getMockBuilder('Yjv\Bundle\ReportRenderingBundle\Renderer\Grid\Column\ColumnFactory')->disableOriginalConstructor()->getMock();
+		$this->columnFactory = $this->getMockBuilder('Yjv\ReportRendering\Renderer\Grid\Column\ColumnFactory')->disableOriginalConstructor()->getMock();
 		$this->builder = new ColumnBuilder($this->columnFactory);
 	}
 	

@@ -1,8 +1,8 @@
 <?php
-namespace Yjv\Bundle\ReportRenderingBundle\Datasource;
+namespace Yjv\ReportRendering\Datasource;
 
-use Yjv\Bundle\ReportRenderingBundle\Filter\FilterCollectionInterface;
-use Yjv\Bundle\ReportRenderingBundle\ReportData\ReportData;
+use Yjv\ReportRendering\Filter\FilterCollectionInterface;
+use Yjv\ReportRendering\ReportData\ReportData;
 
 class FakeDatasource implements DatasourceInterface
 {

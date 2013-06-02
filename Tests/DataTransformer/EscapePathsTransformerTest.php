@@ -1,17 +1,17 @@
 <?php
-namespace Yjv\Bundle\ReportRenderingBundle\Tests\DataTransformer;
+namespace Yjv\ReportRendering\Tests\DataTransformer;
 
-use Yjv\Bundle\ReportRenderingBundle\DataTransformer\EscapePathsTransformer;
+use Yjv\ReportRendering\DataTransformer\EscapePathsTransformer;
 
 use Mockery;
 
-use Yjv\Bundle\ReportRenderingBundle\DataTransformer\DateTimeTransformer;
+use Yjv\ReportRendering\DataTransformer\DateTimeTransformer;
 
 use Symfony\Component\Form\Exception\InvalidPropertyException;
 
 use Symfony\Component\OptionsResolver\Exception\MissingOptionsException;
 
-use Yjv\Bundle\ReportRenderingBundle\DataTransformer\PropertyPathTransformer;
+use Yjv\ReportRendering\DataTransformer\PropertyPathTransformer;
 
 class EscapePathsTransformerTest extends \PHPUnit_Framework_TestCase{
 
@@ -20,7 +20,7 @@ class EscapePathsTransformerTest extends \PHPUnit_Framework_TestCase{
 	
 	public function setUp(){
 	
-		$this->escaper = Mockery::mock('Yjv\Bundle\ReportRenderingBundle\Data\DataEscaperInterface');
+		$this->escaper = Mockery::mock('Yjv\ReportRendering\Data\DataEscaperInterface');
 		$this->escaper->shouldReceive('getSupportedStrategies')->andReturn(array(
 				'js',
 				'css',

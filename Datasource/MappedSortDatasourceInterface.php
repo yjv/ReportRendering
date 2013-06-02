@@ -1,7 +1,7 @@
 <?php
-namespace Yjv\Bundle\ReportRenderingBundle\Datasource;
+namespace Yjv\ReportRendering\Datasource;
 
-use Yjv\Bundle\ReportRenderingBundle\Datasource\DatasourceInterface;
+use Yjv\ReportRendering\Datasource\DatasourceInterface;
 
 interface MappedSortDatasourceInterface extends DatasourceInterface
 {

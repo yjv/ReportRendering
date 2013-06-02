@@ -1,9 +1,9 @@
 <?php
-namespace Yjv\Bundle\ReportRenderingBundle\Tests\Datasource;
+namespace Yjv\ReportRendering\Tests\Datasource;
 
-use Yjv\Bundle\ReportRenderingBundle\Filter\ArrayFilterCollection;
+use Yjv\ReportRendering\Filter\ArrayFilterCollection;
 
-use Yjv\Bundle\ReportRenderingBundle\Datasource\ArrayDatasource;
+use Yjv\ReportRendering\Datasource\ArrayDatasource;
 
 class ArrayDatasourceTest extends \PHPUnit_Framework_TestCase{
 
@@ -32,7 +32,7 @@ class ArrayDatasourceTest extends \PHPUnit_Framework_TestCase{
 		
 		$datasource = new ArrayDatasource(new \ArrayIterator(array()));
 		$data = $datasource->getData();
-		$this->assertInstanceOf('Yjv\Bundle\ReportRenderingBundle\ReportData\DataInterface', $data);
+		$this->assertInstanceOf('Yjv\ReportRendering\ReportData\DataInterface', $data);
 		$this->assertInternalType('array', $data->getData());
 	}
 	

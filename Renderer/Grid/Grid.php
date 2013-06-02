@@ -1,16 +1,16 @@
 <?php
-namespace Yjv\Bundle\ReportRenderingBundle\Renderer\Grid;
-use Yjv\Bundle\ReportRenderingBundle\Renderer\Grid\Column\ColumnInterface;
+namespace Yjv\ReportRendering\Renderer\Grid;
+use Yjv\ReportRendering\Renderer\Grid\Column\ColumnInterface;
 
-use Yjv\Bundle\ReportRenderingBundle\ReportData\ImmutableDataInterface;
+use Yjv\ReportRendering\ReportData\ImmutableDataInterface;
 
-use Yjv\Bundle\ReportRenderingBundle\DataTransformer\DataTransformerInterface;
+use Yjv\ReportRendering\DataTransformer\DataTransformerInterface;
 
-use Yjv\Bundle\ReportRenderingBundle\Renderer\Grid\Row\Row;
+use Yjv\ReportRendering\Renderer\Grid\Row\Row;
 
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-use Yjv\Bundle\ReportRenderingBundle\Renderer\RendererInterface;
+use Yjv\ReportRendering\Renderer\RendererInterface;
 
 class Grid implements GridInterface {
 	
@@ -20,7 +20,7 @@ class Grid implements GridInterface {
 		
 	/**
 	 * (non-PHPdoc)
-	 * @see \Yjv\Bundle\ReportRenderingBundle\Renderer\RendererInterface::setData()
+	 * @see \Yjv\ReportRendering\Renderer\RendererInterface::setData()
 	 */
 	public function setData(ImmutableDataInterface $data) {
 

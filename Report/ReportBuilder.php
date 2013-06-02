@@ -1,19 +1,19 @@
 <?php
-namespace Yjv\Bundle\ReportRenderingBundle\Report;
+namespace Yjv\ReportRendering\Report;
 
-use Yjv\Bundle\ReportRenderingBundle\Renderer\LazyLoadedRenderer;
+use Yjv\ReportRendering\Renderer\LazyLoadedRenderer;
 
-use Yjv\Bundle\ReportRenderingBundle\Factory\Builder;
+use Yjv\ReportRendering\Factory\Builder;
 
-use Yjv\Bundle\ReportRenderingBundle\Factory\TypeInterface;
+use Yjv\ReportRendering\Factory\TypeInterface;
 
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use Yjv\Bundle\ReportRenderingBundle\Renderer\Grid\Column\ColumnFactoryInterface;
-use Yjv\Bundle\ReportRenderingBundle\Filter\FilterCollectionInterface;
+use Yjv\ReportRendering\Renderer\Grid\Column\ColumnFactoryInterface;
+use Yjv\ReportRendering\Filter\FilterCollectionInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use Yjv\Bundle\ReportRenderingBundle\Renderer\RendererTypeDelegateInterface;
-use Yjv\Bundle\ReportRenderingBundle\Renderer\RendererInterface;
-use Yjv\Bundle\ReportRenderingBundle\Datasource\DatasourceInterface;
+use Yjv\ReportRendering\Renderer\RendererTypeDelegateInterface;
+use Yjv\ReportRendering\Renderer\RendererInterface;
+use Yjv\ReportRendering\Datasource\DatasourceInterface;
 
 class ReportBuilder extends Builder implements ReportBuilderInterface
 {

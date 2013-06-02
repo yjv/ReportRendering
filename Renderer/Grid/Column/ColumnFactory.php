@@ -1,14 +1,14 @@
 <?php
-namespace Yjv\Bundle\ReportRenderingBundle\Renderer\Grid\Column;
+namespace Yjv\ReportRendering\Renderer\Grid\Column;
 
-use Yjv\Bundle\ReportRenderingBundle\Factory\TypeResolverInterface;
+use Yjv\ReportRendering\Factory\TypeResolverInterface;
 
-use Yjv\Bundle\ReportRenderingBundle\Factory\TypeInterface;
-use Yjv\Bundle\ReportRenderingBundle\Factory\TypeRegistry;
-use Yjv\Bundle\ReportRenderingBundle\DataTransformer\DataTransformerRegistry;
-use Yjv\Bundle\ReportRenderingBundle\Factory\AbstractTypeFactory;
+use Yjv\ReportRendering\Factory\TypeInterface;
+use Yjv\ReportRendering\Factory\TypeRegistry;
+use Yjv\ReportRendering\DataTransformer\DataTransformerRegistry;
+use Yjv\ReportRendering\Factory\AbstractTypeFactory;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Yjv\Bundle\ReportRenderingBundle\Renderer\Grid\Column\ColumnRegistry;
+use Yjv\ReportRendering\Renderer\Grid\Column\ColumnRegistry;
 
 class ColumnFactory extends AbstractTypeFactory implements ColumnFactoryInterface
 {
@@ -27,7 +27,7 @@ class ColumnFactory extends AbstractTypeFactory implements ColumnFactoryInterfac
 
     public function getBuilderInterfaceName()
     {
-        return 'Yjv\Bundle\ReportRenderingBundle\Renderer\Grid\Column\ColumnBuilderInterface';
+        return 'Yjv\ReportRendering\Renderer\Grid\Column\ColumnBuilderInterface';
     }
 
     public function getDataTransformerRegistry()

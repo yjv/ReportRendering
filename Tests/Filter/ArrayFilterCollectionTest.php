@@ -1,7 +1,7 @@
 <?php
-namespace Yjv\Bundle\ReportRenderingBundle\Tests\Filter;
+namespace Yjv\ReportRendering\Tests\Filter;
 
-use Yjv\Bundle\ReportRenderingBundle\Filter\ArrayFilterCollection;
+use Yjv\ReportRendering\Filter\ArrayFilterCollection;
 
 class ArrayFilterCollectionTest extends \PHPUnit_Framework_TestCase{
 

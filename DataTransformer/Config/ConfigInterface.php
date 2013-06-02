@@ -1,5 +1,5 @@
 <?php
-namespace Yjv\Bundle\ReportRenderingBundle\DataTransformer\Config;
+namespace Yjv\ReportRendering\DataTransformer\Config;
 
 interface ConfigInterface
 {

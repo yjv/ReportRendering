@@ -1,5 +1,5 @@
 <?php
-namespace Yjv\Bundle\ReportRenderingBundle\Filter;
+namespace Yjv\ReportRendering\Filter;
 
 /**
  * interface for any object to follow if it wants to hold report filters
@@ -26,14 +26,14 @@ interface FilterCollectionInterface
      * loading
      * @param scalar $name
      * @param mixed $default
-     * @throws \Yjv\Bundle\ReportRenderingBundle\Filter\ReportIdNotSetException
+     * @throws \Yjv\ReportRendering\Filter\ReportIdNotSetException
      */
     public function get($name, $default = null);
 
     /**
      * an exception should be thrown if the collection requires the report to be set before filter
      * loading
-     * @throws \Yjv\Bundle\ReportRenderingBundle\Filter\ReportIdNotSetException
+     * @throws \Yjv\ReportRendering\Filter\ReportIdNotSetException
      * @return array|\ArrayAccess
      */
     public function all();

@@ -1,7 +1,7 @@
 <?php
-namespace Yjv\Bundle\ReportRenderingBundle\Tests\DataTransformer\Config;
+namespace Yjv\ReportRendering\Tests\DataTransformer\Config;
 
-use Yjv\Bundle\ReportRenderingBundle\DataTransformer\Config\Config;
+use Yjv\ReportRendering\DataTransformer\Config\Config;
 
 class ConfigTest extends \PHPUnit_Framework_TestCase
 {
@@ -19,7 +19,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
     }
     
     /**
-     * @expectedException Yjv\Bundle\ReportRenderingBundle\DataTransformer\Config\ConfigValueRequiredException
+     * @expectedException Yjv\ReportRendering\DataTransformer\Config\ConfigValueRequiredException
      * @expectedExceptionMessage The config option "key2" must be set.
      */
     public function testGetWithRequiredValue()

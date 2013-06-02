@@ -1,13 +1,13 @@
 <?php
-namespace Yjv\Bundle\ReportRenderingBundle\Renderer\Html;
+namespace Yjv\ReportRendering\Renderer\Html;
 
-use Yjv\Bundle\ReportRenderingBundle\Renderer\Grid\GridInterface;
-use Yjv\Bundle\ReportRenderingBundle\Filter\FilterCollectionInterface;
-use Yjv\Bundle\ReportRenderingBundle\ReportData\ImmutableDataInterface;
+use Yjv\ReportRendering\Renderer\Grid\GridInterface;
+use Yjv\ReportRendering\Filter\FilterCollectionInterface;
+use Yjv\ReportRendering\ReportData\ImmutableDataInterface;
 use Symfony\Component\Form\FormInterface;
-use Yjv\Bundle\ReportRenderingBundle\Widget\WidgetRenderer;
-use Yjv\Bundle\ReportRenderingBundle\Renderer\FilterAwareRendererInterface;
-use Yjv\Bundle\ReportRenderingBundle\Widget\WidgetInterface;
+use Yjv\ReportRendering\Widget\WidgetRenderer;
+use Yjv\ReportRendering\Renderer\FilterAwareRendererInterface;
+use Yjv\ReportRendering\Widget\WidgetInterface;
 
 class HtmlRenderer implements FilterAwareRendererInterface, WidgetInterface, \IteratorAggregate
 {

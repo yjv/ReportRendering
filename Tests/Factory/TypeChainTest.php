@@ -1,13 +1,13 @@
 <?php
-namespace Yjv\Bundle\ReportRenderingBundle\Tests\Renderer\Grid\Column;
+namespace Yjv\ReportRendering\Tests\Renderer\Grid\Column;
 
-use Yjv\Bundle\ReportRenderingBundle\Factory\TypeChainInterface;
+use Yjv\ReportRendering\Factory\TypeChainInterface;
 
 use Mockery;
 
-use Yjv\Bundle\ReportRenderingBundle\Factory\TypeChain;
+use Yjv\ReportRendering\Factory\TypeChain;
 
-use Yjv\Bundle\ReportRenderingBundle\Factory\TypeRegistry;
+use Yjv\ReportRendering\Factory\TypeRegistry;
 
 class TypeChainTest extends \PHPUnit_Framework_TestCase{
 
@@ -22,10 +22,10 @@ class TypeChainTest extends \PHPUnit_Framework_TestCase{
 	 */
 	protected function setUp() {
 
-		$this->type1 = Mockery::mock('Yjv\Bundle\ReportRenderingBundle\Factory\FinalizingTypeInterface');
-		$this->type2 = Mockery::mock('Yjv\Bundle\ReportRenderingBundle\Factory\FinalizingTypeInterface');
-		$this->type2Extension = Mockery::mock('Yjv\Bundle\ReportRenderingBundle\Factory\TypeExtensionInterface');
-		$this->type3 = Mockery::mock('Yjv\Bundle\ReportRenderingBundle\Factory\TypeInterface');
+		$this->type1 = Mockery::mock('Yjv\ReportRendering\Factory\FinalizingTypeInterface');
+		$this->type2 = Mockery::mock('Yjv\ReportRendering\Factory\FinalizingTypeInterface');
+		$this->type2Extension = Mockery::mock('Yjv\ReportRendering\Factory\TypeExtensionInterface');
+		$this->type3 = Mockery::mock('Yjv\ReportRendering\Factory\TypeInterface');
 		$this->types = array(
 	        $this->type1,
 	        $this->type2,
@@ -120,14 +120,14 @@ class TypeChainTest extends \PHPUnit_Framework_TestCase{
 	
 	public function testGetBuilder()
 	{
-	    $builder = Mockery::mock('Yjv\Bundle\ReportRenderingBundle\Factory\BuilderInterface')
+	    $builder = Mockery::mock('Yjv\ReportRendering\Factory\BuilderInterface')
 	        ->shouldReceive('setTypeChain')
 	        ->once()
 	        ->with($this->chain)
 	        ->getMock()
 	    ;
 	    $options = array('key' => 'value');
-	    $factory = Mockery::mock('Yjv\Bundle\ReportRenderingBundle\Factory\TypeFactoryInterface');
+	    $factory = Mockery::mock('Yjv\ReportRendering\Factory\TypeFactoryInterface');
 	    $this->type3
 	        ->shouldReceive('createBuilder')
 	        ->with($factory, $options)
@@ -149,7 +149,7 @@ class TypeChainTest extends \PHPUnit_Framework_TestCase{
 	public function testBuild()
 	{
 	    $options = array('key' => 'value');
-	    $builder = Mockery::mock('Yjv\Bundle\ReportRenderingBundle\Factory\BuilderInterface');
+	    $builder = Mockery::mock('Yjv\ReportRendering\Factory\BuilderInterface');
 	    $this->type1
 	        ->shouldReceive('build')
 	        ->ordered()

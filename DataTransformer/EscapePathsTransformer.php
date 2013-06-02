@@ -1,5 +1,5 @@
 <?php
-namespace Yjv\Bundle\ReportRenderingBundle\DataTransformer;
+namespace Yjv\ReportRendering\DataTransformer;
 
 use Symfony\Component\PropertyAccess\Exception\ExceptionInterface;
 
@@ -9,8 +9,8 @@ use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
 
 use Symfony\Component\PropertyAccess\PropertyPath;
 
-use Yjv\Bundle\ReportRenderingBundle\Data\DataEscaperInterface;
-use Yjv\Bundle\ReportRenderingBundle\Data\DataEscaper;
+use Yjv\ReportRendering\Data\DataEscaperInterface;
+use Yjv\ReportRendering\Data\DataEscaper;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class EscapePathsTransformer extends AbstractDataTransformer

@@ -1,13 +1,13 @@
 <?php
-namespace Yjv\Bundle\ReportRenderingBundle\Test\Event;
+namespace Yjv\ReportRendering\Test\Event;
 
-use Yjv\Bundle\ReportRenderingBundle\Renderer\Grid\Grid;
+use Yjv\ReportRendering\Renderer\Grid\Grid;
 
-use Yjv\Bundle\ReportRenderingBundle\Filter\NullFilterCollection;
+use Yjv\ReportRendering\Filter\NullFilterCollection;
 
-use Yjv\Bundle\ReportRenderingBundle\Datasource\FakeDatasource;
+use Yjv\ReportRendering\Datasource\FakeDatasource;
 
-use Yjv\Bundle\ReportRenderingBundle\Event\DataEvent;
+use Yjv\ReportRendering\Event\DataEvent;
 
 
 class DataEventTest extends \PHPUnit_Framework_TestCase{
@@ -21,7 +21,7 @@ class DataEventTest extends \PHPUnit_Framework_TestCase{
 	public function setUp() {
 		
 		$this->rendererName = 'test';
-		$this->renderer = $this->getMockBuilder('Yjv\Bundle\ReportRenderingBundle\Renderer\RendererInterface')->getMock();
+		$this->renderer = $this->getMockBuilder('Yjv\ReportRendering\Renderer\RendererInterface')->getMock();
 		$this->datasource = new FakeDatasource();
 		$this->filters = new NullFilterCollection();
 		$this->dataEvent = new DataEvent($this->rendererName, $this->renderer, $this->datasource, $this->filters);

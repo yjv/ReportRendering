@@ -1,5 +1,5 @@
 <?php
-namespace Yjv\Bundle\ReportRenderingBundle\ReportData;
+namespace Yjv\ReportRendering\ReportData;
 
 class ImmutableReportData implements ImmutableDataInterface
 {
@@ -9,7 +9,7 @@ class ImmutableReportData implements ImmutableDataInterface
     /**
      * 
      * @param ImmutableDataInterface $data
-     * @return \Yjv\Bundle\ReportRenderingBundle\ReportData\ImmutableReportData
+     * @return \Yjv\ReportRendering\ReportData\ImmutableReportData
      */
     public static function createFromData(ImmutableDataInterface $data)
     {

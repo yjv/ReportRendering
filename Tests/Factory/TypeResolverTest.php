@@ -1,9 +1,9 @@
 <?php
-namespace Yjv\Bundle\ReportRenderingBundle\Tests\Factory;
+namespace Yjv\ReportRendering\Tests\Factory;
 
-use Yjv\Bundle\ReportRenderingBundle\Factory\TypeChain;
+use Yjv\ReportRendering\Factory\TypeChain;
 
-use Yjv\Bundle\ReportRenderingBundle\Factory\TypeResolver;
+use Yjv\ReportRendering\Factory\TypeResolver;
 
 use Mockery;
 
@@ -14,7 +14,7 @@ class TypeResolverTest extends \PHPUnit_Framework_TestCase
     
     public function setUp()
     {
-        $this->registry = Mockery::mock('Yjv\Bundle\ReportRenderingBundle\Factory\TypeRegistryInterface');
+        $this->registry = Mockery::mock('Yjv\ReportRendering\Factory\TypeRegistryInterface');
         $this->resolver = new TypeResolver($this->registry);
     }
     
@@ -54,13 +54,13 @@ class TypeResolverTest extends \PHPUnit_Framework_TestCase
             ->andReturn(array($type3Extension1))
         ;
         $typeChain = $this->resolver->resolveTypeChain($type3);
-        $this->assertInstanceOf('Yjv\Bundle\ReportRenderingBundle\Factory\TypeChainInterface', $typeChain);
+        $this->assertInstanceOf('Yjv\ReportRendering\Factory\TypeChainInterface', $typeChain);
         $this->assertSame(
             array($type1, $type1Extension1, $type1Extension2, $type2, $type3, $type3Extension1), 
             iterator_to_array($typeChain)
         );
         $typeChain = $this->resolver->resolveTypeChain('name3');
-        $this->assertInstanceOf('Yjv\Bundle\ReportRenderingBundle\Factory\TypeChainInterface', $typeChain);
+        $this->assertInstanceOf('Yjv\ReportRendering\Factory\TypeChainInterface', $typeChain);
         $this->assertSame(
             array($type1, $type1Extension1, $type1Extension2, $type2, $type3, $type3Extension1), 
             iterator_to_array($typeChain)
@@ -88,7 +88,7 @@ class TypeResolverTest extends \PHPUnit_Framework_TestCase
     
     protected function getType($name, $parent)
     {
-        return Mockery::mock('Yjv\Bundle\ReportRenderingBundle\Factory\TypeInterface')
+        return Mockery::mock('Yjv\ReportRendering\Factory\TypeInterface')
             ->shouldReceive('getName')
             ->andReturn($name)
             ->getMock()
@@ -100,7 +100,7 @@ class TypeResolverTest extends \PHPUnit_Framework_TestCase
 	
 	protected function getTypeExtension($name)
 	{
-	    return Mockery::mock('Yjv\Bundle\ReportRenderingBundle\Factory\TypeExtensionInterface')
+	    return Mockery::mock('Yjv\ReportRendering\Factory\TypeExtensionInterface')
 	        ->shouldReceive('getExtendedType')
 	        ->andReturn($name)
 	        ->getMock()

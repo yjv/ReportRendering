@@ -1,23 +1,23 @@
 <?php
-namespace Yjv\Bundle\ReportRenderingBundle\Tests\Renderer\Grid\Column;
+namespace Yjv\ReportRendering\Tests\Renderer\Grid\Column;
 
-use Yjv\Bundle\ReportRenderingBundle\Factory\TypeRegistry;
+use Yjv\ReportRendering\Factory\TypeRegistry;
 
 use Mockery;
 
-use Yjv\Bundle\ReportRenderingBundle\DataTransformer\DataTransformerRegistry;
+use Yjv\ReportRendering\DataTransformer\DataTransformerRegistry;
 
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
-use Yjv\Bundle\ReportRenderingBundle\Renderer\Grid\Column\ColumnInterface;
+use Yjv\ReportRendering\Renderer\Grid\Column\ColumnInterface;
 
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-use Yjv\Bundle\ReportRenderingBundle\Renderer\Grid\Column\Column;
+use Yjv\ReportRendering\Renderer\Grid\Column\Column;
 
-use Yjv\Bundle\ReportRenderingBundle\Renderer\Grid\Column\ColumnRegistry;
+use Yjv\ReportRendering\Renderer\Grid\Column\ColumnRegistry;
 
-use Yjv\Bundle\ReportRenderingBundle\Renderer\Grid\Column\ColumnFactory;
+use Yjv\ReportRendering\Renderer\Grid\Column\ColumnFactory;
 
 class ColumnFactoryTest extends \PHPUnit_Framework_TestCase{
 
@@ -30,7 +30,7 @@ class ColumnFactoryTest extends \PHPUnit_Framework_TestCase{
 	 */
 	protected function setUp() {
 
-		$this->resolver = Mockery::mock('Yjv\Bundle\ReportRenderingBundle\Factory\TypeResolver');
+		$this->resolver = Mockery::mock('Yjv\ReportRendering\Factory\TypeResolver');
 		$this->dataTransformerRegistry = new DataTransformerRegistry();
 		$this->factory = new ColumnFactory($this->resolver, $this->dataTransformerRegistry);
 	}
@@ -43,7 +43,7 @@ class ColumnFactoryTest extends \PHPUnit_Framework_TestCase{
 		$type = 'type';
 		$options = array('key' => 'value');
 		$column = new Column();
-		$builder = Mockery::mock('Yjv\Bundle\ReportRenderingBundle\Renderer\Grid\Column\ColumnBuilderInterface')
+		$builder = Mockery::mock('Yjv\ReportRendering\Renderer\Grid\Column\ColumnBuilderInterface')
 		    ->shouldReceive('getColumn')
 		    ->once()
 		    ->andReturn($column)
@@ -61,7 +61,7 @@ class ColumnFactoryTest extends \PHPUnit_Framework_TestCase{
 	
 	public function testGetBuilderInterfaceName(){
 		
-		$this->assertEquals('Yjv\Bundle\ReportRenderingBundle\Renderer\Grid\Column\ColumnBuilderInterface', $this->factory->getBuilderInterfaceName());
+		$this->assertEquals('Yjv\ReportRendering\Renderer\Grid\Column\ColumnBuilderInterface', $this->factory->getBuilderInterfaceName());
 	}
 	
 	public function testGetDataTransformerRegistry()

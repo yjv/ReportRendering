@@ -1,7 +1,7 @@
 <?php
-namespace Yjv\Bundle\ReportRenderingBundle\Datasource;
+namespace Yjv\ReportRendering\Datasource;
 
-use Yjv\Bundle\ReportRenderingBundle\Filter\FilterCollectionInterface;
+use Yjv\ReportRendering\Filter\FilterCollectionInterface;
 
 /**
  * @author yosefderay

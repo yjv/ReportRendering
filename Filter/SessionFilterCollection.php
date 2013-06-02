@@ -1,5 +1,5 @@
 <?php
-namespace Yjv\Bundle\ReportRenderingBundle\Filter;
+namespace Yjv\ReportRendering\Filter;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 /**
@@ -23,7 +23,7 @@ class SessionFilterCollection implements
 
     /**
      * (non-PHPdoc)
-     * @see \Yjv\Bundle\ReportRenderingBundle\Filter\MultiReportFilterCollectionInterface::setReportId()
+     * @see \Yjv\ReportRendering\Filter\MultiReportFilterCollectionInterface::setReportId()
      */
     public function setReportId($reportId)
     {
@@ -33,7 +33,7 @@ class SessionFilterCollection implements
 
     /**
      * (non-PHPdoc)
-     * @see \Yjv\Bundle\ReportRenderingBundle\Filter\FilterCollectionInterface::set()
+     * @see \Yjv\ReportRendering\Filter\FilterCollectionInterface::set()
      */
     public function set($name, $value)
     {
@@ -43,7 +43,7 @@ class SessionFilterCollection implements
 
     /**
      * (non-PHPdoc)
-     * @see \Yjv\Bundle\ReportRenderingBundle\Filter\FilterCollectionInterface::setAll()
+     * @see \Yjv\ReportRendering\Filter\FilterCollectionInterface::setAll()
      */
     public function setAll(array $values)
     {
@@ -53,7 +53,7 @@ class SessionFilterCollection implements
 
     /**
      * (non-PHPdoc)
-     * @see \Yjv\Bundle\ReportRenderingBundle\Filter\FilterCollectionInterface::get()
+     * @see \Yjv\ReportRendering\Filter\FilterCollectionInterface::get()
      */
     public function get($name, $default = null)
     {
@@ -63,7 +63,7 @@ class SessionFilterCollection implements
 
     /**
      * (non-PHPdoc)
-     * @see \Yjv\Bundle\ReportRenderingBundle\Filter\FilterCollectionInterface::all()
+     * @see \Yjv\ReportRendering\Filter\FilterCollectionInterface::all()
      */
     public function all()
     {
@@ -74,7 +74,7 @@ class SessionFilterCollection implements
     /**
      * 
      * @param array $defaults
-     * @return \Yjv\Bundle\ReportRenderingBundle\Filter\SessionFilterCollection
+     * @return \Yjv\ReportRendering\Filter\SessionFilterCollection
      */
     public function setDefaults(array $defaults)
     {
@@ -86,7 +86,7 @@ class SessionFilterCollection implements
      * 
      * @param unknown $name
      * @param unknown $value
-     * @return \Yjv\Bundle\ReportRenderingBundle\Filter\SessionFilterCollection
+     * @return \Yjv\ReportRendering\Filter\SessionFilterCollection
      */
     public function setDefault($name, $value)
     {
@@ -109,7 +109,7 @@ class SessionFilterCollection implements
 
     /**
      * loads the filters for the report into the filters array
-     * @return \Yjv\Bundle\ReportRenderingBundle\Filter\SessionFilterCollection
+     * @return \Yjv\ReportRendering\Filter\SessionFilterCollection
      */
     protected function loadFilters()
     {
@@ -119,7 +119,7 @@ class SessionFilterCollection implements
 
     /**
      * syncronizes the filters array with the session storage
-     * @return \Yjv\Bundle\ReportRenderingBundle\Filter\SessionFilterCollection
+     * @return \Yjv\ReportRendering\Filter\SessionFilterCollection
      */
     protected function syncFilters()
     {
