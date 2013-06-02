@@ -8,7 +8,7 @@ class ImmutableReportDataTest extends \PHPUnit_Framework_TestCase{
 
 	protected $data;
 	protected $unfilteredCount;
-	protected $dataClass = 'Yjv\\Bundle\\ReportRenderingBundle\\ReportData\\ImmutableReportData';
+	protected $dataClass = 'Yjv\\ReportRendering\\ReportData\\ImmutableReportData';
 	protected $reportData;
 	
 	public function setUp() {

@@ -9,7 +9,7 @@ use Yjv\ReportRendering\ReportData\ReportData;
 
 class CallbackDatasourceTest extends \PHPUnit_Framework_TestCase{
 
-	public function getDataTestDataprovider() {
+    public function getDataTestDataprovider() {
 		
 		return array(
 			array(array(__NAMESPACE__ . '\\CallbackClass', 'callCallback')),	
@@ -19,14 +19,14 @@ class CallbackDatasourceTest extends \PHPUnit_Framework_TestCase{
 	
 	public function testContructor(){
 		
-		$datasource = new CallbackDatasource(array(__NAMESPACE__ . '\\CallbackClass', 'callCallback'));
-		$this->assertInstanceOf('Yjv\\Bundle\\ReportRenderingBundle\\ReportData\\DataInterface', $datasource->getData());
-		$datasource = new CallbackDatasource(__NAMESPACE__ . '\\callback');
-		$this->assertInstanceOf('Yjv\\Bundle\\ReportRenderingBundle\\ReportData\\DataInterface', $datasource->getData());
+		$datasource = new CallbackDatasource(array(__NAMESPACE__ . '\CallbackClass', 'callCallback'));
+		$this->assertInstanceOf('Yjv\ReportRendering\ReportData\DataInterface', $datasource->getData());
+		$datasource = new CallbackDatasource(__NAMESPACE__ . '\callback');
+		$this->assertInstanceOf('Yjv\ReportRendering\ReportData\DataInterface', $datasource->getData());
 		$datasource = new CallbackDatasource(function(){return new ReportData(array(), 0);});
-		$this->assertInstanceOf('Yjv\\Bundle\\ReportRenderingBundle\\ReportData\\DataInterface', $datasource->getData());
+		$this->assertInstanceOf('Yjv\ReportRendering\ReportData\DataInterface', $datasource->getData());
 		$datasource = new CallbackDatasource(new \ReflectionFunction(function(){return new ReportData(array(), 0);}));
-		$this->assertInstanceOf('Yjv\\Bundle\\ReportRenderingBundle\\ReportData\\DataInterface', $datasource->getData());
+		$this->assertInstanceOf('Yjv\ReportRendering\ReportData\DataInterface', $datasource->getData());
 		
 		$this->setExpectedException('InvalidArgumentException');
 		$datasource = new CallbackDatasource('invalidCallback');
@@ -35,7 +35,7 @@ class CallbackDatasourceTest extends \PHPUnit_Framework_TestCase{
 	public function testCallbackThatReturnsANonInstanceOfReportData() {
 		
 		$datasource = new CallbackDatasource(__NAMESPACE__ . '\\callbackWithArray');
-		$this->assertInstanceOf('Yjv\\Bundle\\ReportRenderingBundle\\ReportData\\DataInterface', $datasource->getData());
+		$this->assertInstanceOf('Yjv\ReportRendering\ReportData\DataInterface', $datasource->getData());
 	}
 	
 	public function testGetData() {
@@ -58,8 +58,8 @@ class CallbackDatasourceTest extends \PHPUnit_Framework_TestCase{
 			return new ReportData(array(), 0);
 		}, $startParams);
 		
-		$this->assertInstanceOf('Yjv\\Bundle\\ReportRenderingBundle\\ReportData\\DataInterface', $datasource->getData());
-		$this->assertInstanceOf('Yjv\\Bundle\\ReportRenderingBundle\\ReportData\\DataInterface', $datasource->getData());
+		$this->assertInstanceOf('Yjv\ReportRendering\ReportData\DataInterface', $datasource->getData());
+		$this->assertInstanceOf('Yjv\ReportRendering\ReportData\DataInterface', $datasource->getData());
 		
 		$datasource = new CallbackDatasource(function($params) use ($startParams, $tester, $filters){
 			
@@ -69,7 +69,7 @@ class CallbackDatasourceTest extends \PHPUnit_Framework_TestCase{
 		
 		$datasource->setFilters(new ArrayFilterCollection($filters));
 		
-		$this->assertInstanceOf('Yjv\\Bundle\\ReportRenderingBundle\\ReportData\\DataInterface', $datasource->getData());
+		$this->assertInstanceOf('Yjv\ReportRendering\ReportData\DataInterface', $datasource->getData());
 	}
 		
 	public function testGetDataWithNamedParamsInCallback(){	
@@ -89,7 +89,7 @@ class CallbackDatasourceTest extends \PHPUnit_Framework_TestCase{
 		
 		$datasource->setFilters(new ArrayFilterCollection($filters));
 		
-		$this->assertInstanceOf('Yjv\\Bundle\\ReportRenderingBundle\\ReportData\\DataInterface', $datasource->getData());
+		$this->assertInstanceOf('Yjv\ReportRendering\ReportData\DataInterface', $datasource->getData());
 		
 		$datasource = new CallbackDatasource(function($params, $hello, $thing4) use ($startParams, $tester, $filters){
 			
@@ -101,7 +101,7 @@ class CallbackDatasourceTest extends \PHPUnit_Framework_TestCase{
 		
 		$datasource->setFilters(new ArrayFilterCollection($filters));
 		
-		$this->assertInstanceOf('Yjv\\Bundle\\ReportRenderingBundle\\ReportData\\DataInterface', $datasource->getData());
+		$this->assertInstanceOf('Yjv\ReportRendering\ReportData\DataInterface', $datasource->getData());
 		
 		$datasource = new CallbackDatasource(function($params, $hello, ReportData $thing4) use ($startParams, $tester, $filters){
 			

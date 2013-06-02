@@ -1,6 +1,6 @@
 {
-	"name": "yjv/report-rendering-bundle",
-	"description": "bundle with classes that allow easy rendering of report data",
+	"name": "yjv/report-rendering",
+	"description": "library with classes that allow easy rendering of report data",
 	"require": {
 	    
 	    "php": ">=5.3.0",
@@ -11,13 +11,13 @@
 	},
 	"require-dev":{
 	    "twig/twig": "*",
-	    "symfony/framework-bundle": ">=2.0",
-	    "mockery/mockery": "@dev"
+	    "mockery/mockery": "@dev",
+	    "symfony/templating": ">=2.0"
 	},
 	"autoload": {
 	    "psr-0": {
-	        "Yjv\\Bundle\\ReportRenderingBundle": ""
+	        "Yjv\\ReportRendering": ""
 	    }
 	},
-	"target-dir": "Yjv/Bundle/ReportRenderingBundle"
+	"target-dir": "Yjv/ReportRendering"
 }

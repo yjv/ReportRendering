@@ -17,9 +17,9 @@ class HtmlRendererTest extends \PHPUnit_Framework_TestCase{
 	
 	public function setUp(){
 		
-		$this->grid = $this->getMock('Yjv\\Bundle\\ReportRenderingBundle\\Renderer\\Grid\\GridInterface');
+		$this->grid = $this->getMock('Yjv\\ReportRendering\\Renderer\\Grid\\GridInterface');
 		$this->template = 'template';
-		$this->widgetRenderer = $this->getMockBuilder('Yjv\\Bundle\\ReportRenderingBundle\\Widget\\WidgetRenderer')
+		$this->widgetRenderer = $this->getMockBuilder('Yjv\\ReportRendering\\Widget\\WidgetRenderer')
 			->disableOriginalConstructor()
 			->getMock();
 		$this->renderer = new HtmlRenderer($this->widgetRenderer, $this->grid, $this->template);
@@ -135,7 +135,7 @@ class HtmlRendererTest extends \PHPUnit_Framework_TestCase{
 	public function testFilterMethods() {
 		
 		$filters = new NullFilterCollection();
-		$filterForm = $this->getMock('Yjv\\Bundle\\ReportRenderingBundle\\Tests\\TestClasses\\FormInterface');
+		$filterForm = $this->getMock('Yjv\\ReportRendering\\Tests\\TestClasses\\FormInterface');
 		
 		$this->assertFalse($this->renderer->hasFilterForm());
 		

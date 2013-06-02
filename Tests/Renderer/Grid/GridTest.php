@@ -207,6 +207,6 @@ class GridTest extends \PHPUnit_Framework_TestCase{
 			$interface = 'ColumnInterface'
 	) {
 		
-		return $this->getMockBuilder('Yjv\\Bundle\\ReportRenderingBundle\\Renderer\\Grid\\Column\\'.$interface)->getMock();
+		return $this->getMockBuilder('Yjv\\ReportRendering\\Renderer\\Grid\\Column\\'.$interface)->getMock();
 	}
 }

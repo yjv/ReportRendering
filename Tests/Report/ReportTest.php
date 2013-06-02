@@ -30,17 +30,17 @@ class ReportTest extends \PHPUnit_Framework_TestCase {
 	
 	public function setUp(){
 	
-		$this->datasource = $this->getMock('Yjv\\Bundle\\ReportRenderingBundle\\Datasource\\DatasourceInterface');
-		$this->renderer = $this->getMock('Yjv\\Bundle\\ReportRenderingBundle\\Renderer\\RendererInterface');
+		$this->datasource = $this->getMock('Yjv\\ReportRendering\\Datasource\\DatasourceInterface');
+		$this->renderer = $this->getMock('Yjv\\ReportRendering\\Renderer\\RendererInterface');
 		$this->eventDispatcher = $this->getMock('Symfony\\Component\\EventDispatcher\\EventDispatcher');
 		$this->report = new Report($this->datasource, $this->renderer, $this->eventDispatcher);
 	}
 	
 	public function testGettersSetters() {
 		
-		$datasource = $this->getMock('Yjv\\Bundle\\ReportRenderingBundle\\Datasource\\DatasourceInterface');
+		$datasource = $this->getMock('Yjv\\ReportRendering\\Datasource\\DatasourceInterface');
 		$eventDispatcher = $this->getMock('Symfony\\Component\\EventDispatcher\\EventDispatcher');
-		$idGenerator = $this->getMock('Yjv\\Bundle\\ReportRenderingBundle\\IdGenerator\\IdGeneratorInterface');
+		$idGenerator = $this->getMock('Yjv\\ReportRendering\\IdGenerator\\IdGeneratorInterface');
 		$id = 'reportId';
 		$this->assertSame($this->datasource, $this->report->getDatasource());
 		$this->report->setDatasource($datasource);
@@ -63,8 +63,8 @@ class ReportTest extends \PHPUnit_Framework_TestCase {
 	
 	public function testRendererGettersSetters() {
 		
-		$renderer = $this->getMock('Yjv\\Bundle\\ReportRenderingBundle\\Renderer\\RendererInterface');
-		$filterAwareRenderer = $this->getMock('Yjv\\Bundle\\ReportRenderingBundle\\Renderer\\FilterAwareRendererInterface');
+		$renderer = $this->getMock('Yjv\\ReportRendering\\Renderer\\RendererInterface');
+		$filterAwareRenderer = $this->getMock('Yjv\\ReportRendering\\Renderer\\FilterAwareRendererInterface');
 		$name = 'renderer';
 		$this->datasource
 			->expects($this->any())
@@ -147,8 +147,8 @@ class ReportTest extends \PHPUnit_Framework_TestCase {
 	
 	public function testFiltersGettersSetters() {
 		
-		$filters = $this->getMock('Yjv\\Bundle\\ReportRenderingBundle\\Filter\\FilterCollectionInterface');
-		$multiReportFilters = $this->getMock('Yjv\\Bundle\\ReportRenderingBundle\\Filter\\MultiReportFilterCollectionInterface');
+		$filters = $this->getMock('Yjv\\ReportRendering\\Filter\\FilterCollectionInterface');
+		$multiReportFilters = $this->getMock('Yjv\\ReportRendering\\Filter\\MultiReportFilterCollectionInterface');
 		
 		$filters
 			->expects($this->never())
@@ -160,7 +160,7 @@ class ReportTest extends \PHPUnit_Framework_TestCase {
 			->method('setReportId')
 		;
 		
-		$this->assertInstanceOf('Yjv\\Bundle\\ReportRenderingBundle\\Filter\\FilterCollectionInterface', $this->report->getFilters());
+		$this->assertInstanceOf('Yjv\\ReportRendering\\Filter\\FilterCollectionInterface', $this->report->getFilters());
 		$this->report->setFilters($filters);
 		$this->assertSame($filters, $this->report->getFilters());
 		$this->report->setFilters($multiReportFilters);
@@ -169,9 +169,9 @@ class ReportTest extends \PHPUnit_Framework_TestCase {
 	public function testGetData() {
 		
 		$data = new ReportData(array('sdfdsf' => 'sddsf'), 10);
-		$renderer = $this->getMock('Yjv\\Bundle\\ReportRenderingBundle\\Renderer\\RendererInterface');
+		$renderer = $this->getMock('Yjv\\ReportRendering\\Renderer\\RendererInterface');
 		$rendererName = 'renderer';
-		$filters = $this->getMock('Yjv\\Bundle\\ReportRenderingBundle\\Filter\\FilterCollectionInterface');
+		$filters = $this->getMock('Yjv\\ReportRendering\\Filter\\FilterCollectionInterface');
 		$datasource = $this->datasource;
 		$this->report->setFilters($filters);
 		
@@ -208,7 +208,7 @@ class ReportTest extends \PHPUnit_Framework_TestCase {
 		;
 		
 		$result = $this->report->getData($rendererName, $renderer);
-		$this->assertInstanceOf('Yjv\\Bundle\\ReportRenderingBundle\\ReportData\\ImmutableReportData', $result);
+		$this->assertInstanceOf('Yjv\\ReportRendering\\ReportData\\ImmutableReportData', $result);
 		$this->assertEquals($data->getData(), $result->getData());
 		$this->assertEquals($data->getUnfilteredCount(), $result->getUnfilteredCount());
 		$this->assertEquals($data->getCount(), $result->getCount());

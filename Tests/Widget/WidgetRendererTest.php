@@ -15,7 +15,7 @@ class WidgetRendererTest extends \PHPUnit_Framework_TestCase{
 		
 		$this->templatingEngine = $this->getMock('Symfony\\Component\\Templating\\EngineInterface');
 		$this->renderer = new WidgetRenderer($this->templatingEngine);
-		$this->widget = $this->getMock('Yjv\\Bundle\\ReportRenderingBundle\\Widget\\WidgetInterface');
+		$this->widget = $this->getMock('Yjv\\ReportRendering\\Widget\\WidgetInterface');
 	}
 	
 	public function testRender() {

@@ -6,7 +6,7 @@ use Yjv\ReportRendering\ReportData\ImmutableReportData;
 
 class ReportDataTest extends ImmutableReportDataTest{
 
-	protected $dataClass = 'Yjv\\Bundle\\ReportRenderingBundle\\ReportData\\ReportData';
+	protected $dataClass = 'Yjv\\ReportRendering\\ReportData\\ReportData';
 	
 	public function testGettersSetters() {
 		

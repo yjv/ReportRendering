@@ -16,7 +16,7 @@ class DataTransformerRegistryTest extends \PHPUnit_Framework_TestCase{
 	
 	public function testSetGet() {
 		
-		$transformer = $this->getMock('Yjv\\Bundle\\ReportRenderingBundle\\DataTransformer\\DataTransformerInterface');
+		$transformer = $this->getMock('Yjv\\ReportRendering\\DataTransformer\\DataTransformerInterface');
 		$name = 'trans';
 		$this->registry->set($name, $transformer);
 		
