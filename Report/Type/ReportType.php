@@ -79,11 +79,11 @@ class ReportType extends AbstractReportType
      */
     public function getParent()
     {
-        return null;
+        return false;
     }
 
     public function createBuilder(TypeFactoryInterface $factory, array $options)
     {
-        return new ReportBuilder($factory, new EventDispatcher());
+        return new ReportBuilder($factory, new EventDispatcher(), $options);
     }
 }

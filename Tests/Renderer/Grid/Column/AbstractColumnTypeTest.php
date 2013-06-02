@@ -35,12 +35,7 @@ class AbstractColumnTypeTest extends \PHPUnit_Framework_TestCase{
 	
 	public function testSetDefaultOptions(){
 		
-		$this->assertNull($this->type->setDefaultOptions($this->getMock('Symfony\Component\OptionsResolver\OptionsResolverInterface')));
-	}
-	
-	public function testCreateBuilder() {
-		
-		$this->assertInstanceOf('Yjv\Bundle\ReportRenderingBundle\Renderer\Grid\Column\ColumnBuilderInterface', $this->type->createBuilder($this->factory, array()));
+		$this->type->setDefaultOptions($this->getMock('Symfony\Component\OptionsResolver\OptionsResolverInterface'));
 	}
 	
 	public function testGetParent(){

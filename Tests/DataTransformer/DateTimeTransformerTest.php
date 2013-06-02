@@ -27,18 +27,18 @@ class DateTimeTransformerTest extends \PHPUnit_Framework_TestCase{
 	public function testDateTranform() {
 		
 		$dateTime = new \DateTime($this->dateString);
-		$this->transformer->setOptions(array('format' => $this->format));
+		$this->transformer->setConfig(array('format' => $this->format));
 		$this->assertEquals($dateTime->format($this->format), $this->transformer->transform($this->dateString, array()));
 	}
 	
 	public function testInvalidData() {
 		
-		$this->transformer->setOptions(array('format' => $this->format));
+		$this->transformer->setConfig(array('format' => $this->format));
 		
 		try {
 			
 			$this->transformer->transform('sgdsgd', array());
-			$this->fail('no excpetion thrown on invalid date string');
+			$this->fail('no exception thrown on invalid date string');
 		} catch (\Exception $e) {
 		}
 		

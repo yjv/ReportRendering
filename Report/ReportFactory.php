@@ -1,6 +1,8 @@
 <?php
 namespace Yjv\Bundle\ReportRenderingBundle\Report;
 
+use Yjv\Bundle\ReportRenderingBundle\Factory\TypeResolverInterface;
+
 use Yjv\Bundle\ReportRenderingBundle\Renderer\RendererFactoryInterface;
 use Yjv\Bundle\ReportRenderingBundle\Factory\TypeRegistryInterface;
 use Yjv\Bundle\ReportRenderingBundle\Factory\TypeRegistry;
@@ -11,15 +13,18 @@ class ReportFactory extends AbstractTypeFactory implements ReportFactoryInterfac
 {
     protected $rendererFactory;
 
-    public function __construct(TypeRegistryInterface $reportTypeRegistry, RendererFactoryInterface $rendererFactory)
+    public function __construct(TypeResolverInterface $typeResolver, RendererFactoryInterface $rendererFactory)
     {
         $this->rendererFactory = $rendererFactory;
-        parent::__construct($reportTypeRegistry, true);
+        parent::__construct($typeResolver);
     }
 
     public function create($type, array $options = array())
     {
-        return $this->createBuilder($type, $options)->getReport();
+        $builder = $this->createBuilder($type, $options);
+        $report = $builder->getReport();
+        $builder->getTypeChain()->finalize($report, $builder->getOptions());
+        return $report;
     }
 
     public function getBuilderInterfaceName()

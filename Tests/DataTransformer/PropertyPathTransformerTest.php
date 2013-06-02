@@ -1,6 +1,8 @@
 <?php
 namespace Yjv\Bundle\ReportRenderingBundle\Tests\DataTransformer;
 
+use Symfony\Component\PropertyAccess\Exception\ExceptionInterface;
+
 use Symfony\Component\Form\Util\PropertyPath;
 
 use Symfony\Component\Form\Exception\PropertyAccessDeniedException;
@@ -19,26 +21,27 @@ class PropertyPathTransformerTest extends \PHPUnit_Framework_TestCase{
 	public function setUp(){
 	
 		$this->transformer = new PropertyPathTransformer();
+		$this->transformer->setConfig(array());
 		$this->data = array('firstName' => 'John', 'lastName' => 'Smith');
 	}
 	
+	/**
+	 * @expectedException Yjv\Bundle\ReportRenderingBundle\DataTransformer\Config\ConfigValueRequiredException
+	 */
 	public function testMissingRequiredOptions(){
 	
-		$this->setExpectedException('Symfony\\Component\\OptionsResolver\\Exception\\MissingOptionsException');
 		$this->transformer->transform($this->data, $this->data);
 	}
 	
 	public function testPropertyPathTranform() {
 		
-		$this->transformer->setOptions(array('path' => '[firstName]'));
-		$this->assertEquals('John', $this->transformer->transform($this->data, $this->data));
-		$this->transformer->setOptions(array('path' => new PropertyPath('[firstName]')));
+		$this->transformer->setConfig(array('path' => '[firstName]'));
 		$this->assertEquals('John', $this->transformer->transform($this->data, $this->data));
 	}
 	
 	public function testDefaultValueOnNotFound() {
 		
-		$this->transformer->setOptions(array(
+		$this->transformer->setConfig(array(
 				'empty_value' => 'First Name Unknown',
 				'path' => 'name',
 				'required' => false
@@ -49,7 +52,7 @@ class PropertyPathTransformerTest extends \PHPUnit_Framework_TestCase{
 	
 	public function testExceptionOnNotFound() {
 		
-		$this->transformer->setOptions(array(
+		$this->transformer->setConfig(array(
 				'path' => 'name'
 		));
 		
@@ -57,7 +60,7 @@ class PropertyPathTransformerTest extends \PHPUnit_Framework_TestCase{
 			
 			$this->transformer->transform($this->data, $this->data);
 			$this->fail('did not throw exception on path not found');
-		} catch (InvalidPropertyException $e) {
+		} catch (ExceptionInterface $e) {
 		}
 		
 
@@ -65,7 +68,7 @@ class PropertyPathTransformerTest extends \PHPUnit_Framework_TestCase{
 		
 			$this->transformer->transform(new DataWithHiddenProperty(), $this->data);
 			$this->fail('did not throw exception on path not found');
-		} catch (PropertyAccessDeniedException $e) {
+		} catch (ExceptionInterface $e) {
 		}
 	}
 }

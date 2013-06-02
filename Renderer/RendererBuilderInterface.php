@@ -11,6 +11,5 @@ use Yjv\Bundle\ReportRenderingBundle\Datasource\DatasourceInterface;
 interface RendererBuilderInterface extends BuilderInterface
 {
     public function getRenderer();
-    public function getRendererFactory();
     public function setConstructor($callback);
 }

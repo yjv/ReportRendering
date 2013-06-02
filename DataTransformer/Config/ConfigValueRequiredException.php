@@ -1,5 +1,5 @@
 <?php
-namespace Yjv\BUndle\ReportRenderingBundle\DataTransformer\Config;
+namespace Yjv\Bundle\ReportRenderingBundle\DataTransformer\Config;
 
 class ConfigValueRequiredException extends \Exception
 {

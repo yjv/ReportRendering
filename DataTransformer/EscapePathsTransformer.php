@@ -1,23 +1,32 @@
 <?php
 namespace Yjv\Bundle\ReportRenderingBundle\DataTransformer;
 
+use Symfony\Component\PropertyAccess\Exception\ExceptionInterface;
+
+use Symfony\Component\PropertyAccess\PropertyAccess;
+
+use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
+
+use Symfony\Component\PropertyAccess\PropertyPath;
+
 use Yjv\Bundle\ReportRenderingBundle\Data\DataEscaperInterface;
 use Yjv\Bundle\ReportRenderingBundle\Data\DataEscaper;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Exception\FormException;
-use Symfony\Component\Form\Exception\PropertyAccessDeniedException;
-use Symfony\Component\Form\Exception\InvalidPropertyException;
-use Symfony\Component\Form\Util\PropertyPath;
 
 class EscapePathsTransformer extends AbstractDataTransformer
 {
     protected $propertyPaths = array();
     protected $pathOptionsResolver;
     protected $escaper;
+    protected $propertyAccessor;
 
-    public function __construct(DataEscaperInterface $escaper)
+    public function __construct(
+        DataEscaperInterface $escaper, 
+        PropertyAccessorInterface $propertyAccessor = null
+    )
     {
         $this->escaper = $escaper;
+        $this->propertyAccessor = $propertyAccessor ?: PropertyAccess::getPropertyAccessor();
     }
 
     /**
@@ -33,12 +42,18 @@ class EscapePathsTransformer extends AbstractDataTransformer
         foreach ($this->config->get('paths', array()) as $path => $options) {
 
             $options = $this->getPathOptionsResolver()->resolve($options);
-            $propertyPath = $this->getPropertyPath($path);
 
             try {
 
-                $propertyPath->setValue($data, $this->escapeValue($propertyPath->getValue($data), $options));
-            } catch (InvalidPropertyException $e) {}
+                $this->propertyAccessor->setValue(
+                    $data, 
+                    $path, 
+                    $this->escapeValue(
+                        $this->propertyAccessor->getValue($data, $path), 
+                        $options
+                    )
+                );
+            } catch (ExceptionInterface $e) {}
         }
 
         return $data;
@@ -57,16 +72,6 @@ class EscapePathsTransformer extends AbstractDataTransformer
         }
 
         return $this->pathOptionsResolver;
-    }
-
-    protected function getPropertyPath($path)
-    {
-        if (!isset($this->propertyPaths[$path])) {
-
-            $this->propertyPaths[$path] = new PropertyPath($path);
-        }
-
-        return $this->propertyPaths[$path];
     }
 
     protected function escapeValue($value, array $options)

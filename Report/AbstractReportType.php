@@ -1,5 +1,7 @@
 <?php
 namespace Yjv\Bundle\ReportRenderingBundle\Report;
+use Yjv\Bundle\ReportRenderingBundle\Factory\BuilderInterface;
+
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Yjv\Bundle\ReportRenderingBundle\Factory\AbstractType;
 use Yjv\Bundle\ReportRenderingBundle\Factory\TypeFactoryInterface;
@@ -16,7 +18,7 @@ abstract class AbstractReportType extends AbstractType implements FinalizingType
     {
     }
 
-    final public function build($builder, array $options)
+    final public function build(BuilderInterface $builder, array $options)
     {
         return $this->buildReport($builder, $options);
     }

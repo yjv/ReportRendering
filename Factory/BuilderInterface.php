@@ -8,4 +8,6 @@ interface BuilderInterface
     public function getOptions();
     public function setOptions(array $options);
     public function getFactory();
+    public function setTypeChain(TypeChainInterface $typeChain);
+    public function getTypeChain();
 }

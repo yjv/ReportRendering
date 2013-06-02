@@ -18,9 +18,9 @@ class ColumnTest extends \PHPUnit_Framework_TestCase {
 		$this->transformer1 = new MappedDataTransformer();
 		$this->transformer2 = new MappedDataTransformer();
 		$this->transformer3 = new MappedDataTransformer();
-		$this->transformer1->setOptions(array('map' => array('1' => '2')));
-		$this->transformer2->setOptions(array('map' => array('2' => '3')));
-		$this->transformer3->setOptions(array('map' => array('3' => '4')));
+		$this->transformer1->setConfig(array('map' => array('1' => '2')));
+		$this->transformer2->setConfig(array('map' => array('2' => '3')));
+		$this->transformer3->setConfig(array('map' => array('3' => '4')));
 	}
 	
 	public function testGetRowOptions() {

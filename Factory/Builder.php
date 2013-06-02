@@ -5,6 +5,7 @@ class Builder implements BuilderInterface
 {
     protected $options;
     protected $factory;
+    protected $typeChain;
     
     public function __construct(TypeFactoryInterface $factory, array $options = array()){
         
@@ -40,5 +41,16 @@ class Builder implements BuilderInterface
     public function getFactory()
     {
         return $this->factory;
+    }
+    
+    public function setTypeChain(TypeChainInterface $typeChain)
+    {
+        $this->typeChain = $typeChain;
+        return $this;
+    }
+    
+    public function getTypeChain()
+    {
+        return $this->typeChain;
     }
 }

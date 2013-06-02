@@ -29,11 +29,6 @@ interface ReportBuilderInterface extends BuilderInterface
     public function setFilterCollection(FilterCollectionInterface $filterCollection);
 
     /**
-     * @return ReportFactoryInterface
-     */
-    public function getReportFactory();
-
-    /**
      * 
      * @param string $eventName
      * @param callable $listener

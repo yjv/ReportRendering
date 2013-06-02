@@ -1,6 +1,8 @@
 <?php
 namespace Yjv\Bundle\ReportRenderingBundle\Renderer\Grid\Column;
 
+use Yjv\Bundle\ReportRenderingBundle\Factory\TypeResolverInterface;
+
 use Yjv\Bundle\ReportRenderingBundle\Factory\TypeInterface;
 use Yjv\Bundle\ReportRenderingBundle\Factory\TypeRegistry;
 use Yjv\Bundle\ReportRenderingBundle\DataTransformer\DataTransformerRegistry;
@@ -10,7 +12,6 @@ use Yjv\Bundle\ReportRenderingBundle\Renderer\Grid\Column\ColumnRegistry;
 
 class ColumnFactory extends AbstractTypeFactory implements ColumnFactoryInterface
 {
-    protected $registry;
     protected $dataTransformerRegistry;
 
     public function create($type, array $options = array())
@@ -18,16 +19,10 @@ class ColumnFactory extends AbstractTypeFactory implements ColumnFactoryInterfac
         return $this->createBuilder($type, $options)->getColumn();
     }
 
-    public function __construct(TypeRegistry $columnRegistry, DataTransformerRegistry $dataTransformerRegistry)
+    public function __construct(TypeResolverInterface $typeResolver, DataTransformerRegistry $dataTransformerRegistry)
     {
-        $this->registry = $columnRegistry;
         $this->dataTransformerRegistry = $dataTransformerRegistry;
-    }
-
-    public function addType(TypeInterface $type)
-    {
-        $this->registry->add($type);
-        return $this;
+        parent::__construct($typeResolver);
     }
 
     public function getBuilderInterfaceName()

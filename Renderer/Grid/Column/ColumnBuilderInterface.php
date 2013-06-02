@@ -74,17 +74,6 @@ interface ColumnBuilderInterface extends BuilderInterface
     public function prependDataTransformer($dataTransformer);
 
     /**
-     * should return the same factory the builder originated from
-     */
-    public function getColumnFactory();
-
-    /**
-     * returns the data transformer registry
-     * @return \Yjv\Bundle\ReportRenderingBundle\DataTransformer\DataTransformerRegistry
-     */
-    public function getDataTransformerRegistry();
-
-    /**
      * returns the built column
      * @return \Yjv\Bundle\ReportRenderingBundle\Renderer\Grid\Column\ColumnInterface
      */

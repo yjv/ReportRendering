@@ -32,6 +32,7 @@ class TypeChain implements \Iterator, TypeChainInterface
     public function rewind()
     {
         $this->index = $this->iterationDirection == TypeChainInterface::ITERATION_DIRECTION_PARENT_FIRST ? 0 : (count($this->types) - 1);
+        $this->validateCurrentForExclusionStrategy();
     }
 
     public function current()
@@ -47,28 +48,14 @@ class TypeChain implements \Iterator, TypeChainInterface
     public function next()
     {
         $this->iterationDirection  == TypeChainInterface::ITERATION_DIRECTION_PARENT_FIRST ? $this->index++ : $this->index--;
-        
-        if (!$this->valid()) {
-            
-            return;
-        }
-        
-        if (
-            ($this->exclusionStrategy == TypeChainInterface::EXCLUSION_STRATEGY_TYPES
-            && $this->current() instanceof TypeInterface)
-            ||
-            ($this->exclusionStrategy == TypeChainInterface::EXCLUSION_STRATEGY_TYPE_EXTENSIONS
-            && $this->current() instanceof TypeExtensionInterface)
-        ) {
-            $this->next();
-        }
+        $this->validateCurrentForExclusionStrategy();
     }
 
     public function valid()
     {
         return isset($this->types[$this->index]);
     }
-
+    
     public function getOptionsResolver()
     {
         $this
@@ -121,6 +108,11 @@ class TypeChain implements \Iterator, TypeChainInterface
             }
         }
     
+        if ($builder) {
+            
+            $builder->setTypeChain($this);
+        }
+        
         return $builder;
     }
     
@@ -155,6 +147,23 @@ class TypeChain implements \Iterator, TypeChainInterface
         }
     
         return $object;
+    }
+    
+    protected function validateCurrentForExclusionStrategy()
+    {
+        if (!$this->valid()) {
+            
+            return;
+        }
+        
+        if (
+            ($this->exclusionStrategy == TypeChainInterface::EXCLUSION_STRATEGY_TYPES
+            && $this->current() instanceof TypeInterface)
+            || ($this->exclusionStrategy == TypeChainInterface::EXCLUSION_STRATEGY_TYPE_EXTENSIONS
+            && $this->current() instanceof TypeExtensionInterface)
+        ) {
+            $this->next();
+        }
     }
 }
 

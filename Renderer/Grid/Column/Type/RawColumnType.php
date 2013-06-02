@@ -6,11 +6,6 @@ use Yjv\Bundle\ReportRenderingBundle\Renderer\Grid\Column\AbstractColumnType;
 
 class RawColumnType extends AbstractColumnType
 {
-    public function getParent()
-    {
-        return 'column';
-    }
-
     public function getName()
     {
         return 'raw_column';

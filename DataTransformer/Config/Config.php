@@ -1,7 +1,7 @@
 <?php
 namespace Yjv\Bundle\ReportRenderingBundle\DataTransformer\Config;
 
-use Yjv\BUndle\ReportRenderingBundle\DataTransformer\Config\ConfigValueRequiredException;
+use Yjv\Bundle\ReportRenderingBundle\DataTransformer\Config\ConfigValueRequiredException;
 
 class Config implements ConfigInterface
 {

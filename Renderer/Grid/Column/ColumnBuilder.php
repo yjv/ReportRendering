@@ -10,12 +10,6 @@ class ColumnBuilder extends Builder implements ColumnBuilderInterface
     protected $rowOptions = array();
     protected $cellOptions = array();
     protected $dataTransformers = array();
-    protected $columnFactory;
-
-    public function __construct(ColumnFactoryInterface $columnFactory)
-    {
-        $this->columnFactory = $columnFactory;
-    }
 
     /**
      * {@inheritdoc}
@@ -102,22 +96,6 @@ class ColumnBuilder extends Builder implements ColumnBuilderInterface
     {
         array_unshift($this->dataTransformers, $dataTransformer);
         return $this;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getColumnFactory()
-    {
-        return $this->columnFactory;
-    }
-
-    /**
-     * 
-     */
-    public function getDataTransformerRegistry()
-    {
-        return $this->columnFactory->getDataTransformerRegistry();
     }
 
     /**

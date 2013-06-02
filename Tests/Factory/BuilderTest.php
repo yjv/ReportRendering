@@ -29,5 +29,9 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
         $this->assertSame($this->builder, $this->builder->setOptions(array('key3' => 'value3')));
         $this->assertEquals(array('key3' => 'value3'), $this->builder->getOptions());
         $this->assertSame($this->factory, $this->builder->getFactory());
+        $typeChain = Mockery::mock('Yjv\Bundle\ReportRenderingBundle\Factory\TypeChainInterface');
+        $this->assertNull($this->builder->getTypeChain());
+        $this->assertSame($this->builder, $this->builder->setTypeChain($typeChain));
+        $this->assertSame($typeChain, $this->builder->getTypeChain());
     }
 }

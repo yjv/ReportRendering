@@ -1,6 +1,8 @@
 <?php
 namespace Yjv\Bundle\ReportRenderingBundle\Report;
 
+use Yjv\Bundle\ReportRenderingBundle\Renderer\LazyLoadedRenderer;
+
 use Yjv\Bundle\ReportRenderingBundle\Factory\Builder;
 
 use Yjv\Bundle\ReportRenderingBundle\Factory\TypeInterface;
@@ -20,12 +22,11 @@ class ReportBuilder extends Builder implements ReportBuilderInterface
     protected $datasource;
     protected $filterCollection;
     protected $eventDispatcher;
-    protected $reportFactory;
 
-    public function __construct(ReportFactoryInterface $reportFactory, EventDispatcherInterface $eventDispatcher)
+    public function __construct(ReportFactoryInterface $factory, EventDispatcherInterface $eventDispatcher, array $options = array())
     {
-        $this->reportFactory = $reportFactory;
         $this->eventDispatcher = $eventDispatcher;
+        parent::__construct($factory, $options);
     }
 
     /**
@@ -78,31 +79,22 @@ class ReportBuilder extends Builder implements ReportBuilderInterface
     {
         if (is_string($renderer) || $renderer instanceof TypeInterface) {
             
-            $renderer = $this
-                ->reportFactory
-                ->getRendererFactory()
-                ->create($renderer, $options)
-            ;
+            $renderer = new LazyLoadedRenderer(
+                $this->factory->getRendererFactory(), 
+                $renderer, 
+                $options
+            );
         }
         
         if (!$renderer instanceof RendererInterface) {
             
-            throw new \BadMethodCallException(
+            throw new \InvalidArgumentException(
                 '$renderer must either an renderer type, type name or instance of RendererInterface'
             );
         }
         
         $this->renderers[$name] = $renderer;
         return $this;
-    }
-
-    /**
-     *
-     * {@inherited}
-     */
-    public function getReportFactory()
-    {
-        return $this->reportFactory;
     }
 
     /**

@@ -65,7 +65,7 @@ class Report implements ReportInterface
      */
     public function getRenderer($name = 'default')
     {
-        if (!isset($this->renderers[$name])) {
+        if (!$this->hasRenderer($name)) {
 
             throw new RendererNotFoundException($name);
         }
@@ -87,6 +87,11 @@ class Report implements ReportInterface
         $renderer->setData($this->getData($name, $renderer));
 
         return $renderer;
+    }
+    
+    public function hasRenderer($name)
+    {
+        return isset($this->renderers[$name]);
     }
 
     /**

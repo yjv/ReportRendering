@@ -8,12 +8,10 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 abstract class AbstractTypeFactory implements TypeFactoryInterface
 {
     protected $typeResolver;
-    protected $supportsFinalizing;
 
-    public function __construct(TypeResolverInterface $typeResolver, $supportsFinalizing = false)
+    public function __construct(TypeResolverInterface $typeResolver)
     {
         $this->typeResolver = $typeResolver;
-        $this->supportsFinalizing = $supportsFinalizing;
     }
 
     public function createBuilder($type, array $options = array())

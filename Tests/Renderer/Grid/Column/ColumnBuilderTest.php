@@ -42,18 +42,6 @@ class ColumnBuilderTest extends \PHPUnit_Framework_TestCase {
 		$this->assertEquals(array('option1' => 'fdsdfs', 'option3' => 'test'), $this->builder->getCellOptions());
 	}
 	
-	public function testGetOptions() {
-		
-		$options = array('option1' => 'fdsdfs');
-		
-		$this->assertSame($this->builder, $this->builder->setOptions($options));
-		$this->assertEquals($options, $this->builder->getOptions());
-		
-		$this->assertSame($this->builder, $this->builder->setOption('option3', 'test'));
-		
-		$this->assertEquals(array('option1' => 'fdsdfs', 'option3' => 'test'), $this->builder->getOptions());
-	}
-	
 	public function testDatatransformerGetterSetter() {
 		
 		$transformer1 = new MappedDataTransformer();
@@ -69,18 +57,6 @@ class ColumnBuilderTest extends \PHPUnit_Framework_TestCase {
 		array_unshift($dataTransformers, $transformer1);
 		$this->assertSame($this->builder, $this->builder->prependDataTransformer($transformer1));
 		$this->assertSame($dataTransformers, $this->builder->getDataTransformers());
-	}
-	
-	public function testGetColumnFactory() {
-		
-		$this->assertSame($this->columnFactory, $this->builder->getColumnFactory());
-	}
-	
-	public function testGetDataTransformerRegistry() {
-		
-		$dataTransformerRegistry = $this->getMock('Yjv\Bundle\ReportRenderingBundle\DataTransformer\DataTransformerRegistry');
-		$this->columnFactory->expects($this->once())->method('getDataTransformerRegistry')->will($this->returnValue($dataTransformerRegistry));
-		$this->assertSame($dataTransformerRegistry, $this->builder->getDataTransformerRegistry());
 	}
 	
 	public function testGetColumn() {

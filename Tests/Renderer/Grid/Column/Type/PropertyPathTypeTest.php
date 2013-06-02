@@ -32,9 +32,9 @@ class PropertyPathTypeTest extends TypeTestCase{
 		$this->assertCount(1, $dataTransformers);
 		$transformer = $dataTransformers[0];
 		$this->assertInstanceOf('Yjv\Bundle\ReportRenderingBundle\DataTransformer\PropertyPathTransformer', $transformer);
-		$this->assertEquals('column', $transformer->getOption('path'));
-		$this->assertEquals(true, $transformer->getOption('required'));
-		$this->assertEquals('', $transformer->getOption('empty_value'));
+		$this->assertEquals('column', $transformer->getConfig()->get('path'));
+		$this->assertEquals(true, $transformer->getConfig()->get('required'));
+		$this->assertEquals('', $transformer->getConfig()->get('empty_value'));
 	}
 	
 	public function testSetDefaultOptions() {

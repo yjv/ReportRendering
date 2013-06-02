@@ -1,6 +1,12 @@
 <?php
 namespace Yjv\Bundle\ReportRenderingBundle\DataTransformer;
 
+use Symfony\Component\PropertyAccess\Exception\ExceptionInterface;
+
+use Symfony\Component\PropertyAccess\PropertyAccess;
+
+use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
+
 use Symfony\Component\Form\Exception\FormException;
 use Symfony\Component\Form\Exception\PropertyAccessDeniedException;
 use Symfony\Component\Form\Exception\InvalidPropertyException;
@@ -8,6 +14,13 @@ use Symfony\Component\Form\Util\PropertyPath;
 
 class FormatStringTransformer extends AbstractDataTransformer
 {
+    protected $propertyAccessor;
+    
+    public function __construct(PropertyAccessorInterface $propertyAccessor = null)
+    {
+        $this->propertyAccessor = $propertyAccessor ?: PropertyAccess::getPropertyAccessor();
+    }
+    
     /**
      * @param unknown $data
      */
@@ -19,15 +32,14 @@ class FormatStringTransformer extends AbstractDataTransformer
 
             foreach (array_unique($matches[1]) as $path) {
 
-                $propertyPath = new PropertyPath($path);
-
                 try {
 
-                    $string = str_replace(sprintf('{%s}', $path), $propertyPath->getValue($data), $string);
-                } catch (InvalidPropertyException $e) {
-
-                    return $this->handlePathSearchException($e);
-                } catch (PropertyAccessDeniedException $e) {
+                    $string = str_replace(
+                        sprintf('{%s}', $path), 
+                        $this->propertyAccessor->getValue($data, $path), 
+                        $string
+                    );
+                } catch (ExceptionInterface $e) {
 
                     return $this->handlePathSearchException($e);
                 }
@@ -37,7 +49,7 @@ class FormatStringTransformer extends AbstractDataTransformer
         return $string;
     }
 
-    protected function handlePathSearchException(FormException $e)
+    protected function handlePathSearchException(ExceptionInterface $e)
     {
 
         if (!$this->config->get('required', true)) {

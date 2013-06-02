@@ -63,4 +63,9 @@ class ColumnTypeTest extends TypeTestCase{
 		
 		$this->type->setDefaultOptions($optionsResolver);
 	}
+	
+	public function testCreateBuilder() {
+		
+		$this->assertInstanceOf('Yjv\Bundle\ReportRenderingBundle\Renderer\Grid\Column\ColumnBuilderInterface', $this->type->createBuilder($this->factory, array()));
+	}
 }

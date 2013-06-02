@@ -1,6 +1,8 @@
 <?php
 namespace Yjv\Bundle\ReportRenderingBundle\Test\DataTransformer;
 
+use Symfony\Component\PropertyAccess\Exception\ExceptionInterface;
+
 use Yjv\Bundle\ReportRenderingBundle\Tests\DataTransformer\DataWithHiddenProperty;
 
 use Symfony\Component\Form\Exception\PropertyAccessDeniedException;
@@ -15,29 +17,27 @@ class FormatStringTransformerTest extends \PHPUnit_Framework_TestCase{
 	public function setUp(){
 		
 		$this->transformer = new FormatStringTransformer();
+		$this->transformer->setConfig(array());
 		$this->data = array('firstName' => 'John', 'lastName' => 'Smith');
 	}
 	
+	/**
+	 * @expectedException Yjv\Bundle\ReportRenderingBundle\DataTransformer\Config\ConfigValueRequiredException
+	 */
 	public function testMissingRequiredOptions(){
 		
-		try {
-			$this->transformer->transform($this->data, $this->data);
-			$this->fail('transform failed to throw an exception');
-		} catch (\Exception $e) {
-
-			$this->assertInstanceOf('Symfony\\Component\\OptionsResolver\\Exception\\MissingOptionsException', $e);
-		}
+		$this->transformer->transform($this->data, $this->data);
 	}
 	
 	public function testFormatStringTranform() {
 		
-		$this->transformer->setOptions(array('format_string' => '{[firstName]} {[lastName]}'));
+		$this->transformer->setConfig(array('format_string' => '{[firstName]} {[lastName]}'));
 		$this->assertEquals('John Smith', $this->transformer->transform($this->data, $this->data));
 	}
 	
 	public function testDefaultValueOnNotFound() {
 		
-		$this->transformer->setOptions(array(
+		$this->transformer->setConfig(array(
 				'empty_value' => 'Name Unknown',
 				'format_string' => '{name}',
 				'required' => false
@@ -48,7 +48,7 @@ class FormatStringTransformerTest extends \PHPUnit_Framework_TestCase{
 
 	public function testExceptionOnNotFound() {
 	
-		$this->transformer->setOptions(array(
+		$this->transformer->setConfig(array(
 			'format_string' => '{name}',
 		));
 	
@@ -56,14 +56,14 @@ class FormatStringTransformerTest extends \PHPUnit_Framework_TestCase{
 				
 			$this->transformer->transform($this->data, $this->data);
 			$this->fail('did not throw exception on path not found');
-		} catch (InvalidPropertyException $e) {
+		} catch (ExceptionInterface $e) {
 		}
 	
 		try {
 				
 			$this->transformer->transform(new DataWithHiddenProperty(), $this->data);
 			$this->fail('did not throw exception on path not found');
-		} catch (PropertyAccessDeniedException $e) {
+		} catch (ExceptionInterface $e) {
 		}
 	}
 	

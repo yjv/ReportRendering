@@ -16,7 +16,7 @@ class PropertyPathType extends AbstractColumnType
 
     public function buildColumn(ColumnBuilderInterface $builder, array $options)
     {
-        $dataTransformer = $builder->getDataTransformerRegistry()->get('property_path');
+        $dataTransformer = $builder->getFactory()->getDataTransformerRegistry()->get('property_path');
         $dataTransformer->setConfig(array(
             'path' => $options['path'],
             'required' => $options['required'],

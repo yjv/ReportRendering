@@ -32,6 +32,13 @@ interface ReportInterface
      * @return RendererInterface
      */
     public function getRenderer($name = 'default');
+    
+    /**
+     * 
+     * @param string $name
+     * @return boll
+     */
+    public function hasRenderer($name);
 
     /**
      * @return array

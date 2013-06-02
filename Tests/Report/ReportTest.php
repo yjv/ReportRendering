@@ -3,6 +3,8 @@ namespace Yjv\Bundle\ReportRenderingBundle\Tests\Report;
 
 use Yjv\Bundle\ReportRenderingBundle\Event\FilterDataEvent;
 
+use Mockery;
+
 use Yjv\Bundle\ReportRenderingBundle\Event\DataEvent;
 
 use Yjv\Bundle\ReportRenderingBundle\Report\ReportEvents;
@@ -100,6 +102,47 @@ class ReportTest extends \PHPUnit_Framework_TestCase {
 			$this->fail('failed to remove renderer');
 		} catch (RendererNotFoundException $e) {
 		}
+	}
+	
+	public function testGetRendererWithLazyLoadedRenderer()
+	{
+	    $renderer = Mockery::mock('Yjv\Bundle\ReportRenderingBundle\Renderer\RendererInterface');
+	    $lazyRenderer = Mockery::mock('Yjv\Bundle\ReportRenderingBundle\Renderer\LazyLoadedRendererInterface')
+	        ->shouldReceive('getRenderer')
+	        ->once()
+	        ->andReturn($renderer)
+	        ->getMock()
+	    ;
+		$this->datasource
+			->expects($this->any())
+			->method('getData')
+			->will($this->returnValue(new ReportData(array(), 10)))
+		;
+		$renderer
+    		->shouldReceive('setData')
+    		->twice()
+    		->getMock()
+    		->shouldReceive('setReportId')
+    		->twice()
+    		->getMock()
+    		->shouldReceive('getForceReload')
+    		->twice()
+    		->andReturn(true)
+		;
+		$this->report->addRenderer('lazy', $lazyRenderer);
+		$this->assertSame($renderer, $this->report->getRenderer('lazy'));
+		$this->assertSame($renderer, $this->report->getRenderer('lazy'));
+	}
+	
+	public function test__toString()
+	{
+	    $this->renderer->expects($this->once())->method('render')->will($this->returnValue('hello'));
+		$this->datasource
+			->expects($this->any())
+			->method('getData')
+			->will($this->returnValue(new ReportData(array(), 10)))
+		;
+	    $this->assertEquals('hello', (string)$this->report);
 	}
 	
 	public function testFiltersGettersSetters() {

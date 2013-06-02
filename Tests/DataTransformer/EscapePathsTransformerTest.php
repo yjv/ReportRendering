@@ -3,7 +3,7 @@ namespace Yjv\Bundle\ReportRenderingBundle\Tests\DataTransformer;
 
 use Yjv\Bundle\ReportRenderingBundle\DataTransformer\EscapePathsTransformer;
 
-use MyProject\Proxies\__CG__\OtherProject\Proxies\__CG__\stdClass;
+use Mockery;
 
 use Yjv\Bundle\ReportRenderingBundle\DataTransformer\DateTimeTransformer;
 
@@ -20,14 +20,14 @@ class EscapePathsTransformerTest extends \PHPUnit_Framework_TestCase{
 	
 	public function setUp(){
 	
-		$this->escaper = $this->getMock('Yjv\Bundle\ReportRenderingBundle\Data\DataEscaperInterface');
-		$this->escaper->expects($this->any())->method('getSupportedStrategies')->will($this->returnValue(array(
+		$this->escaper = Mockery::mock('Yjv\Bundle\ReportRenderingBundle\Data\DataEscaperInterface');
+		$this->escaper->shouldReceive('getSupportedStrategies')->andReturn(array(
 				'js',
 				'css',
 				'html_attr',
 				'html',
 				'url'
-		)));
+		));
 		$this->transformer = new EscapePathsTransformer($this->escaper);
 	}
 	
@@ -35,8 +35,8 @@ class EscapePathsTransformerTest extends \PHPUnit_Framework_TestCase{
 		
 		$data = array('path1' => 'hello', 'path2' => 'goodbye');
 		
-		$this->escaper->expects($this->once())->method('escape')->with('js', 'hello')->will($this->returnValue('goodbye'));
-		$this->transformer->setOptions(array('paths' => array('[path1]' => array('escape_strategy' => 'js'))));
+		$this->escaper->shouldReceive('escape')->once()->with('js', 'hello')->andReturn('goodbye');
+		$this->transformer->setConfig(array('paths' => array('[path1]' => array('escape_strategy' => 'js'))));
 		$this->assertEquals(array('path1' => 'goodbye', 'path2' => 'goodbye'), $this->transformer->transform($data, $data));
 	}
 	
@@ -46,8 +46,8 @@ class EscapePathsTransformerTest extends \PHPUnit_Framework_TestCase{
 		$data->path1 = 'hello';
 		$data->path2 = 'goodbye';
 		
-		$this->escaper->expects($this->once())->method('escape')->with('js', 'hello')->will($this->returnValue('goodbye'));
-		$this->transformer->setOptions(array('paths' => array('path1' => array('escape_strategy' => 'js'))));
+		$this->escaper->shouldReceive('escape')->once()->with('js', 'hello')->andReturn('goodbye');
+		$this->transformer->setConfig(array('paths' => array('path1' => array('escape_strategy' => 'js'))));
 		$transformedData = $this->transformer->transform($data, $data);
 		$this->assertTrue($data === $transformedData);
 		$this->assertEquals('goodbye', $transformedData->path1);
@@ -59,8 +59,8 @@ class EscapePathsTransformerTest extends \PHPUnit_Framework_TestCase{
 		$data->path1 = 'hello';
 		$data->path2 = 'goodbye';
 		
-		$this->escaper->expects($this->once())->method('escape')->with('js', 'hello')->will($this->returnValue('goodbye'));
-		$this->transformer->setOptions(array('copy_before_escape' => true, 'paths' => array('path1' => array('escape_strategy' => 'js'))));
+		$this->escaper->shouldReceive('escape')->once()->with('js', 'hello')->andReturn('goodbye');
+		$this->transformer->setConfig(array('copy_before_escape' => true, 'paths' => array('path1' => array('escape_strategy' => 'js'))));
 		$transformedData = $this->transformer->transform($data, $data);
 		$this->assertNotSame($data, $transformedData);
 		$this->assertEquals('goodbye', $transformedData->path1);

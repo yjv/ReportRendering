@@ -44,6 +44,15 @@ class TypeChainTest extends \PHPUnit_Framework_TestCase{
 		$this->assertSame($this->types, iterator_to_array($this->chain));
 		$this->chain->setExclusionStrategy(TypeChainInterface::EXCLUSION_STRATEGY_TYPE_EXTENSIONS);
 		$this->assertSame(array($this->type1, $this->type2, $this->type3), array_values(iterator_to_array($this->chain)));
+		$this->chain->setExclusionStrategy(TypeChainInterface::EXCLUSION_STRATEGY_TYPES);
+		$this->assertSame(array($this->type2Extension), array_values(iterator_to_array($this->chain)));
+	}
+	
+	public function testEmptyArrayReturnedWhenAllExcluded()
+	{
+		$typeChain = new TypeChain(array($this->type1));
+		$typeChain->setExclusionStrategy(TypeChainInterface::EXCLUSION_STRATEGY_TYPES);
+		$this->assertSame(array(), array_values(iterator_to_array($typeChain)));
 	}
 	
 	public function testGetOptionsResolver()
@@ -111,7 +120,12 @@ class TypeChainTest extends \PHPUnit_Framework_TestCase{
 	
 	public function testGetBuilder()
 	{
-	    $builder = Mockery::mock('Yjv\Bundle\ReportRenderingBundle\Factory\BuilderInterface');
+	    $builder = Mockery::mock('Yjv\Bundle\ReportRenderingBundle\Factory\BuilderInterface')
+	        ->shouldReceive('setTypeChain')
+	        ->once()
+	        ->with($this->chain)
+	        ->getMock()
+	    ;
 	    $options = array('key' => 'value');
 	    $factory = Mockery::mock('Yjv\Bundle\ReportRenderingBundle\Factory\TypeFactoryInterface');
 	    $this->type3

@@ -3,29 +3,73 @@ namespace Yjv\Bundle\ReportRenderingBundle\Tests\Report;
 
 use Yjv\Bundle\ReportRenderingBundle\Report\ReportFactory;
 
+use Mockery;
+
 class ReportFactoryTest extends \PHPUnit_Framework_TestCase {
 
 	protected $factory;
-	protected $registry;
+	protected $resolver;
+	protected $rendererFactory;
 	
 	public function setUp(){
 		
-		$this->registry = $this->getMockBuilder('Yjv\Bundle\ReportRenderingBundle\Report\ReportTypeRegistry')->getMock();
-		$this->factory = new ReportFactory($this->registry);
+		$this->resolver = Mockery::mock('Yjv\Bundle\ReportRenderingBundle\Factory\TypeResolverInterface');
+		$this->rendererFactory = Mockery::mock('Yjv\Bundle\ReportRenderingBundle\Renderer\RendererFactoryInterface');
+		$this->factory = new ReportFactory($this->resolver, $this->rendererFactory);
 	}
 	
-	public function test() {
-		
-		$reportType = $this->getMockBuilder('Yjv\Bundle\ReportRenderingBundle\Report\ReportTypeInterface')->getMock();
-		$typeName = 'type';
-		
-		$this->registry
-			->expects($this->once())
-			->method('get')
-			->with($typeName)
-			->will($this->returnValue($reportType))
-		;
-		
-		$this->assertSame($reportType, $this->factory->getType($typeName));
+	public function testCreate()
+	{
+	    $factory = $this
+			->getMockBuilder(get_class($this->factory))
+			->disableOriginalConstructor()
+			->setMethods(array('createBuilder'))
+			->getMock()
+	    ;
+	    
+	    $type = 'type';
+	    $options = array('key' => 'value');
+	    $report = Mockery::mock('Yjv\Bundle\ReportRenderingBundle\Report\ReportInterface');
+	    
+	    $typeChain = Mockery::mock('Yjv\Bundle\ReportRenderingBundle\Factory\TypeChainInterface')
+	        ->shouldReceive('finalize')
+	        ->with($report, $options)
+	        ->once()
+	        ->getMock()
+	    ;
+	    
+	    $builder = Mockery::mock('Yjv\Bundle\ReportRenderingBundle\Report\ReportBuilderInterface')
+	        ->shouldReceive('getTypeChain')
+	        ->once()
+	        ->andReturn($typeChain)
+	        ->getMock()
+	        ->shouldReceive('getOptions')
+	        ->once()
+	        ->andReturn($options)
+	        ->getMock()
+	        ->shouldReceive('getReport')
+	        ->once()
+	        ->andReturn($report)
+	        ->getMock()
+	    ;
+	    
+	    $factory
+    	    ->expects($this->once())
+    	    ->method('createBuilder')
+    	    ->with($type, $options)
+    	    ->will($this->returnValue($builder))
+	    ;
+	    
+	    $this->assertSame($report, $factory->create($type, $options));
+	}
+	
+	public function testGetBuilderInterfaceName()
+	{
+	    $this->assertEquals('Yjv\Bundle\ReportRenderingBundle\Report\ReportBuilderInterface', $this->factory->getBuilderInterfaceName());
+	}
+	
+	public function testGetRendererFactory()
+	{
+	    $this->assertSame($this->rendererFactory, $this->factory->getRendererFactory());
 	}
 }

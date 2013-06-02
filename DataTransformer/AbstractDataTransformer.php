@@ -16,6 +16,16 @@ abstract class AbstractDataTransformer implements DataTransformerInterface
     public function setConfig($config)
     {
         $this->config = $config instanceof ConfigInterface ? $config : new Config($config);
+        return $this;
     }
 
+    public function getConfig()
+    {
+        if (!$this->config) {
+            
+            $this->setConfig(array());
+        }
+        
+        return $this->config;
+    }
 }

@@ -1,6 +1,10 @@
 <?php
 namespace Yjv\Bundle\ReportRenderingBundle\Datasource;
 
+use Symfony\Component\PropertyAccess\PropertyAccess;
+
+use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
+
 use Yjv\Bundle\ReportRenderingBundle\ReportData\ReportData;
 use Yjv\Bundle\ReportRenderingBundle\Filter\NullFilterCollection;
 use Symfony\Component\Form\Util\PropertyPath;
@@ -13,8 +17,9 @@ class ArrayDatasource implements MappedSortDatasourceInterface
     protected $filters;
     protected $sortMap = array();
     protected $filterMap = array();
+    protected $propertyAccessor;
 
-    public function __construct($data)
+    public function __construct($data, PropertyAccessorInterface $propertyAccessor = null)
     {
         if ($data instanceof \Traversable) {
 
@@ -28,6 +33,7 @@ class ArrayDatasource implements MappedSortDatasourceInterface
 
         $this->data = $data;
         $this->filters = new NullFilterCollection();
+        $this->propertyAccessor = $propertyAccessor ?: PropertyAccess::getPropertyAccessor();
     }
 
     public function getData($forceReload = false)
@@ -61,6 +67,7 @@ class ArrayDatasource implements MappedSortDatasourceInterface
     protected function processData()
     {
         $this->processedData = $this->data;
+        $propertyAccessor = $this->propertyAccessor;
 
         if ($this->filters->get('sort', false)) {
 
@@ -69,14 +76,12 @@ class ArrayDatasource implements MappedSortDatasourceInterface
             $order = current($sort);
             $sort = $this->mapSort(key($sort));
 
-            $propertyPath = new PropertyPath((string) $sort);
-
             uasort(
                 $this->processedData,
-                function ($a, $b) use ($propertyPath, $order)
+                function ($a, $b) use ($propertyAccessor, $order, $sort)
                 {
-                    $valueA = $propertyPath->getValue($a);
-                    $valueB = $propertyPath->getValue($b);
+                    $valueA = $propertyAccessor->getValue($a, (string)$sort);
+                    $valueB = $propertyAccessor->getValue($b, (string)$sort);
                     return ($order == 'asc' ? 1 : -1) * strcasecmp($valueA, $valueB);
                 }
             );
@@ -87,13 +92,13 @@ class ArrayDatasource implements MappedSortDatasourceInterface
 
         foreach ($filters as $name => $value) {
 
-            $propertyPath = new PropertyPath($this->mapFilter($name));
+            $filterPath = $this->mapFilter($name);
 
             $this->processedData = array_filter(
                 $this->processedData,
-                function ($data) use ($value, $propertyPath)
+                function ($data) use ($value, $propertyAccessor, $filterPath)
                 {
-                    $data = $propertyPath->getValue($data);
+                    $data = $propertyAccessor->getValue($data, $filterPath);
                     if (stripos($data, $value) === 0) {
 
                         return true;

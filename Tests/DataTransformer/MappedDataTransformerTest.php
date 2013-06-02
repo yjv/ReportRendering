@@ -19,24 +19,27 @@ class MappedDataTransformerTest extends \PHPUnit_Framework_TestCase{
 	public function setUp(){
 	
 		$this->transformer = new MappedDataTransformer();
+		$this->transformer->setConfig(array());
 		$this->data = 'John';
 	}
 	
+	/**
+	 * @expectedException Yjv\Bundle\ReportRenderingBundle\DataTransformer\Config\ConfigValueRequiredException
+	 */
 	public function testMissingRequiredOptions(){
 	
-		$this->setExpectedException('Symfony\Component\OptionsResolver\Exception\MissingOptionsException');
 		$this->transformer->transform($this->data, $this->data);
 	}
 	
 	public function testMappedDataTranform() {
 		
-		$this->transformer->setOptions(array('map' => array('John' => 'Smith')));
+		$this->transformer->setConfig(array('map' => array('John' => 'Smith')));
 		$this->assertEquals('Smith', $this->transformer->transform($this->data, $this->data));
 	}
 	
 	public function testDefaultValueOnNotFound() {
 		
-		$this->transformer->setOptions(array(
+		$this->transformer->setConfig(array(
 				'empty_value' => 'Last Name Unknown',
 				'map' => array('Joe' => 'Smith'),
 				'required' => false
@@ -47,7 +50,7 @@ class MappedDataTransformerTest extends \PHPUnit_Framework_TestCase{
 	
 	public function testExceptionOnNotFound() {
 		
-		$this->transformer->setOptions(array(
+		$this->transformer->setConfig(array(
 				'map' => array('Joe' => 'Smith')
 		));
 		
