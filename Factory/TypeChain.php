@@ -7,7 +7,8 @@ class TypeChain implements \Iterator, TypeChainInterface
 {
     protected $index = 0;
     protected $types = array();
-    protected $iterationDirection = TypeChainInterface::ITERATION_DIRECTION_TOP_DOWN;
+    protected $iterationDirection = TypeChainInterface::ITERATION_DIRECTION_PARENT_FIRST;
+    protected $exclusionStrategy = TypeChainInterface::EXCLUSION_STRATEGY_NONE;
 
     public function __construct(array $types)
     {
@@ -17,11 +18,20 @@ class TypeChain implements \Iterator, TypeChainInterface
     public function setIterationDirection($direction)
     {
         $this->iterationDirection = $direction;
+        $this->rewind();
+        return $this;
+    }
+    
+    public function setExclusionStrategy($strategy)
+    {
+        $this->exclusionStrategy = $strategy;
+        $this->rewind();
+        return $this;
     }
 
     public function rewind()
     {
-        $this->index = $this->iterationDirection == TypeChainInterface::ITERATION_DIRECTION_TOP_DOWN ? 0 : (count($this->types) - 1);
+        $this->index = $this->iterationDirection == TypeChainInterface::ITERATION_DIRECTION_PARENT_FIRST ? 0 : (count($this->types) - 1);
     }
 
     public function current()
@@ -36,7 +46,22 @@ class TypeChain implements \Iterator, TypeChainInterface
 
     public function next()
     {
-        $this->iterationDirection  == TypeChainInterface::ITERATION_DIRECTION_TOP_DOWN ? $this->index++ : $this->index--;
+        $this->iterationDirection  == TypeChainInterface::ITERATION_DIRECTION_PARENT_FIRST ? $this->index++ : $this->index--;
+        
+        if (!$this->valid()) {
+            
+            return;
+        }
+        
+        if (
+            ($this->exclusionStrategy == TypeChainInterface::EXCLUSION_STRATEGY_TYPES
+            && $this->current() instanceof TypeInterface)
+            ||
+            ($this->exclusionStrategy == TypeChainInterface::EXCLUSION_STRATEGY_TYPE_EXTENSIONS
+            && $this->current() instanceof TypeExtensionInterface)
+        ) {
+            $this->next();
+        }
     }
 
     public function valid()
@@ -46,7 +71,10 @@ class TypeChain implements \Iterator, TypeChainInterface
 
     public function getOptionsResolver()
     {
-        $this->setIterationDirection(TypeChainInterface::ITERATION_DIRECTION_BOTTOM_UP);
+        $this
+            ->setIterationDirection(TypeChainInterface::ITERATION_DIRECTION_CHILD_FIRST)
+            ->setExclusionStrategy(TypeChainInterface::EXCLUSION_STRATEGY_TYPE_EXTENSIONS)
+        ;
     
         $optionsResolver = null;
         
@@ -63,7 +91,10 @@ class TypeChain implements \Iterator, TypeChainInterface
     
     public function getOptions(OptionsResolverInterface $optionsResolver, array $options)
     {
-        $this->setIterationDirection(TypeChainInterface::ITERATION_DIRECTION_TOP_DOWN);
+        $this
+            ->setIterationDirection(TypeChainInterface::ITERATION_DIRECTION_PARENT_FIRST)
+            ->setExclusionStrategy(TypeChainInterface::EXCLUSION_STRATEGY_NONE)
+        ;
     
         foreach ($this as $type) {
     
@@ -75,7 +106,10 @@ class TypeChain implements \Iterator, TypeChainInterface
     
     public function getBuilder(TypeFactoryInterface $factory, array $options)
     {
-        $this->setIterationDirection(TypeChainInterface::ITERATION_DIRECTION_BOTTOM_UP);
+        $this
+            ->setIterationDirection(TypeChainInterface::ITERATION_DIRECTION_CHILD_FIRST)
+            ->setExclusionStrategy(TypeChainInterface::EXCLUSION_STRATEGY_TYPE_EXTENSIONS)
+        ;
     
         $builder = null;
         
@@ -92,7 +126,10 @@ class TypeChain implements \Iterator, TypeChainInterface
     
     public function build(BuilderInterface $builder, array $options)
     {
-        $this->setIterationDirection(TypeChainInterface::ITERATION_DIRECTION_TOP_DOWN);
+        $this
+            ->setIterationDirection(TypeChainInterface::ITERATION_DIRECTION_PARENT_FIRST)
+            ->setExclusionStrategy(TypeChainInterface::EXCLUSION_STRATEGY_NONE)
+        ;
     
         foreach ($this as $type) {
     
@@ -104,7 +141,10 @@ class TypeChain implements \Iterator, TypeChainInterface
     
     public function finalize($object, array $options)
     {
-        $this->setIterationDirection(TypeChainInterface::ITERATION_DIRECTION_TOP_DOWN);
+        $this
+            ->setIterationDirection(TypeChainInterface::ITERATION_DIRECTION_PARENT_FIRST)
+            ->setExclusionStrategy(TypeChainInterface::EXCLUSION_STRATEGY_TYPE_EXTENSIONS)
+        ;
     
         foreach ($this as $type) {
     
@@ -117,3 +157,4 @@ class TypeChain implements \Iterator, TypeChainInterface
         return $object;
     }
 }
+

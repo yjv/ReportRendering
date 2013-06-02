@@ -14,7 +14,7 @@ class Builder implements BuilderInterface
     
     public function setOption($name, $value)
     {
-        $this->options[$name] = $option;
+        $this->options[$name] = $value;
         return $this;
     }
     

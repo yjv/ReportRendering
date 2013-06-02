@@ -33,11 +33,7 @@ class TypeRegistry implements TypeRegistryInterface
     
     public function getTypeExtensions($name){
         
-        if (!$this->hasTypeExtensions($name)) {
-            
-            throw new TypeExtensionsNotFoundException($name);
-        }
-
+        $this->resolveFromExtensions($name);
         return $this->typeExtensions[$name];
     }
     

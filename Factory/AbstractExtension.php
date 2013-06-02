@@ -1,8 +1,6 @@
 <?php
 namespace Yjv\Bundle\ReportRenderingBundle\Factory;
 
-use Yjv\ReportRenderingBundle\Factory\RegistryExtensionInterface;
-
 abstract class AbstractExtension implements RegistryExtensionInterface
 {
     protected $types;
@@ -32,12 +30,7 @@ abstract class AbstractExtension implements RegistryExtensionInterface
     
     public function getTypeExtensions($name)
     {
-        if (!$this->hasTypeExtensions($name)) {
-            
-            throw new TypeExtensionNotFoundException($name);
-        }
-        
-        return $this->typeExtensions[$name];
+        return $this->hasTypeExtensions($name) ? $this->typeExtensions[$name] : array();
     }
     
     protected function initTypes()
@@ -62,7 +55,7 @@ abstract class AbstractExtension implements RegistryExtensionInterface
         
         foreach($this->loadTypeExtensions() as $typeExtension) {
             
-            $this->typeExtensions[$typeExtension->getExtendedType()];
+            $this->typeExtensions[$typeExtension->getExtendedType()][] = $typeExtension;
         }
     }
     

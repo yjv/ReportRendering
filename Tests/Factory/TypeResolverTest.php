@@ -23,6 +23,9 @@ class TypeResolverTest extends \PHPUnit_Framework_TestCase
         $type1 = $this->getType('name1', null);
         $type2 = $this->getType('name2', $type1);
         $type3 = $this->getType('name3', 'name2');
+        $type1Extension1 = $this->getTypeExtension('name1');
+        $type1Extension2 = $this->getTypeExtension('name1');
+        $type3Extension1 = $this->getTypeExtension('name3');
         
         $this->registry
             ->shouldReceive('getType')
@@ -34,18 +37,37 @@ class TypeResolverTest extends \PHPUnit_Framework_TestCase
             ->once()
             ->with('name3')
             ->andReturn($type3)
+            ->getMock()
+            ->shouldReceive('getTypeExtensions')
+            ->with('name1')
+            ->twice()
+            ->andReturn(array($type1Extension1, $type1Extension2))
+            ->getMock()
+            ->shouldReceive('getTypeExtensions')
+            ->with('name2')
+            ->twice()
+            ->andReturn(array())
+            ->getMock()
+            ->shouldReceive('getTypeExtensions')
+            ->with('name3')
+            ->twice()
+            ->andReturn(array($type3Extension1))
         ;
-        $this->assertEquals(
-                new TypeChain(array($type1, $type2, $type3)), 
-                $this->resolver->resolveTypeChain($type3)
+        $typeChain = $this->resolver->resolveTypeChain($type3);
+        $this->assertInstanceOf('Yjv\Bundle\ReportRenderingBundle\Factory\TypeChainInterface', $typeChain);
+        $this->assertSame(
+            array($type1, $type1Extension1, $type1Extension2, $type2, $type3, $type3Extension1), 
+            iterator_to_array($typeChain)
         );
-        $this->assertEquals(
-                new TypeChain(array($type1, $type2, $type3)), 
-                $this->resolver->resolveTypeChain('name3')
+        $typeChain = $this->resolver->resolveTypeChain('name3');
+        $this->assertInstanceOf('Yjv\Bundle\ReportRenderingBundle\Factory\TypeChainInterface', $typeChain);
+        $this->assertSame(
+            array($type1, $type1Extension1, $type1Extension2, $type2, $type3, $type3Extension1), 
+            iterator_to_array($typeChain)
         );
     }
     
-    public function testResolverType()
+    public function testResolveType()
     {
         $type1 = $this->getType('name1', null);
         $this->registry
@@ -75,4 +97,13 @@ class TypeResolverTest extends \PHPUnit_Framework_TestCase
             ->getMock()
         ;
     }
+	
+	protected function getTypeExtension($name)
+	{
+	    return Mockery::mock('Yjv\Bundle\ReportRenderingBundle\Factory\TypeExtensionInterface')
+	        ->shouldReceive('getExtendedType')
+	        ->andReturn($name)
+	        ->getMock()
+	    ;
+	}
 }

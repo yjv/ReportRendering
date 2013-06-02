@@ -8,12 +8,12 @@ class TypeNotFoundException extends \Exception
     
     public function __construct($name, $typeName = null)
     {
-        if ($typeName) {
+        if (!$typeName) {
             
-            $message = sprintf($this->typedMessage, $name);
+            $message = sprintf($this->message, $name);
         } else {
             
-            $message = sprintf($this->message, $typeName, $name);
+            $message = sprintf($this->typedMessage, $typeName, $name);
         }
         
         parent::__construct($message);

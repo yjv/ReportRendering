@@ -66,16 +66,24 @@ class TypeRegistryTest extends \PHPUnit_Framework_TestCase{
 		$this->assertFalse($this->registry->hasTypeExtensions($name3));
 	}
 	
+	/**
+	 * @expectedException Yjv\Bundle\ReportRenderingBundle\Factory\TypeNotFoundException
+	 * @expectedExceptionMessage type with name "name3" not found
+	 */
 	public function testExceptionOnTypeNotFound(){
 		
 		$this->setExpectedException('Yjv\Bundle\ReportRenderingBundle\Factory\TypeNotFoundException');
 		$this->registry->getType('name3');
-	}
+	}	
 	
-	public function testExceptionOnTypeExtensionsNotFound(){
-		
-		$this->setExpectedException('Yjv\Bundle\ReportRenderingBundle\Factory\TypeExtensionsNotFoundException');
-		$this->registry->getTypeExtensions('name3');
+	/**
+	 * @expectedException Yjv\Bundle\ReportRenderingBundle\Factory\TypeNotFoundException
+	 * @expectedExceptionMessage type of class "Yjv\Bundle\ReportRenderingBundle\Factory\TypeInterface" with name "name1" not found
+	 */
+	public function testExceptionOnTypeNotFoundAndRegistryAllowsOnlyCertainClassTypes()
+	{
+	    $registry = new TypeRegistry('Yjv\Bundle\ReportRenderingBundle\Factory\TypeInterface');
+	    $registry->getType('name1');
 	}
 	
 	/**

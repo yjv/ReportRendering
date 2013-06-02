@@ -13,11 +13,14 @@ class TypeResolver implements TypeResolverInterface
     public function resolveTypeChain($type)
     {
         $type = $this->resolveType($type);
-        $types = array($type);
+        $types = array_merge(array($type), $this->registry->getTypeExtensions($type->getName()));
 
         while ($type = $type->getParent()) {
 
             $type = $this->resolveType($type);
+            
+            $types = array_merge($this->registry->getTypeExtensions($type->getName()), $types);
+            
             array_unshift($types, $type);
         }
 

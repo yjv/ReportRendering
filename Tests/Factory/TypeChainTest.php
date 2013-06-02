@@ -12,45 +12,57 @@ use Yjv\Bundle\ReportRenderingBundle\Factory\TypeRegistry;
 class TypeChainTest extends \PHPUnit_Framework_TestCase{
 
 	protected $chain;
-	protected $types;
+	protected $type1;
+	protected $type2;
+	protected $type2Extension;
+	protected $type3;
 	
 	/**
 	 * 
 	 */
 	protected function setUp() {
 
-		$this->types = array('hello', 'goodbye', 'seeya');
-		$this->chain = new TypeChain($this->types);
+		$this->type1 = Mockery::mock('Yjv\Bundle\ReportRenderingBundle\Factory\FinalizingTypeInterface');
+		$this->type2 = Mockery::mock('Yjv\Bundle\ReportRenderingBundle\Factory\FinalizingTypeInterface');
+		$this->type2Extension = Mockery::mock('Yjv\Bundle\ReportRenderingBundle\Factory\TypeExtensionInterface');
+		$this->type3 = Mockery::mock('Yjv\Bundle\ReportRenderingBundle\Factory\TypeInterface');
+		$this->types = array(
+	        $this->type1,
+	        $this->type2,
+	        $this->type2Extension,
+	        $this->type3
+        );
+	    $this->chain = new TypeChain($this->types);
 	}
 	
 	public function testIteration() {
 		
 		$this->assertSame($this->types, iterator_to_array($this->chain));
-		$this->chain->setIterationDirection(TypeChainInterface::ITERATION_DIRECTION_BOTTOM_UP);
+		$this->chain->setIterationDirection(TypeChainInterface::ITERATION_DIRECTION_CHILD_FIRST);
 		$this->assertSame(array_reverse($this->types, true), iterator_to_array($this->chain));
-		$this->chain->setIterationDirection(TypeChainInterface::ITERATION_DIRECTION_TOP_DOWN);
+		$this->chain->setIterationDirection(TypeChainInterface::ITERATION_DIRECTION_PARENT_FIRST);
 		$this->assertSame($this->types, iterator_to_array($this->chain));
+		$this->chain->setExclusionStrategy(TypeChainInterface::EXCLUSION_STRATEGY_TYPE_EXTENSIONS);
+		$this->assertSame(array($this->type1, $this->type2, $this->type3), array_values(iterator_to_array($this->chain)));
 	}
 	
 	public function testGetOptionsResolver()
 	{
 	    $optionsResolver = Mockery::mock('Symfony\Component\OptionsResolver\OptionsResolverInterface');
-	    $type3 = Mockery::mock('Yjv\Bundle\ReportRenderingBundle\Factory\TypeInterface')
+	    $this->type3
 	        ->shouldReceive('getOptionsResolver')
 	        ->ordered()
 	        ->once()
 	        ->getMock()
 	    ;
-	    $type2 = Mockery::mock('Yjv\Bundle\ReportRenderingBundle\Factory\TypeInterface')
+	    $this->type2
 	        ->shouldReceive('getOptionsResolver')
 	        ->ordered()
 	        ->once()
 	        ->andReturn($optionsResolver)
 	        ->getMock()
 	    ;
-	    $type1 = Mockery::mock('Yjv\Bundle\ReportRenderingBundle\Factory\TypeInterface');
-	    $typeChain = new TypeChain(array($type1, $type2, $type3));
-	    $this->assertSame($optionsResolver, $typeChain->getOptionsResolver());
+	    $this->assertSame($optionsResolver, $this->chain->getOptionsResolver());
 	}
 	
 	public function testGetOptions()
@@ -58,21 +70,28 @@ class TypeChainTest extends \PHPUnit_Framework_TestCase{
 	    $options = array('key' => 'value');
 	    $returnedOptions = array('key2' => 'value2', 'key' => 'value');
 	    $optionsResolver = Mockery::mock('Symfony\Component\OptionsResolver\OptionsResolverInterface');
-	    $type1 = Mockery::mock('Yjv\Bundle\ReportRenderingBundle\Factory\TypeInterface')
+	    $this->type1
 	        ->shouldReceive('setDefaultOptions')
 	        ->ordered()
 	        ->with($optionsResolver)
 	        ->once()
 	        ->getMock()
 	    ;
-	    $type2 = Mockery::mock('Yjv\Bundle\ReportRenderingBundle\Factory\TypeInterface')
+	    $this->type2
 	        ->shouldReceive('setDefaultOptions')
 	        ->ordered()
 	        ->with($optionsResolver)
 	        ->once()
 	        ->getMock()
 	    ;
-	    $type3 = Mockery::mock('Yjv\Bundle\ReportRenderingBundle\Factory\TypeInterface')
+	    $this->type2Extension
+	        ->shouldReceive('setDefaultOptions')
+	        ->ordered()
+	        ->with($optionsResolver)
+	        ->once()
+	        ->getMock()
+	    ;
+	    $this->type3
 	        ->shouldReceive('setDefaultOptions')
 	        ->ordered()
 	        ->with($optionsResolver)
@@ -87,8 +106,7 @@ class TypeChainTest extends \PHPUnit_Framework_TestCase{
 	        ->andReturn($returnedOptions)
 	    ;
 	    
-	    $typeChain = new TypeChain(array($type1, $type2, $type3));
-	    $this->assertEquals($returnedOptions, $typeChain->getOptions($optionsResolver, $options));
+	    $this->assertEquals($returnedOptions, $this->chain->getOptions($optionsResolver, $options));
 	}
 	
 	public function testGetBuilder()
@@ -96,14 +114,14 @@ class TypeChainTest extends \PHPUnit_Framework_TestCase{
 	    $builder = Mockery::mock('Yjv\Bundle\ReportRenderingBundle\Factory\BuilderInterface');
 	    $options = array('key' => 'value');
 	    $factory = Mockery::mock('Yjv\Bundle\ReportRenderingBundle\Factory\TypeFactoryInterface');
-	    $type3 = Mockery::mock('Yjv\Bundle\ReportRenderingBundle\Factory\TypeInterface')
+	    $this->type3
 	        ->shouldReceive('createBuilder')
 	        ->with($factory, $options)
 	        ->ordered()
 	        ->once()
 	        ->getMock()
 	    ;
-	    $type2 = Mockery::mock('Yjv\Bundle\ReportRenderingBundle\Factory\TypeInterface')
+	    $this->type2
 	        ->shouldReceive('createBuilder')
 	        ->with($factory, $options)
 	        ->ordered()
@@ -111,30 +129,35 @@ class TypeChainTest extends \PHPUnit_Framework_TestCase{
 	        ->andReturn($builder)
 	        ->getMock()
 	    ;
-	    $type1 = Mockery::mock('Yjv\Bundle\ReportRenderingBundle\Factory\TypeInterface');
-	    $typeChain = new TypeChain(array($type1, $type2, $type3));
-	    $this->assertSame($builder, $typeChain->getBuilder($factory, $options));
+	    $this->assertSame($builder, $this->chain->getBuilder($factory, $options));
 	}
 	
 	public function testBuild()
 	{
 	    $options = array('key' => 'value');
 	    $builder = Mockery::mock('Yjv\Bundle\ReportRenderingBundle\Factory\BuilderInterface');
-	    $type1 = Mockery::mock('Yjv\Bundle\ReportRenderingBundle\Factory\TypeInterface')
+	    $this->type1
 	        ->shouldReceive('build')
 	        ->ordered()
 	        ->with($builder, $options)
 	        ->once()
 	        ->getMock()
 	    ;
-	    $type2 = Mockery::mock('Yjv\Bundle\ReportRenderingBundle\Factory\TypeInterface')
+	    $this->type2
 	        ->shouldReceive('build')
 	        ->ordered()
 	        ->with($builder, $options)
 	        ->once()
 	        ->getMock()
 	    ;
-	    $type3 = Mockery::mock('Yjv\Bundle\ReportRenderingBundle\Factory\TypeInterface')
+	    $this->type2Extension
+	        ->shouldReceive('build')
+	        ->ordered()
+	        ->with($builder, $options)
+	        ->once()
+	        ->getMock()
+        ;
+	    $this->type3
 	        ->shouldReceive('build')
 	        ->ordered()
 	        ->with($builder, $options)
@@ -142,31 +165,28 @@ class TypeChainTest extends \PHPUnit_Framework_TestCase{
 	        ->getMock()
 	    ;
 	    
-	    $typeChain = new TypeChain(array($type1, $type2, $type3));
-	    $typeChain->build($builder, $options);
+	    $this->chain->build($builder, $options);
 	}
 	
 	public function testFinalize()
 	{
 	    $options = array('key' => 'value');
 	    $object = new \stdClass();
-	    $type1 = Mockery::mock('Yjv\Bundle\ReportRenderingBundle\Factory\FinalizingTypeInterface')
+	    $this->type1
 	        ->shouldReceive('finalize')
 	        ->ordered()
 	        ->with($object, $options)
 	        ->once()
 	        ->getMock()
 	    ;
-	    $type2 = Mockery::mock('Yjv\Bundle\ReportRenderingBundle\Factory\FinalizingTypeInterface')
+	    $this->type2
 	        ->shouldReceive('finalize')
 	        ->ordered()
 	        ->with($object, $options)
 	        ->once()
 	        ->getMock()
 	    ;
-	    $type3 = Mockery::mock('Yjv\Bundle\ReportRenderingBundle\Factory\TypeInterface');
 	    
-	    $typeChain = new TypeChain(array($type1, $type2, $type3));
-	    $typeChain->finalize($object, $options);
+	    $this->chain->finalize($object, $options);
 	}
 }
