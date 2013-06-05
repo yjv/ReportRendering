@@ -22,6 +22,9 @@ class RendererBuilderTest extends \PHPUnit_Framework_TestCase
         $callback = function(){};
         $this->assertSame($this->builder, $this->builder->setConstructor($callback));
         $this->assertSame($callback, $this->builder->getConstructor());
+        $grid = Mockery::mock('Yjv\ReportRendering\Renderer\Grid\GridInterface');
+        $this->assertSame($this->builder, $this->builder->setGrid($grid));
+        $this->assertSame($grid, $this->builder->getGrid());
     }
     
     /**

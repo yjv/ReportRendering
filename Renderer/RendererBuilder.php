@@ -1,6 +1,8 @@
 <?php
 namespace Yjv\ReportRendering\Renderer;
 
+use Yjv\ReportRendering\Renderer\Grid\GridInterface;
+
 use Yjv\ReportRendering\Factory\Builder;
 
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -11,6 +13,7 @@ use Yjv\ReportRendering\Datasource\DatasourceInterface;
 class RendererBuilder extends Builder implements RendererBuilderInterface
 {
     protected $callback;
+    protected $grid;
 
     public function getRenderer()
     {
@@ -39,5 +42,16 @@ class RendererBuilder extends Builder implements RendererBuilderInterface
     public function getConstructor()
     {
         return $this->callback;
+    }
+    
+    public function setGrid(GridInterface $grid)
+    {
+        $this->grid = $grid;
+        return $this;
+    }
+    
+    public function getGrid()
+    {
+        return $this->grid;
     }
 }

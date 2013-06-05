@@ -20,7 +20,7 @@ class HtmlRenderer implements FilterAwareRendererInterface, WidgetInterface, \It
     protected $reportId;
     protected $forceReload = true;
 
-    public function __construct(WidgetRenderer $renderer, GridInterface $grid, $template)
+        public function __construct(WidgetRenderer $renderer, GridInterface $grid, $template)
     {
         $this->renderer = $renderer;
         $this->template = $template;
