@@ -1,5 +1,5 @@
 <?php
-namespace Yjv\ReportRendering\Report;
+namespace Yjv\ReportRendering\Renderer;
 
 use Yjv\ReportRendering\Factory\BuilderInterface;
 
@@ -12,4 +12,5 @@ interface RendererBuilderInterface extends BuilderInterface
 {
     public function getRenderer();
     public function setConstructor($callback);
+    public function getConstructor();
 }

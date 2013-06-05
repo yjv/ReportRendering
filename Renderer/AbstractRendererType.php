@@ -1,15 +1,16 @@
 <?php
 namespace Yjv\ReportRendering\Renderer;
 
-use Yjv\ReportRendering\Report\RendererBuilderInterface;
+use Yjv\ReportRendering\Factory\TypeFactoryInterface;
+
+use Yjv\ReportRendering\Factory\BuilderInterface;
 
 use Yjv\ReportRendering\Factory\AbstractType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Yjv\ReportRendering\Factory\TypeInterface;
 
 abstract class AbstractRendererType extends AbstractType
 {
-    final public function build($builder, array $options)
+    final public function build(BuilderInterface $builder, array $options)
     {
         return $this->buildRenderer($builder, $options);
     }
@@ -22,12 +23,8 @@ abstract class AbstractRendererType extends AbstractType
     {
     }
 
-    /**
-     * @return boolean
-     */
     public function getParent()
     {
         return 'renderer';
     }
-
 }
