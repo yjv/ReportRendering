@@ -60,7 +60,7 @@ class GriddedRendererType extends AbstractRendererType
     
     public function getName()
     {
-        return 'gridded_renderer';
+        return 'gridded';
     }
     
     protected function getTypeAndOptions($columnInfo){
