@@ -1,5 +1,5 @@
 <?php
-namespace Yjv\ReportRendering\Report\Type;
+namespace Yjv\ReportRendering\Report\Extension\Core\Type;
 
 use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\EventDispatcher\EventDispatcher;

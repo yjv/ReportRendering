@@ -1,5 +1,5 @@
 <?php
-namespace Yjv\ReportRendering\Renderer\Type;
+namespace Yjv\ReportRendering\Renderer\Extension\Core\Type;
 
 use Yjv\ReportRendering\Widget\WidgetRenderer;
 

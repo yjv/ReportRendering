@@ -59,6 +59,13 @@ abstract class AbstractExtension implements RegistryExtensionInterface
         }
     }
     
-    abstract protected function loadTypes();
-    abstract protected function loadTypeExtensions();
+    protected function loadTypeExtensions()
+    {
+        return array();
+    }
+    
+    protected function loadTypes()
+    {
+        return array();
+    }
 }

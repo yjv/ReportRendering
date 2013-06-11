@@ -1,7 +1,7 @@
 <?php
-namespace Yjv\ReportRendering\Tests\Renderer\Grid\Column\Type;
+namespace Yjv\ReportRendering\Tests\Renderer\Grid\Column\Extension\Core\Type;
 
-use Yjv\ReportRendering\Renderer\Grid\Column\Type\RawColumnType;
+use Yjv\ReportRendering\Renderer\Grid\Column\Extension\Core\Type\RawColumnType;
 
 use Yjv\ReportRendering\Renderer\Grid\Column\Column;
 

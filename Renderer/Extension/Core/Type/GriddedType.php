@@ -1,5 +1,5 @@
 <?php
-namespace Yjv\ReportRendering\Renderer\Type;
+namespace Yjv\ReportRendering\Renderer\Extension\Core\Type;
 
 use Yjv\ReportRendering\Factory\TypeInterface;
 
@@ -17,7 +17,7 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 use Yjv\ReportRendering\Renderer\AbstractRendererType;
 
-class GriddedRendererType extends AbstractRendererType
+class GriddedType extends AbstractRendererType
 {
     public function buildRenderer(RendererBuilderInterface $builder, $options)
     {

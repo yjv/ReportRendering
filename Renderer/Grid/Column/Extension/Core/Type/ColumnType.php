@@ -1,5 +1,5 @@
 <?php
-namespace Yjv\ReportRendering\Renderer\Grid\Column\Type;
+namespace Yjv\ReportRendering\Renderer\Grid\Column\Extension\Core\Type;
 
 use Yjv\ReportRendering\Renderer\Grid\Column\ColumnBuilder;
 

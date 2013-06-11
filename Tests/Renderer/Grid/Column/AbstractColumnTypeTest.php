@@ -13,6 +13,8 @@ use Yjv\ReportRendering\Renderer\Grid\Column\ColumnRegistry;
 
 use Yjv\ReportRendering\Renderer\Grid\Column\ColumnFactory;
 
+use Mockery;
+
 class AbstractColumnTypeTest extends \PHPUnit_Framework_TestCase{
 
 	protected $type;
@@ -31,6 +33,11 @@ class AbstractColumnTypeTest extends \PHPUnit_Framework_TestCase{
 		
 		$this->assertNull($this->type->build($this->getMock('Yjv\ReportRendering\Renderer\Grid\Column\ColumnBuilderInterface'), array()));
 		$this->assertNull($this->type->buildColumn($this->getMock('Yjv\ReportRendering\Renderer\Grid\Column\ColumnBuilderInterface'), array()));
+	}
+	
+	public function testCreateBuilder()
+	{
+	    $this->type->createBuilder(Mockery::mock('Yjv\ReportRendering\Factory\TypeFactoryInterface'), array());
 	}
 	
 	public function testSetDefaultOptions(){

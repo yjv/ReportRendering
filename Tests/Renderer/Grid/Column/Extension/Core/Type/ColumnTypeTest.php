@@ -1,11 +1,11 @@
 <?php
-namespace Yjv\ReportRendering\Tests\Renderer\Grid\Column\Type;
+namespace Yjv\ReportRendering\Tests\Renderer\Grid\Column\Extension\Core\Type;
 
 use Yjv\ReportRendering\Renderer\Grid\Column\ColumnBuilder;
 
 use Yjv\ReportRendering\Renderer\Grid\Column\Column;
 
-use Yjv\ReportRendering\Renderer\Grid\Column\Type\ColumnType;
+use Yjv\ReportRendering\Renderer\Grid\Column\Extension\Core\Type\ColumnType;
 
 class ColumnTypeTest extends TypeTestCase{
 
