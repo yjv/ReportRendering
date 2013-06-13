@@ -46,7 +46,7 @@ interface ReportBuilderInterface extends BuilderInterface
      * 
      * @param RendererInterface|string|TypeInterface $renderer
      */
-    public function setDefaultRenderer($renderer, array $options = array());
+    public function setDefaultRenderer($name);
 
     /**
      * 

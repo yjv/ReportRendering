@@ -22,10 +22,7 @@ class ReportType extends AbstractReportType
 
         if ($options['default_renderer']) {
 
-            $reportBuilder->setDefaultRenderer(
-                $options['default_renderer'][0], 
-                $options['default_renderer'][1]
-            );
+            $reportBuilder->setDefaultRenderer($options['default_renderer']);
         }
 
         if ($options['filter_collection']) {
@@ -49,15 +46,7 @@ class ReportType extends AbstractReportType
             ->setDefaults(array(
                 'datasource' => null, 
                 'filter_collection' => null,
-                'default_renderer' => function (Options $options)
-                {
-                    if (!empty($options['renderers'])) {
-
-                        return reset($options['renderers']);
-                    }
-
-                    return null;
-                }, 
+                'default_renderer' => 'default', 
                 'renderers' => array()
             ))
             ->setAllowedTypes(array(
@@ -66,40 +55,27 @@ class ReportType extends AbstractReportType
                     'Yjv\ReportRendering\Filter\FilterCollectionInterface', 
                     'null'
                 ),
-                'default_renderer' => array(
-                    'array',
-                    'null'
-                ), 
+                'default_renderer' => array('string'), 
                 'renderers' => 'array'
             ));
             
-            $rendererNormalizer = function(Options $options, $renderer){
-                
-                if (is_null($renderer)) {
-                    
-                    return $renderer;
-                }
-                
-                if(!is_array($renderer)){
-                
-                    $renderer = array($renderer, array());
-                }
-                
-                if (count($renderer) == 1) {
-                
-                    $renderer[] = array();
-                }
-                
-                return $renderer;
-            };
-            
-            $renderersNormalizer = function(Options $options, $renderers) use ($rendererNormalizer)
+            $renderersNormalizer = function(Options $options, $renderers)
             {
                 $newRenderers = array();
             
                 foreach ($renderers as $name => $renderer) {
                      
-                    $newRenderers[$name] = $rendererNormalizer($options, $renderer);
+                    if(!is_array($renderer)){
+                    
+                        $renderer = array($renderer, array());
+                    }
+                    
+                    if (count($renderer) == 1) {
+                    
+                        $renderer[] = array();
+                    }
+                    
+                    $newRenderers[$name] = $renderer;
                 }
             
                 return $newRenderers;
@@ -107,7 +83,10 @@ class ReportType extends AbstractReportType
             
             $resolver->setNormalizers(array(
                 'renderers' => $renderersNormalizer,
-                'default_renderer' => $rendererNormalizer
+                'default_renderer' => function(Options $options, $defaultRenderer)
+                {
+                    return (string)$defaultRenderer;
+                }
             ));
     }
 

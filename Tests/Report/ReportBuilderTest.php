@@ -39,7 +39,7 @@ class ReportBuilderTest extends \PHPUnit_Framework_TestCase
         $filterCollection = Mockery::mock('Yjv\ReportRendering\Filter\FilterCollectionInterface');
         $this->assertSame($this->builder, $this->builder
             ->setDatasource($datasource)
-            ->setDefaultRenderer($defaultRenderer)
+            ->setDefaultRenderer('name')
             ->addRenderer('name', $renderer)
             ->addRenderer('name2', 'renderer', array('key' => 'value'))
         );

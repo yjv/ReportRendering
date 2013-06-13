@@ -18,7 +18,7 @@ use Yjv\ReportRendering\Datasource\DatasourceInterface;
 class ReportBuilder extends Builder implements ReportBuilderInterface
 {
     protected $renderers = array();
-    protected $defaultRenderer;
+    protected $defaultRenderer = 'default';
     protected $datasource;
     protected $filterCollection;
     protected $eventDispatcher;
@@ -36,7 +36,7 @@ class ReportBuilder extends Builder implements ReportBuilderInterface
     {
         $this->assertBuildable();
         
-        $report = new Report($this->datasource, $this->defaultRenderer, $this->eventDispatcher);
+        $report = new Report($this->datasource, $this->renderers[$this->defaultRenderer], $this->eventDispatcher);
 
         if ($this->filterCollection) {
 
@@ -114,9 +114,9 @@ class ReportBuilder extends Builder implements ReportBuilderInterface
      * 
      * {@inherited}
      */
-    public function setDefaultRenderer($renderer, array $options = array())
+    public function setDefaultRenderer($name)
     {
-        $this->defaultRenderer = $this->normalizeRenderer($renderer, $options);
+        $this->defaultRenderer = (string)$name;
         return $this;
     }
     
@@ -141,7 +141,7 @@ class ReportBuilder extends Builder implements ReportBuilderInterface
             throw new \RuntimeException('The datasource is required to build the report');
         }
         
-        if (!$this->defaultRenderer) {
+        if (!$this->defaultRenderer || !isset($this->renderers[$this->defaultRenderer])) {
             
             throw new \RuntimeException('The default renderer is required to build the report');
         }
