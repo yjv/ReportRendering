@@ -1,11 +1,11 @@
 <?php
 namespace Yjv\ReportRendering\Renderer\Extension\Core\Type;
 
-use Yjv\ReportRendering\Report\RendererBuilder;
+use Yjv\ReportRendering\Renderer\RendererBuilder;
 
 use Yjv\ReportRendering\Factory\TypeFactoryInterface;
 
-use Yjv\ReportRendering\Report\RendererBuilderInterface;
+use Yjv\ReportRendering\Renderer\RendererBuilderInterface;
 
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
@@ -33,7 +33,7 @@ class RendererType extends AbstractRendererType
     {
         $resolver
             ->setDefaults(array('constructor' => null))
-            ->setAllowedTypes(array('constructor' => 'callable'))
+            ->setAllowedTypes(array('constructor' => array('callable', 'null')))
         ;
     }
 
@@ -43,7 +43,10 @@ class RendererType extends AbstractRendererType
      */
     public function buildRenderer(RendererBuilderInterface $builder, array $options)
     {
-        $builder->setConstructor($options['constructor']);
+        if ($options['constructor']) {
+            
+            $builder->setConstructor($options['constructor']);
+        }
     }
 
     public function createBuilder(TypeFactoryInterface $factory, array $options)

@@ -19,7 +19,7 @@ use Yjv\ReportRendering\Renderer\AbstractRendererType;
 
 class GriddedType extends AbstractRendererType
 {
-    public function buildRenderer(RendererBuilderInterface $builder, $options)
+    public function buildRenderer(RendererBuilderInterface $builder, array $options)
     {
         if ($options['grid'] instanceof GridInterface) {
             
@@ -35,13 +35,16 @@ class GriddedType extends AbstractRendererType
                 if ($columnInfo instanceof ColumnInterface) {
                     
                     $column = $columnInfo;
-                }else{
+                } else {
                     
-                    list($type, $options) = $this->getTypeAndOptions($columnInfo);
-                    $column = $columnFactory->create($type, $options);
+                    $column = $columnFactory->create($columnInfo[0], $columnInfo[1]);
                 }
+                
+                $grid->addColumn($column);
             }
         }
+        
+        $builder->setGrid($grid);
     }
     
     public function setDefaultOptions(OptionsResolverInterface $resolver)
@@ -56,30 +59,39 @@ class GriddedType extends AbstractRendererType
                 'grid' => array('null', 'Yjv\ReportRendering\Renderer\Grid\GridInterface')
         ))
         ;
+        
+        $columnsNormalizer = function(Options $options, $columns)
+        {
+            $newColumns = array();
+            
+            foreach ($columns as $column) {
+               
+                if($column instanceof TypeInterface || is_string($column)){
+                    
+                    $column = array($column, array());
+                }
+                
+                if (!is_array($column)) {
+                    
+                    throw new \RuntimeException('columns in the solumns option must be instances of ColumnInterface, TypeInterface, a string or an array containing at least the former and optionaly options');
+                }
+                
+                if (count($column) == 1) {
+                    
+                    $column[] = array();
+                }
+                
+                $newColumns[] = $column;
+            }
+
+            return $newColumns;
+        };
+        
+        $resolver->setNormalizers(array('columns' => $columnsNormalizer));
     }
     
     public function getName()
     {
         return 'gridded';
-    }
-    
-    protected function getTypeAndOptions($columnInfo){
-        
-        if($columnInfo instanceof TypeInterface || is_string($columnInfo)){
-            
-            return array($columnInfo, array());
-        }
-        
-        if (!is_array($columnInfo)) {
-            
-            throw new RuntimeException('columns in the solumns option must be instances of ColumnInterface, TypeInterface, a string or an array containing at least the former and optionaly options');
-        }
-        
-        if (count($columnInfo) == 1) {
-            
-            $columnInfo[1] = array();
-        }
-        
-        return $columInfo;
     }
 }

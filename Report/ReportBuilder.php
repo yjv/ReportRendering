@@ -77,14 +77,7 @@ class ReportBuilder extends Builder implements ReportBuilderInterface
      */
     public function addRenderer($name, $renderer, array $options = array())
     {
-        if (is_string($renderer) || $renderer instanceof TypeInterface) {
-            
-            $renderer = new LazyLoadedRenderer(
-                $this->factory->getRendererFactory(), 
-                $renderer, 
-                $options
-            );
-        }
+        $renderer = $this->normalizeRenderer($renderer, $options);
         
         if (!$renderer instanceof RendererInterface) {
             
@@ -121,10 +114,24 @@ class ReportBuilder extends Builder implements ReportBuilderInterface
      * 
      * {@inherited}
      */
-    public function setDefaultRenderer(RendererInterface $renderer)
+    public function setDefaultRenderer($renderer, array $options = array())
     {
-        $this->defaultRenderer = $renderer;
+        $this->defaultRenderer = $this->normalizeRenderer($renderer, $options);
         return $this;
+    }
+    
+    protected function normalizeRenderer($renderer, array $options = array())
+    {
+        if (is_string($renderer) || $renderer instanceof TypeInterface) {
+            
+            $renderer = new LazyLoadedRenderer(
+                $this->factory->getRendererFactory(), 
+                $renderer, 
+                $options
+            );
+        }
+        
+        return $renderer;
     }
     
     protected function assertBuildable()

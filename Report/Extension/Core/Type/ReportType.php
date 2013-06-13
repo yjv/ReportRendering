@@ -22,22 +22,30 @@ class ReportType extends AbstractReportType
 
         if ($options['default_renderer']) {
 
-            $reportBuilder->setDefaultRenderer($options['default_renderer']);
+            $reportBuilder->setDefaultRenderer(
+                $options['default_renderer'][0], 
+                $options['default_renderer'][1]
+            );
         }
 
         if ($options['filter_collection']) {
 
             $reportBuilder->setFilterCollection($options['filter_collection']);
         }
+        
+        foreach ($options['renderers'] as $name => $renderer) {
+            
+            $reportBuilder->addRenderer($name, $renderer[0], $renderer[1]);
+        }
     }
 
     /**
      * @param OptionsResolverInterface $optionsResolver
      */
-    public function setDefaultOptions(OptionsResolverInterface $optionsResolver)
+    public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
 
-        $optionsResolver
+        $resolver
             ->setDefaults(array(
                 'datasource' => null, 
                 'filter_collection' => null,
@@ -59,10 +67,47 @@ class ReportType extends AbstractReportType
                     'null'
                 ),
                 'default_renderer' => array(
-                    'Yjv\ReportRendering\Renderer\RendererInterface',
+                    'array',
                     'null'
                 ), 
                 'renderers' => 'array'
+            ));
+            
+            $rendererNormalizer = function(Options $options, $renderer){
+                
+                if (is_null($renderer)) {
+                    
+                    return $renderer;
+                }
+                
+                if(!is_array($renderer)){
+                
+                    $renderer = array($renderer, array());
+                }
+                
+                if (count($renderer) == 1) {
+                
+                    $renderer[] = array();
+                }
+                
+                return $renderer;
+            };
+            
+            $renderersNormalizer = function(Options $options, $renderers) use ($rendererNormalizer)
+            {
+                $newRenderers = array();
+            
+                foreach ($renderers as $name => $renderer) {
+                     
+                    $newRenderers[$name] = $rendererNormalizer($options, $renderer);
+                }
+            
+                return $newRenderers;
+            };
+            
+            $resolver->setNormalizers(array(
+                'renderers' => $renderersNormalizer,
+                'default_renderer' => $rendererNormalizer
             ));
     }
 
