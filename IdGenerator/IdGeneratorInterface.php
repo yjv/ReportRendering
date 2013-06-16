@@ -1,9 +1,9 @@
 <?php
 namespace Yjv\ReportRendering\IdGenerator;
 
-use Yjv\ReportRendering\Report\Report;
+use Yjv\ReportRendering\Report\ReportInterface;
 
 interface IdGeneratorInterface
 {
-    public function getId(Report $report);
+    public function getId(ReportInterface $report);
 }

@@ -1,6 +1,8 @@
 <?php
 namespace Yjv\ReportRendering\Report;
 
+use Yjv\ReportRendering\IdGenerator\IdGeneratorInterface;
+
 use Yjv\ReportRendering\Factory\BuilderInterface;
 
 use Yjv\ReportRendering\Filter\FilterCollectionInterface;
@@ -55,4 +57,10 @@ interface ReportBuilderInterface extends BuilderInterface
      *  or name of a renderer type
      */
     public function addRenderer($name, $renderer, array $options = array());
+    
+    /**
+     * 
+     * @param IdGeneratorInterface $idGenerator
+     */
+    public function setIdGenerator(IdGeneratorInterface $idGenerator);
 }

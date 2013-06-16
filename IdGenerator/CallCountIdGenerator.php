@@ -1,12 +1,11 @@
 <?php
 namespace Yjv\ReportRendering\IdGenerator;
 
-use Yjv\ReportRendering\Report\Report;
-use Yjv\ReportRendering\IdGenerator\IdGeneratorInterface;
+use Yjv\ReportRendering\Report\ReportInterface;
 
 class CallCountIdGenerator implements IdGeneratorInterface
 {
-    public function getId(Report $report)
+    public function getId(ReportInterface $report)
     {
         static $count = 0;
         $count++;

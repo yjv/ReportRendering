@@ -1,6 +1,8 @@
 <?php
 namespace Yjv\ReportRendering\Report\Extension\Core\Type;
 
+use Yjv\ReportRendering\IdGenerator\ConstantValueIdGenerator;
+
 use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Yjv\ReportRendering\Report\ReportBuilder;
@@ -34,6 +36,11 @@ class ReportType extends AbstractReportType
             
             $reportBuilder->addRenderer($name, $renderer[0], $renderer[1]);
         }
+        
+        if ($options['id_generator']) {
+            
+            $reportBuilder->setIdGenerator($options['id_generator']);
+        }
     }
 
     /**
@@ -47,7 +54,17 @@ class ReportType extends AbstractReportType
                 'datasource' => null, 
                 'filter_collection' => null,
                 'default_renderer' => 'default', 
-                'renderers' => array()
+                'renderers' => array(),
+                'id_generator' => function (Options $options)
+                {
+                    if (!is_null($options['id'])) {
+                        
+                        return new ConstantValueIdGenerator($options['id']);
+                    }
+                    
+                    return null;
+                },
+                'id' => null
             ))
             ->setAllowedTypes(array(
                 'datasource' => 'Yjv\ReportRendering\Datasource\DatasourceInterface',
@@ -56,7 +73,11 @@ class ReportType extends AbstractReportType
                     'null'
                 ),
                 'default_renderer' => array('string'), 
-                'renderers' => 'array'
+                'renderers' => 'array',
+                'id_generator' => array(
+                    'null', 
+                    'Yjv\ReportRendering\IdGenerator\IdGeneratorInterface'
+                )
             ));
             
             $renderersNormalizer = function(Options $options, $renderers)
@@ -79,6 +100,11 @@ class ReportType extends AbstractReportType
                 }
             
                 return $newRenderers;
+            };
+            
+            $idGeneratorNormalizer = function(Options $options, $idGenerator)
+            {
+                
             };
             
             $resolver->setNormalizers(array(

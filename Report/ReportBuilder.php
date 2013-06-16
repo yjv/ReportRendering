@@ -1,6 +1,8 @@
 <?php
 namespace Yjv\ReportRendering\Report;
 
+use Yjv\ReportRendering\IdGenerator\IdGeneratorInterface;
+
 use Yjv\ReportRendering\Renderer\LazyLoadedRenderer;
 
 use Yjv\ReportRendering\Factory\Builder;
@@ -22,6 +24,7 @@ class ReportBuilder extends Builder implements ReportBuilderInterface
     protected $datasource;
     protected $filterCollection;
     protected $eventDispatcher;
+    protected $idGenerator;
 
     public function __construct(ReportFactoryInterface $factory, EventDispatcherInterface $eventDispatcher, array $options = array())
     {
@@ -46,6 +49,11 @@ class ReportBuilder extends Builder implements ReportBuilderInterface
         foreach ($this->renderers as $name => $renderer) {
 
             $report->addRenderer($name, $renderer);
+        }
+        
+        if ($this->idGenerator) {
+            
+            $report->setIdGenerator($this->idGenerator);
         }
 
         return $report;
@@ -117,6 +125,12 @@ class ReportBuilder extends Builder implements ReportBuilderInterface
     public function setDefaultRenderer($name)
     {
         $this->defaultRenderer = (string)$name;
+        return $this;
+    }
+    
+    public function setIdGenerator(IdGeneratorInterface $idGenerator)
+    {
+        $this->idGenerator = $idGenerator;
         return $this;
     }
     
