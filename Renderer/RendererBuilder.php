@@ -18,7 +18,7 @@ class RendererBuilder extends Builder implements RendererBuilderInterface
     public function getRenderer()
     {
         $constructor = $this->callback;
-        $renderer = $constructor($this);
+        $renderer = call_user_func($constructor, $this);
         
         if (!$renderer instanceof RendererInterface) {
             

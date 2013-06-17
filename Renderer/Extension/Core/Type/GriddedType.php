@@ -1,6 +1,8 @@
 <?php
 namespace Yjv\ReportRendering\Renderer\Extension\Core\Type;
 
+use Yjv\ReportRendering\Util\Factory;
+
 use Yjv\ReportRendering\Factory\TypeInterface;
 
 use Yjv\ReportRendering\Renderer\Grid\Column\ColumnInterface;
@@ -61,10 +63,7 @@ class GriddedType extends AbstractRendererType
         ->setNormalizers(array(
             'columns' => function(Options $options, $columns)
             {
-                return array_map(
-                    array('Yjv\ReportRendering\Util\Factory', 'normalizeToFactoryArguments'), 
-                    $columns
-                );
+                return Factory::normalizeOptionsCollectionToFactoryArguments($options, $columns);
             }
         ));
     }

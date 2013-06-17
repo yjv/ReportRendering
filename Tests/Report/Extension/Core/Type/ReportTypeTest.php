@@ -133,10 +133,7 @@ class ReportTypeTest extends TypeTestCase
                 $testCase->assertEquals(array(
                     'renderers' => function(Options $options, $renderers)
                     {
-                        return array_map(
-                            array('Yjv\ReportRendering\Util\Factory', 'normalizeToFactoryArguments'), 
-                            $renderers
-                        );
+                        return Factory::normalizeOptionsCollectionToFactoryArguments($options, $renderers);
                     },
                     'default_renderer' => function(Options $options, $defaultRenderer)
                     {
