@@ -37,11 +37,17 @@ class ReportBuilderTest extends \PHPUnit_Framework_TestCase
         $defaultRenderer = Mockery::mock('Yjv\ReportRendering\Renderer\RendererInterface');
         $renderer = Mockery::mock('Yjv\ReportRendering\Renderer\RendererInterface');
         $filterCollection = Mockery::mock('Yjv\ReportRendering\Filter\FilterCollectionInterface');
+        $idGenerator = Mockery::mock('Yjv\ReportRendering\IdGenerator\IdGeneratorInterface')
+            ->shouldReceive('getId')
+            ->andReturn('hello')
+            ->getMock()        
+        ;
         $this->assertSame($this->builder, $this->builder
             ->setDatasource($datasource)
             ->setDefaultRenderer('name')
             ->addRenderer('name', $renderer)
             ->addRenderer('name2', 'renderer', array('key' => 'value'))
+            ->setIdGenerator($idGenerator)
         );
         $report = $this->builder->getReport();
         $this->assertTrue($report->hasRenderer('name'));
@@ -50,6 +56,7 @@ class ReportBuilderTest extends \PHPUnit_Framework_TestCase
         $this->assertSame($datasource, $report->getDatasource());
         $this->assertSame($this->eventDispatcher, $report->getEventDispatcher());
         $this->assertInstanceOf('Yjv\ReportRendering\Filter\NullFilterCollection', $report->getFilters());
+        $this->assertEquals('hello', $report->getId());
         $this->builder->setFilters($filterCollection);
         $report = $this->builder->getReport();
         $this->assertSame($filterCollection, $report->getFilters());

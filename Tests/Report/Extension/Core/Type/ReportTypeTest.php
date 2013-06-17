@@ -1,6 +1,10 @@
 <?php
 namespace Yjv\ReportRendering\Tests\Report\Extension\Core\Type;
 
+use Symfony\Component\EventDispatcher\EventDispatcher;
+
+use Yjv\ReportRendering\Report\ReportBuilder;
+
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 use Symfony\Component\OptionsResolver\Options;
@@ -176,6 +180,23 @@ class ReportTypeTest extends TypeTestCase
                 'default1' => array($renderers['default1'][0], array()),
                 'default2' => $renderers['default2']
         ), $options['renderers']);
+    }
+    
+    public function testGetParent()
+    {
+        $this->assertFalse($this->type->getParent());
+    }
+    
+    public function testGetName()
+    {
+        $this->assertEquals('report', $this->type->getName());
+    }
+    
+    public function testGetBuilder()
+    {
+        $options = array('key' => 'value');
+        
+        $this->assertEquals(new ReportBuilder($this->factory, new EventDispatcher(), $options), $this->type->createBuilder($this->factory, $options));
     }
     
     protected function getFullOptions()

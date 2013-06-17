@@ -26,7 +26,7 @@ class RendererType extends AbstractRendererType
      */
     public function getParent()
     {
-        return null;
+        return false;
     }
 
     public function setDefaultOptions(OptionsResolverInterface $resolver)
