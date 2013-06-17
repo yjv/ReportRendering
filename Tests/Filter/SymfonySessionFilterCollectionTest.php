@@ -1,11 +1,11 @@
 <?php
 namespace Yjv\ReportRendering\Tests\Filter;
 
-use Yjv\ReportRendering\Filter\SessionFilterCollection;
+use Yjv\ReportRendering\Filter\SymfonySessionFilterCollection;
 
 use Yjv\ReportRendering\Filter\ArrayFilterCollection;
 
-class SessionFilterCollectionTest extends ArrayFilterCollectionTest{
+class SymfonySessionFilterCollectionTest extends ArrayFilterCollectionTest{
 
 	protected $session;
 	public $sessionData;
@@ -14,7 +14,7 @@ class SessionFilterCollectionTest extends ArrayFilterCollectionTest{
 	public function setUp() {
 		
 		$this->session = $this->getMockBuilder('Symfony\\Component\\HttpFoundation\\Session\\SessionInterface')->getMock();
-		$this->filters = new SessionFilterCollection($this->session);
+		$this->filters = new SymfonySessionFilterCollection($this->session);
 	}
 	
 	public function testGettersSetters(){

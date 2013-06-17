@@ -7,7 +7,7 @@ use Symfony\Component\HttpFoundation\Session\SessionInterface;
  * @author yosefderay
  *
  */
-class SessionFilterCollection implements 
+class SymfonySessionFilterCollection implements 
     MultiReportFilterCollectionInterface,
     DefaultedFilterCollectionInterface
 {
