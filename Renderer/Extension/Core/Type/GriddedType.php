@@ -32,9 +32,9 @@ class GriddedType extends AbstractRendererType
             
             foreach ($options['columns'] as $columnInfo) {
                 
-                if ($columnInfo instanceof ColumnInterface) {
+                if ($columnInfo[0] instanceof ColumnInterface) {
                     
-                    $column = $columnInfo;
+                    $column = $columnInfo[0];
                 } else {
                     
                     $column = $columnFactory->create($columnInfo[0], $columnInfo[1]);
@@ -58,36 +58,15 @@ class GriddedType extends AbstractRendererType
                 'columns' => array('array', 'Travsersable'), 
                 'grid' => array('null', 'Yjv\ReportRendering\Renderer\Grid\GridInterface')
         ))
-        ;
-        
-        $columnsNormalizer = function(Options $options, $columns)
-        {
-            $newColumns = array();
-            
-            foreach ($columns as $column) {
-               
-                if($column instanceof TypeInterface || is_string($column)){
-                    
-                    $column = array($column, array());
-                }
-                
-                if (!is_array($column)) {
-                    
-                    throw new \RuntimeException('columns in the solumns option must be instances of ColumnInterface, TypeInterface, a string or an array containing at least the former and optionaly options');
-                }
-                
-                if (count($column) == 1) {
-                    
-                    $column[] = array();
-                }
-                
-                $newColumns[] = $column;
+        ->setNormalizers(array(
+            'columns' => function(Options $options, $columns)
+            {
+                return array_map(
+                    array('Yjv\ReportRendering\Util\Factory', 'normalizeToFactoryArguments'), 
+                    $columns
+                );
             }
-
-            return $newColumns;
-        };
-        
-        $resolver->setNormalizers(array('columns' => $columnsNormalizer));
+        ));
     }
     
     public function getName()

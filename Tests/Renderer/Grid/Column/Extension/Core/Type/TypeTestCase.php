@@ -1,38 +1,24 @@
 <?php
 namespace Yjv\ReportRendering\Tests\Renderer\Grid\Column\Extension\Core\Type;
 
-use Yjv\ReportRendering\Renderer\Grid\Column\Extension\Core\CoreExtension;
+use Yjv\ReportRendering\Tests\Factory\Extension\Type\TypeTestCase as BaseTypeTestCase;
 
-use Yjv\ReportRendering\Factory\TypeResolver;
+use Yjv\ReportRendering\Renderer\Grid\Column\Extension\Core\CoreExtension;
 
 use Yjv\ReportRendering\Renderer\Grid\Column\ColumnFactory;
 
 use Yjv\ReportRendering\DataTransformer\DataTransformerRegistry;
 
-use Yjv\ReportRendering\Factory\TypeRegistry;
-
 use Yjv\ReportRendering\Renderer\Grid\Column\ColumnBuilder;
 
-use Yjv\ReportRendering\Renderer\Grid\Column\Column;
-
-class TypeTestCase extends \PHPUnit_Framework_TestCase{
-
-	protected $builder;
-	protected $factory;
-	protected $resolver;
-	protected $registry;
+class TypeTestCase extends BaseTypeTestCase
+{
 	protected $dataTransformerRegistry;
 	
 	protected function setUp() {
 
-		$this->registry = new TypeRegistry();
-		$this->resolver = new TypeResolver($this->registry);
-		
-		foreach ($this->getExtensions() as $extension) {
-		    
-    		$this->registry->addExtension($extension);
-		}
-		$this->dataTransformerRegistry = new DataTransformerRegistry();
+		parent::setUp();
+	    $this->dataTransformerRegistry = new DataTransformerRegistry();
 		$this->factory = new ColumnFactory($this->resolver, $this->dataTransformerRegistry);
 		$this->builder = new ColumnBuilder($this->factory);
 	}

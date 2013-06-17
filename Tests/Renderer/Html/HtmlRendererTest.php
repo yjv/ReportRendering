@@ -3,6 +3,8 @@ namespace Yjv\ReportRendering\Tests\Renderer\Html;
 
 use Yjv\ReportRendering\Filter\NullFilterCollection;
 
+use Mockery;
+
 use Yjv\ReportRendering\ReportData\ReportData;
 
 use Yjv\ReportRendering\Renderer\Html\HtmlRenderer;
@@ -135,7 +137,10 @@ class HtmlRendererTest extends \PHPUnit_Framework_TestCase{
 	public function testFilterMethods() {
 		
 		$filters = new NullFilterCollection();
-		$filterForm = $this->getMock('Yjv\\ReportRendering\\Tests\\TestClasses\\FormInterface');
+		$filterForm = Mockery::mock('Symfony\Component\Form\FormInterface')
+		    ->shouldReceive('bind')
+		    ->getMock()
+		;
 		
 		$this->assertFalse($this->renderer->hasFilterForm());
 		

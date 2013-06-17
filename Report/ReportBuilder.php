@@ -73,7 +73,7 @@ class ReportBuilder extends Builder implements ReportBuilderInterface
      * 
      * @param DatasourceInterface $datasource
      */
-    public function setFilterCollection(FilterCollectionInterface $filterCollection)
+    public function setFilters(FilterCollectionInterface $filterCollection)
     {
         $this->filterCollection = $filterCollection;
         return $this;

@@ -1,6 +1,8 @@
 <?php
 namespace Yjv\ReportRendering\Report\Extension\Core\Type;
 
+use Yjv\ReportRendering\Util\Factory;
+
 use Yjv\ReportRendering\IdGenerator\ConstantValueIdGenerator;
 
 use Symfony\Component\OptionsResolver\Options;
@@ -20,16 +22,16 @@ class ReportType extends AbstractReportType
      */
     public function buildReport(ReportBuilderInterface $reportBuilder, array $options)
     {
-        $reportBuilder->setDatasource($options['datasource']);
+        $reportBuilder->setDefaultRenderer($options['default_renderer']);
 
-        if ($options['default_renderer']) {
+        if ($options['datasource']) {
 
-            $reportBuilder->setDefaultRenderer($options['default_renderer']);
+            $reportBuilder->setDatasource($options['datasource']);
         }
 
-        if ($options['filter_collection']) {
+        if ($options['filters']) {
 
-            $reportBuilder->setFilterCollection($options['filter_collection']);
+            $reportBuilder->setFilters($options['filters']);
         }
         
         foreach ($options['renderers'] as $name => $renderer) {
@@ -52,7 +54,7 @@ class ReportType extends AbstractReportType
         $resolver
             ->setDefaults(array(
                 'datasource' => null, 
-                'filter_collection' => null,
+                'filters' => null,
                 'default_renderer' => 'default', 
                 'renderers' => array(),
                 'id_generator' => function (Options $options)
@@ -67,8 +69,11 @@ class ReportType extends AbstractReportType
                 'id' => null
             ))
             ->setAllowedTypes(array(
-                'datasource' => 'Yjv\ReportRendering\Datasource\DatasourceInterface',
-                'filter_collection' => array(
+                'datasource' => array(
+                    'Yjv\ReportRendering\Datasource\DatasourceInterface', 
+                    'null'
+                ),
+                'filters' => array(
                     'Yjv\ReportRendering\Filter\FilterCollectionInterface', 
                     'null'
                 ),
@@ -78,37 +83,15 @@ class ReportType extends AbstractReportType
                     'null', 
                     'Yjv\ReportRendering\IdGenerator\IdGeneratorInterface'
                 )
-            ));
-            
-            $renderersNormalizer = function(Options $options, $renderers)
-            {
-                $newRenderers = array();
-            
-                foreach ($renderers as $name => $renderer) {
-                     
-                    if(!is_array($renderer)){
-                    
-                        $renderer = array($renderer, array());
-                    }
-                    
-                    if (count($renderer) == 1) {
-                    
-                        $renderer[] = array();
-                    }
-                    
-                    $newRenderers[$name] = $renderer;
-                }
-            
-                return $newRenderers;
-            };
-            
-            $idGeneratorNormalizer = function(Options $options, $idGenerator)
-            {
-                
-            };
-            
-            $resolver->setNormalizers(array(
-                'renderers' => $renderersNormalizer,
+            ))
+            ->setNormalizers(array(
+                'renderers' => function(Options $options, $renderers)
+                {
+                    return array_map(
+                        array('Yjv\ReportRendering\Util\Factory', 'normalizeToFactoryArguments'), 
+                        $renderers
+                    );
+                },
                 'default_renderer' => function(Options $options, $defaultRenderer)
                 {
                     return (string)$defaultRenderer;

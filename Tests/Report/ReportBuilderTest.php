@@ -50,7 +50,7 @@ class ReportBuilderTest extends \PHPUnit_Framework_TestCase
         $this->assertSame($datasource, $report->getDatasource());
         $this->assertSame($this->eventDispatcher, $report->getEventDispatcher());
         $this->assertInstanceOf('Yjv\ReportRendering\Filter\NullFilterCollection', $report->getFilters());
-        $this->builder->setFilterCollection($filterCollection);
+        $this->builder->setFilters($filterCollection);
         $report = $this->builder->getReport();
         $this->assertSame($filterCollection, $report->getFilters());
     }

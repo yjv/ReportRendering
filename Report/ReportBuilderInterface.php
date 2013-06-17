@@ -28,7 +28,7 @@ interface ReportBuilderInterface extends BuilderInterface
      * 
      * @param DatasourceInterface $datasource
      */
-    public function setFilterCollection(FilterCollectionInterface $filterCollection);
+    public function setFilters(FilterCollectionInterface $filterCollection);
 
     /**
      * 

@@ -9,8 +9,6 @@ use Yjv\ReportRendering\Renderer\Grid\Column\Extension\Core\Type\ColumnType;
 
 class ColumnTypeTest extends TypeTestCase{
 
-	protected $type;
-	
 	protected function setUp() {
 
 		parent::setUp();
