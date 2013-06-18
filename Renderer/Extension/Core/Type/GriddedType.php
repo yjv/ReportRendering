@@ -57,7 +57,7 @@ class GriddedType extends AbstractRendererType
             'grid' => null
         ))
         ->setAllowedTypes(array(
-                'columns' => array('array', 'Travsersable'), 
+                'columns' => 'array', 
                 'grid' => array('null', 'Yjv\ReportRendering\Renderer\Grid\GridInterface')
         ))
         ->setNormalizers(array(

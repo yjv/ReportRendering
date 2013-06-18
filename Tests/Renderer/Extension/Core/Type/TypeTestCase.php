@@ -1,5 +1,5 @@
 <?php
-namespace Yjv\ReportRendering\Tests\Report\Extension\Core\Type;
+namespace Yjv\ReportRendering\Tests\Renderer\Extension\Core\Type;
 
 use Yjv\ReportRendering\Renderer\RendererBuilder;
 

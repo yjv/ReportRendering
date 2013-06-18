@@ -160,7 +160,7 @@ class ReportTypeTest extends TypeTestCase
         $this->assertEquals(43, $options['id_generator']->getId(Mockery::mock('Yjv\ReportRendering\Report\ReportInterface')));
     }
     
-    public function testResolvingOFrenderers()
+    public function testResolvingOfRenderers()
     {
         $resolver = new OptionsResolver();
         $this->type->setDefaultOptions($resolver);

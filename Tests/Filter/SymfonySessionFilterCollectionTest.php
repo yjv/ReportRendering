@@ -5,8 +5,8 @@ use Yjv\ReportRendering\Filter\SymfonySessionFilterCollection;
 
 use Yjv\ReportRendering\Filter\ArrayFilterCollection;
 
-class SymfonySessionFilterCollectionTest extends ArrayFilterCollectionTest{
-
+class SymfonySessionFilterCollectionTest extends ArrayFilterCollectionTest
+{
 	protected $session;
 	public $sessionData;
 	public $currentReportId;

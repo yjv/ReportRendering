@@ -3,7 +3,7 @@ namespace Yjv\ReportRendering\Widget;
 
 use Symfony\Component\Templating\EngineInterface;
 
-class WidgetRenderer
+class WidgetRenderer implements WidgetRendererInterface
 {
     protected $templating;
 

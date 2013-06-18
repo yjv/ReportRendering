@@ -1,11 +1,9 @@
 <?php
 namespace Yjv\ReportRendering\Tests\Renderer\Extension\Core\Type;
 
-use Yjv\ReportRendering\Renderer\RendererBuilder;
-
 use Yjv\ReportRendering\Renderer\Extension\Core\Type\RendererType;
 
-use Yjv\ReportRendering\Tests\Report\Extension\Core\Type\TypeTestCase;
+use Yjv\ReportRendering\Renderer\RendererBuilder;
 
 use Mockery;
 

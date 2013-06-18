@@ -7,104 +7,23 @@ use Symfony\Component\HttpFoundation\Session\SessionInterface;
  * @author yosefderay
  *
  */
-class SymfonySessionFilterCollection implements 
-    MultiReportFilterCollectionInterface,
-    DefaultedFilterCollectionInterface
+class SymfonySessionFilterCollection extends AbstractSessionFilterCollection
 {
-
     protected $session;
-    protected $reportId;
-    protected $filters = array();
 
-    public function __construct(SessionInterface $session)
+    public function __construct(SessionInterface $session, $sessionPath = 'report_filters')
     {
         $this->session = $session;
+        parent::__construct($sessionPath);
     }
 
     /**
-     * (non-PHPdoc)
-     * @see \Yjv\ReportRendering\Filter\MultiReportFilterCollectionInterface::setReportId()
-     */
-    public function setReportId($reportId)
-    {
-        $this->reportId = $reportId;
-        return $this;
-    }
-
-    /**
-     * (non-PHPdoc)
-     * @see \Yjv\ReportRendering\Filter\FilterCollectionInterface::set()
-     */
-    public function set($name, $value)
-    {
-        $this->filters[$name] = $value;
-        return $this->syncFilters();
-    }
-
-    /**
-     * (non-PHPdoc)
-     * @see \Yjv\ReportRendering\Filter\FilterCollectionInterface::setAll()
-     */
-    public function setAll(array $values)
-    {
-        $this->filters = array_replace($this->filters, $values);
-        return $this->syncFilters();
-    }
-
-    /**
-     * (non-PHPdoc)
-     * @see \Yjv\ReportRendering\Filter\FilterCollectionInterface::get()
-     */
-    public function get($name, $default = null)
-    {
-        $this->loadFilters();
-        return isset($this->filters[$name]) ? $this->filters[$name] : $default;
-    }
-
-    /**
-     * (non-PHPdoc)
-     * @see \Yjv\ReportRendering\Filter\FilterCollectionInterface::all()
-     */
-    public function all()
-    {
-        $this->loadFilters();
-        return $this->filters;
-    }
-
-    /**
-     * 
-     * @param array $defaults
-     * @return \Yjv\ReportRendering\Filter\SessionFilterCollection
-     */
-    public function setDefaults(array $defaults)
-    {
-        $this->filters = array_replace($defaults, $this->filters);
-        return $this->syncFilters();
-    }
-
-    /**
-     * 
-     * @param unknown $name
-     * @param unknown $value
-     * @return \Yjv\ReportRendering\Filter\SessionFilterCollection
-     */
-    public function setDefault($name, $value)
-    {
-        if (!array_key_exists($name, $this->filters)) {
-
-            $this->filters[$name] = $value;
-        }
-
-        return $this->syncFilters();
-    }
-
-    /**
-     * returns the path to use in the sesison object for storing/retrieving the filters
+     * returns the path to use in the session object for storing/retrieving the filters
      * @return string
      */
     protected function getFilterPath()
     {
-        return 'report_filter.' . $this->reportId;
+        return $this->sessionPath . '.' . $this->reportId;
     }
 
     /**

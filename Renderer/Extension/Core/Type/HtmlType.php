@@ -35,26 +35,14 @@ class HtmlType extends AbstractRendererType
     */
     public function setDefaultOptions(OptionsResolverInterface $resolver) {
 
-        $formFactory = $this->formFactory;
+        $type = $this;
         
         $resolver->setDefaults(array(
 
             'template' => null,
-            'filter_form' => function(Options $options) use ($formFactory) {
+            'filter_form' => function(Options $options) use ($type) {
                 
-                if (!$formFactory) {
-                    
-                    return null;
-                }
-                
-                $builder = $formFactory->createBuilder('form', null, $options['filter_form_options']);
-                
-                foreach ($options['filter_fields'] as $name => $options) {
-                    
-                    $builder->add($name, $options[0], $options[1]);
-                }
-                
-                return $builder->getForm();
+                return $type->buildFilterForm($options);
             },
             'widget_attributes' => array(),
             'constructor' => array($this, 'rendererConstructor'),
@@ -99,6 +87,23 @@ class HtmlType extends AbstractRendererType
         }
         
         return $renderer;
+    }
+    
+    public function buildFilterForm(Options $options)
+    {
+        if (!$this->formFactory) {
+                    
+            return null;
+        }
+        
+        $builder = $this->formFactory->createBuilder('form', null, $options['filter_form_options']);
+        
+        foreach ($options['filter_fields'] as $name => $options) {
+            
+            $builder->add($name, $options[0], $options[1]);
+        }
+        
+        return $builder->getForm();
     }
     
     public function getName()
