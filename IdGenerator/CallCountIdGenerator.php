@@ -5,10 +5,16 @@ use Yjv\ReportRendering\Report\ReportInterface;
 
 class CallCountIdGenerator implements IdGeneratorInterface
 {
+    protected $prefix;
+    protected $count = 0;
+    
+    public function __construct($prefix = '')
+    {
+        $this->prefix = $prefix;
+    }
+    
     public function getId(ReportInterface $report)
     {
-        static $count = 0;
-        $count++;
-        return sha1($count);
+        return sha1($this->prefix . (string)++$this->count);
     }
 }

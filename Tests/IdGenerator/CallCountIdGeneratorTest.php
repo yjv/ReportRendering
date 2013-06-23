@@ -26,4 +26,12 @@ class CallCountIdGeneratorTest extends \PHPUnit_Framework_TestCase {
 		$this->assertEquals(sha1(2), $this->idGenerator->getId($this->report));
 		$this->assertEquals(sha1(3), $this->idGenerator->getId($this->report));
 	}
+	
+	public function testGetIdWithPrefix()
+	{
+	    $idGenerator = new CallCountIdGenerator('prefix');
+	    $this->assertEquals(sha1('prefix1'), $idGenerator->getId($this->report));
+	    $this->assertEquals(sha1('prefix2'), $idGenerator->getId($this->report));
+	    $this->assertEquals(sha1('prefix3'), $idGenerator->getId($this->report));
+	}
 }
