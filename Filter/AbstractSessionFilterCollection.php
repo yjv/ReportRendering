@@ -95,10 +95,9 @@ abstract class AbstractSessionFilterCollection implements
     {
         if (!array_key_exists($name, $this->filters)) {
 
-            $this->filters[$name] = $value;
+            $this->set($name, $value);
         }
 
-        $this->syncFilters();
         return $this;
     }
 

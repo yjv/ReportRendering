@@ -5,7 +5,7 @@ use Yjv\ReportRendering\Renderer\Grid\GridInterface;
 use Yjv\ReportRendering\Filter\FilterCollectionInterface;
 use Yjv\ReportRendering\ReportData\ImmutableDataInterface;
 use Symfony\Component\Form\FormInterface;
-use Yjv\ReportRendering\Widget\WidgetRenderer;
+use Yjv\ReportRendering\Widget\WidgetRendererInterface;
 use Yjv\ReportRendering\Renderer\FilterAwareRendererInterface;
 use Yjv\ReportRendering\Widget\WidgetInterface;
 
@@ -20,7 +20,7 @@ class HtmlRenderer implements FilterAwareRendererInterface, WidgetInterface, \It
     protected $reportId;
     protected $forceReload = true;
 
-        public function __construct(WidgetRenderer $renderer, GridInterface $grid, $template)
+        public function __construct(WidgetRendererInterface $renderer, GridInterface $grid, $template)
     {
         $this->renderer = $renderer;
         $this->template = $template;

@@ -9,7 +9,7 @@ use Symfony\Component\Form\FormInterface;
 
 use Symfony\Component\Form\FormFactoryInterface;
 
-use Yjv\ReportRendering\Widget\WidgetRenderer;
+use Yjv\ReportRendering\Widget\WidgetRendererInterface;
 
 use Yjv\ReportRendering\Renderer\Html\HtmlRenderer;
 
@@ -24,7 +24,7 @@ class HtmlType extends AbstractRendererType
    protected $widgetRenderer;
    protected $formFactory;
    
-   public function __construct(WidgetRenderer $widgetRenderer, FormFactoryInterface $formFactory = null)
+   public function __construct(WidgetRendererInterface $widgetRenderer, FormFactoryInterface $formFactory = null)
    {
        $this->widgetRenderer = $widgetRenderer;
        $this->formFactory = $formFactory;
@@ -98,9 +98,9 @@ class HtmlType extends AbstractRendererType
         
         $builder = $this->formFactory->createBuilder('form', null, $options['filter_form_options']);
         
-        foreach ($options['filter_fields'] as $name => $options) {
+        foreach ($options['filter_fields'] as $name => $fieldOptions) {
             
-            $builder->add($name, $options[0], $options[1]);
+            $builder->add($name, $fieldOptions[0], $fieldOptions[1]);
         }
         
         return $builder->getForm();
