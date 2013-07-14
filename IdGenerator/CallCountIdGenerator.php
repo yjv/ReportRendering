@@ -17,4 +17,15 @@ class CallCountIdGenerator implements IdGeneratorInterface
     {
         return sha1($this->prefix . (string)++$this->count);
     }
+    
+    public function setPrefix($prefix)
+    {
+        $this->prefix = $prefix;
+        return $this;
+    }
+    
+    public function getPrefix()
+    {
+        return $this->prefix;
+    }
 }

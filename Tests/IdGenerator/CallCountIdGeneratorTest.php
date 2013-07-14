@@ -1,5 +1,6 @@
 <?php
 namespace Yjv\ReportRendering\Tests\IdGenerator;
+
 use Symfony\Component\EventDispatcher\EventDispatcher;
 
 use Yjv\ReportRendering\Renderer\Grid\Grid;
@@ -33,5 +34,8 @@ class CallCountIdGeneratorTest extends \PHPUnit_Framework_TestCase {
 	    $this->assertEquals(sha1('prefix1'), $idGenerator->getId($this->report));
 	    $this->assertEquals(sha1('prefix2'), $idGenerator->getId($this->report));
 	    $this->assertEquals(sha1('prefix3'), $idGenerator->getId($this->report));
+	    $this->assertSame($idGenerator, $idGenerator->setPrefix('other_prefix'));
+	    $this->assertEquals(sha1('other_prefix4'), $idGenerator->getId($this->report));
+	    $this->assertEquals('other_prefix', $idGenerator->getPrefix());
 	}
 }

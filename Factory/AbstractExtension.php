@@ -59,11 +59,17 @@ abstract class AbstractExtension implements RegistryExtensionInterface
         }
     }
     
+    /**
+     * @codeCoverageIgnore
+     */
     protected function loadTypeExtensions()
     {
         return array();
     }
     
+    /**
+     * @codeCoverageIgnore
+     */
     protected function loadTypes()
     {
         return array();
