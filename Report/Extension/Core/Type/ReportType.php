@@ -38,7 +38,7 @@ class ReportType extends AbstractReportType
             
             $reportBuilder->addRenderer($name, $renderer[0], $renderer[1]);
         }
-        
+
         if ($options['id_generator']) {
             
             $reportBuilder->setIdGenerator($options['id_generator']);

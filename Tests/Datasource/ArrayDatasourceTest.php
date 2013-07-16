@@ -104,6 +104,16 @@ class ArrayDatasourceTest extends \PHPUnit_Framework_TestCase{
 		unset($data[4]);
 		$dataObject = $this->datasource->getData(true);
 		$this->assertSame($data, $dataObject->getData());
+		
+	}
+	
+	public function testEmptyFilterValueDoesNotRemoveEntry()
+	{
+		$filters = new ArrayFilterCollection();
+		$this->datasource->setFilters($filters);
+	    $filters->set('[column1]', '');
+		$dataObject = $this->datasource->getData(true);
+		$this->assertSame($this->data, $dataObject->getData());
 	}
 	
 	public function testMappedFilters() {

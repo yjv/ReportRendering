@@ -69,6 +69,28 @@ class ArrayDatasource implements MappedSortDatasourceInterface
         $this->processedData = $this->data;
         $propertyAccessor = $this->propertyAccessor;
 
+        $filters = $this->filters->all();
+        unset($filters['sort']);
+
+        foreach ($filters as $name => $value) {
+
+            $filterPath = $this->mapFilter($name);
+
+            $this->processedData = array_filter(
+                $this->processedData,
+                function ($data) use ($value, $propertyAccessor, $filterPath)
+                {
+                    $data = $propertyAccessor->getValue($data, $filterPath);
+                    if ($value === '' || stripos($data, $value) === 0) {
+
+                        return true;
+                    }
+                    
+                    return false;
+                }
+            );
+        }
+
         if ($this->filters->get('sort', false)) {
 
             $sort = $this->filters->get('sort');
@@ -83,27 +105,6 @@ class ArrayDatasource implements MappedSortDatasourceInterface
                     $valueA = $propertyAccessor->getValue($a, (string)$sort);
                     $valueB = $propertyAccessor->getValue($b, (string)$sort);
                     return ($order == 'asc' ? 1 : -1) * strcasecmp($valueA, $valueB);
-                }
-            );
-        }
-
-        $filters = $this->filters->all();
-        unset($filters['sort']);
-
-        foreach ($filters as $name => $value) {
-
-            $filterPath = $this->mapFilter($name);
-
-            $this->processedData = array_filter(
-                $this->processedData,
-                function ($data) use ($value, $propertyAccessor, $filterPath)
-                {
-                    $data = $propertyAccessor->getValue($data, $filterPath);
-                    if (stripos($data, $value) === 0) {
-
-                        return true;
-                    }
-                    return false;
                 }
             );
         }

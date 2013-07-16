@@ -40,6 +40,11 @@ class ReportBuilder extends Builder implements ReportBuilderInterface
         $this->assertBuildable();
         
         $report = new Report($this->datasource, $this->renderers[$this->defaultRenderer], $this->eventDispatcher);
+        
+        if ($this->idGenerator) {
+            
+            $report->setIdGenerator($this->idGenerator);
+        }
 
         if ($this->filterCollection) {
 
@@ -49,11 +54,6 @@ class ReportBuilder extends Builder implements ReportBuilderInterface
         foreach ($this->renderers as $name => $renderer) {
 
             $report->addRenderer($name, $renderer);
-        }
-        
-        if ($this->idGenerator) {
-            
-            $report->setIdGenerator($this->idGenerator);
         }
 
         return $report;
