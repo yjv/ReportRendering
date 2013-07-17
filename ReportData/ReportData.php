@@ -9,9 +9,9 @@ class ReportData extends ImmutableReportData implements DataInterface
         return $this;
     }
 
-    public function setUnfilteredCount($unFilteredCount)
+    public function setUnpaginatedCount($unpaginatedCount)
     {
-        $this->unFilteredCount = $unFilteredCount;
+        $this->unpaginatedCount = $unpaginatedCount;
         return $this;
     }
 }

@@ -91,31 +91,31 @@ class HtmlRendererTest extends \PHPUnit_Framework_TestCase{
 		$this->assertEquals($columns, $this->renderer->getColumns());
 	}
 	
-	public function testGetUnfilteredCount() {
+	public function testGetUnpaginatedCount() {
 		
-		$unfilteredCount = 12;
-		$data = new ReportData(array(), $unfilteredCount);
+		$unpaginatedCount = 12;
+		$data = new ReportData(array(), $unpaginatedCount);
 		
 		try {
 			
-			$this->renderer->getUnfilteredCount();
-			$this->fail('getUnfilteredCount did not throw an exception without data set');
+			$this->renderer->getUnpaginatedCount();
+			$this->fail('getUnpaginatedCount did not throw an exception without data set');
 		} catch (\BadMethodCallException $e) {
 		}
 		
 		$this->renderer->setData($data);
-		$this->assertEquals($unfilteredCount, $this->renderer->getUnfilteredCount());
+		$this->assertEquals($unpaginatedCount, $this->renderer->getUnpaginatedCount());
 	}
 	
 	public function testGetCount() {
 		
-		$unfilteredCount = 12;
-		$data = new ReportData(array(), $unfilteredCount);
+		$unpaginatedCount = 12;
+		$data = new ReportData(array(), $unpaginatedCount);
 		
 		try {
 			
 			$this->renderer->getCount();
-			$this->fail('getUnfilteredCount did not throw an exception without data set');
+			$this->fail('getCount did not throw an exception without data set');
 		} catch (\BadMethodCallException $e) {
 		}
 		

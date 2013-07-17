@@ -83,8 +83,8 @@ class CallbackDatasource implements DatasourceInterface
 
         if (!$this->data instanceof DataInterface) {
 
-            $unFilteredCount = is_array($this->data) || $this->data instanceof \Countable ? count($this->data) : 0;
-            $this->data = new ReportData($this->data, $unFilteredCount);
+            $unpaginatedCount = is_array($this->data) || $this->data instanceof \Countable ? count($this->data) : 0;
+            $this->data = new ReportData($this->data, $unpaginatedCount);
         }
 
         return $this->data;

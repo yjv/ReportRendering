@@ -21,5 +21,5 @@ interface ImmutableDataInterface
     /**
      * shoiuld return the mount of results without filters
      */
-    public function getUnfilteredCount();
+    public function getUnpaginatedCount();
 }

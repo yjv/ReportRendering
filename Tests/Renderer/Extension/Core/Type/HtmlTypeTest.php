@@ -129,8 +129,13 @@ class HtmlTypeTest extends TypeTestCase
             ->with('filter_form_options')
             ->andReturn($formOptions)
             ->getMock()
-            ->shouldReceive('offsetGet')
+            ->shouldReceive('offsetExists')
             ->once()
+            ->with('filter_fields')
+            ->andReturn(true)
+            ->getMock()
+            ->shouldReceive('offsetGet')
+            ->twice()
             ->with('filter_fields')
             ->andReturn($fields)
             ->getMock()
@@ -163,6 +168,18 @@ class HtmlTypeTest extends TypeTestCase
     {
         $type = new HtmlType($this->widgetRenderer);
         $this->assertNull($type->buildFilterForm(Mockery::mock('Symfony\Component\OptionsResolver\Options')));
+    }
+    
+    public function testBuildFilterFormWithoutFormFields()
+    {
+        $options = Mockery::mock('Symfony\Component\OptionsResolver\Options')
+            ->shouldReceive('offsetExists')
+            ->once()
+            ->with('filter_fields')
+            ->andReturn(false)
+            ->getMock()
+        ;
+        $this->assertNull($this->type->buildFilterForm($options));
     }
         
     public function testGetName()

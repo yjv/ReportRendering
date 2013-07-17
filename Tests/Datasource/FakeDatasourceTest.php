@@ -21,6 +21,6 @@ class FakeDatasourceTest extends \PHPUnit_Framework_TestCase {
 		$reportData = $this->datasource->getData();
 		$this->assertNotEmpty($reportData->getData());
 		$this->assertNotEmpty($reportData->getCount());
-		$this->assertNotEmpty($reportData->getUnfilteredCount());
+		$this->assertNotEmpty($reportData->getUnpaginatedCount());
 	}
 }

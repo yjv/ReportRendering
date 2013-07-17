@@ -60,10 +60,10 @@ class HtmlRenderer implements FilterAwareRendererInterface, WidgetInterface, \It
         return $this->grid->getColumns();
     }
 
-    public function getUnfilteredCount()
+    public function getUnpaginatedCount()
     {
         $this->assertDataSet();
-        return $this->data->getUnfilteredCount();
+        return $this->data->getUnpaginatedCount();
     }
 
     public function getCount()

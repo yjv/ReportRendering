@@ -9,5 +9,5 @@ namespace Yjv\ReportRendering\ReportData;
 interface DataInterface extends ImmutableDataInterface
 {
     public function setData($data);
-    public function setUnfilteredCount($unFilteredCount);
+    public function setUnpaginatedCount($unpaginatedCount);
 }

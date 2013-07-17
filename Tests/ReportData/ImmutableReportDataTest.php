@@ -7,16 +7,16 @@ use Yjv\ReportRendering\ReportData\ImmutableReportData;
 class ImmutableReportDataTest extends \PHPUnit_Framework_TestCase{
 
 	protected $data;
-	protected $unfilteredCount;
+	protected $unpaginatedCount;
 	protected $dataClass = 'Yjv\\ReportRendering\\ReportData\\ImmutableReportData';
 	protected $reportData;
 	
 	public function setUp() {
 		
 		$this->data = array('thing1' => 'thing2');
-		$this->unfilteredCount = 15;
+		$this->unpaginatedCount = 15;
 		$class = $this->dataClass;
-		$this->reportData = new $class($this->data, $this->unfilteredCount);
+		$this->reportData = new $class($this->data, $this->unpaginatedCount);
 	}
 	
 	public function testConstructor() {
@@ -24,7 +24,7 @@ class ImmutableReportDataTest extends \PHPUnit_Framework_TestCase{
 		try {
 			
 			$class = $this->dataClass;
-			new $class('sdfdsf', $this->unfilteredCount);
+			new $class('sdfdsf', $this->unpaginatedCount);
 			$this->fail('failed to throw exception on bad data param');
 		} catch (\InvalidArgumentException $e) {
 		}
@@ -33,7 +33,7 @@ class ImmutableReportDataTest extends \PHPUnit_Framework_TestCase{
 	public function testGettersSetters() {
 		
 		$this->assertEquals($this->data, $this->reportData->getData());
-		$this->assertEquals($this->unfilteredCount, $this->reportData->getUnfilteredCount());
+		$this->assertEquals($this->unpaginatedCount, $this->reportData->getUnpaginatedCount());
 		$this->assertEquals(count($this->data), $this->reportData->getCount());
 	}
 }

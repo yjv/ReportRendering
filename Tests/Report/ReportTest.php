@@ -210,7 +210,7 @@ class ReportTest extends \PHPUnit_Framework_TestCase {
 		$result = $this->report->getData($rendererName, $renderer);
 		$this->assertInstanceOf('Yjv\\ReportRendering\\ReportData\\ImmutableReportData', $result);
 		$this->assertEquals($data->getData(), $result->getData());
-		$this->assertEquals($data->getUnfilteredCount(), $result->getUnfilteredCount());
+		$this->assertEquals($data->getUnpaginatedCount(), $result->getUnpaginatedCount());
 		$this->assertEquals($data->getCount(), $result->getCount());
 	}
 	

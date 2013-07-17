@@ -4,7 +4,7 @@ namespace Yjv\ReportRendering\ReportData;
 class ImmutableReportData implements ImmutableDataInterface
 {
     protected $data;
-    protected $unFilteredCount;
+    protected $unpaginatedCount;
 
     /**
      * 
@@ -13,10 +13,10 @@ class ImmutableReportData implements ImmutableDataInterface
      */
     public static function createFromData(ImmutableDataInterface $data)
     {
-        return new static($data->getData(), $data->getUnfilteredCount());
+        return new static($data->getData(), $data->getUnpaginatedCount());
     }
 
-    public function __construct($data, $unFilteredCount)
+    public function __construct($data, $unpaginatedCount)
     {
         if (!is_array($data) && !$data instanceof \Countable) {
 
@@ -24,7 +24,7 @@ class ImmutableReportData implements ImmutableDataInterface
         }
 
         $this->data = $data;
-        $this->unFilteredCount = $unFilteredCount;
+        $this->unpaginatedCount = $unpaginatedCount;
     }
 
     public function getData()
@@ -32,9 +32,9 @@ class ImmutableReportData implements ImmutableDataInterface
         return $this->data;
     }
 
-    public function getUnfilteredCount()
+    public function getUnpaginatedCount()
     {
-        return $this->unFilteredCount;
+        return $this->unpaginatedCount;
     }
 
     public function getCount()

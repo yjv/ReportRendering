@@ -13,11 +13,11 @@ class ReportDataTest extends ImmutableReportDataTest{
 		parent::testGettersSetters();
 		
 		$data = array('thing3' => 'thing4');
-		$unfilteredCount = 345;
+		$unpaginatedCount = 345;
 		$this->reportData->setData($data);
-		$this->reportData->setUnfilteredCount($unfilteredCount);
+		$this->reportData->setUnpaginatedCount($unpaginatedCount);
 		
 		$this->assertEquals($data, $this->reportData->getData());
-		$this->assertEquals($unfilteredCount, $this->reportData->getUnfilteredCount());
+		$this->assertEquals($unpaginatedCount, $this->reportData->getUnpaginatedCount());
 	}
 }

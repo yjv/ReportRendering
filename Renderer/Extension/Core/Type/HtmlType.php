@@ -91,7 +91,7 @@ class HtmlType extends AbstractRendererType
     
     public function buildFilterForm(Options $options)
     {
-        if (!$this->formFactory) {
+        if (!$this->formFactory || empty($options['filter_fields'])) {
                     
             return null;
         }
