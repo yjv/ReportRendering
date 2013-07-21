@@ -9,7 +9,6 @@ use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Yjv\ReportRendering\Report\ReportBuilder;
 use Yjv\ReportRendering\Factory\TypeFactoryInterface;
-use Yjv\ReportRendering\Filter\NullFilterCollection;
 use Yjv\ReportRendering\Report\ReportBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Yjv\ReportRendering\Report\AbstractReportType;

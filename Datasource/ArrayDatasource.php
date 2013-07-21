@@ -7,7 +7,6 @@ use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
 
 use Yjv\ReportRendering\ReportData\ReportData;
 use Yjv\ReportRendering\Filter\NullFilterCollection;
-use Symfony\Component\Form\Util\PropertyPath;
 use Yjv\ReportRendering\Filter\FilterCollectionInterface;
 
 class ArrayDatasource implements MappedSortDatasourceInterface

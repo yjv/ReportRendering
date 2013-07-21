@@ -2,7 +2,6 @@
 namespace Yjv\ReportRendering\Factory;
 
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
-use Yjv\ReportRendering\Factory\TypeInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 abstract class AbstractTypeFactory implements TypeFactoryInterface

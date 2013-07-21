@@ -3,8 +3,6 @@ namespace Yjv\ReportRendering\Renderer\Grid\Column;
 
 use Yjv\ReportRendering\Factory\Builder;
 
-use Yjv\ReportRendering\DataTransformer\DataTransformerInterface;
-
 class ColumnBuilder extends Builder implements ColumnBuilderInterface
 {
     protected $rowOptions = array();

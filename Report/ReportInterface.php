@@ -1,9 +1,7 @@
 <?php
 namespace Yjv\ReportRendering\Report;
 
-use Yjv\ReportRendering\Filter\MultiReportFilterCollectionInterface;
 use Yjv\ReportRendering\IdGenerator\IdGeneratorInterface;
-use Yjv\ReportRendering\ReportData\ImmutableDataInterface;
 use Yjv\ReportRendering\Filter\FilterCollectionInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;

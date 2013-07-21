@@ -10,10 +10,8 @@ use Yjv\ReportRendering\Factory\Builder;
 use Yjv\ReportRendering\Factory\TypeInterface;
 
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use Yjv\ReportRendering\Renderer\Grid\Column\ColumnFactoryInterface;
 use Yjv\ReportRendering\Filter\FilterCollectionInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use Yjv\ReportRendering\Renderer\RendererTypeDelegateInterface;
 use Yjv\ReportRendering\Renderer\RendererInterface;
 use Yjv\ReportRendering\Datasource\DatasourceInterface;
 

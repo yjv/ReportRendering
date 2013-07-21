@@ -4,14 +4,6 @@ use Yjv\ReportRendering\Renderer\Grid\Column\ColumnInterface;
 
 use Yjv\ReportRendering\ReportData\ImmutableDataInterface;
 
-use Yjv\ReportRendering\DataTransformer\DataTransformerInterface;
-
-use Yjv\ReportRendering\Renderer\Grid\Row\Row;
-
-use Symfony\Component\OptionsResolver\OptionsResolver;
-
-use Yjv\ReportRendering\Renderer\RendererInterface;
-
 class Grid implements GridInterface {
 	
 	protected $data;

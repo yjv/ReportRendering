@@ -7,11 +7,6 @@ use Symfony\Component\PropertyAccess\PropertyAccess;
 
 use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
 
-use Symfony\Component\Form\Exception\FormException;
-use Symfony\Component\Form\Exception\PropertyAccessDeniedException;
-use Symfony\Component\Form\Exception\InvalidPropertyException;
-use Symfony\Component\Form\Util\PropertyPath;
-
 class FormatStringTransformer extends AbstractDataTransformer
 {
     protected $propertyAccessor;

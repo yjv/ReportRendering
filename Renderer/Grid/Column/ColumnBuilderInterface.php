@@ -3,8 +3,6 @@ namespace Yjv\ReportRendering\Renderer\Grid\Column;
 
 use Yjv\ReportRendering\Factory\BuilderInterface;
 
-use Yjv\ReportRendering\DataTransformer\DataTransformerInterface;
-
 interface ColumnBuilderInterface extends BuilderInterface
 {
     /**

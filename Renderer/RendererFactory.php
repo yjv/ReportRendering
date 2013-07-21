@@ -3,7 +3,6 @@ namespace Yjv\ReportRendering\Renderer;
 
 use Yjv\ReportRendering\Factory\TypeResolverInterface;
 
-use Yjv\ReportRendering\Factory\TypeRegistryInterface;
 use Yjv\ReportRendering\Renderer\Grid\Column\ColumnFactoryInterface;
 use Yjv\ReportRendering\Factory\AbstractTypeFactory;
 

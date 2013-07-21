@@ -3,8 +3,6 @@ namespace Yjv\ReportRendering\Renderer\Extension\Core\Type;
 
 use Yjv\ReportRendering\Util\Factory;
 
-use Yjv\ReportRendering\Factory\TypeInterface;
-
 use Yjv\ReportRendering\Renderer\Grid\Column\ColumnInterface;
 
 use Yjv\ReportRendering\Renderer\Grid\GridInterface;

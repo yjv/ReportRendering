@@ -3,10 +3,6 @@ namespace Yjv\ReportRendering\Renderer\Extension\Core\Type;
 
 use Yjv\ReportRendering\Renderer\Csv\CsvRenderer;
 
-use Yjv\ReportRendering\Widget\WidgetRenderer;
-
-use Yjv\ReportRendering\Renderer\Html\HtmlRenderer;
-
 use Yjv\ReportRendering\Renderer\RendererBuilderInterface;
 
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;

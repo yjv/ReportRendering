@@ -4,7 +4,6 @@ namespace Yjv\ReportRendering\DataTransformer;
 use Yjv\ReportRendering\DataTransformer\Config\Config;
 use Yjv\ReportRendering\DataTransformer\Config\ConfigInterface;
 use Yjv\ReportRendering\DataTransformer\DataTransformerInterface;
-use Symfony\Component\OptionsResolver\OptionsResolver;
 
 abstract class AbstractDataTransformer implements DataTransformerInterface
 {

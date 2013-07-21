@@ -1,6 +1,5 @@
 <?php
 namespace Yjv\ReportRendering\Filter;
-use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 /**
  * filter collection that holds filter values in the session for multiple reports

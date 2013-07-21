@@ -6,7 +6,6 @@ use Yjv\ReportRendering\Renderer\Grid\Column\ColumnBuilder;
 use Yjv\ReportRendering\Factory\TypeFactoryInterface;
 
 use Yjv\ReportRendering\Renderer\Grid\Column\ColumnBuilderInterface;
-use Yjv\ReportRendering\Renderer\Grid\Column\ColumnInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Yjv\ReportRendering\Renderer\Grid\Column\AbstractColumnType;
 

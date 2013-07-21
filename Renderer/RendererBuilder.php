@@ -5,10 +5,7 @@ use Yjv\ReportRendering\Renderer\Grid\GridInterface;
 
 use Yjv\ReportRendering\Factory\Builder;
 
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use Yjv\ReportRendering\Renderer\RendererTypeDelegateInterface;
 use Yjv\ReportRendering\Renderer\RendererInterface;
-use Yjv\ReportRendering\Datasource\DatasourceInterface;
 
 class RendererBuilder extends Builder implements RendererBuilderInterface
 {

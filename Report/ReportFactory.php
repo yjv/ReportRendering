@@ -4,10 +4,7 @@ namespace Yjv\ReportRendering\Report;
 use Yjv\ReportRendering\Factory\TypeResolverInterface;
 
 use Yjv\ReportRendering\Renderer\RendererFactoryInterface;
-use Yjv\ReportRendering\Factory\TypeRegistryInterface;
-use Yjv\ReportRendering\Factory\TypeRegistry;
 use Yjv\ReportRendering\Factory\AbstractTypeFactory;
-use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class ReportFactory extends AbstractTypeFactory implements ReportFactoryInterface
 {

@@ -5,8 +5,6 @@ use Yjv\ReportRendering\Util\Factory;
 
 use Symfony\Component\OptionsResolver\Options;
 
-use Symfony\Component\Form\FormInterface;
-
 use Symfony\Component\Form\FormFactoryInterface;
 
 use Yjv\ReportRendering\Widget\WidgetRendererInterface;

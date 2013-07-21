@@ -6,7 +6,6 @@ use Yjv\ReportRendering\Factory\TypeFactoryInterface;
 use Yjv\ReportRendering\Factory\BuilderInterface;
 
 use Yjv\ReportRendering\Factory\AbstractType;
-use Symfony\Component\OptionsResolver\OptionsResolver;
 
 abstract class AbstractRendererType extends AbstractType
 {

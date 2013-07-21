@@ -6,8 +6,6 @@ use Yjv\ReportRendering\Factory\BuilderInterface;
 use Yjv\ReportRendering\Factory\AbstractType;
 use Yjv\ReportRendering\Factory\TypeFactoryInterface;
 use Yjv\ReportRendering\Factory\TypeInterface;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
-use Symfony\Component\OptionsResolver\OptionsResolver;
 
 abstract class AbstractColumnType extends AbstractType implements TypeInterface
 {

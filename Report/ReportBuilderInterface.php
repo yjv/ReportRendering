@@ -7,7 +7,6 @@ use Yjv\ReportRendering\Factory\BuilderInterface;
 
 use Yjv\ReportRendering\Filter\FilterCollectionInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use Yjv\ReportRendering\Renderer\RendererTypeDelegateInterface;
 use Yjv\ReportRendering\Renderer\RendererInterface;
 use Yjv\ReportRendering\Datasource\DatasourceInterface;
 

@@ -7,8 +7,6 @@ use Symfony\Component\PropertyAccess\PropertyAccess;
 
 use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
 
-use Symfony\Component\PropertyAccess\PropertyPath;
-
 use Yjv\ReportRendering\Data\DataEscaperInterface;
 use Yjv\ReportRendering\Data\DataEscaper;
 use Symfony\Component\OptionsResolver\OptionsResolver;
