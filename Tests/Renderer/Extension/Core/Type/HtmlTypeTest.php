@@ -32,13 +32,17 @@ class HtmlTypeTest extends TypeTestCase
         $type = $this->type;
         
         $resolver = Mockery::mock('Symfony\Component\OptionsResolver\OptionsResolverInterface')
+            ->shouldReceive('setRequired')
+            ->once()
+            ->with(array('template'))
+            ->andReturn(Mockery::self())
+            ->getMock()
             ->shouldReceive('setDefaults')
             ->once()
             ->with(Mockery::on(function($value) use ($testCase, $type) 
             {
                 $testCase->assertEquals(array(
         
-                    'template' => null,
                     'filter_form' => function(Options $options) use ($type) {
                         
                         return $type->buildFilterForm($options);
@@ -46,7 +50,13 @@ class HtmlTypeTest extends TypeTestCase
                     'widget_attributes' => array(),
                     'constructor' => array($type, 'rendererConstructor'),
                     'filter_fields' => array(),
-                    'filter_form_options' => array('csrf_protection' => false)
+                    'filter_form_options' => array('csrf_protection' => false),
+                    'data_key' => 'report_filters',
+                    'filter_uri' => null,
+                    'options' => function(Options $options) {
+                        
+                        return array('data_key' => $options['data_key'], 'filter_uri' => $options['filter_uri']);
+                    }
                 ), $value);
                 return true;
             }))
@@ -90,6 +100,7 @@ class HtmlTypeTest extends TypeTestCase
         $attributes = array('key' => 'value');
         $expectedRenderer = new HtmlRenderer($this->widgetRenderer, $grid, 'template');
         $expectedRenderer->setAttribute('key', 'value');
+        $expectedRenderer->setOption('option_name', 'value');
         $expectedRenderer->setFilterForm($form);
         $builder = Mockery::mock('Yjv\ReportRendering\Renderer\RendererBuilderInterface')
             ->shouldReceive('getGrid')
@@ -111,8 +122,24 @@ class HtmlTypeTest extends TypeTestCase
             ->with('widget_attributes')
             ->andReturn($attributes)
             ->getMock()
+            ->shouldReceive('getOption')
+            ->once()
+            ->with('options')
+            ->andReturn(array('option_name' => 'value'))
+            ->getMock()
         ;
         $this->assertEquals($expectedRenderer, $this->type->rendererConstructor($builder));
+    }
+    
+    public function testOptionsDefaulting()
+    {
+        $resolver = new OptionsResolver();
+        $this->type->setDefaultOptions($resolver);
+        $options = $resolver->resolve(array('template' => 'template'));
+        $this->assertEquals(
+            array('data_key' => $options['data_key'], 'filter_uri' => $options['filter_uri']),
+            $options['options']
+        );
     }
     
     public function testBuildFilterForm()

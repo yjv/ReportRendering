@@ -1,6 +1,8 @@
 <?php
 namespace Yjv\ReportRendering\Datasource;
 
+use Yjv\ReportRendering\FilterConstants;
+
 use Symfony\Component\PropertyAccess\PropertyAccess;
 
 use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
@@ -9,10 +11,11 @@ use Yjv\ReportRendering\ReportData\ReportData;
 use Yjv\ReportRendering\Filter\NullFilterCollection;
 use Yjv\ReportRendering\Filter\FilterCollectionInterface;
 
-class ArrayDatasource implements MappedSortDatasourceInterface
+class ArrayDatasource implements MappedFilterDatasourceInterface
 {
     protected $data;
     protected $processedData;
+    protected $unpaginatedCount;
     protected $filters;
     protected $sortMap = array();
     protected $filterMap = array();
@@ -42,18 +45,12 @@ class ArrayDatasource implements MappedSortDatasourceInterface
             $this->processData();
         }
 
-        return new ReportData($this->processedData, count($this->data));
+        return new ReportData($this->processedData, $this->unpaginatedCount);
     }
 
     public function setFilters(FilterCollectionInterface $filters)
     {
         $this->filters = $filters;
-        return $this;
-    }
-
-    public function setSortMap(array $sortMap)
-    {
-        $this->sortMap = $sortMap;
         return $this;
     }
 
@@ -69,7 +66,12 @@ class ArrayDatasource implements MappedSortDatasourceInterface
         $propertyAccessor = $this->propertyAccessor;
 
         $filters = $this->filters->all();
-        unset($filters['sort']);
+        
+        unset(
+            $filters[FilterConstants::SORT], 
+            $filters[FilterConstants::LIMIT], 
+            $filters[FilterConstants::OFFSET]
+        );
 
         foreach ($filters as $name => $value) {
 
@@ -89,29 +91,30 @@ class ArrayDatasource implements MappedSortDatasourceInterface
                 }
             );
         }
+        
+        if ($sort = $this->filters->get(FilterConstants::SORT, false)) {
 
-        if ($this->filters->get('sort', false)) {
-
-            $sort = $this->filters->get('sort');
             reset($sort);
             $order = current($sort);
-            $sort = $this->mapSort(key($sort));
+            $sort = $this->mapFilter(key($sort));
 
-            uasort(
+            usort(
                 $this->processedData,
                 function ($a, $b) use ($propertyAccessor, $order, $sort)
                 {
                     $valueA = $propertyAccessor->getValue($a, (string)$sort);
                     $valueB = $propertyAccessor->getValue($b, (string)$sort);
-                    return ($order == 'asc' ? 1 : -1) * strcasecmp($valueA, $valueB);
+                    return ($order == FilterConstants::SORT_ORDER_ASCENDING ? 1 : -1) * strcasecmp($valueA, $valueB);
                 }
             );
         }
-    }
 
-    protected function mapSort($sort)
-    {
-        return isset($this->sortMap[$sort]) ? $this->sortMap[$sort] : $sort;
+        $this->unpaginatedCount = count($this->processedData);
+
+        $limit = $this->filters->get(FilterConstants::LIMIT, 100);
+        $offset = $this->filters->get(FilterConstants::OFFSET, 0);
+        
+        $this->processedData = array_slice($this->processedData, $offset, $limit);
     }
 
     protected function mapFilter($filter)

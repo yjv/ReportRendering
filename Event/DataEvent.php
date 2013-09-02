@@ -43,6 +43,12 @@ class DataEvent extends Event
     {
         return $this->filters;
     }
+    
+    public function setFilters(FilterCollectionInterface $filters)
+    {
+        $this->filters = $filters;
+        return $this;
+    }
 
     public function getRenderer()
     {

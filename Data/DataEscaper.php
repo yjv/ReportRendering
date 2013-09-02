@@ -1,6 +1,10 @@
 <?php
 namespace Yjv\ReportRendering\Data;
 
+/**
+ * @author yosefderay
+ *
+ */
 class DataEscaper implements DataEscaperInterface
 {
 	public function escape($strategy, $value)

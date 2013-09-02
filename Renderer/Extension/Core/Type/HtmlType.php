@@ -35,17 +35,26 @@ class HtmlType extends AbstractRendererType
 
         $type = $this;
         
-        $resolver->setDefaults(array(
+        $resolver
+        ->setRequired(array('template'))
+        ->setDefaults(array(
 
-            'template' => null,
             'filter_form' => function(Options $options) use ($type) {
                 
+                //@codeCoverageIgnoreStart
                 return $type->buildFilterForm($options);
+                //@codeCoverageIgnoreEnd
             },
             'widget_attributes' => array(),
             'constructor' => array($this, 'rendererConstructor'),
             'filter_fields' => array(),
-            'filter_form_options' => array('csrf_protection' => false)
+            'filter_form_options' => array('csrf_protection' => false),
+            'data_key' => 'report_filters',
+            'filter_uri' => null,
+            'options' => function(Options $options) {
+                
+                return array('data_key' => $options['data_key'], 'filter_uri' => $options['filter_uri']);
+            }
         ))
         ->setAllowedTypes(array(
             'filter_form' => array(
@@ -59,7 +68,9 @@ class HtmlType extends AbstractRendererType
         ->setNormalizers(array(
             'filter_fields' => function(Options $options, $filterFields)
             {
+                //@codeCoverageIgnoreStart
                 return Factory::normalizeOptionsCollectionToFactoryArguments($options, $filterFields);
+                //@codeCoverageIgnoreEnd
             }
         ))
         ;
@@ -82,6 +93,11 @@ class HtmlType extends AbstractRendererType
         if ($builder->getOption('filter_form')) {
             
             $renderer->setFilterForm($builder->getOption('filter_form'));
+        }
+        
+        foreach ($builder->getOption('options') as $name => $value) {
+            
+            $renderer->setOption($name, $value);
         }
         
         return $renderer;

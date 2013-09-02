@@ -134,6 +134,17 @@ class HtmlRendererTest extends \PHPUnit_Framework_TestCase{
 		$this->assertEquals(array($attribute => $value), $this->renderer->getAttributes());
 	}
 	
+	public function testOptionGettersSetters() {
+		
+		$name = 'sfdsdf';
+		$value = 'sdfsf';
+		
+		$this->renderer->setOption($name, $value);
+		$this->assertEquals($value, $this->renderer->getOption($name));
+		$this->assertEquals('reewrr', $this->renderer->getOption('sdfwer', 'reewrr'));
+		$this->assertEquals(array($name => $value), $this->renderer->getOptions());
+	}
+	
 	public function testFilterMethods() {
 		
 		$filters = new NullFilterCollection();

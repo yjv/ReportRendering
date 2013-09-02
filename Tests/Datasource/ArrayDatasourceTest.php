@@ -1,6 +1,8 @@
 <?php
 namespace Yjv\ReportRendering\Tests\Datasource;
 
+use Yjv\ReportRendering\FilterConstants;
+
 use Yjv\ReportRendering\Filter\ArrayFilterCollection;
 
 use Yjv\ReportRendering\Datasource\ArrayDatasource;
@@ -57,38 +59,25 @@ class ArrayDatasourceTest extends \PHPUnit_Framework_TestCase{
 		$filters = new ArrayFilterCollection();
 		$this->datasource->setFilters($filters);
 		
-		$filters->set('sort', array('[column2]' => 'asc'));
+		$filters->set(FilterConstants::SORT, array('[column2]' => FilterConstants::SORT_ORDER_ASCENDING));
 
 		$data = $this->data;
-		uasort($data, function ($a, $b){return strcasecmp($a['column2'], $b['column2']);});
+		usort($data, function ($a, $b){return strcasecmp($a['column2'], $b['column2']);});
 		
 		$dataObject = $this->datasource->getData(true);
 		$this->assertSame($data, $dataObject->getData());
 		
-		$filters->set('sort', array('[column1]' => 'asc'));
+		$filters->set(FilterConstants::SORT, array('[column1]' => FilterConstants::SORT_ORDER_ASCENDING));
 		
 		$data = $this->data;
-		uasort($data, function ($a, $b){return strcasecmp($a['column1'], $b['column1']);});
+		usort($data, function ($a, $b){return strcasecmp($a['column1'], $b['column1']);});
 		$dataObject = $this->datasource->getData(true);
 		$this->assertSame($data, $dataObject->getData());
 		
-		$filters->set('sort', array('[column1]' => 'desc'));
+		$filters->set(FilterConstants::SORT, array('[column1]' => FilterConstants::SORT_ORDER_DESCENDING));
 		
 		$data = $this->data;
-		uasort($data, function ($a, $b){return -strcasecmp($a['column1'], $b['column1']);});
-		$dataObject = $this->datasource->getData(true);
-		$this->assertSame($data, $dataObject->getData());
-	}
-	
-	public function testMappedSort() {
-		$filters = new ArrayFilterCollection();
-		$this->datasource->setFilters($filters);
-		$this->datasource->setSortMap(array('[column1]', '[column2]'));
-		
-		$filters->set('sort', array(1 => 'asc'));
-		
-		$data = $this->data;
-		uasort($data, function ($a, $b){return strcasecmp($a['column2'], $b['column2']);});
+		usort($data, function ($a, $b){return -strcasecmp($a['column1'], $b['column1']);});
 		$dataObject = $this->datasource->getData(true);
 		$this->assertSame($data, $dataObject->getData());
 	}
@@ -128,5 +117,12 @@ class ArrayDatasourceTest extends \PHPUnit_Framework_TestCase{
 		unset($data[4]);
 		$dataObject = $this->datasource->getData(true);
 		$this->assertSame($data, $dataObject->getData());
+	}
+	
+	public function testLimitAndOffset()
+	{
+	    $filters = new ArrayFilterCollection(array(FilterConstants::LIMIT => 3, FilterConstants::OFFSET => 1));
+	    $this->datasource->setFilters($filters);
+	    $this->assertSame(array_slice($this->data, 1, 3), $this->datasource->getData()->getData());
 	}
 }

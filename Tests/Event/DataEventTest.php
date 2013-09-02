@@ -1,6 +1,8 @@
 <?php
 namespace Yjv\ReportRendering\Test\Event;
 
+use Yjv\ReportRendering\Filter\ArrayFilterCollection;
+
 use Yjv\ReportRendering\Renderer\Grid\Grid;
 
 use Yjv\ReportRendering\Filter\NullFilterCollection;
@@ -30,8 +32,11 @@ class DataEventTest extends \PHPUnit_Framework_TestCase{
 	public function testGettersSetters() {
 		
 		$this->assertEquals($this->rendererName, $this->dataEvent->getRendererName());
-		$this->assertEquals($this->renderer, $this->dataEvent->getRenderer());
-		$this->assertEquals($this->datasource, $this->dataEvent->getDatasource());
-		$this->assertEquals($this->filters, $this->dataEvent->getFilters());
+		$this->assertSame($this->renderer, $this->dataEvent->getRenderer());
+		$this->assertSame($this->datasource, $this->dataEvent->getDatasource());
+		$this->assertSame($this->filters, $this->dataEvent->getFilters());
+		$filters = new ArrayFilterCollection();
+		$this->assertSame($this->dataEvent, $this->dataEvent->setFilters($filters));
+		$this->assertSame($filters, $this->dataEvent->getFilters());
 	}
 }

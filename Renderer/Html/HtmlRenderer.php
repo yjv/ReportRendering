@@ -15,6 +15,7 @@ class HtmlRenderer implements FilterAwareRendererInterface, WidgetInterface, \It
     protected $renderer;
     protected $template;
     protected $attributes = array();
+    protected $options = array();
     protected $filterForm;
     protected $grid;
     protected $reportId;
@@ -85,12 +86,33 @@ class HtmlRenderer implements FilterAwareRendererInterface, WidgetInterface, \It
 
     public function getAttribute($name, $default = null)
     {
-        if (!array_key_exists($name, $this->attributes)) {
+        if (!isset($this->attributes[$name]) && !array_key_exists($name, $this->attributes)) {
 
             return $default;
         }
 
         return $this->attributes[$name];
+    }
+
+    public function setOption($name, $value)
+    {
+        $this->options[$name] = $value;
+        return $this;
+    }
+
+    public function getOptions()
+    {
+        return $this->options;
+    }
+
+    public function getOption($name, $default = null)
+    {
+        if (!isset($this->options[$name]) && !array_key_exists($name, $this->options)) {
+
+            return $default;
+        }
+
+        return $this->options[$name];
     }
 
     public function setFilters(FilterCollectionInterface $filters)
