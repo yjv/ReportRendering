@@ -3,8 +3,6 @@ namespace Yjv\ReportRendering\Tests\IdGenerator;
 
 use Symfony\Component\EventDispatcher\EventDispatcher;
 
-use Yjv\ReportRendering\Renderer\Grid\Grid;
-
 use Yjv\ReportRendering\Datasource\FakeDatasource;
 
 use Yjv\ReportRendering\Report\Report;

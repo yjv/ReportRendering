@@ -3,6 +3,8 @@ namespace Yjv\ReportRendering\Tests\Renderer\Csv;
 
 use Symfony\Component\HttpFoundation\Response;
 
+use Mockery;
+
 use Yjv\ReportRendering\Renderer\Csv\CsvEncoder;
 
 use Yjv\ReportRendering\Renderer\Grid\Column\Column;
@@ -18,15 +20,18 @@ class CsvRendererTest extends \PHPUnit_Framework_TestCase{
 	
 	public function setUp() {
 		
-		$this->grid = $this->getMockBuilder('Yjv\ReportRendering\Renderer\Grid\GridInterface')
-			->getMock()
-		;
+		$this->grid = Mockery::mock('Yjv\ReportRendering\Renderer\Grid\GridInterface');
 		$this->renderer = new CsvRenderer($this->grid);
 	}
 	
 	public function testSetData() {
 		
-		$data = new ImmutableReportData(array(), 0);
+	    $data = new ImmutableReportData(array(), 0);
+		$this->grid
+		    ->shouldReceive('setData')
+		    ->once()
+		    ->with($data)
+		;
 		$this->assertSame($this->renderer, $this->renderer->setData($data));
 	}
 	
@@ -106,9 +111,9 @@ CSV;
 		$column2->setOptions(array('name' => 'column2'));
 		
 		$this->grid
-			->expects($this->exactly($expectedCallCount))
-			->method('getColumns')
-			->will($this->returnValue(array($column1, $column2)))
+		    ->shouldReceive('getColumns')
+		    ->times($expectedCallCount)
+		    ->andReturn(array($column1, $column2))
 		;
 		
 		$rows = array(
@@ -126,9 +131,9 @@ CSV;
 		);
 		
 		$this->grid
-			->expects($this->exactly($expectedCallCount))
-			->method('getRows')
-			->will($this->returnValue($rows))
+		    ->shouldReceive('getRows')
+		    ->times($expectedCallCount)
+		    ->andReturn($rows)
 		;
 	}
 }

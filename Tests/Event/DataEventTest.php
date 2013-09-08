@@ -3,8 +3,6 @@ namespace Yjv\ReportRendering\Test\Event;
 
 use Yjv\ReportRendering\Filter\ArrayFilterCollection;
 
-use Yjv\ReportRendering\Renderer\Grid\Grid;
-
 use Yjv\ReportRendering\Filter\NullFilterCollection;
 
 use Yjv\ReportRendering\Datasource\FakeDatasource;

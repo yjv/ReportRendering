@@ -19,7 +19,7 @@ class HtmlRendererTest extends \PHPUnit_Framework_TestCase{
 	
 	public function setUp(){
 		
-		$this->grid = $this->getMock('Yjv\\ReportRendering\\Renderer\\Grid\\GridInterface');
+		$this->grid = Mockery::mock('Yjv\\ReportRendering\\Renderer\\Grid\\GridInterface');
 		$this->template = 'template';
 		$this->widgetRenderer = $this->getMockBuilder('Yjv\\ReportRendering\\Widget\\WidgetRenderer')
 			->disableOriginalConstructor()
@@ -33,17 +33,27 @@ class HtmlRendererTest extends \PHPUnit_Framework_TestCase{
 		
 		$this->renderer->setReportId($reportId);
 		$this->assertEquals($reportId, $this->renderer->getReportId()); 
-		$this->assertTrue($this->renderer->getForceReload());
-		$this->renderer->setForceReload(false);
 		$this->assertFalse($this->renderer->getForceReload());
+		$this->grid
+		    ->shouldReceive('setForceReload')
+		    ->once()
+		    ->with(true)
+		    ->getMock()
+		;
+		$this->renderer->setForceReload(true);
+		$this->assertTrue($this->renderer->getForceReload());
+		$filters = Mockery::mock('Yjv\ReportRendering\Filter\FilterCollectionInterface');
+		$this->assertSame($this->renderer, $this->renderer->setFilters($filters));
+		$this->assertSame($filters, $this->renderer->getFilters());
+		$this->assertSame($this->grid, $this->renderer->getGrid());
 	}
 	
 	public function testSetData() {
 		
 		$data = new ReportData(array(), 12);
 		$this->grid
-			->expects($this->once())
-			->method('setData')
+		    ->shouldReceive('setData')
+		    ->once()
 			->with($data)
 		;
 		
@@ -65,46 +75,27 @@ class HtmlRendererTest extends \PHPUnit_Framework_TestCase{
 		$this->assertEquals($return, $this->renderer->render($options));
 	}
 	
-	public function testGetRows() {
-		
-		$rows = array('asdas' => 'sdfdf');
-		
-		$this->grid
-			->expects($this->once())
-			->method('getRows')
-			->will($this->returnValue($rows))
-		;
-		
-		$this->assertEquals($rows, $this->renderer->getRows());
-	}
-	
-	public function testGetColumns() {
-		
-		$columns = array('asdas', 'sdfdf');
-		
-		$this->grid
-			->expects($this->once())
-			->method('getColumns')
-			->will($this->returnValue($columns))
-		;
-		
-		$this->assertEquals($columns, $this->renderer->getColumns());
-	}
-	
 	public function testGetUnpaginatedCount() {
 		
 		$unpaginatedCount = 12;
 		$data = new ReportData(array(), $unpaginatedCount);
 		
-		try {
-			
-			$this->renderer->getUnpaginatedCount();
-			$this->fail('getUnpaginatedCount did not throw an exception without data set');
-		} catch (\BadMethodCallException $e) {
-		}
-		
+		$this->grid
+		    ->shouldReceive('setData')
+		    ->once()
+		    ->with($data)
+		;
 		$this->renderer->setData($data);
 		$this->assertEquals($unpaginatedCount, $this->renderer->getUnpaginatedCount());
+	}
+	
+	/**
+	 * @expectedException BadMethodCallException
+	 * @expectedExceptionMessage data must be set to use this method
+	 */
+	public function testGetUnpaginatedCountWithDataNotSet()
+	{
+		$this->renderer->getUnpaginatedCount();
 	}
 	
 	public function testGetCount() {
@@ -112,15 +103,22 @@ class HtmlRendererTest extends \PHPUnit_Framework_TestCase{
 		$unpaginatedCount = 12;
 		$data = new ReportData(array(), $unpaginatedCount);
 		
-		try {
-			
-			$this->renderer->getCount();
-			$this->fail('getCount did not throw an exception without data set');
-		} catch (\BadMethodCallException $e) {
-		}
-		
+		$this->grid
+		    ->shouldReceive('setData')
+		    ->once()
+		    ->with($data)
+		;
 		$this->renderer->setData($data);
 		$this->assertEquals(0, $this->renderer->getCount());
+	}
+	
+	/**
+	 * @expectedException BadMethodCallException
+	 * @expectedExceptionMessage data must be set to use this method
+	 */
+	public function testGetCountWithDataNotSet()
+	{
+		$this->renderer->getCount();
 	}
 	
 	public function testAttributeGettersSetters() {
@@ -180,26 +178,5 @@ class HtmlRendererTest extends \PHPUnit_Framework_TestCase{
 	public function testGetTemplate() {
 		
 		$this->assertEquals($this->template, $this->renderer->getTemplate());
-	}
-	
-	public function testIteration() {
-		
-		$this->assertInstanceOf('Traversable', $this->renderer);
-		$rows = array(array('asdas' => 'sdfdf'));
-		
-		$this->grid
-			->expects($this->once())
-			->method('getRows')
-			->will($this->returnValue($rows))
-		;
-		
-		$retrievedRows = array();
-		
-		foreach ($this->renderer as $key => $row) {
-			
-			$retrievedRows[$key] = $row;
-		}
-		
-		$this->assertEquals($rows, $retrievedRows);
 	}
 }

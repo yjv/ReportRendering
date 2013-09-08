@@ -1,19 +1,11 @@
 <?php
 namespace Yjv\ReportRendering\Tests\Factory\Extension\Type;
 
-use Yjv\ReportRendering\Renderer\Grid\Column\Extension\Core\CoreExtension;
-
 use Yjv\ReportRendering\Factory\TypeResolver;
-
-use Yjv\ReportRendering\Renderer\Grid\Column\ColumnFactory;
 
 use Yjv\ReportRendering\DataTransformer\DataTransformerRegistry;
 
 use Yjv\ReportRendering\Factory\TypeRegistry;
-
-use Yjv\ReportRendering\Renderer\Grid\Column\ColumnBuilder;
-
-use Yjv\ReportRendering\Renderer\Grid\Column\Column;
 
 class TypeTestCase extends \PHPUnit_Framework_TestCase{
 

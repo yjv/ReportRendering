@@ -9,7 +9,7 @@ use Yjv\ReportRendering\Widget\WidgetRendererInterface;
 use Yjv\ReportRendering\Renderer\FilterAwareRendererInterface;
 use Yjv\ReportRendering\Widget\WidgetInterface;
 
-class HtmlRenderer implements FilterAwareRendererInterface, WidgetInterface, \IteratorAggregate
+class HtmlRenderer implements FilterAwareRendererInterface, WidgetInterface
 {
     protected $filters;
     protected $renderer;
@@ -17,11 +17,12 @@ class HtmlRenderer implements FilterAwareRendererInterface, WidgetInterface, \It
     protected $attributes = array();
     protected $options = array();
     protected $filterForm;
+    protected $data;
     protected $grid;
     protected $reportId;
-    protected $forceReload = true;
+    protected $forceReload = false;
 
-        public function __construct(WidgetRendererInterface $renderer, GridInterface $grid, $template)
+    public function __construct(WidgetRendererInterface $renderer, GridInterface $grid, $template)
     {
         $this->renderer = $renderer;
         $this->template = $template;
@@ -38,6 +39,7 @@ class HtmlRenderer implements FilterAwareRendererInterface, WidgetInterface, \It
     public function setForceReload($forceReload)
     {
         $this->forceReload = $forceReload;
+        $this->grid->setForceReload($forceReload);
         return $this;
     }
 
@@ -50,15 +52,10 @@ class HtmlRenderer implements FilterAwareRendererInterface, WidgetInterface, \It
     {
         return $this->renderer->render($this, $options);
     }
-
-    public function getRows()
+    
+    public function getGrid()
     {
-        return $this->grid->getRows($this->getForceReload());
-    }
-
-    public function getColumns()
-    {
-        return $this->grid->getColumns();
+        return $this->grid;
     }
 
     public function getUnpaginatedCount()
@@ -120,6 +117,11 @@ class HtmlRenderer implements FilterAwareRendererInterface, WidgetInterface, \It
         $this->filters = $filters;
         return $this;
     }
+    
+    public function getFilters()
+    {
+        return $this->filters;
+    }
 
     public function setFilterForm(FormInterface $form)
     {
@@ -154,11 +156,6 @@ class HtmlRenderer implements FilterAwareRendererInterface, WidgetInterface, \It
     public function getReportId()
     {
         return $this->reportId;
-    }
-
-    public function getIterator()
-    {
-        return new \ArrayIterator($this->getRows());
     }
 
     protected function assertDataSet()

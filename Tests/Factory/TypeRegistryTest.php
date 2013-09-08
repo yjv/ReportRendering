@@ -1,5 +1,5 @@
 <?php
-namespace Yjv\ReportRendering\Tests\Renderer\Grid\Column;
+namespace Yjv\ReportRendering\Tests\Factory;
 
 use Yjv\ReportRendering\Tests\Factory\TestExtension;
 

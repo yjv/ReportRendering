@@ -198,9 +198,21 @@ class GridTest extends \PHPUnit_Framework_TestCase{
 		
 		$this->grid->getRows();
 		$this->grid->getRows();
-		$rows = $this->grid->getRows(true);
+		$this->grid->setForceReload(true);
+		$rows = $this->grid->getRows();
+		$this->grid->setForceReload(false);
 		
 		$this->assertEquals($expectedRowData, $rows);
+		$this->assertEquals($expectedRowData, iterator_to_array($this->grid));
+	}
+	
+	/**
+	 * @expectedException BadMethodCallException
+	 * @expectedExceptionMessage data must be set to use this method
+	 */
+	public function testGetRowsWithDataNotSet()
+	{
+	    $this->grid->getRows();
 	}
 	
 	protected function generateColumn(

@@ -4,10 +4,11 @@ use Yjv\ReportRendering\ReportData\ImmutableDataInterface;
 
 use Yjv\ReportRendering\Renderer\Grid\Column\ColumnInterface;
 
-interface GridInterface{
-
+interface GridInterface extends \Traversable
+{
 	public function addColumn(ColumnInterface $column);
 	public function getColumns();
-	public function getRows($forceReload = false);
+	public function getRows();
 	public function setData(ImmutableDataInterface $data);
+	public function setForceReload($forceReload);
 }
