@@ -111,8 +111,8 @@ class ArrayDatasource implements MappedFilterDatasourceInterface
 
         $this->unpaginatedCount = count($this->processedData);
 
-        $limit = $this->filters->get(FilterConstants::LIMIT, 100);
-        $offset = $this->filters->get(FilterConstants::OFFSET, 0);
+        $limit = $this->filters->get(FilterConstants::LIMIT, FilterConstants::DEFAULT_LIMIT);
+        $offset = $this->filters->get(FilterConstants::OFFSET, FilterConstants::DEFAULT_OFFSET);
         
         $this->processedData = array_slice($this->processedData, $offset, $limit);
     }
