@@ -53,9 +53,14 @@ class HtmlTypeTest extends TypeTestCase
                     'filter_form_options' => array('csrf_protection' => false),
                     'data_key' => 'report_filters',
                     'filter_uri' => null,
+                    'paginate' => true,
                     'options' => function(Options $options) {
                         
-                        return array('data_key' => $options['data_key'], 'filter_uri' => $options['filter_uri']);
+                        return array(
+                            'data_key' => $options['data_key'], 
+                            'filter_uri' => $options['filter_uri'],
+                            'paginate' => $options['paginate']
+                        );
                     }
                 ), $value);
                 return true;
@@ -137,7 +142,11 @@ class HtmlTypeTest extends TypeTestCase
         $this->type->setDefaultOptions($resolver);
         $options = $resolver->resolve(array('template' => 'template'));
         $this->assertEquals(
-            array('data_key' => $options['data_key'], 'filter_uri' => $options['filter_uri']),
+            array(
+                'data_key' => $options['data_key'], 
+                'filter_uri' => $options['filter_uri'], 
+                'paginate' => true
+            ),
             $options['options']
         );
     }

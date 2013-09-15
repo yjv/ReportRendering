@@ -1,6 +1,8 @@
 <?php
 namespace Yjv\ReportRendering\Renderer\Html;
 
+use Yjv\ReportRendering\FilterConstants;
+
 use Yjv\ReportRendering\Renderer\Grid\GridInterface;
 use Yjv\ReportRendering\Filter\FilterCollectionInterface;
 use Yjv\ReportRendering\ReportData\ImmutableDataInterface;
@@ -11,6 +13,9 @@ use Yjv\ReportRendering\Widget\WidgetInterface;
 
 class HtmlRenderer implements FilterAwareRendererInterface, WidgetInterface
 {
+    const DEFAULT_PAGINATION_OVERFLOW = 3;
+    const PAGINATION_OVERFLOW_KEY = 'pagination_overflow';
+    
     protected $filters;
     protected $renderer;
     protected $template;
@@ -156,6 +161,32 @@ class HtmlRenderer implements FilterAwareRendererInterface, WidgetInterface
     public function getReportId()
     {
         return $this->reportId;
+    }
+    
+    public function getPage()
+    {
+        $limit = $this->filters->get(FilterConstants::LIMIT, FilterConstants::DEFAULT_LIMIT);
+        $offset = $this->filters->get(FilterConstants::OFFSET, FilterConstants::DEFAULT_OFFSET);
+        return floor($offset / $limit + 1);
+    }
+    
+    public function getPageCount()
+    {
+        $limit = $this->filters->get(FilterConstants::LIMIT, FilterConstants::DEFAULT_LIMIT);
+        $unpaginatedCount = $this->getUnpaginatedCount();
+        return ceil($unpaginatedCount / $limit);
+    }
+    
+    public function getMinPage()
+    {
+        $paginationOverflow = $this->getOption(self::PAGINATION_OVERFLOW_KEY, self::DEFAULT_PAGINATION_OVERFLOW);
+        return max(1, $this->getPage() - $paginationOverflow);
+    }
+    
+    public function getMaxPage()
+    {
+        $paginationOverflow = $this->getOption(self::PAGINATION_OVERFLOW_KEY, self::DEFAULT_PAGINATION_OVERFLOW);
+        return min($this->getPageCount(), $this->getPage() + $paginationOverflow);
     }
 
     protected function assertDataSet()

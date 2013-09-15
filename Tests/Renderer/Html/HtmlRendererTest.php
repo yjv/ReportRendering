@@ -1,6 +1,8 @@
 <?php
 namespace Yjv\ReportRendering\Tests\Renderer\Html;
 
+use Yjv\ReportRendering\FilterConstants;
+
 use Yjv\ReportRendering\Filter\NullFilterCollection;
 
 use Mockery;
@@ -179,4 +181,69 @@ class HtmlRendererTest extends \PHPUnit_Framework_TestCase{
 		
 		$this->assertEquals($this->template, $this->renderer->getTemplate());
 	}
+	
+	public function testGetPage()
+	{
+	    $limit = 312;
+	    $offset = 632;
+	    
+	    $filters = Mockery::mock('Yjv\ReportRendering\Filter\FilterCollectionInterface')
+	        ->shouldReceive('get')
+	        ->once()
+	        ->with(FilterConstants::LIMIT, FilterConstants::DEFAULT_LIMIT)
+	        ->andReturn($limit)
+	        ->getMock()
+	        ->shouldReceive('get')
+	        ->once()
+	        ->with(FilterConstants::OFFSET, FilterConstants::DEFAULT_OFFSET)
+	        ->andReturn($offset)
+	        ->getMock()
+	    ;
+	    $this->renderer->setFilters($filters);
+	    $this->assertEquals(3, $this->renderer->getPage());
+	}
+	
+	public function testGetMaxPage()
+	{
+	    $limit = 312;
+	    $offset = 632;
+	    
+	    $filters = Mockery::mock('Yjv\ReportRendering\Filter\FilterCollectionInterface')
+	        ->shouldReceive('get')
+	        ->once()
+	        ->with(FilterConstants::LIMIT, FilterConstants::DEFAULT_LIMIT)
+	        ->andReturn($limit)
+	        ->getMock()
+	        ->shouldReceive('get')
+	        ->once()
+	        ->with(FilterConstants::OFFSET, FilterConstants::DEFAULT_OFFSET)
+	        ->andReturn($offset)
+	        ->getMock()
+	    ;
+	    $this->renderer->setFilters($filters);
+	    $this->assertEquals(3, $this->renderer->getPage());
+	}
+	
+	public function testGetMinPage()
+	{
+	    $limit = 312;
+	    $offset = 632;
+	    
+	    $filters = Mockery::mock('Yjv\ReportRendering\Filter\FilterCollectionInterface')
+	        ->shouldReceive('get')
+	        ->once()
+	        ->with(FilterConstants::LIMIT, FilterConstants::DEFAULT_LIMIT)
+	        ->andReturn($limit)
+	        ->getMock()
+	        ->shouldReceive('get')
+	        ->once()
+	        ->with(FilterConstants::OFFSET, FilterConstants::DEFAULT_OFFSET)
+	        ->andReturn($offset)
+	        ->getMock()
+	    ;
+	    $this->renderer->setFilters($filters);
+	    $this->assertEquals(3, $this->renderer->getPage());
+	}
+	
+	
 }

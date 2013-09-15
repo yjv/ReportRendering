@@ -31,16 +31,16 @@ class HtmlType extends AbstractRendererType
    /**
     * @param OptionsResolverInterface $resolver
     */
-    public function setDefaultOptions(OptionsResolverInterface $resolver) {
-
+    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    {
         $type = $this;
         
         $resolver
         ->setRequired(array('template'))
         ->setDefaults(array(
 
-            'filter_form' => function(Options $options) use ($type) {
-                
+            'filter_form' => function(Options $options) use ($type)
+            {
                 //@codeCoverageIgnoreStart
                 return $type->buildFilterForm($options);
                 //@codeCoverageIgnoreEnd
@@ -51,9 +51,14 @@ class HtmlType extends AbstractRendererType
             'filter_form_options' => array('csrf_protection' => false),
             'data_key' => 'report_filters',
             'filter_uri' => null,
-            'options' => function(Options $options) {
-                
-                return array('data_key' => $options['data_key'], 'filter_uri' => $options['filter_uri']);
+            'paginate' => true,
+            'options' => function(Options $options)
+            {
+                return array(
+                    'data_key' => $options['data_key'], 
+                    'filter_uri' => $options['filter_uri'],
+                    'paginate' => $options['paginate']
+                );
             }
         ))
         ->setAllowedTypes(array(
