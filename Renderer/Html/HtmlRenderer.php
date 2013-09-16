@@ -165,28 +165,28 @@ class HtmlRenderer implements FilterAwareRendererInterface, WidgetInterface
     
     public function getPage()
     {
-        $limit = $this->filters->get(FilterConstants::LIMIT, FilterConstants::DEFAULT_LIMIT);
         $offset = $this->filters->get(FilterConstants::OFFSET, FilterConstants::DEFAULT_OFFSET);
-        return floor($offset / $limit + 1);
+        $limit = $this->filters->get(FilterConstants::LIMIT, FilterConstants::DEFAULT_LIMIT);
+        return (int)floor($offset / $limit + 1);
     }
     
     public function getPageCount()
     {
         $limit = $this->filters->get(FilterConstants::LIMIT, FilterConstants::DEFAULT_LIMIT);
         $unpaginatedCount = $this->getUnpaginatedCount();
-        return ceil($unpaginatedCount / $limit);
+        return (int)ceil($unpaginatedCount / $limit);
     }
     
     public function getMinPage()
     {
         $paginationOverflow = $this->getOption(self::PAGINATION_OVERFLOW_KEY, self::DEFAULT_PAGINATION_OVERFLOW);
-        return max(1, $this->getPage() - $paginationOverflow);
+        return (int)max(1, $this->getPage() - $paginationOverflow);
     }
     
     public function getMaxPage()
     {
         $paginationOverflow = $this->getOption(self::PAGINATION_OVERFLOW_KEY, self::DEFAULT_PAGINATION_OVERFLOW);
-        return min($this->getPageCount(), $this->getPage() + $paginationOverflow);
+        return (int)min($this->getPageCount(), $this->getPage() + $paginationOverflow);
     }
 
     protected function assertDataSet()

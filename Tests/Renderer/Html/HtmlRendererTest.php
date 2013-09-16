@@ -203,31 +203,63 @@ class HtmlRendererTest extends \PHPUnit_Framework_TestCase{
 	    $this->assertEquals(3, $this->renderer->getPage());
 	}
 	
-	public function testGetMaxPage()
-	{
-	    $limit = 312;
-	    $offset = 632;
-	    
-	    $filters = Mockery::mock('Yjv\ReportRendering\Filter\FilterCollectionInterface')
-	        ->shouldReceive('get')
-	        ->once()
-	        ->with(FilterConstants::LIMIT, FilterConstants::DEFAULT_LIMIT)
-	        ->andReturn($limit)
-	        ->getMock()
-	        ->shouldReceive('get')
-	        ->once()
-	        ->with(FilterConstants::OFFSET, FilterConstants::DEFAULT_OFFSET)
-	        ->andReturn($offset)
-	        ->getMock()
-	    ;
-	    $this->renderer->setFilters($filters);
-	    $this->assertEquals(3, $this->renderer->getPage());
-	}
-	
 	public function testGetMinPage()
 	{
+	    $filters = Mockery::mock('Yjv\ReportRendering\Filter\FilterCollectionInterface')
+	        ->shouldReceive('get')
+	        ->times(3)
+	        ->with(FilterConstants::LIMIT, FilterConstants::DEFAULT_LIMIT)
+	        ->andReturn(100)
+	        ->getMock()
+	        ->shouldReceive('get')
+	        ->times(3)
+	        ->with(FilterConstants::OFFSET, FilterConstants::DEFAULT_OFFSET)
+	        ->andReturn(200, 200, 500)
+	        ->getMock()
+	    ;
+	    $this->renderer->setFilters($filters);
+	    $this->assertEquals(1, $this->renderer->getMinPage());
+	    $this->renderer->setOption(HtmlRenderer::PAGINATION_OVERFLOW_KEY, 1);
+	    $this->assertEquals(2, $this->renderer->getMinPage());
+	    $this->renderer->setOption(HtmlRenderer::PAGINATION_OVERFLOW_KEY, 3);
+	    $this->assertEquals(3, $this->renderer->getMinPage());
+	}
+	
+	public function testGetMaxPage()
+	{
+	    $filters = Mockery::mock('Yjv\ReportRendering\Filter\FilterCollectionInterface')
+    	    ->shouldReceive('get')
+    	    ->times(6)
+    	    ->with(FilterConstants::LIMIT, FilterConstants::DEFAULT_LIMIT)
+    	    ->andReturn(100)
+    	    ->getMock()
+	        ->shouldReceive('get')
+	        ->times(3)
+	        ->with(FilterConstants::OFFSET, FilterConstants::DEFAULT_OFFSET)
+	        ->andReturn(600, 200, 200)
+	        ->getMock()
+	    ;
+	    $data = Mockery::mock('Yjv\ReportRendering\ReportData\ImmutableDataInterface')
+    	    ->shouldReceive('getUnpaginatedCount')
+    	    ->times(3)
+    	    ->andReturn(605)
+    	    ->getMock()
+	    ;
+	    $this->grid
+	    ->shouldReceive('setData')
+	    ;
+	    $this->renderer->setData($data);
+	    $this->renderer->setFilters($filters);
+	    $this->assertEquals(7, $this->renderer->getMaxPage());
+	    $this->renderer->setOption(HtmlRenderer::PAGINATION_OVERFLOW_KEY, 1);
+	    $this->assertEquals(4, $this->renderer->getMaxPage());
+	    $this->renderer->setOption(HtmlRenderer::PAGINATION_OVERFLOW_KEY, 3);
+	    $this->assertEquals(6, $this->renderer->getMaxPage());
+	}
+	
+	public function testGetPageCount()
+	{
 	    $limit = 312;
-	    $offset = 632;
 	    
 	    $filters = Mockery::mock('Yjv\ReportRendering\Filter\FilterCollectionInterface')
 	        ->shouldReceive('get')
@@ -235,15 +267,18 @@ class HtmlRendererTest extends \PHPUnit_Framework_TestCase{
 	        ->with(FilterConstants::LIMIT, FilterConstants::DEFAULT_LIMIT)
 	        ->andReturn($limit)
 	        ->getMock()
-	        ->shouldReceive('get')
+	    ;
+	    $data = Mockery::mock('Yjv\ReportRendering\ReportData\ImmutableDataInterface')
+	        ->shouldReceive('getUnpaginatedCount')
 	        ->once()
-	        ->with(FilterConstants::OFFSET, FilterConstants::DEFAULT_OFFSET)
-	        ->andReturn($offset)
+	        ->andReturn(1234)
 	        ->getMock()
 	    ;
+	    $this->grid
+	        ->shouldReceive('setData')
+	    ;
+	    $this->renderer->setData($data);
 	    $this->renderer->setFilters($filters);
-	    $this->assertEquals(3, $this->renderer->getPage());
+	    $this->assertEquals(4, $this->renderer->getPageCount());
 	}
-	
-	
 }
