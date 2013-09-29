@@ -76,7 +76,12 @@ class HtmlTypeTest extends TypeTestCase
                 ),
                 'widget_attributes' => 'array',
                 'template' => 'string',
-                'filter_fields' => 'array'
+                'filter_fields' => 'array',
+                'filter_form_options' => 'array',
+                'data_key' => 'string',
+                'filter_uri' => array('null', 'string'),
+                'paginate' => 'bool',
+                'options' => 'array'
             ))
             ->andReturn(Mockery::self())
             ->getMock()

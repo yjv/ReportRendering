@@ -7,7 +7,7 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 use Yjv\ReportRendering\Factory\TypeExtensionInterface;
 
-class DefaultOptionsTypeExtension implements TypeExtensionInterface
+class DefaultOptionsTypeExtension extends AbstractTypeExtension
 {
     protected $extendedType;
     protected $defaults;
@@ -21,10 +21,6 @@ class DefaultOptionsTypeExtension implements TypeExtensionInterface
     public function getExtendedType()
     {
         return $this->extendedType;
-    }
-    
-    public function build(BuilderInterface $builder, array $options)
-    {
     }
     
     public function setDefaultOptions(OptionsResolverInterface $resolver)

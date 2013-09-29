@@ -23,11 +23,6 @@ class DefaultOptionsTypeExtensionTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($this->extendedType, $this->typeExtension->getExtendedType());
     }
     
-    public function testBuild()
-    {
-        $this->typeExtension->build(Mockery::mock('Yjv\ReportRendering\Factory\BuilderInterface'), array());
-    }
-    
     public function testSetDefaultOptions()
     {
         $resolver = Mockery::mock('Symfony\Component\OptionsResolver\OptionsResolverInterface')
