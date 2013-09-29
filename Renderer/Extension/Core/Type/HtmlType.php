@@ -36,48 +36,48 @@ class HtmlType extends AbstractRendererType
         $type = $this;
         
         $resolver
-        ->setRequired(array('template'))
-        ->setDefaults(array(
-
-            'filter_form' => function(Options $options) use ($type)
-            {
-                //@codeCoverageIgnoreStart
-                return $type->buildFilterForm($options);
-                //@codeCoverageIgnoreEnd
-            },
-            'widget_attributes' => array(),
-            'constructor' => array($this, 'rendererConstructor'),
-            'filter_fields' => array(),
-            'filter_form_options' => array('csrf_protection' => false),
-            'data_key' => 'report_filters',
-            'filter_uri' => null,
-            'paginate' => true,
-            'options' => function(Options $options)
-            {
-                return array(
-                    'data_key' => $options['data_key'], 
-                    'filter_uri' => $options['filter_uri'],
-                    'paginate' => $options['paginate']
-                );
-            }
-        ))
-        ->setAllowedTypes(array(
-            'filter_form' => array(
-                'null', 
-                'Symfony\Component\Form\FormInterface'
-            ),
-            'widget_attributes' => 'array',
-            'template' => 'string',
-            'filter_fields' => 'array'
-        ))
-        ->setNormalizers(array(
-            'filter_fields' => function(Options $options, $filterFields)
-            {
-                //@codeCoverageIgnoreStart
-                return Factory::normalizeOptionsCollectionToFactoryArguments($options, $filterFields);
-                //@codeCoverageIgnoreEnd
-            }
-        ))
+            ->setRequired(array('template'))
+            ->setDefaults(array(
+    
+                'filter_form' => function(Options $options) use ($type)
+                {
+                    //@codeCoverageIgnoreStart
+                    return $type->buildFilterForm($options);
+                    //@codeCoverageIgnoreEnd
+                },
+                'widget_attributes' => array(),
+                'constructor' => array($this, 'rendererConstructor'),
+                'filter_fields' => array(),
+                'filter_form_options' => array('csrf_protection' => false),
+                'data_key' => 'report_filters',
+                'filter_uri' => null,
+                'paginate' => true,
+                'options' => function(Options $options)
+                {
+                    return array(
+                        'data_key' => $options['data_key'], 
+                        'filter_uri' => $options['filter_uri'],
+                        'paginate' => $options['paginate']
+                    );
+                }
+            ))
+            ->setAllowedTypes(array(
+                'filter_form' => array(
+                    'null', 
+                    'Symfony\Component\Form\FormInterface'
+                ),
+                'widget_attributes' => 'array',
+                'template' => 'string',
+                'filter_fields' => 'array'
+            ))
+            ->setNormalizers(array(
+                'filter_fields' => function(Options $options, $filterFields)
+                {
+                    //@codeCoverageIgnoreStart
+                    return Factory::normalizeOptionsCollectionToFactoryArguments($options, $filterFields);
+                    //@codeCoverageIgnoreEnd
+                }
+            ))
         ;
         
     }
