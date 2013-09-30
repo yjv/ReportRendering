@@ -1,11 +1,7 @@
 <?php
 namespace Yjv\ReportRendering\Factory\Type\Extension;
 
-use Yjv\ReportRendering\Factory\BuilderInterface;
-
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
-
-use Yjv\ReportRendering\Factory\TypeExtensionInterface;
 
 class DefaultOptionsTypeExtension extends AbstractTypeExtension
 {
