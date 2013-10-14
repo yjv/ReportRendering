@@ -1,10 +1,7 @@
 <?php
 namespace Yjv\ReportRendering\Factory;
 
-interface TypeRegistryInterface
+interface TypeRegistryInterface extends RegistryExtensionInterface
 {
-    public function getType($name);
-    public function hasType($name);
-    public function getTypeExtensions($name);
-    public function hasTypeExtensions($name);
+    public function addExtension(RegistryExtensionInterface $extension);
 }
