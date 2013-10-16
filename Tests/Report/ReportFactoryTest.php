@@ -9,13 +9,19 @@ class ReportFactoryTest extends \PHPUnit_Framework_TestCase {
 
 	protected $factory;
 	protected $resolver;
+	protected $datasourceFactory;
 	protected $rendererFactory;
 	
 	public function setUp(){
 		
 		$this->resolver = Mockery::mock('Yjv\ReportRendering\Factory\TypeResolverInterface');
+		$this->datasourceFactory = Mockery::mock('Yjv\ReportRendering\Factory\TypeFactoryInterface');
 		$this->rendererFactory = Mockery::mock('Yjv\ReportRendering\Renderer\RendererFactoryInterface');
-		$this->factory = new ReportFactory($this->resolver, $this->rendererFactory);
+		$this->factory = new ReportFactory(
+	        $this->resolver,
+	        $this->datasourceFactory, 
+	        $this->rendererFactory
+        );
 	}
 	
 	public function testCreate()
@@ -71,5 +77,10 @@ class ReportFactoryTest extends \PHPUnit_Framework_TestCase {
 	public function testGetRendererFactory()
 	{
 	    $this->assertSame($this->rendererFactory, $this->factory->getRendererFactory());
+	}
+	
+	public function testGetDatasourceFactory()
+	{
+	    $this->assertSame($this->datasourceFactory, $this->factory->getDatasourceFactory());
 	}
 }

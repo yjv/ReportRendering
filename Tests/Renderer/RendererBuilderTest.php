@@ -18,24 +18,11 @@ class RendererBuilderTest extends \PHPUnit_Framework_TestCase
     
     public function testGettersSetters()
     {
-        $this->assertNull($this->builder->getConstructor());
-        $callback = function(){};
-        $this->assertSame($this->builder, $this->builder->setConstructor($callback));
-        $this->assertSame($callback, $this->builder->getConstructor());
         $grid = Mockery::mock('Yjv\ReportRendering\Renderer\Grid\GridInterface');
         $this->assertSame($this->builder, $this->builder->setGrid($grid));
         $this->assertSame($grid, $this->builder->getGrid());
     }
-    
-    /**
-     * @expectedException InvalidArgumentException
-     * @expectedExceptionMessage $callback must a valid callable.
-     */
-    public function testSetConstructorWithInvalidCallback()
-    {
-        $this->builder->setConstructor('hello');
-    }
-    
+
     public function testGetRenderer()
     {
         $renderer = Mockery::mock('Yjv\ReportRendering\Renderer\RendererInterface');

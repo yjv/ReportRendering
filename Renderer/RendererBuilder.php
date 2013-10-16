@@ -1,15 +1,16 @@
 <?php
 namespace Yjv\ReportRendering\Renderer;
 
+use Yjv\ReportRendering\Factory\VariableConstructorBuilder;
+
 use Yjv\ReportRendering\Renderer\Grid\GridInterface;
 
 use Yjv\ReportRendering\Factory\Builder;
 
 use Yjv\ReportRendering\Renderer\RendererInterface;
 
-class RendererBuilder extends Builder implements RendererBuilderInterface
+class RendererBuilder extends VariableConstructorBuilder implements RendererBuilderInterface
 {
-    protected $callback;
     protected $grid;
 
     public function getRenderer()
@@ -23,22 +24,6 @@ class RendererBuilder extends Builder implements RendererBuilderInterface
         }
         
         return $renderer;
-    }
-
-    public function setConstructor($callback)
-    {
-        if (!is_callable($callback)) {
-            
-            throw new \InvalidArgumentException('$callback must a valid callable.');
-        }
-        
-        $this->callback = $callback;
-        return $this;
-    }
-    
-    public function getConstructor()
-    {
-        return $this->callback;
     }
     
     public function setGrid(GridInterface $grid)

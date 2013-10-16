@@ -13,16 +13,18 @@ use Mockery;
 
 class TypeTestCase extends BaseTypeTestCase
 {
+	protected $datasourceFactory;
 	protected $rendererFactory;
 	protected $eventDispatcher;
     
     protected function setUp()
 	{
 	    parent::setUp();
-		$this->rendererFactory = Mockery::mock('Yjv\ReportRendering\Renderer\RendererFactoryInterface');
+		$this->datasourceFactory = Mockery::mock('Yjv\ReportRendering\Factory\TypeFactoryInterface');
+	    $this->rendererFactory = Mockery::mock('Yjv\ReportRendering\Renderer\RendererFactoryInterface');
 		$this->eventDispatcher = Mockery::mock('Symfony\Component\EventDispatcher\EventDispatcherInterface');
 	    
-	    $this->factory = new ReportFactory($this->resolver, $this->rendererFactory);
+	    $this->factory = new ReportFactory($this->resolver, $this->datasourceFactory, $this->rendererFactory);
 		$this->builder = new ReportBuilder($this->factory, $this->eventDispatcher);
 	}
 	
