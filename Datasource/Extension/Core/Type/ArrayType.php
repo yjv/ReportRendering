@@ -7,7 +7,7 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 use Yjv\ReportRendering\Datasource\DatasourceBuilderInterface;
 
-use Yjv\ReportRendering\Renderer\AbstractDatasourceType;
+use Yjv\ReportRendering\Datasource\AbstractDatasourceType;
 
 class ArrayType extends AbstractDatasourceType
 {
@@ -34,5 +34,10 @@ class ArrayType extends AbstractDatasourceType
                 'filter_map' => 'array'
             ))
         ;
+    }
+    
+    public function getName()
+    {
+        return 'array';
     }
 }

@@ -3,7 +3,7 @@ namespace Yjv\ReportRendering\Datasource\Extension\Core\Type;
 
 use Yjv\ReportRendering\Datasource\DatasourceBuilder;
 
-use Yjv\ReportRendering\Renderer\AbstractDatasourceType;
+use Yjv\ReportRendering\Datasource\AbstractDatasourceType;
 
 use Yjv\ReportRendering\Datasource\DatasourceBuilderInterface;
 

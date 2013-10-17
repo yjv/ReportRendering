@@ -9,7 +9,7 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 use Yjv\ReportRendering\Datasource\DatasourceBuilderInterface;
 
-use Yjv\ReportRendering\Renderer\AbstractDatasourceType;
+use Yjv\ReportRendering\Datasource\AbstractDatasourceType;
 
 class CallbackType extends AbstractDatasourceType
 {
@@ -32,5 +32,10 @@ class CallbackType extends AbstractDatasourceType
                 'params' => 'array'
             ))
         ;
+    }
+    
+    public function getName()
+    {
+        return 'callback';
     }
 }

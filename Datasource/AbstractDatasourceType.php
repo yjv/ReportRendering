@@ -1,5 +1,5 @@
 <?php
-namespace Yjv\ReportRendering\Renderer;
+namespace Yjv\ReportRendering\Datasource;
 
 use Yjv\ReportRendering\Datasource\DatasourceBuilderInterface;
 
