@@ -41,7 +41,7 @@ class DatasourceType extends AbstractDatasourceType
      * @param unknown $builder
      * @param array $options
      */
-    public function buildRenderer(DatasourceBuilderInterface $builder, array $options)
+    public function buildDatasource(DatasourceBuilderInterface $builder, array $options)
     {
         if ($options['constructor']) {
             
