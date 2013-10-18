@@ -2,6 +2,7 @@
 namespace Yjv\ReportRendering;
 
 use Yjv\ReportRendering\Report\Extension\Core\CoreExtension as CoreReportExtension;
+use Yjv\ReportRendering\Datasource\Extension\Core\CoreExtension as CoreDatasourceExtension;
 use Yjv\ReportRendering\Renderer\Extension\Core\CoreExtension as CoreRendererExtension;
 use Yjv\ReportRendering\Renderer\Grid\Column\Extension\Core\CoreExtension as CoreColumnExtension;
 
@@ -21,7 +22,12 @@ class ReportRendering
         $reportFactoryBuilder
             ->addExtension(new CoreReportExtension())
         ;
-        
+
+        $reportFactoryBuilder
+            ->getDatasourceFactoryBuilder()
+            ->addExtension(new CoreDatasourceExtension())
+        ;
+
         $reportFactoryBuilder
             ->getRendererFactoryBuilder()
             ->addExtension(new CoreRendererExtension())
