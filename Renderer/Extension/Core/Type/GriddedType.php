@@ -61,7 +61,7 @@ class GriddedType extends AbstractRendererType
         ->setNormalizers(array(
             'columns' => function(Options $options, $columns)
             {
-                return Factory::normalizeOptionsCollectionToFactoryArguments($options, $columns);
+                return Factory::normalizeCollectionToFactoryArguments($columns);
             }
         ));
     }

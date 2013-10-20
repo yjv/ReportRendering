@@ -1,6 +1,8 @@
 <?php
 namespace Yjv\ReportRendering\Report\Extension\Core\Type;
 
+use Yjv\ReportRendering\Datasource\DatasourceInterface;
+
 use Yjv\ReportRendering\Util\Factory;
 
 use Yjv\ReportRendering\IdGenerator\ConstantValueIdGenerator;
@@ -23,9 +25,18 @@ class ReportType extends AbstractReportType
     {
         $reportBuilder->setDefaultRenderer($options['default_renderer']);
 
-        if ($options['datasource']) {
+        if ($datasourceInfo = $options['datasource']) {
 
-            $reportBuilder->setDatasource($options['datasource']);
+            if ($datasourceInfo[0] instanceof DatasourceInterface) {
+            
+                $datasource = $datasourceInfo[0];
+            } else {
+            
+                $datasourceFactory = $reportBuilder->getFactory()->getDatasourceFactory();
+                $datasource = $datasourceFactory->create($datasourceInfo[0], $datasourceInfo[1]);
+            }
+            
+            $reportBuilder->setDatasource($datasource);
         }
 
         if ($options['filters']) {
@@ -70,7 +81,8 @@ class ReportType extends AbstractReportType
             ->setAllowedTypes(array(
                 'datasource' => array(
                     'Yjv\ReportRendering\Datasource\DatasourceInterface', 
-                    'null'
+                    'null',
+                    'array'
                 ),
                 'filters' => array(
                     'Yjv\ReportRendering\Filter\FilterCollectionInterface', 
@@ -84,9 +96,13 @@ class ReportType extends AbstractReportType
                 )
             ))
             ->setNormalizers(array(
+                'datasource' => function(Options $options, $datasource)
+                {
+                    return Factory::normalizeToFactoryArguments($datasource);
+                },
                 'renderers' => function(Options $options, $renderers)
                 {
-                    return Factory::normalizeOptionsCollectionToFactoryArguments($options, $renderers);
+                    return Factory::normalizeCollectionToFactoryArguments($renderers);
                 },
                 'default_renderer' => function(Options $options, $defaultRenderer)
                 {

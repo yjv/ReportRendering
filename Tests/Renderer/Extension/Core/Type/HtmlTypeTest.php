@@ -92,7 +92,7 @@ class HtmlTypeTest extends TypeTestCase
                 $testCase->assertEquals(array(
                     'filter_fields' => function(Options $options, $filterFields)
                     {
-                        return Factory::normalizeOptionsCollectionToFactoryArguments($options, $filterFields);
+                        return Factory::normalizeCollectionToFactoryArguments($filterFields);
                     }
                 ), $value);
                 return true;

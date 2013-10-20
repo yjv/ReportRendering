@@ -12,7 +12,7 @@ class ReportRendering
 {
     public function createReportFactory()
     {
-        return static::createReportFactoryBuilder()->build();
+        return self::createReportFactoryBuilder()->build();
     }
     
     public function createReportFactoryBuilder()

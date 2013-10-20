@@ -90,7 +90,7 @@ class GriddedTypeTest extends TypeTestCase
                 $testCase->assertEquals(array(
                     'columns' => function(Options $options, $columns)
                     {
-                        return Factory::normalizeOptionsCollectionToFactoryArguments($options, $columns);
+                        return Factory::normalizeCollectionToFactoryArguments($columns);
                     }
                 ), $arg);
                 return true;

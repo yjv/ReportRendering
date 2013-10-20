@@ -20,7 +20,7 @@ class Factory
         return $object;
     }
     
-    public static function normalizeOptionsCollectionToFactoryArguments(Options $options, $objects)
+    public static function normalizeCollectionToFactoryArguments($objects)
     {
         return array_map(
             array('static', 'normalizeToFactoryArguments'), 

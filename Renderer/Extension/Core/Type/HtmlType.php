@@ -79,7 +79,7 @@ class HtmlType extends AbstractRendererType
                 'filter_fields' => function(Options $options, $filterFields)
                 {
                     //@codeCoverageIgnoreStart
-                    return Factory::normalizeOptionsCollectionToFactoryArguments($options, $filterFields);
+                    return Factory::normalizeCollectionToFactoryArguments($filterFields);
                     //@codeCoverageIgnoreEnd
                 }
             ))

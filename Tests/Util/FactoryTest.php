@@ -40,10 +40,7 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
         
         $this->assertEquals(
             $expectedCollection, 
-            Factory::normalizeOptionsCollectionToFactoryArguments(
-                Mockery::mock('Symfony\Component\OptionsResolver\Options'), 
-                $collection
-            )
+            Factory::normalizeCollectionToFactoryArguments($collection)
         );
     }
 }

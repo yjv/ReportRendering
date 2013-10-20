@@ -45,6 +45,28 @@ class ReportTypeTest extends TypeTestCase
         $this->type->buildReport($this->builder, $this->options);
     }
     
+    public function testBuildReportWithDatasourceFromFactory()
+    {
+        $this->initializeForBuildTest();
+        $name = 'name';
+        $options = array('key' => 'value');
+        $datasource = Mockery::mock('Yjv\ReportRendering\Datasource\DatasourceInterface');
+        
+        $this->options['datasource'] = array($name, $options);
+        $this->builder
+            ->shouldReceive('setDatasource')
+            ->once()
+            ->with($datasource)
+            ->getMock()
+            ->shouldReceive('getFactory->getDatasourceFactory->create')
+            ->once()
+            ->with($name, $options)
+            ->andReturn($datasource)
+        ;
+        
+        $this->type->buildReport($this->builder, $this->options);
+    }
+    
     public function testBuildReportWithEmptyFilters()
     {
         $this->initializeForBuildTest();
@@ -108,7 +130,8 @@ class ReportTypeTest extends TypeTestCase
                 $testCase->assertEquals(array(
                     'datasource' => array(
                         'Yjv\ReportRendering\Datasource\DatasourceInterface', 
-                        'null'
+                        'null',
+                        'array'
                     ),
                     'filters' => array(
                         'Yjv\ReportRendering\Filter\FilterCollectionInterface', 
@@ -131,9 +154,13 @@ class ReportTypeTest extends TypeTestCase
             ->with(Mockery::on(function($arg) use ($testCase)
             {
                 $testCase->assertEquals(array(
+                    'datasource' => function(Options $options, $datasource)
+                    {
+                        return Factory::normalizeToFactoryArguments($datasource);
+                    },
                     'renderers' => function(Options $options, $renderers)
                     {
-                        return Factory::normalizeOptionsCollectionToFactoryArguments($options, $renderers);
+                        return Factory::normalizeCollectionToFactoryArguments($renderers);
                     },
                     'default_renderer' => function(Options $options, $defaultRenderer)
                     {
@@ -200,7 +227,7 @@ class ReportTypeTest extends TypeTestCase
     {
         return array(
         
-            'datasource' => Mockery::mock('Yjv\ReportRendering\Datasource\DatasourceInterface'),
+            'datasource' => array(Mockery::mock('Yjv\ReportRendering\Datasource\DatasourceInterface')),
             'default_renderer' => 'default1',
             'filters' => Mockery::mock('Yjv\ReportRendering\Filter\FilterCollectionInterface'),
             'renderers' => array(
@@ -218,7 +245,7 @@ class ReportTypeTest extends TypeTestCase
         $this->builder = Mockery::mock('Yjv\ReportRendering\Report\ReportBuilderInterface')
             ->shouldReceive('setDatasource')
             ->once()
-            ->with($this->options['datasource'])
+            ->with($this->options['datasource'][0])
             ->byDefault()
             ->getMock()
             ->shouldReceive('setDefaultRenderer')
