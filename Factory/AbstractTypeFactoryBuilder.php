@@ -1,7 +1,7 @@
 <?php
 namespace Yjv\ReportRendering\Factory;
 
-abstract class AbstractFactoryBuilder implements FactoryBuilderInterface
+abstract class AbstractTypeFactoryBuilder implements FactoryBuilderInterface
 {
     protected $extensions = array();
     protected $typeRegistry;
@@ -11,6 +11,12 @@ abstract class AbstractFactoryBuilder implements FactoryBuilderInterface
     public static function getInstance()
     {
         return new static();
+    }
+    
+    public function addExtension(RegistryExtensionInterface $extension)
+    {
+        $this->extensions[] = $extension;
+        return $this;
     }
     
     public function setTypeRegistry(TypeRegistryInterface $typeRegistry)
@@ -59,10 +65,11 @@ abstract class AbstractFactoryBuilder implements FactoryBuilderInterface
     public function build()
     {
         $factory = $this->getFactoryInstance();
+        $typeRegistry = $factory->getTypeRegistry();
         
-        foreach ($this->getDefaultExtensions() as $extension) {
+        foreach ($this->extensions as $extension) {
             
-            $factory->getTypeRegistry()->addExtension($extension);
+            $typeRegistry->addExtension($extension);
         }
         
         return $factory;
@@ -76,11 +83,6 @@ abstract class AbstractFactoryBuilder implements FactoryBuilderInterface
     protected function getDefaultTypeResolver()
     {
         return new TypeResolver($this->getTypeRegistry());
-    }
-    
-    protected function getDefaultExtensions()
-    {
-        return array();
     }
     
     /**

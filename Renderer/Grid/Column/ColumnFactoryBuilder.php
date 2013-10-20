@@ -3,9 +3,9 @@ namespace Yjv\ReportRendering\Renderer\Grid\Column;
 
 use Yjv\ReportRendering\DataTransformer\DataTransformerRegistry;
 
-use Yjv\ReportRendering\Factory\AbstractFactoryBuilder;
+use Yjv\ReportRendering\Factory\AbstractTypeFactoryBuilder;
 
-class ColumnFactoryBuilder extends AbstractFactoryBuilder
+class ColumnFactoryBuilder extends AbstractTypeFactoryBuilder
 {
     protected $dataTransformerRegistry;
     

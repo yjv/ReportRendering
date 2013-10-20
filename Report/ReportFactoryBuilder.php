@@ -1,10 +1,12 @@
 <?php
 namespace Yjv\ReportRendering\Report;
+use Yjv\ReportRendering\Renderer\RendererFactoryBuilder;
+
 use Yjv\ReportRendering\Datasource\DatasourceFactoryBuilder;
 
-use Yjv\ReportRendering\Factory\AbstractFactoryBuilder;
+use Yjv\ReportRendering\Factory\AbstractTypeFactoryBuilder;
 
-class ReportFactoryBuilder extends AbstractFactoryBuilder
+class ReportFactoryBuilder extends AbstractTypeFactoryBuilder
 {
     protected $rendererFactoryBuilder;
     protected $datasourceFactoryBuilder;

@@ -9,7 +9,7 @@ use Symfony\Component\DependencyInjection\Extension\ExtensionInterface;
 
 interface FactoryBuilderInterface
 {
-    public function addExtension(ExtensionInterface $extension);
+    public function addExtension(RegistryExtensionInterface $extension);
     public function setTypeRegistry(TypeRegistryInterface $typeRegistry);
     public function getTypeRegistry();
     public function setTypeResolver(TypeResolverInterface $typeResolver);

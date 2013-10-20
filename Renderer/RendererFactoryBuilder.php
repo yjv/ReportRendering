@@ -1,5 +1,5 @@
 <?php
-namespace Yjv\ReportRendering\Report;
+namespace Yjv\ReportRendering\Renderer;
 
 use Yjv\ReportRendering\Renderer\Grid\Column\ColumnFactoryInterface;
 
@@ -7,20 +7,20 @@ use Yjv\ReportRendering\Renderer\RendererFactory;
 
 use Yjv\ReportRendering\Renderer\Grid\Column\ColumnFactoryBuilder;
 
-use Yjv\ReportRendering\Factory\AbstractFactoryBuilder;
+use Yjv\ReportRendering\Factory\AbstractTypeFactoryBuilder;
 
-class RendererFactoryBuilder extends AbstractFactoryBuilder
+class RendererFactoryBuilder extends AbstractTypeFactoryBuilder
 {
     protected $columnFactoryBuilder;
     
     public function getColumnFactoryBuilder()
     {
-        if (!$this->columnFactory) {
+        if (!$this->columnFactoryBuilder) {
             
-            $this->columnFactory = $this->getDefaultColumnFactoryBuilder();
+            $this->columnFactoryBuilder = $this->getDefaultColumnFactoryBuilder();
         }
         
-        return $this->columnFactory;
+        return $this->columnFactoryBuilder;
     }
     
     public function setColumnFactoryBuilder(ColumnFactoryBuilder $columnFactoryBuilder)
