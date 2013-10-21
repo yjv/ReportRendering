@@ -7,16 +7,16 @@ use Yjv\ReportRendering\DataTransformer\DataTransformerRegistry;
 
 use Yjv\ReportRendering\Factory\TypeRegistry;
 
-class TypeTestCase extends \PHPUnit_Framework_TestCase{
-
+class TypeTestCase extends \PHPUnit_Framework_TestCase
+{
 	protected $builder;
 	protected $factory;
 	protected $resolver;
 	protected $registry;
 	protected $type;
 	
-	protected function setUp() {
-
+	protected function setUp()
+	{
 		$this->registry = new TypeRegistry();
 		$this->resolver = new TypeResolver($this->registry);
 		
