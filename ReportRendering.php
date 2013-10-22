@@ -10,12 +10,12 @@ use Yjv\ReportRendering\Report\ReportFactoryBuilder;
 
 class ReportRendering
 {
-    public function createReportFactory()
+    public static function createReportFactory()
     {
         return self::createReportFactoryBuilder()->build();
     }
     
-    public function createReportFactoryBuilder()
+    public static function createReportFactoryBuilder()
     {
         $reportFactoryBuilder = ReportFactoryBuilder::getInstance();
         
