@@ -3,8 +3,6 @@ namespace Yjv\ReportRendering\Datasource\Extension\Core\Type;
 
 use Yjv\ReportRendering\Datasource\CallbackDatasource;
 
-use Yjv\ReportRendering\Datasource\ArrayDatasource;
-
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 use Yjv\ReportRendering\Datasource\DatasourceBuilderInterface;
