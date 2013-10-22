@@ -1,8 +1,6 @@
 <?php
 namespace Yjv\ReportRendering\Renderer;
 
-use Yjv\ReportRendering\Renderer\Grid\Column\ColumnFactoryInterface;
-
 use Yjv\ReportRendering\Renderer\RendererFactory;
 
 use Yjv\ReportRendering\Renderer\Grid\Column\ColumnFactoryBuilder;

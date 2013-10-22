@@ -1,8 +1,6 @@
 <?php
 namespace Yjv\ReportRendering\Util;
 
-use Symfony\Component\OptionsResolver\Options;
-
 class Factory
 {
     public static function normalizeToFactoryArguments($object)

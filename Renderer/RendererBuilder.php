@@ -5,8 +5,6 @@ use Yjv\ReportRendering\Factory\VariableConstructorBuilder;
 
 use Yjv\ReportRendering\Renderer\Grid\GridInterface;
 
-use Yjv\TypeFactory\Builder;
-
 use Yjv\ReportRendering\Renderer\RendererInterface;
 
 class RendererBuilder extends VariableConstructorBuilder implements RendererBuilderInterface
