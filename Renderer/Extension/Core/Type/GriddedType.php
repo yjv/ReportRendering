@@ -40,8 +40,8 @@ class GriddedType extends AbstractRendererType
             'grid' => null
         ))
         ->setAllowedTypes(array(
-                'columns' => 'array', 
-                'grid' => array('null', 'Yjv\ReportRendering\Renderer\Grid\GridInterface')
+            'columns' => 'array', 
+            'grid' => array('null', 'Yjv\ReportRendering\Renderer\Grid\GridInterface')
         ))
         ->setNormalizers(array(
             'columns' => function(Options $options, $columns)

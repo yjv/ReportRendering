@@ -25,8 +25,9 @@ class ReportType extends AbstractReportType
     {
         $reportBuilder->setDefaultRenderer($options['default_renderer']);
 
-        if ($datasource = $options['datasource']) {
+        if ($options['datasource'][0]) {
 
+            $datasource = $options['datasource'];
             $reportBuilder->setDatasource($datasource[0], $datasource[1]);
         }
 

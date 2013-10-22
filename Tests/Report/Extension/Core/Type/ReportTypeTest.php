@@ -35,7 +35,7 @@ class ReportTypeTest extends TypeTestCase
     public function testBuildReportWithEmptyDatasource()
     {
         $this->initializeForBuildTest();
-        $this->options['datasource'] = null;
+        $this->options['datasource'] = array(null, array());
         
         $this->builder
             ->shouldReceive('setDatasource')
