@@ -26,19 +26,17 @@ class GriddedTypeTest extends TypeTestCase
     public function testBuildRenderer()
     {
         $column1 = new Column();
-        $column2 = new Column();
-        $column3 = new Column();
+        $column2Name = 'column';
+        $column2Options = array('key' => 'value');
         
-        $this->columnFactory
-            ->shouldReceive('create')
+        $builder = Mockery::mock('Yjv\ReportRendering\Renderer\RendererBuilder')
+            ->shouldReceive('addColumn')
             ->once()
-            ->with('column2', array('key' => 'value'))
-            ->andReturn($column2)
+            ->with($column1, array())
             ->getMock()
-            ->shouldReceive('create')
+            ->shouldReceive('addColumn')
             ->once()
-            ->with('column3', array())
-            ->andReturn($column3)
+            ->with($column2Name, $column2Options)
             ->getMock()
         ;
         
@@ -46,19 +44,16 @@ class GriddedTypeTest extends TypeTestCase
         
         $columns = array(
             array($column1, array()),
-            array('column2', array('key' => 'value')),
-            array('column3', array())
+            array($column2Name, $column2Options),
         );
         
-        $this->type->buildRenderer($this->builder, array('columns' => $columns, 'grid' => null));
-        
-        $this->assertSame(array($column1, $column2, $column3), $this->builder->getGrid()->getColumns());
+        $this->type->buildRenderer($builder, array('columns' => $columns, 'grid' => null));
     }
     
     public function testBuilderRendererWithGridSet()
     {
         $grid = Mockery::mock('Yjv\ReportRendering\Renderer\Grid\GridInterface');
-        $this->type->buildRenderer($this->builder, array('grid' => $grid));
+        $this->type->buildRenderer($this->builder, array('columns' => array(), 'grid' => $grid));
         $this->assertSame($grid, $this->builder->getGrid());
     }
     

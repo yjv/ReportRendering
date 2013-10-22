@@ -10,4 +10,5 @@ interface RendererBuilderInterface extends VariableConstructorBuilderInterface
     public function getRenderer();
     public function setGrid(GridInterface $grid);
     public function getGrid();
+    public function addColumn($column, array $options = array());
 }

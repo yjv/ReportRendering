@@ -1,6 +1,10 @@
 <?php
 namespace Yjv\ReportRendering\Renderer;
 
+use Yjv\ReportRendering\Renderer\Grid\Grid;
+
+use Yjv\ReportRendering\Renderer\Grid\Column\ColumnInterface;
+
 use Yjv\ReportRendering\Factory\VariableConstructorBuilder;
 
 use Yjv\ReportRendering\Renderer\Grid\GridInterface;
@@ -32,6 +36,27 @@ class RendererBuilder extends VariableConstructorBuilder implements RendererBuil
     
     public function getGrid()
     {
+        if (!$this->grid) {
+            
+            $this->grid = new Grid();
+        }
+        
         return $this->grid;
+    }
+    
+    public function addColumn($column, array $options = array())
+    {
+        $this->getGrid()->addColumn($this->normalizeColumn($column, $options));
+        return $this;
+    }
+    
+    protected function normalizeColumn($column, array $options)
+    {
+        if (!$column instanceof ColumnInterface) {
+            
+            $column = $this->factory->getColumnFactory()->create($column, $options);
+        }
+        
+        return $column;
     }
 }

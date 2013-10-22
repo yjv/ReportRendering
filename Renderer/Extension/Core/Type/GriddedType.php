@@ -23,28 +23,13 @@ class GriddedType extends AbstractRendererType
     {
         if ($options['grid'] instanceof GridInterface) {
             
-            $grid = $options['grid'];
-        }else{
-            
-            $grid = new Grid();
-            
-            $columnFactory = $builder->getFactory()->getColumnFactory();
-            
-            foreach ($options['columns'] as $columnInfo) {
-                
-                if ($columnInfo[0] instanceof ColumnInterface) {
-                    
-                    $column = $columnInfo[0];
-                } else {
-                    
-                    $column = $columnFactory->create($columnInfo[0], $columnInfo[1]);
-                }
-                
-                $grid->addColumn($column);
-            }
+            $builder->setGrid($options['grid']);
         }
-        
-        $builder->setGrid($grid);
+            
+        foreach ($options['columns'] as $column) {
+            
+            $builder->addColumn($column[0], $column[1]);
+        }
     }
     
     public function setDefaultOptions(OptionsResolverInterface $resolver)
