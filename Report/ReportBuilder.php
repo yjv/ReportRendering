@@ -18,7 +18,7 @@ use Yjv\ReportRendering\Datasource\DatasourceInterface;
 class ReportBuilder extends Builder implements ReportBuilderInterface
 {
     protected $renderers = array();
-    protected $defaultRenderer = 'default';
+    protected $defaultRenderer = ReportInterface::DEFAULT_RENDERER_KEY;
     protected $datasource;
     protected $filterCollection;
     protected $eventDispatcher;
@@ -59,11 +59,11 @@ class ReportBuilder extends Builder implements ReportBuilderInterface
 
     /**
      * 
-     * @param DatasourceInterface $datasource
+     * @param $datasource
      */
-    public function setDatasource(DatasourceInterface $datasource)
-    {
-        $this->datasource = $datasource;
+    public function setDatasource($datasource, array $options = array())
+    {   
+        $this->datasource = $this->normalizeDatasource($datasource, $options);
         return $this;
     }
 
@@ -83,16 +83,7 @@ class ReportBuilder extends Builder implements ReportBuilderInterface
      */
     public function addRenderer($name, $renderer, array $options = array())
     {
-        $renderer = $this->normalizeRenderer($renderer, $options);
-        
-        if (!$renderer instanceof RendererInterface) {
-            
-            throw new \InvalidArgumentException(
-                '$renderer must either an renderer type, type name or instance of RendererInterface'
-            );
-        }
-        
-        $this->renderers[$name] = $renderer;
+        $this->renderers[$name] = $this->normalizeRenderer($renderer, $options);
         return $this;
     }
 
@@ -134,7 +125,7 @@ class ReportBuilder extends Builder implements ReportBuilderInterface
     
     protected function normalizeRenderer($renderer, array $options = array())
     {
-        if (is_string($renderer) || $renderer instanceof TypeInterface) {
+        if (!$renderer instanceof RendererInterface) {
             
             $renderer = new LazyLoadedRenderer(
                 $this->factory->getRendererFactory(), 
@@ -144,6 +135,16 @@ class ReportBuilder extends Builder implements ReportBuilderInterface
         }
         
         return $renderer;
+    }
+    
+    protected function normalizeDatasource($datasource, array $options)
+    {
+        if (!$datasource instanceof DatasourceInterface) {
+            
+            $datasource = $this->factory->getDatasourceFactory()->create($datasource, $options);
+        }
+        
+        return $datasource;
     }
     
     protected function assertBuildable()

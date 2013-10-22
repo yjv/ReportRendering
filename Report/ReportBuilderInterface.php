@@ -21,7 +21,7 @@ interface ReportBuilderInterface extends BuilderInterface
      * 
      * @param DatasourceInterface $datasource
      */
-    public function setDatasource(DatasourceInterface $datasource);
+    public function setDatasource($datasource, array $options = array());
 
     /**
      * 

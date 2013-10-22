@@ -25,18 +25,9 @@ class ReportType extends AbstractReportType
     {
         $reportBuilder->setDefaultRenderer($options['default_renderer']);
 
-        if ($datasourceInfo = $options['datasource']) {
+        if ($datasource = $options['datasource']) {
 
-            if ($datasourceInfo[0] instanceof DatasourceInterface) {
-            
-                $datasource = $datasourceInfo[0];
-            } else {
-            
-                $datasourceFactory = $reportBuilder->getFactory()->getDatasourceFactory();
-                $datasource = $datasourceFactory->create($datasourceInfo[0], $datasourceInfo[1]);
-            }
-            
-            $reportBuilder->setDatasource($datasource);
+            $reportBuilder->setDatasource($datasource[0], $datasource[1]);
         }
 
         if ($options['filters']) {

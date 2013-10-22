@@ -45,28 +45,6 @@ class ReportTypeTest extends TypeTestCase
         $this->type->buildReport($this->builder, $this->options);
     }
     
-    public function testBuildReportWithDatasourceFromFactory()
-    {
-        $this->initializeForBuildTest();
-        $name = 'name';
-        $options = array('key' => 'value');
-        $datasource = Mockery::mock('Yjv\ReportRendering\Datasource\DatasourceInterface');
-        
-        $this->options['datasource'] = array($name, $options);
-        $this->builder
-            ->shouldReceive('setDatasource')
-            ->once()
-            ->with($datasource)
-            ->getMock()
-            ->shouldReceive('getFactory->getDatasourceFactory->create')
-            ->once()
-            ->with($name, $options)
-            ->andReturn($datasource)
-        ;
-        
-        $this->type->buildReport($this->builder, $this->options);
-    }
-    
     public function testBuildReportWithEmptyFilters()
     {
         $this->initializeForBuildTest();
@@ -227,7 +205,7 @@ class ReportTypeTest extends TypeTestCase
     {
         return array(
         
-            'datasource' => array(Mockery::mock('Yjv\ReportRendering\Datasource\DatasourceInterface')),
+            'datasource' => array(Mockery::mock('Yjv\ReportRendering\Datasource\DatasourceInterface'), array('key' => 'value')),
             'default_renderer' => 'default1',
             'filters' => Mockery::mock('Yjv\ReportRendering\Filter\FilterCollectionInterface'),
             'renderers' => array(
@@ -245,7 +223,10 @@ class ReportTypeTest extends TypeTestCase
         $this->builder = Mockery::mock('Yjv\ReportRendering\Report\ReportBuilderInterface')
             ->shouldReceive('setDatasource')
             ->once()
-            ->with($this->options['datasource'][0])
+            ->with(
+                $this->options['datasource'][0],
+                $this->options['datasource'][1]
+            )
             ->byDefault()
             ->getMock()
             ->shouldReceive('setDefaultRenderer')
