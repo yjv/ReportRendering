@@ -7,7 +7,7 @@ use Yjv\ReportRendering\Datasource\AbstractDatasourceType;
 
 use Yjv\ReportRendering\Datasource\DatasourceBuilderInterface;
 
-use Yjv\ReportRendering\Factory\TypeFactoryInterface;
+use Yjv\TypeFactory\TypeFactoryInterface;
 
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 

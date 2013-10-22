@@ -7,7 +7,7 @@ use Yjv\ReportRendering\Renderer\Grid\Column\Extension\Core\Type\RawColumnType;
 
 use Yjv\ReportRendering\Renderer\Grid\Column\Extension\Core\Type\ColumnType;
 
-use Yjv\ReportRendering\Factory\AbstractExtension;
+use Yjv\TypeFactory\AbstractExtension;
 
 class CoreExtension extends AbstractExtension
 {

@@ -1,14 +1,14 @@
 <?php
 namespace Yjv\ReportRendering\Tests\Factory;
-use Yjv\ReportRendering\Factory\TypeExtensionNotFoundException;
+use Yjv\TypeFactory\TypeExtensionNotFoundException;
 
-use Yjv\ReportRendering\Factory\TypeNotFoundException;
+use Yjv\TypeFactory\TypeNotFoundException;
 
-use Yjv\ReportRendering\Factory\TypeExtensionInterface;
+use Yjv\TypeFactory\TypeExtensionInterface;
 
-use Yjv\ReportRendering\Factory\TypeInterface;
+use Yjv\TypeFactory\TypeInterface;
 
-use Yjv\ReportRendering\Factory\RegistryExtensionInterface;
+use Yjv\TypeFactory\RegistryExtensionInterface;
 
 class TestExtension implements RegistryExtensionInterface
 {

@@ -39,7 +39,7 @@ class Report implements ReportInterface
     )
     {
         $this->datasource = $datasource;
-        $this->addRenderer('default', $defaultRenderer);
+        $this->addRenderer(ReportInterface::DEFAULT_RENDERER_KEY, $defaultRenderer);
         $this->eventDispatcher = $eventDispatcher;
         $this->filters = new NullFilterCollection();
         $this->idGenerator = new CallCountIdGenerator();
@@ -63,7 +63,7 @@ class Report implements ReportInterface
      * @throws RendererNotFoundException
      * @return RendererInterface
      */
-    public function getRenderer($name = 'default')
+    public function getRenderer($name = ReportInterface::DEFAULT_RENDERER_KEY)
     {
         if (!$this->hasRenderer($name)) {
 

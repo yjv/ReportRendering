@@ -7,7 +7,7 @@ use Yjv\ReportRendering\Datasource\Extension\Core\Type\ArrayType;
 
 use Yjv\ReportRendering\Datasource\Extension\Core\Type\DatasourceType;
 
-use Yjv\ReportRendering\Factory\AbstractExtension;
+use Yjv\TypeFactory\AbstractExtension;
 
 class CoreExtension extends AbstractExtension
 {

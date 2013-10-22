@@ -1,7 +1,7 @@
 <?php
 namespace Yjv\ReportRendering\Renderer;
 
-use Yjv\ReportRendering\Factory\TypeFactoryInterface;
+use Yjv\TypeFactory\TypeFactoryInterface;
 
 interface RendererFactoryInterface extends TypeFactoryInterface
 {

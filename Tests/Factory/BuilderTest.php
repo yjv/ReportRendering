@@ -1,7 +1,7 @@
 <?php
 namespace Yjv\ReportRendering\Tests\Factory;
 
-use Yjv\ReportRendering\Factory\Builder;
+use Yjv\TypeFactory\Builder;
 
 use Mockery;
 
@@ -13,7 +13,7 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
     
     public function setUp()
     {
-        $this->factory = Mockery::mock('Yjv\ReportRendering\Factory\TypeFactoryInterface');
+        $this->factory = Mockery::mock('Yjv\TypeFactory\TypeFactoryInterface');
         $this->options = array('key' => 'value');
         $this->builder = new Builder($this->factory, $this->options);
     }
@@ -29,7 +29,7 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
         $this->assertSame($this->builder, $this->builder->setOptions(array('key3' => 'value3')));
         $this->assertEquals(array('key3' => 'value3'), $this->builder->getOptions());
         $this->assertSame($this->factory, $this->builder->getFactory());
-        $typeChain = Mockery::mock('Yjv\ReportRendering\Factory\TypeChainInterface');
+        $typeChain = Mockery::mock('Yjv\TypeFactory\TypeChainInterface');
         $this->assertNull($this->builder->getTypeChain());
         $this->assertSame($this->builder, $this->builder->setTypeChain($typeChain));
         $this->assertSame($typeChain, $this->builder->getTypeChain());

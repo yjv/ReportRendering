@@ -1,7 +1,7 @@
 <?php
 namespace Yjv\ReportRendering\Renderer\Extension\Core\Builder;
 
-use Yjv\ReportRendering\Factory\TypeFactoryInterface;
+use Yjv\TypeFactory\TypeFactoryInterface;
 
 use Yjv\ReportRendering\Widget\WidgetRendererInterface;
 

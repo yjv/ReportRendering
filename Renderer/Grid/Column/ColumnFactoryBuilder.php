@@ -3,7 +3,7 @@ namespace Yjv\ReportRendering\Renderer\Grid\Column;
 
 use Yjv\ReportRendering\DataTransformer\DataTransformerRegistry;
 
-use Yjv\ReportRendering\Factory\AbstractTypeFactoryBuilder;
+use Yjv\TypeFactory\AbstractTypeFactoryBuilder;
 
 class ColumnFactoryBuilder extends AbstractTypeFactoryBuilder
 {

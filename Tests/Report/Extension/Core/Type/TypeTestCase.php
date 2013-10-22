@@ -20,7 +20,7 @@ class TypeTestCase extends BaseTypeTestCase
     protected function setUp()
 	{
 	    parent::setUp();
-		$this->datasourceFactory = Mockery::mock('Yjv\ReportRendering\Factory\TypeFactoryInterface');
+		$this->datasourceFactory = Mockery::mock('Yjv\TypeFactory\TypeFactoryInterface');
 	    $this->rendererFactory = Mockery::mock('Yjv\ReportRendering\Renderer\RendererFactoryInterface');
 		$this->eventDispatcher = Mockery::mock('Symfony\Component\EventDispatcher\EventDispatcherInterface');
 	    

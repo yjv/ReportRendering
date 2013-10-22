@@ -12,7 +12,7 @@ class RendererBuilderTest extends \PHPUnit_Framework_TestCase
     
     public function setUp()
     {
-        $this->factory = Mockery::mock('Yjv\ReportRendering\Factory\TypeFactoryInterface');
+        $this->factory = Mockery::mock('Yjv\TypeFactory\TypeFactoryInterface');
         $this->builder = new RendererBuilder($this->factory);
     }
     

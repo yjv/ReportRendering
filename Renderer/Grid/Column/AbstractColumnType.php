@@ -1,11 +1,11 @@
 <?php
 namespace Yjv\ReportRendering\Renderer\Grid\Column;
 
-use Yjv\ReportRendering\Factory\BuilderInterface;
+use Yjv\TypeFactory\BuilderInterface;
 
-use Yjv\ReportRendering\Factory\AbstractType;
-use Yjv\ReportRendering\Factory\TypeFactoryInterface;
-use Yjv\ReportRendering\Factory\TypeInterface;
+use Yjv\TypeFactory\AbstractType;
+use Yjv\TypeFactory\TypeFactoryInterface;
+use Yjv\TypeFactory\TypeInterface;
 
 abstract class AbstractColumnType extends AbstractType implements TypeInterface
 {

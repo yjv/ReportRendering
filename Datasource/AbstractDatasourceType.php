@@ -3,11 +3,11 @@ namespace Yjv\ReportRendering\Datasource;
 
 use Yjv\ReportRendering\Datasource\DatasourceBuilderInterface;
 
-use Yjv\ReportRendering\Factory\TypeFactoryInterface;
+use Yjv\TypeFactory\TypeFactoryInterface;
 
-use Yjv\ReportRendering\Factory\BuilderInterface;
+use Yjv\TypeFactory\BuilderInterface;
 
-use Yjv\ReportRendering\Factory\AbstractType;
+use Yjv\TypeFactory\AbstractType;
 
 abstract class AbstractDatasourceType extends AbstractType
 {

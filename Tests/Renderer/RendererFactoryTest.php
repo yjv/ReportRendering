@@ -15,7 +15,7 @@ class RendererFactoryTest extends \PHPUnit_Framework_TestCase {
 	
 	public function setUp(){
 		
-		$this->resolver = Mockery::mock('Yjv\ReportRendering\Factory\TypeResolverInterface');
+		$this->resolver = Mockery::mock('Yjv\TypeFactory\TypeResolverInterface');
 		$this->columnFactory = Mockery::mock('Yjv\ReportRendering\Renderer\Grid\Column\ColumnFactoryInterface');
 		$this->factory = new RendererFactory($this->resolver, $this->columnFactory);
 	}

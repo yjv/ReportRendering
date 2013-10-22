@@ -1,11 +1,11 @@
 <?php
 namespace Yjv\ReportRendering\Tests\Factory\Extension\Type;
 
-use Yjv\ReportRendering\Factory\TypeResolver;
+use Yjv\TypeFactory\TypeResolver;
 
 use Yjv\ReportRendering\DataTransformer\DataTransformerRegistry;
 
-use Yjv\ReportRendering\Factory\TypeRegistry;
+use Yjv\TypeFactory\TypeRegistry;
 
 class TypeTestCase extends \PHPUnit_Framework_TestCase
 {

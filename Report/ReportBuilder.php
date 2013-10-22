@@ -5,9 +5,9 @@ use Yjv\ReportRendering\IdGenerator\IdGeneratorInterface;
 
 use Yjv\ReportRendering\Renderer\LazyLoadedRenderer;
 
-use Yjv\ReportRendering\Factory\Builder;
+use Yjv\TypeFactory\Builder;
 
-use Yjv\ReportRendering\Factory\TypeInterface;
+use Yjv\TypeFactory\TypeInterface;
 
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Yjv\ReportRendering\Filter\FilterCollectionInterface;

@@ -1,13 +1,13 @@
 <?php
 namespace Yjv\ReportRendering\Tests\Factory;
 
-use Yjv\ReportRendering\Factory\TypeChainInterface;
+use Yjv\TypeFactory\TypeChainInterface;
 
 use Mockery;
 
-use Yjv\ReportRendering\Factory\TypeChain;
+use Yjv\TypeFactory\TypeChain;
 
-use Yjv\ReportRendering\Factory\TypeRegistry;
+use Yjv\TypeFactory\TypeRegistry;
 
 class TypeChainTest extends \PHPUnit_Framework_TestCase{
 
@@ -22,10 +22,10 @@ class TypeChainTest extends \PHPUnit_Framework_TestCase{
 	 */
 	protected function setUp() {
 
-		$this->type1 = Mockery::mock('Yjv\ReportRendering\Factory\FinalizingTypeInterface');
-		$this->type2 = Mockery::mock('Yjv\ReportRendering\Factory\FinalizingTypeInterface');
-		$this->type2Extension = Mockery::mock('Yjv\ReportRendering\Factory\TypeExtensionInterface');
-		$this->type3 = Mockery::mock('Yjv\ReportRendering\Factory\TypeInterface');
+		$this->type1 = Mockery::mock('Yjv\TypeFactory\FinalizingTypeInterface');
+		$this->type2 = Mockery::mock('Yjv\TypeFactory\FinalizingTypeInterface');
+		$this->type2Extension = Mockery::mock('Yjv\TypeFactory\TypeExtensionInterface');
+		$this->type3 = Mockery::mock('Yjv\TypeFactory\TypeInterface');
 		$this->types = array(
 	        $this->type1,
 	        $this->type2,
@@ -120,14 +120,14 @@ class TypeChainTest extends \PHPUnit_Framework_TestCase{
 	
 	public function testGetBuilder()
 	{
-	    $builder = Mockery::mock('Yjv\ReportRendering\Factory\BuilderInterface')
+	    $builder = Mockery::mock('Yjv\TypeFactory\BuilderInterface')
 	        ->shouldReceive('setTypeChain')
 	        ->once()
 	        ->with($this->chain)
 	        ->getMock()
 	    ;
 	    $options = array('key' => 'value');
-	    $factory = Mockery::mock('Yjv\ReportRendering\Factory\TypeFactoryInterface');
+	    $factory = Mockery::mock('Yjv\TypeFactory\TypeFactoryInterface');
 	    $this->type3
 	        ->shouldReceive('createBuilder')
 	        ->with($factory, $options)
@@ -149,7 +149,7 @@ class TypeChainTest extends \PHPUnit_Framework_TestCase{
 	public function testBuild()
 	{
 	    $options = array('key' => 'value');
-	    $builder = Mockery::mock('Yjv\ReportRendering\Factory\BuilderInterface');
+	    $builder = Mockery::mock('Yjv\TypeFactory\BuilderInterface');
 	    $this->type1
 	        ->shouldReceive('build')
 	        ->ordered()

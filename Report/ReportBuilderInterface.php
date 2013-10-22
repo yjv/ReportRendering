@@ -3,7 +3,7 @@ namespace Yjv\ReportRendering\Report;
 
 use Yjv\ReportRendering\IdGenerator\IdGeneratorInterface;
 
-use Yjv\ReportRendering\Factory\BuilderInterface;
+use Yjv\TypeFactory\BuilderInterface;
 
 use Yjv\ReportRendering\Filter\FilterCollectionInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;

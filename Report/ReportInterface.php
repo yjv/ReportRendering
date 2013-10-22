@@ -15,6 +15,8 @@ use Yjv\ReportRendering\Datasource\DatasourceInterface;
  */
 interface ReportInterface
 {
+    const DEFAULT_RENDERER_KEY = 'default';
+    
     /**
      * 
      * @param string $name

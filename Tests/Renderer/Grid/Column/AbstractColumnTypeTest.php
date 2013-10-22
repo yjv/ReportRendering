@@ -37,7 +37,7 @@ class AbstractColumnTypeTest extends \PHPUnit_Framework_TestCase{
 	
 	public function testCreateBuilder()
 	{
-	    $this->type->createBuilder(Mockery::mock('Yjv\ReportRendering\Factory\TypeFactoryInterface'), array());
+	    $this->type->createBuilder(Mockery::mock('Yjv\TypeFactory\TypeFactoryInterface'), array());
 	}
 	
 	public function testSetDefaultOptions(){

@@ -1,12 +1,12 @@
 <?php
 namespace Yjv\ReportRendering\Report;
 
-use Yjv\ReportRendering\Factory\TypeFactoryInterface;
+use Yjv\TypeFactory\TypeFactoryInterface;
 
-use Yjv\ReportRendering\Factory\TypeResolverInterface;
+use Yjv\TypeFactory\TypeResolverInterface;
 
 use Yjv\ReportRendering\Renderer\RendererFactoryInterface;
-use Yjv\ReportRendering\Factory\AbstractTypeFactory;
+use Yjv\TypeFactory\AbstractTypeFactory;
 
 class ReportFactory extends AbstractTypeFactory implements ReportFactoryInterface
 {

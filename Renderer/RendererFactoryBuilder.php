@@ -7,7 +7,7 @@ use Yjv\ReportRendering\Renderer\RendererFactory;
 
 use Yjv\ReportRendering\Renderer\Grid\Column\ColumnFactoryBuilder;
 
-use Yjv\ReportRendering\Factory\AbstractTypeFactoryBuilder;
+use Yjv\TypeFactory\AbstractTypeFactoryBuilder;
 
 class RendererFactoryBuilder extends AbstractTypeFactoryBuilder
 {

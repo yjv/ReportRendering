@@ -1,7 +1,7 @@
 <?php
 namespace Yjv\ReportRendering\Tests\Factory\Extension;
 
-use Yjv\ReportRendering\Factory\Extension\DependencyInjectionExtension;
+use Yjv\TypeFactory\Extension\DependencyInjectionExtension;
 
 use Mockery;
 
@@ -42,7 +42,7 @@ class DependencyInjectionExtensionTest extends \PHPUnit_Framework_TestCase
     
     public function testGetType()
     {
-        $type = Mockery::mock('Yjv\ReportRendering\Factory\TypeInterface');
+        $type = Mockery::mock('Yjv\TypeFactory\TypeInterface');
         $this->container
             ->shouldReceive('get')
             ->with('service')
@@ -56,7 +56,7 @@ class DependencyInjectionExtensionTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException Yjv\ReportRendering\Factory\TypeNotFoundException
+     * @expectedException Yjv\TypeFactory\TypeNotFoundException
      * @expectedExceptionMessage type with name "name" not found
      */
     public function testGetTypeWhenNotSet()
@@ -66,8 +66,8 @@ class DependencyInjectionExtensionTest extends \PHPUnit_Framework_TestCase
     
     public function testGetTypeExtensions()
     {
-        $typeExtension1 = Mockery::mock('Yjv\ReportRendering\Factory\TypeExtensionInterface');
-        $typeExtension2 = Mockery::mock('Yjv\ReportRendering\Factory\TypeExtensionInterface');
+        $typeExtension1 = Mockery::mock('Yjv\TypeFactory\TypeExtensionInterface');
+        $typeExtension2 = Mockery::mock('Yjv\TypeFactory\TypeExtensionInterface');
         $this->container
             ->shouldReceive('get')
             ->with('service1')

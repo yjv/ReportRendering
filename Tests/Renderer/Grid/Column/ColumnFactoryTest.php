@@ -1,7 +1,7 @@
 <?php
 namespace Yjv\ReportRendering\Tests\Renderer\Grid\Column;
 
-use Yjv\ReportRendering\Factory\TypeRegistry;
+use Yjv\TypeFactory\TypeRegistry;
 
 use Mockery;
 
@@ -30,7 +30,7 @@ class ColumnFactoryTest extends \PHPUnit_Framework_TestCase{
 	 */
 	protected function setUp() {
 
-		$this->resolver = Mockery::mock('Yjv\ReportRendering\Factory\TypeResolver');
+		$this->resolver = Mockery::mock('Yjv\TypeFactory\TypeResolver');
 		$this->dataTransformerRegistry = new DataTransformerRegistry();
 		$this->factory = new ColumnFactory($this->resolver, $this->dataTransformerRegistry);
 	}

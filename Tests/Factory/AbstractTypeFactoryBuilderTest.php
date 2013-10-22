@@ -1,16 +1,16 @@
 <?php
 namespace Yjv\ReportRendering\Tests\Factory;
-use Yjv\ReportRendering\Factory\AbstractTypeFactoryBuilder;
+use Yjv\TypeFactory\AbstractTypeFactoryBuilder;
 
-use Yjv\ReportRendering\Factory\TypeResolverInterface;
+use Yjv\TypeFactory\TypeResolverInterface;
 
-use Yjv\ReportRendering\Factory\TypeRegistryInterface;
+use Yjv\TypeFactory\TypeRegistryInterface;
 
-use Yjv\ReportRendering\Factory\AbstractTypeFactory;
+use Yjv\TypeFactory\AbstractTypeFactory;
 
-use Yjv\ReportRendering\Factory\TypeFactoryInterface;
+use Yjv\TypeFactory\TypeFactoryInterface;
 
-use Yjv\ReportRendering\Factory\TypeRegistry;
+use Yjv\TypeFactory\TypeRegistry;
 
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
@@ -24,14 +24,14 @@ class TypeFactoryBuilderTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->builder = $this->getMockForAbstractClass('Yjv\ReportRendering\Factory\AbstractTypeFactoryBuilder');
+        $this->builder = $this->getMockForAbstractClass('Yjv\TypeFactory\AbstractTypeFactoryBuilder');
     }
     
     public function testAddExtension()
     {
-        $extension1 = Mockery::mock('Yjv\ReportRendering\Factory\RegistryExtensionInterface');
-        $extension2 = Mockery::mock('Yjv\ReportRendering\Factory\RegistryExtensionInterface');
-        $registry = Mockery::mock('Yjv\ReportRendering\Factory\TypeRegistryInterface')
+        $extension1 = Mockery::mock('Yjv\TypeFactory\RegistryExtensionInterface');
+        $extension2 = Mockery::mock('Yjv\TypeFactory\RegistryExtensionInterface');
+        $registry = Mockery::mock('Yjv\TypeFactory\TypeRegistryInterface')
             ->shouldReceive('addExtension')
             ->once()
             ->with($extension1)
@@ -41,7 +41,7 @@ class TypeFactoryBuilderTest extends \PHPUnit_Framework_TestCase
             ->with($extension2)
             ->getMock()
         ;
-        $factory = Mockery::mock('Yjv\ReportRendering\Factory\TypeFactoryInterface')
+        $factory = Mockery::mock('Yjv\TypeFactory\TypeFactoryInterface')
             ->shouldReceive('getTypeRegistry')
             ->once()
             ->andReturn($registry)
@@ -60,12 +60,12 @@ class TypeFactoryBuilderTest extends \PHPUnit_Framework_TestCase
     
     public function testGettersSetters()
     {
-        $this->assertInstanceOf('Yjv\ReportRendering\Factory\TypeRegistryInterface', $this->builder->getTypeRegistry());
-        $registry = Mockery::mock('Yjv\ReportRendering\Factory\TypeRegistryInterface');
+        $this->assertInstanceOf('Yjv\TypeFactory\TypeRegistryInterface', $this->builder->getTypeRegistry());
+        $registry = Mockery::mock('Yjv\TypeFactory\TypeRegistryInterface');
         $this->assertSame($this->builder, $this->builder->setTypeRegistry($registry));
         $this->assertSame($registry, $this->builder->getTypeRegistry());
-        $this->assertInstanceOf('Yjv\ReportRendering\Factory\TypeResolverInterface', $this->builder->getTypeResolver());
-        $resolver = Mockery::mock('Yjv\ReportRendering\Factory\TypeResolverInterface');
+        $this->assertInstanceOf('Yjv\TypeFactory\TypeResolverInterface', $this->builder->getTypeResolver());
+        $resolver = Mockery::mock('Yjv\TypeFactory\TypeResolverInterface');
         $this->assertSame($this->builder, $this->builder->setTypeResolver($resolver));
         $this->assertSame($resolver, $this->builder->getTypeResolver());
         $this->assertNull($this->builder->getTypeName());

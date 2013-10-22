@@ -3,7 +3,7 @@ namespace Yjv\ReportRendering\Tests\Factory;
 
 use Yjv\ReportRendering\Tests\Factory\TestExtension;
 
-use Yjv\ReportRendering\Factory\TypeRegistry;
+use Yjv\TypeFactory\TypeRegistry;
 
 use Mockery;
 
@@ -67,27 +67,27 @@ class TypeRegistryTest extends \PHPUnit_Framework_TestCase{
 	}
 	
 	/**
-	 * @expectedException Yjv\ReportRendering\Factory\TypeNotFoundException
+	 * @expectedException Yjv\TypeFactory\TypeNotFoundException
 	 * @expectedExceptionMessage type with name "name3" not found
 	 */
 	public function testExceptionOnTypeNotFound(){
 		
-		$this->setExpectedException('Yjv\ReportRendering\Factory\TypeNotFoundException');
+		$this->setExpectedException('Yjv\TypeFactory\TypeNotFoundException');
 		$this->registry->getType('name3');
 	}	
 	
 	/**
-	 * @expectedException Yjv\ReportRendering\Factory\TypeNotFoundException
-	 * @expectedExceptionMessage type of class "Yjv\ReportRendering\Factory\TypeInterface" with name "name1" not found
+	 * @expectedException Yjv\TypeFactory\TypeNotFoundException
+	 * @expectedExceptionMessage type of class "Yjv\TypeFactory\TypeInterface" with name "name1" not found
 	 */
 	public function testExceptionOnTypeNotFoundAndRegistryAllowsOnlyCertainClassTypes()
 	{
-	    $registry = new TypeRegistry('Yjv\ReportRendering\Factory\TypeInterface');
+	    $registry = new TypeRegistry('Yjv\TypeFactory\TypeInterface');
 	    $registry->getType('name1');
 	}
 	
 	/**
-	 * @expectedException Yjv\ReportRendering\Factory\TypeNotSupportedException
+	 * @expectedException Yjv\TypeFactory\TypeNotSupportedException
 	 * @expectedExceptionMessage stdClass
 	 */
 	public function testExceptionOnNonSupportedType()
@@ -100,7 +100,7 @@ class TypeRegistryTest extends \PHPUnit_Framework_TestCase{
 	
 	public function testClearResolved()
 	{
-	    $extension = Mockery::mock('Yjv\ReportRendering\Factory\RegistryExtensionInterface')
+	    $extension = Mockery::mock('Yjv\TypeFactory\RegistryExtensionInterface')
 	        ->shouldReceive('hasType')
 	        ->twice()
 	        ->with('name')
@@ -133,7 +133,7 @@ class TypeRegistryTest extends \PHPUnit_Framework_TestCase{
 	
 	public function testGetExtensions()
 	{
-	    $extension = Mockery::mock('Yjv\ReportRendering\Factory\RegistryExtensionInterface');
+	    $extension = Mockery::mock('Yjv\TypeFactory\RegistryExtensionInterface');
 	    $this->assertSame(array($this->extension), $this->registry->getExtensions());
 	    $this->registry->addExtension($extension);
 	    $this->assertSame(array($this->extension, $extension), $this->registry->getExtensions());
@@ -141,7 +141,7 @@ class TypeRegistryTest extends \PHPUnit_Framework_TestCase{
 
 	protected function getType($name) {
 		
-		return Mockery::mock('Yjv\ReportRendering\Factory\TypeInterface')
+		return Mockery::mock('Yjv\TypeFactory\TypeInterface')
 		    ->shouldReceive('getName')
 		    ->andReturn($name)
 		    ->getMock()
@@ -150,7 +150,7 @@ class TypeRegistryTest extends \PHPUnit_Framework_TestCase{
 	
 	protected function getTypeExtension($name)
 	{
-	    return Mockery::mock('Yjv\ReportRendering\Factory\TypeExtensionInterface')
+	    return Mockery::mock('Yjv\TypeFactory\TypeExtensionInterface')
 	        ->shouldReceive('getExtendedType')
 	        ->andReturn($name)
 	        ->getMock()

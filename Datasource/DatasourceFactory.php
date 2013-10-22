@@ -1,7 +1,7 @@
 <?php
 namespace Yjv\ReportRendering\Datasource;
 
-use Yjv\ReportRendering\Factory\AbstractTypeFactory;
+use Yjv\TypeFactory\AbstractTypeFactory;
 
 class DatasourceFactory extends AbstractTypeFactory
 {

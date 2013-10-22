@@ -1,6 +1,8 @@
 <?php
 namespace Yjv\ReportRendering\Factory;
 
+use Yjv\TypeFactory\Builder;
+
 class VariableConstructorBuilder extends Builder
 {
     protected $callback;

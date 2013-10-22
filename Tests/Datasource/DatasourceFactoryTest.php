@@ -12,7 +12,7 @@ class DatasourceFactoryTest extends \PHPUnit_Framework_TestCase
 	
 	public function setUp(){
 		
-		$this->resolver = Mockery::mock('Yjv\ReportRendering\Factory\TypeResolverInterface');
+		$this->resolver = Mockery::mock('Yjv\TypeFactory\TypeResolverInterface');
 		$this->factory = new DatasourceFactory($this->resolver);
 	}
 	

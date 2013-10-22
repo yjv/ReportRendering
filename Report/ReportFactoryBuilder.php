@@ -4,7 +4,7 @@ use Yjv\ReportRendering\Renderer\RendererFactoryBuilder;
 
 use Yjv\ReportRendering\Datasource\DatasourceFactoryBuilder;
 
-use Yjv\ReportRendering\Factory\AbstractTypeFactoryBuilder;
+use Yjv\TypeFactory\AbstractTypeFactoryBuilder;
 
 class ReportFactoryBuilder extends AbstractTypeFactoryBuilder
 {

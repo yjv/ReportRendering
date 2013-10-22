@@ -3,7 +3,7 @@ namespace Yjv\ReportRendering\Renderer\Extension\Core\Type;
 
 use Yjv\ReportRendering\Renderer\RendererBuilder;
 
-use Yjv\ReportRendering\Factory\TypeFactoryInterface;
+use Yjv\TypeFactory\TypeFactoryInterface;
 
 use Yjv\ReportRendering\Renderer\RendererBuilderInterface;
 

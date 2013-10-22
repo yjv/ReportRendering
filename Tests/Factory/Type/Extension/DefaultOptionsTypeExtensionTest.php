@@ -1,7 +1,7 @@
 <?php
 namespace Yjv\ReportRendering\Tests\Factory\Type\Extension;
 
-use Yjv\ReportRendering\Factory\Type\Extension\DefaultOptionsTypeExtension;
+use Yjv\TypeFactory\Type\Extension\DefaultOptionsTypeExtension;
 
 use Mockery;
 

@@ -5,7 +5,7 @@ use Yjv\ReportRendering\Factory\VariableConstructorBuilder;
 
 use Yjv\ReportRendering\Renderer\Grid\GridInterface;
 
-use Yjv\ReportRendering\Factory\Builder;
+use Yjv\TypeFactory\Builder;
 
 use Yjv\ReportRendering\Renderer\RendererInterface;
 

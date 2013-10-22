@@ -3,7 +3,7 @@ namespace Yjv\ReportRendering\Renderer\Grid\Column\Extension\Core\Type;
 
 use Yjv\ReportRendering\Renderer\Grid\Column\ColumnBuilder;
 
-use Yjv\ReportRendering\Factory\TypeFactoryInterface;
+use Yjv\TypeFactory\TypeFactoryInterface;
 
 use Yjv\ReportRendering\Renderer\Grid\Column\ColumnBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;

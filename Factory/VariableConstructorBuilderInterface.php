@@ -1,7 +1,7 @@
 <?php
 namespace Yjv\ReportRendering\Factory;
 
-use Yjv\ReportRendering\Factory\BuilderInterface;
+use Yjv\TypeFactory\BuilderInterface;
 
 interface VariableConstructorBuilderInterface extends BuilderInterface
 {

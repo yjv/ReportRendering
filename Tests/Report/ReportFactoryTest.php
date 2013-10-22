@@ -14,8 +14,8 @@ class ReportFactoryTest extends \PHPUnit_Framework_TestCase {
 	
 	public function setUp(){
 		
-		$this->resolver = Mockery::mock('Yjv\ReportRendering\Factory\TypeResolverInterface');
-		$this->datasourceFactory = Mockery::mock('Yjv\ReportRendering\Factory\TypeFactoryInterface');
+		$this->resolver = Mockery::mock('Yjv\TypeFactory\TypeResolverInterface');
+		$this->datasourceFactory = Mockery::mock('Yjv\TypeFactory\TypeFactoryInterface');
 		$this->rendererFactory = Mockery::mock('Yjv\ReportRendering\Renderer\RendererFactoryInterface');
 		$this->factory = new ReportFactory(
 	        $this->resolver,
@@ -37,7 +37,7 @@ class ReportFactoryTest extends \PHPUnit_Framework_TestCase {
 	    $options = array('key' => 'value');
 	    $report = Mockery::mock('Yjv\ReportRendering\Report\ReportInterface');
 	    
-	    $typeChain = Mockery::mock('Yjv\ReportRendering\Factory\TypeChainInterface')
+	    $typeChain = Mockery::mock('Yjv\TypeFactory\TypeChainInterface')
 	        ->shouldReceive('finalize')
 	        ->with($report, $options)
 	        ->once()

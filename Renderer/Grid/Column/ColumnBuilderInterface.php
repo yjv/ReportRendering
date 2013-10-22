@@ -1,7 +1,7 @@
 <?php
 namespace Yjv\ReportRendering\Renderer\Grid\Column;
 
-use Yjv\ReportRendering\Factory\BuilderInterface;
+use Yjv\TypeFactory\BuilderInterface;
 
 interface ColumnBuilderInterface extends BuilderInterface
 {

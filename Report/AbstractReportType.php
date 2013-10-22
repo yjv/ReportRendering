@@ -1,11 +1,11 @@
 <?php
 namespace Yjv\ReportRendering\Report;
-use Yjv\ReportRendering\Factory\BuilderInterface;
+use Yjv\TypeFactory\BuilderInterface;
 
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
-use Yjv\ReportRendering\Factory\AbstractType;
-use Yjv\ReportRendering\Factory\TypeFactoryInterface;
-use Yjv\ReportRendering\Factory\FinalizingTypeInterface;
+use Yjv\TypeFactory\AbstractType;
+use Yjv\TypeFactory\TypeFactoryInterface;
+use Yjv\TypeFactory\FinalizingTypeInterface;
 
 abstract class AbstractReportType extends AbstractType implements FinalizingTypeInterface
 {

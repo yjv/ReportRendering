@@ -5,7 +5,7 @@ use Yjv\ReportRendering\Datasource\DatasourceFactory;
 
 use Yjv\ReportRendering\DataTransformer\DataTransformerRegistry;
 
-use Yjv\ReportRendering\Factory\AbstractTypeFactoryBuilder;
+use Yjv\TypeFactory\AbstractTypeFactoryBuilder;
 
 class DatasourceFactoryBuilder extends AbstractTypeFactoryBuilder
 {

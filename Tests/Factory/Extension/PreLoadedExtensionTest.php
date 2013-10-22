@@ -1,7 +1,7 @@
 <?php
 namespace Yjv\ReportRendering\Tests\Factory\Extension;
 
-use Yjv\ReportRendering\Factory\Extension\PreloadedExtension;
+use Yjv\TypeFactory\Extension\PreloadedExtension;
 
 use Mockery;
 
@@ -15,25 +15,25 @@ class PreLoadedExtensionTest extends \PHPUnit_Framework_TestCase
     
     public function setUp()
     {
-        $this->type1 = Mockery::mock('Yjv\ReportRendering\Factory\TypeInterface')
+        $this->type1 = Mockery::mock('Yjv\TypeFactory\TypeInterface')
             ->shouldReceive('getName')
             ->once()
             ->andReturn('type1')
             ->getMock()
         ;
-        $this->type2 = Mockery::mock('Yjv\ReportRendering\Factory\TypeInterface')
+        $this->type2 = Mockery::mock('Yjv\TypeFactory\TypeInterface')
             ->shouldReceive('getName')
             ->once()
             ->andReturn('type2')
             ->getMock()
         ;
-        $this->typeExtension1 = Mockery::mock('Yjv\ReportRendering\Factory\TypeExtensionInterface')
+        $this->typeExtension1 = Mockery::mock('Yjv\TypeFactory\TypeExtensionInterface')
             ->shouldReceive('getExtendedType')
             ->once()
             ->andReturn('type1')
             ->getMock()
         ;
-        $this->typeExtension2 = Mockery::mock('Yjv\ReportRendering\Factory\TypeExtensionInterface')
+        $this->typeExtension2 = Mockery::mock('Yjv\TypeFactory\TypeExtensionInterface')
             ->shouldReceive('getExtendedType')
             ->once()
             ->andReturn('type2')

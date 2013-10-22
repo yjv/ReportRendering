@@ -1,10 +1,10 @@
 <?php
 namespace Yjv\ReportRendering\Renderer;
 
-use Yjv\ReportRendering\Factory\TypeResolverInterface;
+use Yjv\TypeFactory\TypeResolverInterface;
 
 use Yjv\ReportRendering\Renderer\Grid\Column\ColumnFactoryInterface;
-use Yjv\ReportRendering\Factory\AbstractTypeFactory;
+use Yjv\TypeFactory\AbstractTypeFactory;
 
 class RendererFactory extends AbstractTypeFactory implements RendererFactoryInterface
 {
