@@ -38,7 +38,7 @@ class RendererBuilder extends VariableConstructorBuilder implements RendererBuil
     {
         if (!$this->grid) {
             
-            $this->grid = new Grid();
+            $this->grid = $this->getDefaultGrid();
         }
         
         return $this->grid;
@@ -58,5 +58,10 @@ class RendererBuilder extends VariableConstructorBuilder implements RendererBuil
         }
         
         return $column;
+    }
+    
+    protected function getDefaultGrid()
+    {
+        return new Grid();
     }
 }
