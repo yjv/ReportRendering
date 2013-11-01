@@ -37,7 +37,7 @@ class ReportRendering
         if ($templatingEngine) {
             
             $rendererExtension = new CoreRendererExtension(
-                new WidgetRenderer($templatingEngine),
+                $templatingEngine,
                 Forms::createFormFactory()
             );
         } else {

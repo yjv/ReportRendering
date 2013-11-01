@@ -1,6 +1,8 @@
 <?php
 namespace Yjv\ReportRendering\Renderer\Html;
 
+use Symfony\Component\Templating\EngineInterface;
+
 use Yjv\ReportRendering\FilterConstants;
 
 use Yjv\ReportRendering\Renderer\Grid\GridInterface;
@@ -11,7 +13,7 @@ use Yjv\ReportRendering\Widget\WidgetRendererInterface;
 use Yjv\ReportRendering\Renderer\FilterAwareRendererInterface;
 use Yjv\ReportRendering\Widget\WidgetInterface;
 
-class HtmlRenderer implements FilterAwareRendererInterface, WidgetInterface
+class HtmlRenderer implements FilterAwareRendererInterface
 {
     const DEFAULT_PAGINATION_OVERFLOW = 3;
     const PAGINATION_OVERFLOW_KEY = 'pagination_overflow';
@@ -27,7 +29,7 @@ class HtmlRenderer implements FilterAwareRendererInterface, WidgetInterface
     protected $reportId;
     protected $forceReload = false;
 
-    public function __construct(WidgetRendererInterface $renderer, GridInterface $grid, $template)
+    public function __construct(EngineInterface $renderer, GridInterface $grid, $template)
     {
         $this->renderer = $renderer;
         $this->template = $template;
@@ -55,7 +57,7 @@ class HtmlRenderer implements FilterAwareRendererInterface, WidgetInterface
 
     public function render(array $options = array())
     {
-        return $this->renderer->render($this, $options);
+        return $this->renderer->render($this->template, array_merge($options, array('renderer' => $this)));
     }
     
     public function getGrid()

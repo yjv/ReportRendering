@@ -1,6 +1,8 @@
 <?php
 namespace Yjv\ReportRendering\Renderer\Extension\Core;
 
+use Symfony\Component\Templating\EngineInterface;
+
 use Symfony\Component\Form\FormFactoryInterface;
 
 use Yjv\ReportRendering\Renderer\Extension\Core\Type\GriddedType;
@@ -15,12 +17,12 @@ use Yjv\TypeFactory\AbstractExtension;
 
 class CoreExtension extends AbstractExtension
 {
-    protected $widgetRenderer;
+    protected $renderer;
     protected $formFactory;
     
-    public function __construct(WidgetRenderer $widgetRenderer = null, FormFactoryInterface $formFactory = null)
+    public function __construct(EngineInterface $renderer = null, FormFactoryInterface $formFactory = null)
     {
-        $this->widgetRenderer = $widgetRenderer;
+        $this->renderer = $renderer;
         $this->formFactory = $formFactory;
     }
     
@@ -31,9 +33,9 @@ class CoreExtension extends AbstractExtension
             new GriddedType(),
         );
         
-        if ($this->widgetRenderer) {
+        if ($this->renderer) {
             
-            $types[] = new HtmlType($this->widgetRenderer, $this->formFactory);
+            $types[] = new HtmlType($this->renderer, $this->formFactory);
         }
         
         return $types;
