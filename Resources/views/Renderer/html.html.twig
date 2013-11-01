@@ -1,0 +1,129 @@
+{% block javascripts %}
+{% javascripts
+    'http://code.jquery.com/jquery-1.9.1.js'
+    '@YjvReportRenderingBundle/Resources/public/js/html_report.js'
+%}
+<script type="text/javascript" src="{{ asset_url }}"></script>
+{% endjavascripts %}
+<script type="text/javascript">
+jQuery(function() {
+    window.reportFiltering = new ReportFiltering(
+	    '{{ widget.reportId }}', 
+	    '{{ widget.getOption('data_key', 'report_filters') }}',
+	    '{{ widget.filters.get(constant('Yjv\\ReportRendering\\FilterConstants::LIMIT'), constant('Yjv\\ReportRendering\\FilterConstants::DEFAULT_LIMIT')) }}',
+	    '{{ widget.filters.get(constant('Yjv\\ReportRendering\\FilterConstants::OFFSET'), constant('Yjv\\ReportRendering\\FilterConstants::DEFAULT_OFFSET')) }}'
+    );
+    {% for key, value in widget.filters.get(constant('Yjv\\ReportRendering\\FilterConstants::SORT'), {})|slice(0, 1) %}
+        window.reportFiltering.sortDirection = '{{ key }}';
+        window.reportFiltering.sortColumn = '{{ value }}';
+    {% endfor %}
+    {% if widget.getOption('filter_uri') is not null %}
+        window.reportFiltering.filterUri = '{{ widget.getOption('filter_uri') }}';
+    {% endif %}
+});
+</script>
+{% endblock %}
+<div {{ widget.attributes|attributes({"id": widget.reportId, "class": "report"}) }}>
+    {% if widget.hasFilterForm %}
+    {% block report_filters %}
+    <div id="report-filters{{ widget.reportId }}" class="report-filters well well-small collapse">
+    	<div>
+    		<button type="button" data-toggle="collapse" data-target="#report-filters{{ widget.reportId }}" class="btn">
+    		    Filters
+    		</button>
+    	</div>
+    	<div>
+    		<form>
+    			{% for filter in widget.filterForm.createView() %}
+    			{{ form_label(filter) }}
+    			{{ form_widget(filter) }}
+    			{% endfor %}
+    			<div>
+    			    <button type="button" class="submit-filters btn btn-success">Filter</button>
+    			    <button type="button" class="clear-filters btn btn-warning">Clear</button>
+    			</div>
+    		</form>
+    	</div>
+    </div>
+    {% endblock %}
+    {% endif %}
+    <div class="report-content">
+    {% if widget.getOption('paginate', true) %}
+        {% block report_pagination_top %}
+            <div class="report-pagination pagination">
+            <ul>
+                {% set minPage = widget.minPage %} 
+                {% set currentPage = widget.page %}
+                {% set maxPage = widget.maxPage %}
+                {% set pageCount = widget.pageCount %} 
+                <li class="report-pagination-page {% if currentPage == 1 %} disabled{% endif %}" data-page="{{ currentPage - 1 }}">
+                    <a href="javascript:void(0)"><<</a>
+                </li>
+                {% for page in minPage..maxPage %}
+                    <li class="report-pagination-page{% if page == currentPage %} active{%  endif %}" data-page="{{ page }}">
+                        <a href="javascript:void(0)">{{ page }}</a>
+                    </li>
+                {% endfor %}
+                <li class="report-pagination-page {% if currentPage == pageCount %} disabled{% endif %}" data-page="{{ currentPage + 1 }}">
+                    <a href="javascript:void(0)">>></a>
+                </li>
+            </ul>
+            </div>
+        {% endblock %}
+    {% endif %}
+    {% block report_data %}
+    <table class="report-data table table-striped table-bordered table-hover">
+    	{% block report_header %}
+    	<thead>
+    		{% block report_header_row %}
+    		<tr>
+    			{% for key, column in widget.grid.columns %}
+    				{% block report_header_cell %}
+    				{% set options = column.options %}
+    				{% set name = options.name|default('') %}
+    				<th {{ options.attr|default({
+        				'data-sort-name': options.sort_name|default(key),
+        				'class': 'sort-column'
+                    })|attributes }}>
+    					{% if options.sortable|default(false) %}
+    						<a href="javascript:void(0)">{{ name }}</a>
+    					{% else %}
+    						{{ name }}
+    					{% endif %}
+    				</th>
+    				{% endblock %}
+    			{% endfor %}
+    		</tr>
+    		{% endblock %}
+    	</thead>
+    	{% endblock %}
+    	{% block report_body %}
+    	<tbody>
+    		{% for row in widget.grid %}
+    			{% block report_row %}
+    			<tr {{ row.options.attr|default({})|attributes }}>
+    				{% for cell in row.cells %}
+    					{% block report_cell %}
+    					<td {{ cell.options.attr|default({})|attributes }}>
+    						{% if cell.options.escape_output|default(false) %}
+    							{{ cell.data }}
+    						{% else %}
+    							{{ cell.data|raw }}
+    						{% endif %}
+    					</td>
+    					{% endblock %}
+    				{% endfor %}
+    			</tr>
+    			{% endblock %}
+    		{% endfor %}
+    	</tbody>
+    	{% endblock %}
+    </table>
+    {% endblock %}
+    {% if widget.getOption('paginate', true) %}
+    {% block report_pagination_bottom %}
+    {{ block('report_pagination_top') }}
+    {% endblock %}
+    {% endif %}
+    </div>
+</div>
