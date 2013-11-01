@@ -1,11 +1,13 @@
 <?php
 namespace Yjv\ReportRendering;
 
+use Symfony\Component\Form\FormFactoryInterface;
+
+use Yjv\ReportRendering\Report\ReportFactoryInterface;
+
 use Symfony\Component\Templating\EngineInterface;
 
 use Symfony\Component\Form\Forms;
-
-use Yjv\ReportRendering\Widget\WidgetRenderer;
 
 use Yjv\ReportRendering\Report\Extension\Core\CoreExtension as CoreReportExtension;
 use Yjv\ReportRendering\Datasource\Extension\Core\CoreExtension as CoreDatasourceExtension;
@@ -16,13 +18,17 @@ use Yjv\ReportRendering\Report\ReportFactoryBuilder;
 
 class ReportRendering
 {
-    public static function createReportFactory(EngineInterface $templatingEngine = null)
-    {
-        return self::createReportFactoryBuilder($templatingEngine)->build();
+    public static function createReportFactory(
+        EngineInterface $templatingEngine = null,
+        FormFactoryInterface $formFactory = null
+    ) {
+        return self::createReportFactoryBuilder($templatingEngine, $formFactory)->build();
     }
     
-    public static function createReportFactoryBuilder(EngineInterface $templatingEngine = null)
-    {
+    public static function createReportFactoryBuilder(
+        EngineInterface $templatingEngine = null,
+        FormFactoryInterface $formFactory = null
+    ) {
         $reportFactoryBuilder = ReportFactoryBuilder::getInstance();
         
         $reportFactoryBuilder
@@ -34,20 +40,12 @@ class ReportRendering
             ->addExtension(new CoreDatasourceExtension())
         ;
 
-        if ($templatingEngine) {
-            
-            $rendererExtension = new CoreRendererExtension(
-                $templatingEngine,
-                Forms::createFormFactory()
-            );
-        } else {
-
-            $rendererExtension = new CoreRendererExtension();
-        }
-        
         $reportFactoryBuilder
             ->getRendererFactoryBuilder()
-            ->addExtension($rendererExtension)
+            ->addExtension(new CoreRendererExtension(
+                $templatingEngine,
+                $formFactory ?: Forms::createFormFactory()
+            ))
         ;
         
         $reportFactoryBuilder

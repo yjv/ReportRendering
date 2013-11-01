@@ -11,8 +11,6 @@ use Yjv\ReportRendering\Renderer\Extension\Core\Type\HtmlType;
 
 use Yjv\ReportRendering\Renderer\Extension\Core\Type\RendererType;
 
-use Yjv\ReportRendering\Widget\WidgetRenderer;
-
 use Yjv\TypeFactory\AbstractExtension;
 
 class CoreExtension extends AbstractExtension

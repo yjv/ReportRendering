@@ -9,9 +9,7 @@ use Yjv\ReportRendering\Renderer\Grid\GridInterface;
 use Yjv\ReportRendering\Filter\FilterCollectionInterface;
 use Yjv\ReportRendering\ReportData\ImmutableDataInterface;
 use Symfony\Component\Form\FormInterface;
-use Yjv\ReportRendering\Widget\WidgetRendererInterface;
 use Yjv\ReportRendering\Renderer\FilterAwareRendererInterface;
-use Yjv\ReportRendering\Widget\WidgetInterface;
 
 class HtmlRenderer implements FilterAwareRendererInterface
 {

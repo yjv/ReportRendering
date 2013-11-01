@@ -9,8 +9,6 @@ use Symfony\Component\OptionsResolver\Options;
 
 use Symfony\Component\Form\FormFactoryInterface;
 
-use Yjv\ReportRendering\Widget\WidgetRendererInterface;
-
 use Yjv\ReportRendering\Renderer\Html\HtmlRenderer;
 
 use Yjv\ReportRendering\Renderer\RendererBuilderInterface;
