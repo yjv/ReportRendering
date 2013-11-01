@@ -3,8 +3,6 @@ namespace Yjv\ReportRendering;
 
 use Symfony\Component\Form\FormFactoryInterface;
 
-use Yjv\ReportRendering\Report\ReportFactoryInterface;
-
 use Symfony\Component\Templating\EngineInterface;
 
 use Symfony\Component\Form\Forms;
