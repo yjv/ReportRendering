@@ -7,8 +7,6 @@ use Yjv\ReportRendering\Renderer\LazyLoadedRenderer;
 
 use Yjv\TypeFactory\Builder;
 
-use Yjv\TypeFactory\TypeInterface;
-
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Yjv\ReportRendering\Filter\FilterCollectionInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;

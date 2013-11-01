@@ -1,8 +1,6 @@
 <?php
 namespace Yjv\ReportRendering\Report\Extension\Core\Type;
 
-use Yjv\ReportRendering\Datasource\DatasourceInterface;
-
 use Yjv\ReportRendering\Util\Factory;
 
 use Yjv\ReportRendering\IdGenerator\ConstantValueIdGenerator;

@@ -5,12 +5,6 @@ use Symfony\Component\Templating\EngineInterface;
 
 use Symfony\Component\Form\Forms;
 
-use Symfony\Component\Templating\Loader\FilesystemLoader;
-
-use Symfony\Component\Templating\TemplateNameParser;
-
-use Symfony\Component\Templating\PhpEngine;
-
 use Yjv\ReportRendering\Widget\WidgetRenderer;
 
 use Yjv\ReportRendering\Report\Extension\Core\CoreExtension as CoreReportExtension;

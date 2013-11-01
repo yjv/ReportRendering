@@ -69,7 +69,7 @@ class DataEscaper implements DataEscaperInterface
 		}
 
 		if (0 == strlen($string) ? false : (1 == preg_match('/^./su', $string) ? false : true)) {
-			throw new RuntimeException('The string to escape is not a valid UTF-8 string.');
+			throw new \RuntimeException('The string to escape is not a valid UTF-8 string.');
 		}
 
 		$string = preg_replace_callback('#[^a-zA-Z0-9]#Su', array($this, 'escapeCssCallback'), $string);
