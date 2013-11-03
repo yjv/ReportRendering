@@ -69,21 +69,14 @@ Bugs and feature request are tracked on [GitHub](https://github.com/yjv/ReportRe
 Frameworks Integration
 ----------------------
 
-- [Symfony2](http://symfony.com) pull the [RpeortRenderingBundle](https://github.com/yjv/ReportRenderingBundle).
+- [Symfony2](http://symfony.com) pull the [ReportRenderingBundle](https://github.com/yjv/ReportRenderingBundle).
 
 Author
 ------
 
-Jordi Boggiano - <j.boggiano@seld.be> - <http://twitter.com/seldaek><br />
-See also the list of [contributors](https://github.com/Seldaek/monolog/contributors) which participated in this project.
+Yosef Deray - <><br />
 
 License
 -------
 
-Monolog is licensed under the MIT License - see the `LICENSE` file for details
-
-Acknowledgements
-----------------
-
-This library is heavily inspired by Python's [Logbook](http://packages.python.org/Logbook/)
-library, although most concepts have been adjusted to fit to the PHP world.
+ReportRendering is licensed under the MIT License - see the `LICENSE` file for details
