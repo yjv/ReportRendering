@@ -74,7 +74,7 @@ Frameworks Integration
 Author
 ------
 
-Yosef Deray - <><br />
+Yosef Deray - <joseph.deray@giftcards.com><br />
 
 License
 -------
