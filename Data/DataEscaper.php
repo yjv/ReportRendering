@@ -1,6 +1,11 @@
 <?php
 namespace Yjv\ReportRendering\Data;
 
+if (!defined('ENT_SUBSTITUTE')) {
+    // use 0 as hhvm does not support several flags yet
+    define('ENT_SUBSTITUTE', 0);
+}
+
 /**
  * @author yosefderay
  *
