@@ -1,8 +1,6 @@
 <?php
 namespace Yjv\ReportRendering\Renderer\Grid\Column\Extension\Core\Type;
 
-use Yjv\ReportRendering\Data\DataEscaperInterface;
-
 use Symfony\Component\OptionsResolver\Options;
 
 use Yjv\ReportRendering\Renderer\Grid\Column\ColumnBuilderInterface;

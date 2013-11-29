@@ -3,13 +3,10 @@ namespace Yjv\ReportRendering\Renderer\Grid\Column\Extension\Core\Type;
 
 use Symfony\Component\OptionsResolver\Options;
 
-use Yjv\ReportRendering\DataTransformer\EscapePathsTransformer;
-
 use Yjv\ReportRendering\Renderer\Grid\Column\ColumnBuilder;
 
 use Yjv\TypeFactory\TypeFactoryInterface;
 
-use Yjv\ReportRendering\Renderer\Grid\Column\ColumnBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Yjv\ReportRendering\Renderer\Grid\Column\AbstractColumnType;
 

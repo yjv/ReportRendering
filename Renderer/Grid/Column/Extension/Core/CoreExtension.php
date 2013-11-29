@@ -5,8 +5,6 @@ use Yjv\ReportRendering\Renderer\Grid\Column\Extension\Core\Type\FormatStringTyp
 
 use Yjv\ReportRendering\Renderer\Grid\Column\Extension\Core\Type\PropertyPathType;
 
-use Yjv\ReportRendering\Renderer\Grid\Column\Extension\Core\Type\RawColumnType;
-
 use Yjv\ReportRendering\Renderer\Grid\Column\Extension\Core\Type\ColumnType;
 
 use Yjv\TypeFactory\AbstractExtension;
