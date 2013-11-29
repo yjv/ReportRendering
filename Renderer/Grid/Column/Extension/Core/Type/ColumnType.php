@@ -1,6 +1,10 @@
 <?php
 namespace Yjv\ReportRendering\Renderer\Grid\Column\Extension\Core\Type;
 
+use Symfony\Component\OptionsResolver\Options;
+
+use Yjv\ReportRendering\DataTransformer\EscapePathsTransformer;
+
 use Yjv\ReportRendering\Renderer\Grid\Column\ColumnBuilder;
 
 use Yjv\TypeFactory\TypeFactoryInterface;
@@ -21,22 +25,17 @@ class ColumnType extends AbstractColumnType
         return 'column';
     }
 
-    public function buildColumn(ColumnBuilderInterface $builder, array $options)
-    {
-        $builder->setOptions(array(
-            'name' => $options['name'],
-            'sortable' => $options['sortable'],
-            'escape_output' => $options['escape_output']
-        ));
-
-        $builder->setCellOptions(array('escape_output' => $options['escape_output']));
-    }
-
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver
-            ->setDefaults(array('escape_output' => true, 'sortable' => true, 'name' => ''))
-            ->setAllowedTypes(array('escape_output' => 'bool', 'sortable' => 'bool', 'name' => 'string'))
+            ->setDefaults(array(
+                'sortable' => true, 
+                'name' => ''
+            ))
+            ->setAllowedTypes(array(
+                'sortable' => 'bool', 
+                'name' => 'string'
+            ))
         ;
     }
     

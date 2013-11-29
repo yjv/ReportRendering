@@ -15,7 +15,6 @@ class CoreExtension extends AbstractExtension
     {
         return array(
             new ColumnType(),
-            new RawColumnType(),
             new PropertyPathType()
         );
     }

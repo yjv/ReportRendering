@@ -105,11 +105,7 @@ jQuery(function() {
     				{% for cell in row.cells %}
     					{% block report_cell %}
     					<td {{ cell.options.attr|default({})|attributes }}>
-    						{% if cell.options.escape_output|default(false) %}
-    							{{ cell.data }}
-    						{% else %}
-    							{{ cell.data|raw }}
-    						{% endif %}
+							{{ cell.data|raw }}
     					</td>
     					{% endblock %}
     				{% endfor %}

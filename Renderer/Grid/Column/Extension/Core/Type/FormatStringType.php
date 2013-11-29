@@ -9,22 +9,22 @@ use Yjv\ReportRendering\Renderer\Grid\Column\ColumnBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Yjv\ReportRendering\Renderer\Grid\Column\AbstractColumnType;
 
-class PropertyPathType extends AbstractColumnType
+class FormatStringType extends AbstractColumnType
 {
     public function getName()
     {
-        return 'property_path';
+        return 'format_string';
     }
 
     public function buildColumn(ColumnBuilderInterface $builder, array $options)
     {
-        $dataTransformer = $builder->getFactory()->getDataTransformerRegistry()->get('property_path');
+        $dataTransformer = $builder->getFactory()->getDataTransformerRegistry()->get('format_string');
         $dataTransformer->setConfig(array(
-            'path' => $options['path'],
+            'format_string' => $options['format_string'],
             'required' => $options['required'],
             'empty_value' => $options['empty_value'],
-            'escape_value' => $options['escape_value'],
-            'escape_strategy' => $options['escape_strategy']
+            'escape_values' => $options['escape_values'],
+            'escape_strategies' => $options['escape_strategies']
         ));
         $builder->appendDataTransformer($dataTransformer);
     }
@@ -33,19 +33,19 @@ class PropertyPathType extends AbstractColumnType
     {
 
         $resolver
-            ->setRequired(array('path'))
+            ->setRequired(array('format_string'))
             ->setDefaults(array(
                 'required' => true, 
                 'empty_value' => '',
-                'escape_value' => true,
-                'escape_strategy' => DataEscaperInterface::DEFAULT_STRATEGY,
+                'escape_values' => true,
+                'escape_strategies' => array()
             ))
             ->setAllowedTypes(array(
-                'path' => 'string', 
+                'format_string' => 'string', 
                 'required' => 'bool', 
                 'empty_value' => 'string',
-                'escape_value' => 'bool',
-                'escape_strategy' => 'string'
+                'escape_values' => 'bool',
+                'escape_strategies' => 'array'
             ))
         ;
     }
