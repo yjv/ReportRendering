@@ -49,8 +49,8 @@ class FormatStringTypeTest extends TypeTestCase{
 		$this->assertInstanceOf('Yjv\ReportRendering\DataTransformer\FormatStringTransformer', $transformer);
 		$this->assertEquals('{column}', $transformer->getConfig()->get('format_string'));
 		$this->assertEquals(true, $transformer->getConfig()->get('required'));
-		$this->assertEquals(true, $transformer->getConfig()->get('empty_values'));
-		$this->assertEquals(true, $transformer->getConfig()->get('escape_value'));
+		$this->assertEquals('', $transformer->getConfig()->get('empty_value'));
+		$this->assertEquals(true, $transformer->getConfig()->get('escape_values'));
 		$this->assertEquals(array('column' => 'html'), $transformer->getConfig()->get('escape_strategies'));
 	}
 	

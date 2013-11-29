@@ -22,5 +22,9 @@ class CoreExtensionTest extends \PHPUnit_Framework_TestCase
             'Yjv\ReportRendering\Renderer\Grid\Column\Extension\Core\Type\PropertyPathType', 
             $this->extension->getType('property_path')
         );
+        $this->assertInstanceOf(
+            'Yjv\ReportRendering\Renderer\Grid\Column\Extension\Core\Type\FormatStringType', 
+            $this->extension->getType('format_string')
+        );
     }
 }
