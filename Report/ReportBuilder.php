@@ -52,6 +52,7 @@ class ReportBuilder extends Builder implements ReportBuilderInterface
             $report->addRenderer($name, $renderer);
         }
 
+        $this->typeChain->finalize($report, $this->options);
         return $report;
     }
 

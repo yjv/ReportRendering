@@ -36,23 +36,8 @@ class ReportFactoryTest extends \PHPUnit_Framework_TestCase {
 	    $type = 'type';
 	    $options = array('key' => 'value');
 	    $report = Mockery::mock('Yjv\ReportRendering\Report\ReportInterface');
-	    
-	    $typeChain = Mockery::mock('Yjv\TypeFactory\TypeChainInterface')
-	        ->shouldReceive('finalize')
-	        ->with($report, $options)
-	        ->once()
-	        ->getMock()
-	    ;
-	    
+
 	    $builder = Mockery::mock('Yjv\ReportRendering\Report\ReportBuilderInterface')
-	        ->shouldReceive('getTypeChain')
-	        ->once()
-	        ->andReturn($typeChain)
-	        ->getMock()
-	        ->shouldReceive('getOptions')
-	        ->once()
-	        ->andReturn($options)
-	        ->getMock()
 	        ->shouldReceive('getReport')
 	        ->once()
 	        ->andReturn($report)

@@ -25,10 +25,7 @@ class ReportFactory extends AbstractTypeFactory implements ReportFactoryInterfac
 
     public function create($type, array $options = array())
     {
-        $builder = $this->createBuilder($type, $options);
-        $report = $builder->getReport();
-        $builder->getTypeChain()->finalize($report, $builder->getOptions());
-        return $report;
+        return $this->createBuilder($type, $options)->getReport();
     }
 
     public function getBuilderInterfaceName()
