@@ -12,8 +12,11 @@ if (!defined('ENT_SUBSTITUTE')) {
  */
 class DataEscaper implements DataEscaperInterface
 {
-	public function escape($value, $strategy = DataEscaperInterface::DEFAULT_STRATEGY, $charset = DataEscaperInterface::DEFAULT_CHARSET)
-	{
+	public function escape(
+        $value, 
+        $strategy = DataEscaperInterface::DEFAULT_STRATEGY, 
+        $charset = DataEscaperInterface::DEFAULT_CHARSET
+    ) {
 		switch ($strategy) {
 	        case 'js':
 	            return $this->escapeJs($value, $charset);
