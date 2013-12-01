@@ -2,7 +2,7 @@
 	"name": "yjv/report-rendering",
 	"description": "library with classes that allow easy rendering of report data",
 	"license": "MIT",
-    "keywords": ["reporting","report rendering","tables"],
+    "keywords": ["report", "reporting","report rendering","tables"],
 	"require": {
 	    
 	    "php": ">=5.3.0",
