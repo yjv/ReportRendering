@@ -1,7 +1,9 @@
 <?php
 namespace Yjv\ReportRendering\Report\Extension\Core\Type;
 
-use Yjv\ReportRendering\Datasource\DatasourceInterface;
+use Yjv\ReportRendering\Filter\DefaultedFilterCollectionInterface;
+
+use Yjv\ReportRendering\Report\ReportInterface;
 
 use Yjv\ReportRendering\Util\Factory;
 
@@ -68,7 +70,8 @@ class ReportType extends AbstractReportType
                     
                     return null;
                 },
-                'id' => null
+                'id' => null,
+                'filter_defaults' => array()
             ))
             ->setAllowedTypes(array(
                 'datasource' => array(
@@ -85,7 +88,8 @@ class ReportType extends AbstractReportType
                 'id_generator' => array(
                     'null', 
                     'Yjv\ReportRendering\IdGenerator\IdGeneratorInterface'
-                )
+                ),
+                'filter_defaults' => 'array'
             ))
             ->setNormalizers(array(
                 'datasource' => function(Options $options, $datasource)
@@ -123,4 +127,18 @@ class ReportType extends AbstractReportType
     {
         return new ReportBuilder($factory, new EventDispatcher(), $options);
     }
+
+    /**
+     * @param ReportInterface $report
+     * @param array $options
+     */
+    public function finalizeReport(ReportInterface $report, array $options)
+    {
+        if (!$report->getFilters() instanceof DefaultedFilterCollectionInterface) {
+    
+            return;
+        }
+    
+        $report->getFilters()->setDefaults($options['filter_defaults']);
+    }    
 }

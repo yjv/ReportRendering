@@ -8,17 +8,17 @@ use Mockery;
 class CoreExtensionTest extends \PHPUnit_Framework_TestCase
 {
     protected $extension;
-    protected $widgetRenderer;
+    protected $renderer;
     protected $extensionWithRenderer;
     
     public function setUp()
     {
-        $this->widgetRenderer = Mockery::mock('Yjv\ReportRendering\Widget\WidgetRenderer');
+        $this->renderer = Mockery::mock('Symfony\Component\Templating\EngineInterface');
         $this->extension = new CoreExtension();
-        $this->extensionWithRenderer = new CoreExtension($this->widgetRenderer);
+        $this->extensionWithRenderer = new CoreExtension($this->renderer);
     }
     
-    public function testTypesThereWithoutWidgetRenderer()
+    public function testTypesThereWithoutRenderer()
     {
         $this->assertInstanceOf(
             'Yjv\ReportRendering\Renderer\Extension\Core\Type\RendererType', 
@@ -31,7 +31,7 @@ class CoreExtensionTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse($this->extension->hasType('html'));
     }
     
-    public function testHtmlTypeThereWithWidgetRenderer()
+    public function testHtmlTypeThereWithRenderer()
     {
         $this->assertInstanceOf(
             'Yjv\ReportRendering\Renderer\Extension\Core\Type\HtmlType', 

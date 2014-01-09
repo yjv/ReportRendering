@@ -19,12 +19,12 @@ class CoreExtensionTest extends \PHPUnit_Framework_TestCase
             $this->extension->getType('column')
         );
         $this->assertInstanceOf(
-            'Yjv\ReportRendering\Renderer\Grid\Column\Extension\Core\Type\RawColumnType', 
-            $this->extension->getType('raw_column')
-        );
-        $this->assertInstanceOf(
             'Yjv\ReportRendering\Renderer\Grid\Column\Extension\Core\Type\PropertyPathType', 
             $this->extension->getType('property_path')
+        );
+        $this->assertInstanceOf(
+            'Yjv\ReportRendering\Renderer\Grid\Column\Extension\Core\Type\FormatStringType', 
+            $this->extension->getType('format_string')
         );
     }
 }

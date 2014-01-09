@@ -16,14 +16,14 @@ use Mockery;
 class HtmlTypeTest extends TypeTestCase
 {
     protected $formFactory;
-    protected $widgetRenderer;
+    protected $renderer;
     
     public function setUp()
     {
         parent::setUp();
-        $this->widgetRenderer = Mockery::mock('Yjv\ReportRendering\Widget\WidgetRendererInterface');
+        $this->renderer = Mockery::mock('Symfony\Component\Templating\EngineInterface');
         $this->formFactory = Mockery::mock('Symfony\Component\Form\FormFactoryInterface');
-        $this->type = new HtmlType($this->widgetRenderer, $this->formFactory);
+        $this->type = new HtmlType($this->renderer, $this->formFactory);
     }
     
     public function testSetDefaultOptions()
@@ -47,7 +47,7 @@ class HtmlTypeTest extends TypeTestCase
                         
                         return $type->buildFilterForm($options);
                     },
-                    'widget_attributes' => array(),
+                    'renderer_attributes' => array(),
                     'constructor' => array($type, 'rendererConstructor'),
                     'filter_fields' => array(),
                     'filter_form_options' => array('csrf_protection' => false),
@@ -74,7 +74,7 @@ class HtmlTypeTest extends TypeTestCase
                     'null', 
                     'Symfony\Component\Form\FormInterface'
                 ),
-                'widget_attributes' => 'array',
+                'renderer_attributes' => 'array',
                 'template' => 'string',
                 'filter_fields' => 'array',
                 'filter_form_options' => 'array',
@@ -106,9 +106,9 @@ class HtmlTypeTest extends TypeTestCase
     public function testRendererConstructor()
     {
         $grid = Mockery::mock('Yjv\ReportRendering\Renderer\Grid\GridInterface');
-        $form = Mockery::mock('SYmfony\Component\Form\FormInterface');
+        $form = Mockery::mock('Symfony\Component\Form\FormInterface');
         $attributes = array('key' => 'value');
-        $expectedRenderer = new HtmlRenderer($this->widgetRenderer, $grid, 'template');
+        $expectedRenderer = new HtmlRenderer($this->renderer, $grid, 'template');
         $expectedRenderer->setAttribute('key', 'value');
         $expectedRenderer->setOption('option_name', 'value');
         $expectedRenderer->setFilterForm($form);
@@ -129,7 +129,7 @@ class HtmlTypeTest extends TypeTestCase
             ->getMock()
             ->shouldReceive('getOption')
             ->once()
-            ->with('widget_attributes')
+            ->with('renderer_attributes')
             ->andReturn($attributes)
             ->getMock()
             ->shouldReceive('getOption')
@@ -207,7 +207,7 @@ class HtmlTypeTest extends TypeTestCase
     
     public function testBuildFilterFormWithNoFormFactory()
     {
-        $type = new HtmlType($this->widgetRenderer);
+        $type = new HtmlType($this->renderer);
         $this->assertNull($type->buildFilterForm(Mockery::mock('Symfony\Component\OptionsResolver\Options')));
     }
     

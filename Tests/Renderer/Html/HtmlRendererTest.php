@@ -16,17 +16,17 @@ class HtmlRendererTest extends \PHPUnit_Framework_TestCase{
 
 	protected $grid;
 	protected $template;
-	protected $widgetRenderer;
+	protected $rendererEngine;
 	protected $renderer;
 	
 	public function setUp(){
 		
-		$this->grid = Mockery::mock('Yjv\\ReportRendering\\Renderer\\Grid\\GridInterface');
+		$this->grid = Mockery::mock('Yjv\ReportRendering\Renderer\Grid\GridInterface');
 		$this->template = 'template';
-		$this->widgetRenderer = $this->getMockBuilder('Yjv\\ReportRendering\\Widget\\WidgetRenderer')
+		$this->rendererEngine = $this->getMockBuilder('Symfony\Component\Templating\EngineInterface')
 			->disableOriginalConstructor()
 			->getMock();
-		$this->renderer = new HtmlRenderer($this->widgetRenderer, $this->grid, $this->template);
+		$this->renderer = new HtmlRenderer($this->rendererEngine, $this->grid, $this->template);
 	}
 	
 	public function testGettersSetters() {
@@ -67,10 +67,10 @@ class HtmlRendererTest extends \PHPUnit_Framework_TestCase{
 		$options = array('werr'=> 'sdfds');
 		$return = 'sddsf';
 		
-		$this->widgetRenderer
+		$this->rendererEngine
 			->expects($this->once())
 			->method('render')
-			->with($this->renderer, $options)
+			->with($this->template, array_merge($options, array('renderer' => $this->renderer)))
 			->will($this->returnValue($return))
 		;
 		

@@ -50,6 +50,13 @@ class ReportBuilderTest extends \PHPUnit_Framework_TestCase
             ->andReturn('hello')
             ->getMock()        
         ;
+        $typeChain = Mockery::mock('Yjv\TypeFactory\TypeChainInterface')
+	        ->shouldReceive('finalize')
+	        ->with('Yjv\ReportRendering\Report\ReportInterface', $this->options)
+	        ->times(3)
+	        ->getMock()
+	    ;
+        $this->builder->setTypeChain($typeChain);
         $this->datasourceFactory
             ->shouldReceive('create')
             ->once()

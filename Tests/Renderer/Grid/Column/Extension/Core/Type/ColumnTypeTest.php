@@ -25,16 +25,6 @@ class ColumnTypeTest extends TypeTestCase{
 		$this->assertEquals('column', $this->type->getName());
 	}
 	
-	public function testBuildColumn(){
-		
-		$options = array('name' => 'column', 'sortable' => true, 'escape_output' => false, 'ignored_option' => 'ignored');
-		$this->type->buildColumn($this->builder, $options);
-		$column = $this->builder->getColumn();
-		$this->assertEquals(array('name' => 'column', 'sortable' => true, 'escape_output' => false), $column->getOptions());
-		$this->assertEquals(array('escape_output' => false), $column->getCellOptions());
-		$this->assertEmpty($column->getRowOptions());
-	}
-	
 	public function testSetDefaultOptions() {
 		
 		$optionsResolver = $this->getMockBuilder('Symfony\Component\OptionsResolver\OptionsResolverInterface')->getMock();
@@ -42,7 +32,6 @@ class ColumnTypeTest extends TypeTestCase{
 			->expects($this->once())
 			->method('setDefaults')
 			->with(array(
-				'escape_output' => true,
 				'sortable' => true,
 				'name' => ''
 			))
@@ -52,7 +41,6 @@ class ColumnTypeTest extends TypeTestCase{
 			->expects($this->once())
 			->method('setAllowedTypes')
 			->with(array(
-				'escape_output' => 'bool',
 				'sortable' => 'bool',
 				'name' => 'string'
 			))

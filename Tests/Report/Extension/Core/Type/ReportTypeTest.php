@@ -94,7 +94,8 @@ class ReportTypeTest extends TypeTestCase
                         
                         return null;
                     },
-                    'id' => null
+                    'id' => null,
+                    'filter_defaults' => array()
                 ), $arg);
                 return true;
             }
@@ -120,7 +121,8 @@ class ReportTypeTest extends TypeTestCase
                     'id_generator' => array(
                         'null', 
                         'Yjv\ReportRendering\IdGenerator\IdGeneratorInterface'
-                    )
+                    ),
+                    'filter_defaults' => 'array'
                 ), $arg);
                 return true;
             }
@@ -199,6 +201,36 @@ class ReportTypeTest extends TypeTestCase
         $options = array('key' => 'value');
         
         $this->assertEquals(new ReportBuilder($this->factory, new EventDispatcher(), $options), $this->type->createBuilder($this->factory, $options));
+    }
+    
+    public function testFinalizeReportWithNonDefaultingFilters()
+    {
+        $report = Mockery::mock('Yjv\ReportRendering\Report\ReportInterface')
+            ->shouldReceive('getFilters')
+            ->once()
+            ->andReturn(Mockery::mock('Yjv\ReportRendering\Filter\FilterCollectionInterface'))
+            ->getMock()
+        ;
+        $this->type->finalizeReport($report, array());
+    }
+    
+    public function testFinalizeReportWithDefaultingFilters()
+    {
+        $filterDefaults = array('key' => 'value');
+        
+        $report = Mockery::mock('Yjv\ReportRendering\Report\ReportInterface')
+            ->shouldReceive('getFilters')
+            ->twice()
+            ->andReturn(
+                Mockery::mock('Yjv\ReportRendering\Filter\DefaultedFilterCollectionInterface')
+                    ->shouldReceive('setDefaults')
+                    ->once()
+                    ->with($filterDefaults)
+                    ->getMock()
+            )
+            ->getMock()
+        ;
+        $this->type->finalizeReport($report, array('filter_defaults' => $filterDefaults));
     }
     
     protected function getFullOptions()

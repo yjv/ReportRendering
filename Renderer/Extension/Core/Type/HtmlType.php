@@ -1,13 +1,13 @@
 <?php
 namespace Yjv\ReportRendering\Renderer\Extension\Core\Type;
 
+use Symfony\Component\Templating\EngineInterface;
+
 use Yjv\ReportRendering\Util\Factory;
 
 use Symfony\Component\OptionsResolver\Options;
 
 use Symfony\Component\Form\FormFactoryInterface;
-
-use Yjv\ReportRendering\Widget\WidgetRendererInterface;
 
 use Yjv\ReportRendering\Renderer\Html\HtmlRenderer;
 
@@ -19,12 +19,12 @@ use Yjv\ReportRendering\Renderer\AbstractRendererType;
 
 class HtmlType extends AbstractRendererType
 {
-   protected $widgetRenderer;
+   protected $renderer;
    protected $formFactory;
    
-   public function __construct(WidgetRendererInterface $widgetRenderer, FormFactoryInterface $formFactory = null)
+   public function __construct(EngineInterface $renderer, FormFactoryInterface $formFactory = null)
    {
-       $this->widgetRenderer = $widgetRenderer;
+       $this->renderer = $renderer;
        $this->formFactory = $formFactory;
    }
 
@@ -45,7 +45,7 @@ class HtmlType extends AbstractRendererType
                     return $type->buildFilterForm($options);
                     //@codeCoverageIgnoreEnd
                 },
-                'widget_attributes' => array(),
+                'renderer_attributes' => array(),
                 'constructor' => array($this, 'rendererConstructor'),
                 'filter_fields' => array(),
                 'filter_form_options' => array('csrf_protection' => false),
@@ -66,7 +66,7 @@ class HtmlType extends AbstractRendererType
                     'null', 
                     'Symfony\Component\Form\FormInterface'
                 ),
-                'widget_attributes' => 'array',
+                'renderer_attributes' => 'array',
                 'template' => 'string',
                 'filter_fields' => 'array',
                 'filter_form_options' => 'array',
@@ -90,12 +90,12 @@ class HtmlType extends AbstractRendererType
     public function rendererConstructor(RendererBuilderInterface $builder)
     {
         $renderer =  new HtmlRenderer(
-            $this->widgetRenderer, 
+            $this->renderer, 
             $builder->getGrid(), 
             $builder->getOption('template')
         );
         
-        foreach ($builder->getOption('widget_attributes') as $name => $value) {
+        foreach ($builder->getOption('renderer_attributes') as $name => $value) {
             
             $renderer->setAttribute($name, $value);
         }

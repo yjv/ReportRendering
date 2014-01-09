@@ -1,9 +1,9 @@
 <?php
 namespace Yjv\ReportRendering\Renderer\Grid\Column\Extension\Core;
 
-use Yjv\ReportRendering\Renderer\Grid\Column\Extension\Core\Type\PropertyPathType;
+use Yjv\ReportRendering\Renderer\Grid\Column\Extension\Core\Type\FormatStringType;
 
-use Yjv\ReportRendering\Renderer\Grid\Column\Extension\Core\Type\RawColumnType;
+use Yjv\ReportRendering\Renderer\Grid\Column\Extension\Core\Type\PropertyPathType;
 
 use Yjv\ReportRendering\Renderer\Grid\Column\Extension\Core\Type\ColumnType;
 
@@ -15,8 +15,8 @@ class CoreExtension extends AbstractExtension
     {
         return array(
             new ColumnType(),
-            new RawColumnType(),
-            new PropertyPathType()
+            new PropertyPathType(),
+            new FormatStringType()
         );
     }
 }

@@ -7,8 +7,6 @@ use Yjv\ReportRendering\Renderer\LazyLoadedRenderer;
 
 use Yjv\TypeFactory\Builder;
 
-use Yjv\TypeFactory\TypeInterface;
-
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Yjv\ReportRendering\Filter\FilterCollectionInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -54,6 +52,7 @@ class ReportBuilder extends Builder implements ReportBuilderInterface
             $report->addRenderer($name, $renderer);
         }
 
+        $this->typeChain->finalize($report, $this->options);
         return $report;
     }
 

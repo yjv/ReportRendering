@@ -1,19 +1,26 @@
 <?php
 namespace Yjv\ReportRendering\DataTransformer;
 
+use Yjv\ReportRendering\Data\DataEscaper;
+
+use Yjv\ReportRendering\Data\DataEscaperInterface;
+
 use Symfony\Component\PropertyAccess\Exception\ExceptionInterface;
 
 use Symfony\Component\PropertyAccess\PropertyAccess;
 
 use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
 
-class FormatStringTransformer extends AbstractDataTransformer
+class FormatStringTransformer extends AbstractEscapingDataTransformer
 {
     protected $propertyAccessor;
     
-    public function __construct(PropertyAccessorInterface $propertyAccessor = null)
-    {
+    public function __construct(
+        PropertyAccessorInterface $propertyAccessor = null, 
+        DataEscaperInterface $escaper = null
+    ) {
         $this->propertyAccessor = $propertyAccessor ?: PropertyAccess::getPropertyAccessor();
+        parent::__construct($escaper);
     }
     
     /**
@@ -31,7 +38,10 @@ class FormatStringTransformer extends AbstractDataTransformer
 
                     $string = str_replace(
                         sprintf('{%s}', $path), 
-                        $this->propertyAccessor->getValue($data, $path), 
+                        $this->escapeValue(
+                            $this->propertyAccessor->getValue($data, $path),
+                            $this->getEscapeStrategy($path)
+                        ), 
                         $string
                     );
                 } catch (ExceptionInterface $e) {
