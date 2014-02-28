@@ -1,7 +1,7 @@
 <?php
 namespace Yjv\ReportRendering\Tests\Renderer;
 
-use Yjv\ReportRendering\Renderer\RendererBuilder;
+use Yjv\ReportRendering\Renderer\AbstractRendererBuilder;
 
 use Mockery;
 use Yjv\ReportRendering\Renderer\Grid\Column\Column;
@@ -20,7 +20,7 @@ class RendererBuilderTest extends \PHPUnit_Framework_TestCase
             ->andReturn($this->columnFactory)
             ->getMock()
         ;
-        $this->builder = new RendererBuilder($this->factory);
+        $this->builder = new AbstractRendererBuilder($this->factory);
     }
     
     public function testGettersSetters()

@@ -3,7 +3,7 @@ namespace Yjv\ReportRendering\Tests\Renderer\Extension\Core\Type;
 
 use Yjv\ReportRendering\Renderer\Extension\Core\Type\RendererType;
 
-use Yjv\ReportRendering\Renderer\RendererBuilder;
+use Yjv\ReportRendering\Renderer\AbstractRendererBuilder;
 
 use Mockery;
 
@@ -73,6 +73,6 @@ class RendererTypeTest extends TypeTestCase
     public function testCreateBuilder()
     {
         $options = array('key' => 'value');
-        $this->assertEquals(new RendererBuilder($this->factory, $options), $this->type->createBuilder($this->factory, $options));
+        $this->assertEquals(new AbstractRendererBuilder($this->factory, $options), $this->type->createBuilder($this->factory, $options));
     }
 }

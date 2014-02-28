@@ -3,7 +3,7 @@ namespace Yjv\ReportRendering\Tests\Renderer;
 
 use Yjv\ReportRendering\Factory\VariableConstructorBuilder;
 
-use Yjv\ReportRendering\Renderer\RendererBuilder;
+use Yjv\ReportRendering\Renderer\AbstractRendererBuilder;
 
 use Mockery;
 

@@ -5,7 +5,7 @@ use Yjv\ReportRendering\Datasource\DatasourceBuilder;
 
 use Yjv\ReportRendering\Datasource\Extension\Core\Type\DatasourceType;
 
-use Yjv\ReportRendering\Renderer\RendererBuilder;
+use Yjv\ReportRendering\Renderer\AbstractRendererBuilder;
 
 use Mockery;
 

@@ -6,7 +6,7 @@ class MappedDataTransformer extends AbstractDataTransformer
     /**
      * @param unknown $data
      */
-    public function transform($data, $orginalData)
+    public function transform($data, $originalData)
     {
         $map = $this->config->get('map');
 

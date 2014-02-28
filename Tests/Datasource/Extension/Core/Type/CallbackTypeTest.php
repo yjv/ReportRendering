@@ -9,7 +9,7 @@ use Yjv\ReportRendering\Datasource\Extension\Core\Type\CallbackType;
 
 use Yjv\ReportRendering\Datasource\DatasourceBuilder;
 
-use Yjv\ReportRendering\Renderer\RendererBuilder;
+use Yjv\ReportRendering\Renderer\AbstractRendererBuilder;
 
 use Mockery;
 

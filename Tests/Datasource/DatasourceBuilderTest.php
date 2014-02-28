@@ -3,7 +3,7 @@ namespace Yjv\ReportRendering\Tests\Datasource;
 
 use Yjv\ReportRendering\Datasource\DatasourceBuilder;
 
-use Yjv\ReportRendering\Renderer\RendererBuilder;
+use Yjv\ReportRendering\Renderer\AbstractRendererBuilder;
 
 use Mockery;
 

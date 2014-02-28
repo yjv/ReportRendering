@@ -1,7 +1,7 @@
 <?php
 namespace Yjv\ReportRendering\Tests\Renderer\Extension\Core\Type;
 
-use Yjv\ReportRendering\Renderer\RendererBuilder;
+use Yjv\ReportRendering\Renderer\AbstractRendererBuilder;
 
 use Yjv\ReportRendering\Renderer\RendererFactory;
 
@@ -21,7 +21,7 @@ class TypeTestCase extends BaseTypeTestCase
 		$this->columnFactory = Mockery::mock('Yjv\ReportRendering\Renderer\Grid\Column\ColumnFactoryInterface');
 	    
 	    $this->factory = new RendererFactory($this->resolver, $this->columnFactory);
-		$this->builder = new RendererBuilder($this->factory);
+		$this->builder = new AbstractRendererBuilder($this->factory);
 	}
 	
 	protected function getExtensions()

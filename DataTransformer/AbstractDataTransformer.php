@@ -10,7 +10,8 @@ abstract class AbstractDataTransformer implements DataTransformerInterface
     protected $config;
 
     /**
-     * @param unknown $config
+     * @param array|ConfigInterface $config
+     * @return DataTransformerInterface
      */
     public function setConfig($config)
     {
