@@ -40,12 +40,6 @@ class HtmlBuilder extends AbstractRendererBuilder
         return $this->templatingEngine;
     }
 
-    public function setTemplatingEngine(EngineInterface $templatingEngine)
-    {
-        $this->templatingEngine = $templatingEngine;
-        return $this;
-    }
-
     /**
      * @param FormInterface $filterForm
      * @return $this
@@ -106,9 +100,9 @@ class HtmlBuilder extends AbstractRendererBuilder
     public function getRenderer()
     {
         $renderer =  new HtmlRenderer(
-            $this->templatingEngine,
-            $this->grid,
-            $this->template
+            $this->getTemplatingEngine(),
+            $this->getGrid(),
+            $this->getTemplate()
         );
 
         foreach ($this->getWidgetAttributes() as $name => $value) {

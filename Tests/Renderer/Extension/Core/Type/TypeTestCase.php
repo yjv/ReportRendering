@@ -21,7 +21,6 @@ class TypeTestCase extends BaseTypeTestCase
 		$this->columnFactory = Mockery::mock('Yjv\ReportRendering\Renderer\Grid\Column\ColumnFactoryInterface');
 	    
 	    $this->factory = new RendererFactory($this->resolver, $this->columnFactory);
-		$this->builder = new AbstractRendererBuilder($this->factory);
 	}
 	
 	protected function getExtensions()

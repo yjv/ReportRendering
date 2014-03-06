@@ -31,7 +31,7 @@ class HtmlType extends AbstractRendererType
     }
 
     /**
-     * @param HtmlBuilder $builder
+     * @param \Yjv\ReportRendering\Renderer\RendererBuilderInterface $builder
      * @param array $options
      */
     public function buildRenderer(RendererBuilderInterface $builder, array $options)
@@ -61,56 +61,50 @@ class HtmlType extends AbstractRendererType
 
         $resolver
             ->setRequired(array('template'))
-            ->setDefaults(
-                array(
-                    'filter_form' => function (Options $options) use ($type)
-                    {
-                        //@codeCoverageIgnoreStart
-                        return $type->buildFilterForm($options);
-                        //@codeCoverageIgnoreEnd
-                    },
-                    'widget_attributes' => array(),
-                    'filter_fields' => array(),
-                    'filter_form_options' => array('csrf_protection' => false),
-                    'data_key' => 'report_filters',
-                    'filter_uri' => null,
-                    'paginate' => true,
-                    'renderer_options' => function (Options $options)
-                    {
-                        return array(
-                            'data_key' => $options['data_key'],
-                            'filter_uri' => $options['filter_uri'],
-                            'paginate' => $options['paginate']
-                        );
-                    }
-                )
-            )
-            ->setAllowedTypes(
-                array(
-                    'filter_form' => array(
-                        'null',
-                        'Symfony\Component\Form\FormInterface'
-                    ),
-                    'widget_attributes' => 'array',
-                    'template' => 'string',
-                    'filter_fields' => 'array',
-                    'filter_form_options' => 'array',
-                    'data_key' => 'string',
-                    'filter_uri' => array('null', 'string'),
-                    'paginate' => 'bool',
-                    'renderer_options' => 'array'
-                )
-            )
-            ->setNormalizers(
-                array(
-                    'filter_fields' => function (Options $options, $filterFields)
-                    {
-                        //@codeCoverageIgnoreStart
-                        return Factory::normalizeCollectionToFactoryArguments($filterFields);
-                        //@codeCoverageIgnoreEnd
-                    }
-                )
-            );
+            ->setDefaults(array(
+                'filter_form' => function (Options $options) use ($type)
+                {
+                    //@codeCoverageIgnoreStart
+                    return $type->buildFilterForm($options);
+                    //@codeCoverageIgnoreEnd
+                },
+                'widget_attributes' => array(),
+                'filter_fields' => array(),
+                'filter_form_options' => array('csrf_protection' => false),
+                'data_key' => 'report_filters',
+                'filter_uri' => null,
+                'paginate' => true,
+                'renderer_options' => function (Options $options)
+                {
+                    return array(
+                        'data_key' => $options['data_key'],
+                        'filter_uri' => $options['filter_uri'],
+                        'paginate' => $options['paginate']
+                    );
+                }
+            ))
+            ->setAllowedTypes(array(
+                'filter_form' => array(
+                    'null',
+                    'Symfony\Component\Form\FormInterface'
+                ),
+                'widget_attributes' => 'array',
+                'template' => 'string',
+                'filter_fields' => 'array',
+                'filter_form_options' => 'array',
+                'data_key' => 'string',
+                'filter_uri' => array('null', 'string'),
+                'paginate' => 'bool',
+                'renderer_options' => 'array'
+            ))
+            ->setNormalizers(array(
+                'filter_fields' => function (Options $options, $filterFields)
+                {
+                    //@codeCoverageIgnoreStart
+                    return Factory::normalizeCollectionToFactoryArguments($filterFields);
+                    //@codeCoverageIgnoreEnd
+                }
+            ));
 
     }
 

@@ -9,6 +9,6 @@ class CsvBuilder extends AbstractRendererBuilder
 {
     public function getRenderer()
     {
-        return new CsvRenderer($this->grid);
+        return new CsvRenderer($this->getGrid());
     }
 }

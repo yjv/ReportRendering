@@ -76,10 +76,10 @@ changes to make a big difference. Also it supplies reasonable defaults for alot 
 need and use the rest as is.
 
 there are 4 factories in report rendering
-ReportFactory
-RendererFactory
-ColumnFactory
-DatasourceFactory
+ * ReportFactory
+ * RendererFactory
+ * ColumnFactory
+ * DatasourceFactory
 
 If you know how the symfony2 form factory works this will seem very familiar.
 

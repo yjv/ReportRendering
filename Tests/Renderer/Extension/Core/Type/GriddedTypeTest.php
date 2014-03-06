@@ -21,6 +21,7 @@ class GriddedTypeTest extends TypeTestCase
     {
         parent::setUp();
         $this->type = new GriddedType();
+        $this->builder = Mockery::mock('Yjv\ReportRendering\Renderer\RendererBuilderInterface');
     }
     
     public function testBuildRenderer()
@@ -29,7 +30,7 @@ class GriddedTypeTest extends TypeTestCase
         $column2Name = 'column';
         $column2Options = array('key' => 'value');
         
-        $builder = Mockery::mock('Yjv\ReportRendering\Renderer\RendererBuilder')
+        $builder = Mockery::mock('Yjv\ReportRendering\Renderer\RendererBuilderInterface')
             ->shouldReceive('addColumn')
             ->once()
             ->with($column1, array())
@@ -53,8 +54,12 @@ class GriddedTypeTest extends TypeTestCase
     public function testBuilderRendererWithGridSet()
     {
         $grid = Mockery::mock('Yjv\ReportRendering\Renderer\Grid\GridInterface');
+        $this->builder
+            ->shouldReceive('setGrid')
+            ->once()
+            ->with($grid)
+        ;
         $this->type->buildRenderer($this->builder, array('columns' => array(), 'grid' => $grid));
-        $this->assertSame($grid, $this->builder->getGrid());
     }
     
     public function testSetDefaults()

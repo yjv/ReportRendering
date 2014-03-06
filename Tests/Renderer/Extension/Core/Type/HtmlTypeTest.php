@@ -1,6 +1,7 @@
 <?php
 namespace Yjv\ReportRendering\Tests\Renderer\Extension\Core;
 
+use Symfony\Component\OptionsResolver\Options;
 use Yjv\ReportRendering\Renderer\Html\HtmlRenderer;
 
 use Yjv\ReportRendering\Util\Factory;
@@ -42,26 +43,26 @@ class HtmlTypeTest extends TypeTestCase
             ->with(Mockery::on(function($value) use ($testCase, $type) 
             {
                 $testCase->assertEquals(array(
-        
-                    'filter_form' => function(Options $options) use ($type) {
-                        
-                        return $type->buildFilterForm($options);
-                    },
-                    'renderer_attributes' => array(),
-                    'constructor' => array($type, 'rendererConstructor'),
+                    'filter_form' => function (Options $options) use ($type)
+                        {
+                            //@codeCoverageIgnoreStart
+                            return $type->buildFilterForm($options);
+                            //@codeCoverageIgnoreEnd
+                        },
+                    'widget_attributes' => array(),
                     'filter_fields' => array(),
                     'filter_form_options' => array('csrf_protection' => false),
                     'data_key' => 'report_filters',
                     'filter_uri' => null,
                     'paginate' => true,
-                    'options' => function(Options $options) {
-                        
-                        return array(
-                            'data_key' => $options['data_key'], 
-                            'filter_uri' => $options['filter_uri'],
-                            'paginate' => $options['paginate']
-                        );
-                    }
+                    'renderer_options' => function (Options $options)
+                        {
+                            return array(
+                                'data_key' => $options['data_key'],
+                                'filter_uri' => $options['filter_uri'],
+                                'paginate' => $options['paginate']
+                            );
+                        }
                 ), $value);
                 return true;
             }))
@@ -71,17 +72,17 @@ class HtmlTypeTest extends TypeTestCase
             ->once()
             ->with(array(
                 'filter_form' => array(
-                    'null', 
+                    'null',
                     'Symfony\Component\Form\FormInterface'
                 ),
-                'renderer_attributes' => 'array',
+                'widget_attributes' => 'array',
                 'template' => 'string',
                 'filter_fields' => 'array',
                 'filter_form_options' => 'array',
                 'data_key' => 'string',
                 'filter_uri' => array('null', 'string'),
                 'paginate' => 'bool',
-                'options' => 'array'
+                'renderer_options' => 'array'
             ))
             ->andReturn(Mockery::self())
             ->getMock()
@@ -103,44 +104,6 @@ class HtmlTypeTest extends TypeTestCase
         $this->type->setDefaultOptions($resolver);
     }
     
-    public function testRendererConstructor()
-    {
-        $grid = Mockery::mock('Yjv\ReportRendering\Renderer\Grid\GridInterface');
-        $form = Mockery::mock('Symfony\Component\Form\FormInterface');
-        $attributes = array('key' => 'value');
-        $expectedRenderer = new HtmlRenderer($this->renderer, $grid, 'template');
-        $expectedRenderer->setAttribute('key', 'value');
-        $expectedRenderer->setOption('option_name', 'value');
-        $expectedRenderer->setFilterForm($form);
-        $builder = Mockery::mock('Yjv\ReportRendering\Renderer\RendererBuilderInterface')
-            ->shouldReceive('getGrid')
-            ->once()
-            ->andReturn($grid)
-            ->getMock()
-            ->shouldReceive('getOption')
-            ->once()
-            ->with('template')
-            ->andReturn('template')
-            ->getMock()
-            ->shouldReceive('getOption')
-            ->twice()
-            ->with('filter_form')
-            ->andReturn($form)
-            ->getMock()
-            ->shouldReceive('getOption')
-            ->once()
-            ->with('renderer_attributes')
-            ->andReturn($attributes)
-            ->getMock()
-            ->shouldReceive('getOption')
-            ->once()
-            ->with('options')
-            ->andReturn(array('option_name' => 'value'))
-            ->getMock()
-        ;
-        $this->assertEquals($expectedRenderer, $this->type->rendererConstructor($builder));
-    }
-    
     public function testOptionsDefaulting()
     {
         $resolver = new OptionsResolver();
@@ -152,7 +115,7 @@ class HtmlTypeTest extends TypeTestCase
                 'filter_uri' => $options['filter_uri'], 
                 'paginate' => true
             ),
-            $options['options']
+            $options['renderer_options']
         );
     }
     
