@@ -5,17 +5,10 @@ use Symfony\Component\Templating\EngineInterface;
 
 use Yjv\ReportRendering\Renderer\Extension\Core\Builder\HtmlBuilder;
 use Yjv\ReportRendering\Util\Factory;
-
 use Symfony\Component\OptionsResolver\Options;
-
 use Symfony\Component\Form\FormFactoryInterface;
-
-use Yjv\ReportRendering\Renderer\Html\HtmlRenderer;
-
 use Yjv\ReportRendering\Renderer\RendererBuilderInterface;
-
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
-
 use Yjv\ReportRendering\Renderer\AbstractRendererType;
 use Yjv\TypeFactory\TypeFactoryInterface;
 
@@ -36,6 +29,8 @@ class HtmlType extends AbstractRendererType
      */
     public function buildRenderer(RendererBuilderInterface $builder, array $options)
     {
+        $builder->setTemplate($options['template']);
+
         if ($options['filter_form']) {
 
             $builder->setFilterForm($options['filter_form']);

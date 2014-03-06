@@ -48,7 +48,6 @@ class HtmlBuilderTest extends AbstractRendererBuilderTest
         $this->assertEquals($attributes, $this->builder->getWidgetAttributes());
     }
 
-
     public function testGetRenderer()
     {
         $grid = Mockery::mock('Yjv\ReportRendering\Renderer\Grid\GridInterface');

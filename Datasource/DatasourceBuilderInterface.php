@@ -1,9 +1,9 @@
 <?php
 namespace Yjv\ReportRendering\Datasource;
 
-use Yjv\ReportRendering\Factory\VariableConstructorBuilderInterface;
+use Yjv\TypeFactory\BuilderInterface;
 
-interface DatasourceBuilderInterface extends VariableConstructorBuilderInterface
+interface DatasourceBuilderInterface extends BuilderInterface
 {
     public function getDatasource();
 }

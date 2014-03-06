@@ -1,7 +1,7 @@
 <?php
 namespace Yjv\ReportRendering\Tests\Renderer\Grid\Column\Extension\Core\Type;
 
-use Yjv\ReportRendering\Tests\Factory\Extension\Type\TypeTestCase as BaseTypeTestCase;
+use Yjv\TypeFactory\Tests\Extension\Type\TypeTestCase as BaseTypeTestCase;
 
 use Yjv\ReportRendering\Renderer\Grid\Column\Extension\Core\CoreExtension;
 

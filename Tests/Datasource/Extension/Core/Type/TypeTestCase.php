@@ -7,7 +7,7 @@ use Yjv\ReportRendering\Datasource\DatasourceFactory;
 
 use Yjv\ReportRendering\Datasource\Extension\Core\CoreExtension;
 
-use Yjv\ReportRendering\Tests\Factory\Extension\Type\TypeTestCase as BaseTypeTestCase;
+use Yjv\TypeFactory\Tests\Extension\Type\TypeTestCase as BaseTypeTestCase;
 
 use Mockery;
 

@@ -8,6 +8,8 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Yjv\ReportRendering\Datasource\DatasourceBuilderInterface;
 
 use Yjv\ReportRendering\Datasource\AbstractDatasourceType;
+use Yjv\ReportRendering\Datasource\Extension\Core\Builder\ArrayBuilder;
+use Yjv\TypeFactory\TypeFactoryInterface;
 
 class ArrayType extends AbstractDatasourceType
 {
@@ -40,4 +42,10 @@ class ArrayType extends AbstractDatasourceType
     {
         return 'array';
     }
+
+    public function createBuilder(TypeFactoryInterface $factory, array $options)
+    {
+        return new ArrayBuilder($factory, $options);
+    }
+
 }

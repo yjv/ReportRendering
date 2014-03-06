@@ -2,6 +2,7 @@
 namespace Yjv\ReportRendering\Tests\Renderer\Extension\Core;
 
 use Symfony\Component\OptionsResolver\Options;
+use Yjv\ReportRendering\Renderer\Extension\Core\Builder\HtmlBuilder;
 use Yjv\ReportRendering\Renderer\Html\HtmlRenderer;
 
 use Yjv\ReportRendering\Util\Factory;
@@ -17,21 +18,22 @@ use Mockery;
 class HtmlTypeTest extends TypeTestCase
 {
     protected $formFactory;
-    protected $renderer;
-    
+    protected $templatingEngine;
+
     public function setUp()
     {
         parent::setUp();
-        $this->renderer = Mockery::mock('Symfony\Component\Templating\EngineInterface');
+        $this->templatingEngine = Mockery::mock('Symfony\Component\Templating\EngineInterface');
         $this->formFactory = Mockery::mock('Symfony\Component\Form\FormFactoryInterface');
-        $this->type = new HtmlType($this->renderer, $this->formFactory);
+        $this->type = new HtmlType($this->templatingEngine, $this->formFactory);
     }
-    
+
+
     public function testSetDefaultOptions()
     {
         $testCase = $this;
         $type = $this->type;
-        
+
         $resolver = Mockery::mock('Symfony\Component\OptionsResolver\OptionsResolverInterface')
             ->shouldReceive('setRequired')
             ->once()
@@ -40,70 +42,81 @@ class HtmlTypeTest extends TypeTestCase
             ->getMock()
             ->shouldReceive('setDefaults')
             ->once()
-            ->with(Mockery::on(function($value) use ($testCase, $type) 
-            {
-                $testCase->assertEquals(array(
-                    'filter_form' => function (Options $options) use ($type)
-                        {
-                            //@codeCoverageIgnoreStart
-                            return $type->buildFilterForm($options);
-                            //@codeCoverageIgnoreEnd
-                        },
-                    'widget_attributes' => array(),
-                    'filter_fields' => array(),
-                    'filter_form_options' => array('csrf_protection' => false),
-                    'data_key' => 'report_filters',
-                    'filter_uri' => null,
-                    'paginate' => true,
-                    'renderer_options' => function (Options $options)
-                        {
-                            return array(
-                                'data_key' => $options['data_key'],
-                                'filter_uri' => $options['filter_uri'],
-                                'paginate' => $options['paginate']
-                            );
-                        }
-                ), $value);
-                return true;
-            }))
+            ->with(
+                Mockery::on(
+                    function ($value) use ($testCase, $type) {
+                        $testCase->assertEquals(
+                            array(
+                                'filter_form' => function (Options $options) use ($type) {
+                                        //@codeCoverageIgnoreStart
+                                        return $type->buildFilterForm($options);
+                                        //@codeCoverageIgnoreEnd
+                                    },
+                                'widget_attributes' => array(),
+                                'filter_fields' => array(),
+                                'filter_form_options' => array('csrf_protection' => false),
+                                'data_key' => 'report_filters',
+                                'filter_uri' => null,
+                                'paginate' => true,
+                                'renderer_options' => function (Options $options) {
+                                        return array(
+                                            'data_key' => $options['data_key'],
+                                            'filter_uri' => $options['filter_uri'],
+                                            'paginate' => $options['paginate']
+                                        );
+                                    }
+                            ),
+                            $value
+                        );
+                        return true;
+                    }
+                )
+            )
             ->andReturn(Mockery::self())
             ->getMock()
             ->shouldReceive('setAllowedTypes')
             ->once()
-            ->with(array(
-                'filter_form' => array(
-                    'null',
-                    'Symfony\Component\Form\FormInterface'
-                ),
-                'widget_attributes' => 'array',
-                'template' => 'string',
-                'filter_fields' => 'array',
-                'filter_form_options' => 'array',
-                'data_key' => 'string',
-                'filter_uri' => array('null', 'string'),
-                'paginate' => 'bool',
-                'renderer_options' => 'array'
-            ))
+            ->with(
+                array(
+                    'filter_form' => array(
+                        'null',
+                        'Symfony\Component\Form\FormInterface'
+                    ),
+                    'widget_attributes' => 'array',
+                    'template' => 'string',
+                    'filter_fields' => 'array',
+                    'filter_form_options' => 'array',
+                    'data_key' => 'string',
+                    'filter_uri' => array('null', 'string'),
+                    'paginate' => 'bool',
+                    'renderer_options' => 'array'
+                )
+            )
             ->andReturn(Mockery::self())
             ->getMock()
             ->shouldReceive('setNormalizers')
             ->once()
-            ->with(Mockery::on(function($value) use ($testCase) 
-            {
-                $testCase->assertEquals(array(
-                    'filter_fields' => function(Options $options, $filterFields)
-                    {
-                        return Factory::normalizeCollectionToFactoryArguments($filterFields);
+            ->with(
+                Mockery::on(
+                    function ($value) use ($testCase) {
+                        $testCase->assertEquals(
+                            array(
+                                'filter_fields' => function (Options $options, $filterFields)
+                                {
+                                    return Factory::normalizeCollectionToFactoryArguments($filterFields);
+                                }
+                            ),
+                            $value
+                        );
+                        return true;
                     }
-                ), $value);
-                return true;
-            }))
+                )
+            )
             ->andReturn(Mockery::self())
-            ->getMock()
-        ;
+            ->getMock();
         $this->type->setDefaultOptions($resolver);
     }
-    
+
     public function testOptionsDefaulting()
     {
         $resolver = new OptionsResolver();
@@ -111,14 +124,14 @@ class HtmlTypeTest extends TypeTestCase
         $options = $resolver->resolve(array('template' => 'template'));
         $this->assertEquals(
             array(
-                'data_key' => $options['data_key'], 
-                'filter_uri' => $options['filter_uri'], 
+                'data_key' => $options['data_key'],
+                'filter_uri' => $options['filter_uri'],
                 'paginate' => true
             ),
             $options['renderer_options']
         );
     }
-    
+
     public function testBuildFilterForm()
     {
         $fields = array(
@@ -126,7 +139,7 @@ class HtmlTypeTest extends TypeTestCase
             'field2' => array('sfsdfds', array('key2' => 'value2')),
         );
         $formOptions = array('key' => 'value');
-        
+
         $options = Mockery::mock('Symfony\Component\OptionsResolver\Options')
             ->shouldReceive('offsetGet')
             ->once()
@@ -157,23 +170,21 @@ class HtmlTypeTest extends TypeTestCase
             ->shouldReceive('getForm')
             ->once()
             ->andReturn($form)
-            ->getMock()
-        ;
+            ->getMock();
         $this->formFactory
             ->shouldReceive('createBuilder')
             ->once()
             ->with('form', null, $formOptions)
-            ->andReturn($builder)
-        ;
+            ->andReturn($builder);
         $this->assertSame($form, $this->type->buildFilterForm($options));
     }
-    
+
     public function testBuildFilterFormWithNoFormFactory()
     {
-        $type = new HtmlType($this->renderer);
+        $type = new HtmlType($this->templatingEngine);
         $this->assertNull($type->buildFilterForm(Mockery::mock('Symfony\Component\OptionsResolver\Options')));
     }
-    
+
     public function testBuildFilterFormWithoutFormFields()
     {
         $options = Mockery::mock('Symfony\Component\OptionsResolver\Options')
@@ -181,18 +192,107 @@ class HtmlTypeTest extends TypeTestCase
             ->once()
             ->with('filter_fields')
             ->andReturn(false)
-            ->getMock()
-        ;
+            ->getMock();
         $this->assertNull($this->type->buildFilterForm($options));
     }
-        
+
     public function testGetName()
     {
         $this->assertEquals('html', $this->type->getName());
     }
-    
+
     public function testGetParent()
     {
         $this->assertEquals('gridded', $this->type->getParent());
+    }
+
+    public function testBuildRendererWithEverythingEmpty()
+    {
+        $options = array(
+            'filter_form' => null,
+            'renderer_options' => array(),
+            'widget_attributes' => array(),
+            'template' => 'wrewer'
+        );
+        $builder = Mockery::mock('Yjv\ReportRendering\Renderer\RendererBuilderInterface')
+            ->shouldReceive('setTemplate')
+            ->once()
+            ->with($options['template'])
+            ->getMock()
+        ;
+        $this->type->buildRenderer($builder, $options);
+    }
+
+    public function testBuildRendererWithFilterFormNotEmpty()
+    {
+        $options = array(
+            'filter_form' => Mockery::mock('Symfony\Component\Form\FormInterface'),
+            'renderer_options' => array(),
+            'widget_attributes' => array(),
+            'template' => 'wrewer'
+        );
+        $builder = Mockery::mock('Yjv\ReportRendering\Renderer\RendererBuilderInterface')
+            ->shouldReceive('setTemplate')
+            ->once()
+            ->with($options['template'])
+            ->getMock()
+            ->shouldReceive('setFilterForm')
+            ->once()
+            ->with($options['filter_form'])
+            ->getMock()
+        ;
+        $this->type->buildRenderer($builder, $options);
+    }
+
+    public function testBuildRendererWithRendererOptionsNotEmpty()
+    {
+        $options = array(
+            'filter_form' => null,
+            'renderer_options' => array('key' => 'value'),
+            'widget_attributes' => array(),
+            'template' => 'wrewer'
+        );
+        $builder = Mockery::mock('Yjv\ReportRendering\Renderer\RendererBuilderInterface')
+            ->shouldReceive('setTemplate')
+            ->once()
+            ->with($options['template'])
+            ->getMock()
+            ->shouldReceive('setRendererOptions')
+            ->once()
+            ->with($options['renderer_options'])
+            ->getMock()
+        ;
+        $this->type->buildRenderer($builder, $options);
+    }
+
+    public function testBuildRendererWithWidgetAttributesNotEmpty()
+    {
+        $options = array(
+            'filter_form' => null,
+            'renderer_options' => array(),
+            'widget_attributes' => array('key' => 'value'),
+            'template' => 'wrewer'
+        );
+        $builder = Mockery::mock('Yjv\ReportRendering\Renderer\RendererBuilderInterface')
+            ->shouldReceive('setTemplate')
+            ->once()
+            ->with($options['template'])
+            ->getMock()
+            ->shouldReceive('setWidgetAttributes')
+            ->once()
+            ->with($options['widget_attributes'])
+            ->getMock()
+        ;
+        $this->type->buildRenderer($builder, $options);
+    }
+
+    public function testCreateBuilder()
+    {
+        $factory = Mockery::mock('Yjv\TypeFactory\TypeFactoryInterface');
+        $options = array('key' => 'value');
+        $this->assertEquals(new HtmlBuilder(
+            $this->templatingEngine, $factory, $options),
+            $this->type->createBuilder($factory, $options)
+        );
     }
 }
