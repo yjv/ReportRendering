@@ -7,6 +7,10 @@ use Symfony\Component\Templating\EngineInterface;
 
 use Symfony\Component\Form\Forms;
 
+use Yjv\ReportRendering\DataTransformer\DateTimeTransformer;
+use Yjv\ReportRendering\DataTransformer\FormatStringTransformer;
+use Yjv\ReportRendering\DataTransformer\MappedDataTransformer;
+use Yjv\ReportRendering\DataTransformer\PropertyPathTransformer;
 use Yjv\ReportRendering\Report\Extension\Core\CoreExtension as CoreReportExtension;
 use Yjv\ReportRendering\Datasource\Extension\Core\CoreExtension as CoreDatasourceExtension;
 use Yjv\ReportRendering\Renderer\Extension\Core\CoreExtension as CoreRendererExtension;
@@ -50,6 +54,15 @@ class ReportRendering
             ->getRendererFactoryBuilder()
             ->getColumnFactoryBuilder()
             ->addExtension(new CoreColumnExtension())
+        ;
+
+        $reportFactoryBuilder
+            ->getRendererFactoryBuilder()
+            ->getColumnFactoryBuilder()
+            ->addDataTransformer('mapped_data', new MappedDataTransformer())
+            ->addDataTransformer('format_string', new FormatStringTransformer())
+            ->addDataTransformer('property_path', new PropertyPathTransformer())
+            ->addDataTransformer('date_time', new DateTimeTransformer())
         ;
         
         return $reportFactoryBuilder;

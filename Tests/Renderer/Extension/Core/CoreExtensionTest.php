@@ -28,6 +28,10 @@ class CoreExtensionTest extends \PHPUnit_Framework_TestCase
             'Yjv\ReportRendering\Renderer\Extension\Core\Type\GriddedType', 
             $this->extension->getType('gridded')
         );
+        $this->assertInstanceOf(
+            'Yjv\ReportRendering\Renderer\Extension\Core\Type\CsvType',
+            $this->extension->getType('csv')
+        );
         $this->assertFalse($this->extension->hasType('html'));
     }
     

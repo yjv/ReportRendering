@@ -5,6 +5,7 @@ use Symfony\Component\Templating\EngineInterface;
 
 use Symfony\Component\Form\FormFactoryInterface;
 
+use Yjv\ReportRendering\Renderer\Extension\Core\Type\CsvType;
 use Yjv\ReportRendering\Renderer\Extension\Core\Type\GriddedType;
 
 use Yjv\ReportRendering\Renderer\Extension\Core\Type\HtmlType;
@@ -29,6 +30,7 @@ class CoreExtension extends AbstractExtension
         $types = array(
             new RendererType(),
             new GriddedType(),
+            new CsvType(),
         );
         
         if ($this->renderer) {

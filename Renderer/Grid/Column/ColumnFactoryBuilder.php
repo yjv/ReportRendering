@@ -1,6 +1,7 @@
 <?php
 namespace Yjv\ReportRendering\Renderer\Grid\Column;
 
+use Yjv\ReportRendering\DataTransformer\DataTransformerInterface;
 use Yjv\ReportRendering\DataTransformer\DataTransformerRegistry;
 
 use Yjv\TypeFactory\AbstractTypeFactoryBuilder;
@@ -8,6 +9,7 @@ use Yjv\TypeFactory\AbstractTypeFactoryBuilder;
 class ColumnFactoryBuilder extends AbstractTypeFactoryBuilder
 {
     protected $dataTransformerRegistry;
+    protected $dataTransformers = array();
     
     public function setDataTransformerRegistry(DataTransformerRegistry $dataTransformerRegistry)
     {
@@ -24,10 +26,23 @@ class ColumnFactoryBuilder extends AbstractTypeFactoryBuilder
         
         return $this->dataTransformerRegistry;
     }
+
+    public function addDataTransformer($name, DataTransformerInterface $dataTransformer)
+    {
+        $this->dataTransformers[$name] = $dataTransformer;
+        return $this;
+    }
     
     protected function getFactoryInstance()
     {
-        return new ColumnFactory($this->getTypeResolver(), $this->getDataTransformerRegistry());
+        $dataTransformerRegistry = $this->getDataTransformerRegistry();
+
+        foreach ($this->dataTransformers as $name =>$dataTransformer) {
+
+            $dataTransformerRegistry->set($name ,$dataTransformer);
+        }
+
+        return new ColumnFactory($this->getTypeResolver(), $dataTransformerRegistry);
     }
     
     protected function getDefaultDataTransformerRegistry()
