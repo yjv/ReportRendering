@@ -1,8 +1,6 @@
 <?php
 namespace Yjv\ReportRendering\Renderer;
 
-use Yjv\ReportRendering\Factory\VariableConstructorBuilderInterface;
-
 use Yjv\ReportRendering\Renderer\Grid\GridInterface;
 use Yjv\TypeFactory\BuilderInterface;
 
