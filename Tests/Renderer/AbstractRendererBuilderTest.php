@@ -1,15 +1,27 @@
 <?php
 namespace Yjv\ReportRendering\Tests\Renderer;
 
-use Yjv\ReportRendering\Renderer\RendererBuilder;
+use Yjv\ReportRendering\Renderer\AbstractRendererBuilder;
 
 use Mockery;
 use Yjv\ReportRendering\Renderer\Grid\Column\Column;
+use Yjv\TypeFactory\Tests\BuilderTest;
 
-class RendererBuilderTest extends \PHPUnit_Framework_TestCase
+abstract class AbstractRendererBuilderTest extends BuilderTest
 {
+    /**
+     * @var AbstractRendererBuilder
+     */
     protected $builder;
+
+    /**
+     * @var Mockery\MockInterface
+     */
     protected $factory;
+
+    /**
+     * @var Mockery\MockInterface
+     */
     protected $columnFactory;
     
     public function setUp()
@@ -20,7 +32,6 @@ class RendererBuilderTest extends \PHPUnit_Framework_TestCase
             ->andReturn($this->columnFactory)
             ->getMock()
         ;
-        $this->builder = new RendererBuilder($this->factory);
     }
     
     public function testGettersSetters()
@@ -61,27 +72,5 @@ class RendererBuilderTest extends \PHPUnit_Framework_TestCase
         $this->builder->addColumn($column2Name, $column2Options);
     }
 
-    public function testGetRenderer()
-    {
-        $renderer = Mockery::mock('Yjv\ReportRendering\Renderer\RendererInterface');
-        
-        $callback = function() use ($renderer){
-            
-            return $renderer;
-        };
-        
-        $this->builder->setConstructor($callback);
-        $this->assertSame($renderer, $this->builder->getRenderer());
-    }
-    
-    /**
-     * @expectedException Yjv\ReportRendering\Renderer\ValidRendererNotReturnedException
-     * @expectedExceptionMessage No valid renderer was returned from the builder's constructor callback.
-     */
-    public function testGetRendererWithInvalidRenderer()
-    {
-        $callback = function(){};
-        $this->builder->setConstructor($callback);
-        $this->builder->getRenderer();
-    }
+    abstract public function testGetRenderer();
 }

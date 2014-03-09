@@ -1,16 +1,16 @@
 <?php
 namespace Yjv\ReportRendering\Tests\Datasource\Extension\Core\Type;
 
-use Yjv\ReportRendering\Datasource\ArrayDatasource;
-
+use Yjv\ReportRendering\Datasource\Extension\Core\Builder\ArrayBuilder;
 use Yjv\ReportRendering\Datasource\Extension\Core\Type\ArrayType;
-
-use Symfony\Component\OptionsResolver\OptionsResolver;
-
-use Yjv\ReportRendering\Datasource\DatasourceBuilder;
-
 use Mockery;
 
+/**
+ * Class ArrayTypeTest
+ * @package Yjv\ReportRendering\Tests\Datasource\Extension\Core\Type
+ *
+ * @property ArrayType $type
+ */
 class ArrayTypeTest extends TypeTestCase
 {
     public function setUp()
@@ -18,7 +18,7 @@ class ArrayTypeTest extends TypeTestCase
         parent::setUp();
         $this->type = new ArrayType();
     }
-    
+
     public function testGetName()
     {
         $this->assertEquals('array', $this->type->getName());
@@ -26,7 +26,6 @@ class ArrayTypeTest extends TypeTestCase
     
     public function testSetDefaultOptions()
     {
-        $testCase = $this;
         $resolver = Mockery::mock('Symfony\Component\OptionsResolver\OptionsResolverInterface')
             ->shouldReceive('setRequired')
             ->once()
@@ -34,24 +33,10 @@ class ArrayTypeTest extends TypeTestCase
             ->andReturn(Mockery::self())
             ->getMock()
             ->shouldReceive('setDefaults')
-            ->with(Mockery::on(function($value) use ($testCase){
-                
-                $testCase->assertEquals(array(
-                    'constructor' => function(DatasourceBuilderInterface $builder)
-                    {
-                        $datasource = new ArrayDatasource(
-                            $builder->getOption('data'), 
-                            $builder->getOption('property_accessor')
-                        );
-                        $datasource->setFilterMap($builder->getOption('filter_map', array()));
-                        return $datasource;
-                    },
-                    'property_accessor' => null,
-                    'filter_map' => array()
-                ), $value);
-                
-                return true;
-            }))
+            ->with(array(
+                'property_accessor' => null,
+                'filter_map' => array()
+            ))
             ->andReturn(Mockery::self())
             ->once()
             ->getMock()
@@ -67,35 +52,60 @@ class ArrayTypeTest extends TypeTestCase
         ;
         $this->type->setDefaultOptions($resolver);
     }
-    
-    public function testConstructor()
+
+    public function testCreateBuilder()
     {
-        $resolver = new OptionsResolver();
-        $this->type->setDefaultOptions($resolver);
-        $data = array(array('data' => 'value'));
-        $propertyAccessor = Mockery::mock('Symfony\Component\PropertyAccess\PropertyAccessorInterface');
-        $filterMap = array('filter' => 'map');
-        $options = $resolver->resolve(array('data' => $data));
-        $datasource = new ArrayDatasource($data, $propertyAccessor);
-        $datasource->setFilterMap($filterMap);
+        $factory = Mockery::mock('Yjv\TypeFactory\TypeFactoryInterface');
+        $options = array('key' =>' value');
+        $this->assertEquals(new ArrayBuilder($factory, $options), $this->type->createBuilder($factory, $options));
+    }
+
+    public function testBuildDatasourceWithNoPropertyAccessor()
+    {
+        $this->type = new ArrayType();
+
+        $options = array(
+            'filter_map' => $params = array($this, 'testBuildRendererWithEverythingEmpty'),
+            'data' => $params = array('value1', 'value2'),
+            'property_accessor' => null
+        );
         $builder = Mockery::mock('Yjv\ReportRendering\Datasource\DatasourceBuilderInterface')
-            ->shouldReceive('getOption')
+            ->shouldReceive('setFilterMap')
             ->once()
-            ->with('data')
-            ->andReturn($data)
+            ->with($options['filter_map'])
             ->getMock()
-            ->shouldReceive('getOption')
+            ->shouldReceive('setData')
             ->once()
-            ->with('property_accessor')
-            ->andReturn($propertyAccessor)
-            ->getMock()
-            ->shouldReceive('getOption')
-            ->once()
-            ->with('filter_map', array())
-            ->andReturn($filterMap)
+            ->with($options['data'])
             ->getMock()
         ;
-        
-        $this->assertEquals($datasource, $options['constructor']($builder));
+        $this->type->buildDatasource($builder, $options);
     }
+
+    public function testBuildDatasourceWithPropertyAccessor()
+    {
+        $this->type = new ArrayType();
+
+        $options = array(
+            'filter_map' => $params = array($this, 'testBuildRendererWithEverythingEmpty'),
+            'data' => $params = array('value1', 'value2'),
+            'property_accessor' => Mockery::mock('Symfony\Component\PropertyAccess\PropertyAccessorInterface')
+        );
+        $builder = Mockery::mock('Yjv\ReportRendering\Datasource\DatasourceBuilderInterface')
+            ->shouldReceive('setFilterMap')
+            ->once()
+            ->with($options['filter_map'])
+            ->getMock()
+            ->shouldReceive('setData')
+            ->once()
+            ->with($options['data'])
+            ->getMock()
+            ->shouldReceive('setPropertyAccessor')
+            ->once()
+            ->with($options['property_accessor'])
+            ->getMock()
+        ;
+        $this->type->buildDatasource($builder, $options);
+    }
+
 }

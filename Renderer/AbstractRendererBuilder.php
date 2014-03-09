@@ -5,29 +5,14 @@ use Yjv\ReportRendering\Renderer\Grid\Grid;
 
 use Yjv\ReportRendering\Renderer\Grid\Column\ColumnInterface;
 
-use Yjv\ReportRendering\Factory\VariableConstructorBuilder;
-
 use Yjv\ReportRendering\Renderer\Grid\GridInterface;
 
-use Yjv\ReportRendering\Renderer\RendererInterface;
+use Yjv\TypeFactory\Builder;
 
-class RendererBuilder extends VariableConstructorBuilder implements RendererBuilderInterface
+abstract class AbstractRendererBuilder extends Builder implements RendererBuilderInterface
 {
     protected $grid;
 
-    public function getRenderer()
-    {
-        $constructor = $this->callback;
-        $renderer = call_user_func($constructor, $this);
-        
-        if (!$renderer instanceof RendererInterface) {
-            
-            throw new ValidRendererNotReturnedException();
-        }
-        
-        return $renderer;
-    }
-    
     public function setGrid(GridInterface $grid)
     {
         $this->grid = $grid;

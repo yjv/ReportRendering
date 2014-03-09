@@ -1,28 +1,29 @@
 <?php
 namespace Yjv\ReportRendering\Datasource\Extension\Core\Type;
 
-use Yjv\ReportRendering\Datasource\CallbackDatasource;
-
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
-
 use Yjv\ReportRendering\Datasource\DatasourceBuilderInterface;
-
 use Yjv\ReportRendering\Datasource\AbstractDatasourceType;
+use Yjv\ReportRendering\Datasource\Extension\Core\Builder\CallbackBuilder;
+use Yjv\TypeFactory\TypeFactoryInterface;
 
 class CallbackType extends AbstractDatasourceType
 {
+    /**
+     * @param DatasourceBuilderInterface|CallbackBuilder $builder
+     * @param array $options
+     */
+    public function buildDatasource(DatasourceBuilderInterface $builder, array $options)
+    {
+        $builder->setCallback($options['callback']);
+        $builder->setParams($options['params']);
+    }
+
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver
             ->setRequired(array('callback'))
             ->setDefaults(array(
-                'constructor' => function(DatasourceBuilderInterface $builder)
-                {
-                    return new CallbackDatasource(
-                        $builder->getOption('callback'), 
-                        $builder->getOption('params')
-                    );
-                },
                 'params' => array()
             ))
             ->setAllowedTypes(array(
@@ -31,9 +32,15 @@ class CallbackType extends AbstractDatasourceType
             ))
         ;
     }
-    
+
     public function getName()
     {
         return 'callback';
     }
+
+    public function createBuilder(TypeFactoryInterface $factory, array $options)
+    {
+        return new CallbackBuilder($factory, $options);
+    }
+
 }

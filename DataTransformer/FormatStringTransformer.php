@@ -22,11 +22,13 @@ class FormatStringTransformer extends AbstractEscapingDataTransformer
         $this->propertyAccessor = $propertyAccessor ?: PropertyAccess::getPropertyAccessor();
         parent::__construct($escaper);
     }
-    
+
     /**
-     * @param unknown $data
+     * @param $data mixed
+     * @param $originalData mixed
+     * @return mixed
      */
-    public function transform($data, $orginalData)
+    public function transform($data, $originalData)
     {
         $string = $this->config->get('format_string');
 

@@ -24,7 +24,7 @@ class PropertyPathTransformer extends AbstractEscapingDataTransformer
     /**
      * @param unknown $data
      */
-    public function transform($data, $orginalData)
+    public function transform($data, $originalData)
     {
         $path = $this->config->get('path');
 

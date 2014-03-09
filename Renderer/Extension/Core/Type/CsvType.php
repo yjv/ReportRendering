@@ -1,32 +1,12 @@
 <?php
 namespace Yjv\ReportRendering\Renderer\Extension\Core\Type;
 
-use Yjv\ReportRendering\Renderer\Csv\CsvRenderer;
-
-use Yjv\ReportRendering\Renderer\RendererBuilderInterface;
-
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
-
+use Yjv\ReportRendering\Renderer\Extension\Core\Builder\CsvBuilder;
 use Yjv\ReportRendering\Renderer\AbstractRendererType;
+use Yjv\TypeFactory\TypeFactoryInterface;
 
 class CsvType extends AbstractRendererType
 {
-   /**
-    * @param OptionsResolverInterface $resolver
-    */
-    public function setDefaultOptions(OptionsResolverInterface $resolver) {
-
-        $resolver->setDefaults(array(
-
-                'constructor' => function(RendererBuilderInterface $builder) {
-            
-                    return new CsvRenderer($builder->getGrid());
-                }
-        ))
-        ;
-        
-    }
-    
     public function getName()
     {
         return 'csv';
@@ -35,5 +15,10 @@ class CsvType extends AbstractRendererType
     public function getParent()
     {
         return 'gridded';
+    }
+
+    public function createBuilder(TypeFactoryInterface $factory, array $options)
+    {
+        return new CsvBuilder($factory, $options);
     }
 }
