@@ -33,6 +33,7 @@ class HtmlTypeTest extends TypeTestCase
     {
         $testCase = $this;
         $type = $this->type;
+        $templatingEngine = $this->templatingEngine;
 
         $resolver = Mockery::mock('Symfony\Component\OptionsResolver\OptionsResolverInterface')
             ->shouldReceive('setRequired')
@@ -44,10 +45,10 @@ class HtmlTypeTest extends TypeTestCase
             ->once()
             ->with(
                 Mockery::on(
-                    function ($value) use ($testCase, $type) {
+                    function ($value) use ($testCase, $type, $templatingEngine) {
                         $testCase->assertEquals(
                             array(
-                                'filter_form' => function (Options $options) use ($type) {
+                                'filter_form' => function (Options $options) use ($type, $templatingEngine) {
                                         //@codeCoverageIgnoreStart
                                         return $type->buildFilterForm($options);
                                         //@codeCoverageIgnoreEnd
@@ -66,7 +67,7 @@ class HtmlTypeTest extends TypeTestCase
                                         'paginate' => $options['paginate']
                                     );
                                 },
-                                'templating_engine' => $this->templatingEngine
+                                'templating_engine' => $templatingEngine
                             ),
                             $value
                         );
