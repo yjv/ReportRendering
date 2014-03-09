@@ -22,18 +22,19 @@ use Yjv\ReportRendering\ReportRendering;
 $reportFactory = ReportRendering::createReportFactory();
 $reportBuilder = $reportFactory->createBuilder('report');
 $reportBuilder->setDatasource('array', array('data' => array(
-	array('key1' => 'value1', 'key2' => 'value2'),
-	array('key1' => 'value3', 'key2' => 'value4'),
-));
-$reportBuilder->addRenderer('csv', array(
-	'columns' => array(
-	
-		array('property_path', array('name' => 'column1', 'path' => '[key1]'),
-		array('format_string', array('name' => 'column2', 'format_string' => 'key2 = {[key2]}'),
-	)
-));
+    array('key1' => 'value1', 'key2' => 'value2'),
+    array('key1' => 'value3', 'key2' => 'value4'),
+)));
+$reportBuilder->addRenderer('default', 'csv', array(
+    'columns' => array(
+
+        array('property_path', array('name' => 'column1', 'path' => '[key1]')),
+        array('format_string', array('name' => 'column2', 'format_string' => 'key2 = {[key2]}')),
+    )
+))
+;
 $report = $reportBuilder->getReport();
-$report->getRenderer('csv')->render();
+echo $report->getRenderer()->render()."\n";
 ```
 this would output something like this
 
