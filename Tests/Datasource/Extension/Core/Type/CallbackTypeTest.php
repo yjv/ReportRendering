@@ -1,18 +1,16 @@
 <?php
 namespace Yjv\ReportRendering\Tests\Datasource\Extension\Core\Type;
 
-use Yjv\ReportRendering\Datasource\CallbackDatasource;
-
-use Symfony\Component\OptionsResolver\OptionsResolver;
-
+use Yjv\ReportRendering\Datasource\Extension\Core\Builder\CallbackBuilder;
 use Yjv\ReportRendering\Datasource\Extension\Core\Type\CallbackType;
-
-use Yjv\ReportRendering\Datasource\DatasourceBuilder;
-
-use Yjv\ReportRendering\Renderer\AbstractRendererBuilder;
-
 use Mockery;
 
+/**
+ * Class CallbackTypeTest
+ * @package Yjv\ReportRendering\Tests\Datasource\Extension\Core\Type
+ *
+ * @property CallbackType $type
+ */
 class CallbackTypeTest extends TypeTestCase
 {
     public function setUp()
@@ -28,7 +26,6 @@ class CallbackTypeTest extends TypeTestCase
     
     public function testSetDefaultOptions()
     {
-        $testCase = $this;
         $resolver = Mockery::mock('Symfony\Component\OptionsResolver\OptionsResolverInterface')
             ->shouldReceive('setRequired')
             ->once()
@@ -36,21 +33,9 @@ class CallbackTypeTest extends TypeTestCase
             ->andReturn(Mockery::self())
             ->getMock()
             ->shouldReceive('setDefaults')
-            ->with(Mockery::on(function($value) use ($testCase){
-                
-                $testCase->assertEquals(array(
-                        'constructor' => function(DatasourceBuilderInterface $builder)
-                        {
-                            return new CallbackDatasource(
-                                    $builder->getOption('callback'),
-                                    $builder->getOption('params')
-                            );
-                        },
-                        'params' => array()
-                ), $value);
-                
-                return true;
-            }))
+            ->with(array(
+                'params' => array()
+            ))
             ->andReturn(Mockery::self())
             ->once()
             ->getMock()
@@ -65,28 +50,32 @@ class CallbackTypeTest extends TypeTestCase
         ;
         $this->type->setDefaultOptions($resolver);
     }
-    
-    public function testConstructor()
+
+    public function testBuildDatasource()
     {
-        $resolver = new OptionsResolver();
-        $this->type->setDefaultOptions($resolver);
-        $callback = function(){};
-        $params = array('key' => 'value');
-        $options = $resolver->resolve(array('callback' => function(){}));
-        $datasource = new CallbackDatasource($callback, $params);
+        $this->type = new CallbackType();
+
+        $options = array(
+            'callback' => $params = array($this, 'testBuildRendererWithEverythingEmpty'),
+            'params' => $params = array('value1', 'value2'),
+        );
         $builder = Mockery::mock('Yjv\ReportRendering\Datasource\DatasourceBuilderInterface')
-            ->shouldReceive('getOption')
+            ->shouldReceive('setCallback')
             ->once()
-            ->with('callback')
-            ->andReturn($callback)
+            ->with($options['callback'])
             ->getMock()
-            ->shouldReceive('getOption')
+            ->shouldReceive('setParams')
             ->once()
-            ->with('params')
-            ->andReturn($params)
+            ->with($options['params'])
             ->getMock()
         ;
-        
-        $this->assertEquals($datasource, $options['constructor']($builder));
+        $this->type->buildDatasource($builder, $options);
+    }
+
+    public function testCreateBuilder()
+    {
+        $factory = Mockery::mock('Yjv\TypeFactory\TypeFactoryInterface');
+        $options = array('key' =>' value');
+        $this->assertEquals(new CallbackBuilder($factory, $options), $this->type->createBuilder($factory, $options));
     }
 }

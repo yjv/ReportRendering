@@ -1,15 +1,7 @@
 <?php
 namespace Yjv\ReportRendering\Datasource\Extension\Core\Type;
 
-use Yjv\ReportRendering\Datasource\DatasourceBuilder;
-
 use Yjv\ReportRendering\Datasource\AbstractDatasourceType;
-
-use Yjv\ReportRendering\Datasource\DatasourceBuilderInterface;
-
-use Yjv\TypeFactory\TypeFactoryInterface;
-
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 class DatasourceType extends AbstractDatasourceType
 {
@@ -27,31 +19,5 @@ class DatasourceType extends AbstractDatasourceType
     public function getParent()
     {
         return false;
-    }
-
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
-    {
-        $resolver
-            ->setDefaults(array('constructor' => null))
-            ->setAllowedTypes(array('constructor' => array('callable', 'null')))
-        ;
-    }
-
-    /**
-     * @param unknown $builder
-     * @param array $options
-     */
-    public function buildDatasource(DatasourceBuilderInterface $builder, array $options)
-    {
-        if ($options['constructor']) {
-            
-            $builder->setConstructor($options['constructor']);
-        }
-    }
-
-    public function createBuilder(TypeFactoryInterface $factory, array $options)
-    {
-        $builder = new DatasourceBuilder($factory, $options);
-        return $builder;
     }
 }

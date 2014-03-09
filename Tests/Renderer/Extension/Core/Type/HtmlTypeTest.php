@@ -3,18 +3,18 @@ namespace Yjv\ReportRendering\Tests\Renderer\Extension\Core;
 
 use Symfony\Component\OptionsResolver\Options;
 use Yjv\ReportRendering\Renderer\Extension\Core\Builder\HtmlBuilder;
-use Yjv\ReportRendering\Renderer\Html\HtmlRenderer;
-
 use Yjv\ReportRendering\Util\Factory;
-
 use Yjv\ReportRendering\Renderer\Extension\Core\Type\HtmlType;
-
 use Symfony\Component\OptionsResolver\OptionsResolver;
-
 use Yjv\ReportRendering\Tests\Renderer\Extension\Core\Type\TypeTestCase;
-
 use Mockery;
 
+/**
+ * Class HtmlTypeTest
+ * @package Yjv\ReportRendering\Tests\Renderer\Extension\Core
+ *
+ * @property HtmlType $type
+ */
 class HtmlTypeTest extends TypeTestCase
 {
     protected $formFactory;
@@ -58,13 +58,15 @@ class HtmlTypeTest extends TypeTestCase
                                 'data_key' => 'report_filters',
                                 'filter_uri' => null,
                                 'paginate' => true,
-                                'renderer_options' => function (Options $options) {
-                                        return array(
-                                            'data_key' => $options['data_key'],
-                                            'filter_uri' => $options['filter_uri'],
-                                            'paginate' => $options['paginate']
-                                        );
-                                    }
+                                'renderer_options' => function (Options $options)
+                                {
+                                    return array(
+                                        'data_key' => $options['data_key'],
+                                        'filter_uri' => $options['filter_uri'],
+                                        'paginate' => $options['paginate']
+                                    );
+                                },
+                                'templating_engine' => $this->templatingEngine
                             ),
                             $value
                         );
@@ -89,7 +91,8 @@ class HtmlTypeTest extends TypeTestCase
                     'data_key' => 'string',
                     'filter_uri' => array('null', 'string'),
                     'paginate' => 'bool',
-                    'renderer_options' => 'array'
+                    'renderer_options' => 'array',
+                    'templating_engine' => 'Symfony\Component\Templating\EngineInterface'
                 )
             )
             ->andReturn(Mockery::self())
@@ -130,6 +133,7 @@ class HtmlTypeTest extends TypeTestCase
             ),
             $options['renderer_options']
         );
+        $this->assertSame($this->templatingEngine, $options['templating_engine']);
     }
 
     public function testBuildFilterForm()
@@ -212,12 +216,17 @@ class HtmlTypeTest extends TypeTestCase
             'filter_form' => null,
             'renderer_options' => array(),
             'widget_attributes' => array(),
-            'template' => 'wrewer'
+            'template' => 'wrewer',
+            'templating_engine' => $this->templatingEngine
         );
         $builder = Mockery::mock('Yjv\ReportRendering\Renderer\RendererBuilderInterface')
             ->shouldReceive('setTemplate')
             ->once()
             ->with($options['template'])
+            ->getMock()
+            ->shouldReceive('setTemplatingEngine')
+            ->once()
+            ->with($options['templating_engine'])
             ->getMock()
         ;
         $this->type->buildRenderer($builder, $options);
@@ -229,7 +238,8 @@ class HtmlTypeTest extends TypeTestCase
             'filter_form' => Mockery::mock('Symfony\Component\Form\FormInterface'),
             'renderer_options' => array(),
             'widget_attributes' => array(),
-            'template' => 'wrewer'
+            'template' => 'wrewer',
+            'templating_engine' => $this->templatingEngine
         );
         $builder = Mockery::mock('Yjv\ReportRendering\Renderer\RendererBuilderInterface')
             ->shouldReceive('setTemplate')
@@ -239,6 +249,10 @@ class HtmlTypeTest extends TypeTestCase
             ->shouldReceive('setFilterForm')
             ->once()
             ->with($options['filter_form'])
+            ->getMock()
+            ->shouldReceive('setTemplatingEngine')
+            ->once()
+            ->with($options['templating_engine'])
             ->getMock()
         ;
         $this->type->buildRenderer($builder, $options);
@@ -250,7 +264,8 @@ class HtmlTypeTest extends TypeTestCase
             'filter_form' => null,
             'renderer_options' => array('key' => 'value'),
             'widget_attributes' => array(),
-            'template' => 'wrewer'
+            'template' => 'wrewer',
+            'templating_engine' => $this->templatingEngine
         );
         $builder = Mockery::mock('Yjv\ReportRendering\Renderer\RendererBuilderInterface')
             ->shouldReceive('setTemplate')
@@ -260,6 +275,10 @@ class HtmlTypeTest extends TypeTestCase
             ->shouldReceive('setRendererOptions')
             ->once()
             ->with($options['renderer_options'])
+            ->getMock()
+            ->shouldReceive('setTemplatingEngine')
+            ->once()
+            ->with($options['templating_engine'])
             ->getMock()
         ;
         $this->type->buildRenderer($builder, $options);
@@ -271,7 +290,8 @@ class HtmlTypeTest extends TypeTestCase
             'filter_form' => null,
             'renderer_options' => array(),
             'widget_attributes' => array('key' => 'value'),
-            'template' => 'wrewer'
+            'template' => 'wrewer',
+            'templating_engine' => $this->templatingEngine
         );
         $builder = Mockery::mock('Yjv\ReportRendering\Renderer\RendererBuilderInterface')
             ->shouldReceive('setTemplate')
@@ -282,6 +302,10 @@ class HtmlTypeTest extends TypeTestCase
             ->once()
             ->with($options['widget_attributes'])
             ->getMock()
+            ->shouldReceive('setTemplatingEngine')
+            ->once()
+            ->with($options['templating_engine'])
+            ->getMock()
         ;
         $this->type->buildRenderer($builder, $options);
     }
@@ -290,8 +314,8 @@ class HtmlTypeTest extends TypeTestCase
     {
         $factory = Mockery::mock('Yjv\TypeFactory\TypeFactoryInterface');
         $options = array('key' => 'value');
-        $this->assertEquals(new HtmlBuilder(
-            $this->templatingEngine, $factory, $options),
+        $this->assertEquals(
+            new HtmlBuilder($factory, $options),
             $this->type->createBuilder($factory, $options)
         );
     }

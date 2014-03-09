@@ -11,7 +11,7 @@ abstract class AbstractRendererType extends AbstractType
 {
     final public function build(BuilderInterface $builder, array $options)
     {
-        return $this->buildRenderer($builder, $options);
+        $this->buildRenderer($builder, $options);
     }
 
     public function buildRenderer(RendererBuilderInterface $builder, array $options)

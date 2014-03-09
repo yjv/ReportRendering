@@ -19,7 +19,7 @@ abstract class AbstractReportType extends AbstractType implements FinalizingType
 
     final public function build(BuilderInterface $builder, array $options)
     {
-        return $this->buildReport($builder, $options);
+        $this->buildReport($builder, $options);
     }
 
     public function buildReport(ReportBuilderInterface $reportBuilder, array $options)
@@ -27,7 +27,7 @@ abstract class AbstractReportType extends AbstractType implements FinalizingType
     }
 
     /**
-     * @param unknown $object
+     * @param ReportInterface $object
      * @param array $options
      */
     final public function finalize($object, array $options)

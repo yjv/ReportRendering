@@ -5,8 +5,9 @@ use Yjv\ReportRendering\Renderer\AbstractRendererBuilder;
 
 use Mockery;
 use Yjv\ReportRendering\Renderer\Grid\Column\Column;
+use Yjv\TypeFactory\Tests\BuilderTest;
 
-abstract class AbstractRendererBuilderTest extends \PHPUnit_Framework_TestCase
+abstract class AbstractRendererBuilderTest extends BuilderTest
 {
     /**
      * @var AbstractRendererBuilder

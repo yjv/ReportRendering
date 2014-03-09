@@ -29,7 +29,7 @@ class CallbackBuilder extends Builder implements DatasourceBuilderInterface
     }
 
     /**
-     * @return mixed
+     * @return callable
      */
     public function getCallback()
     {
@@ -55,6 +55,11 @@ class CallbackBuilder extends Builder implements DatasourceBuilderInterface
 
     public function getDatasource()
     {
+        if (!is_callable($this->getCallback())) {
+
+            throw new \RuntimeException('The callable callback is required to build the callback datasource');
+        }
+
         return new CallbackDatasource(
             $this->getCallback(),
             $this->getParams()

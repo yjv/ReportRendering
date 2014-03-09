@@ -4,7 +4,6 @@ namespace Yjv\ReportRendering\Renderer\Extension\Core\Builder;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Templating\EngineInterface;
 use Yjv\ReportRendering\Renderer\AbstractRendererBuilder;
-use Yjv\TypeFactory\TypeFactoryInterface;
 use Yjv\ReportRendering\Renderer\Html\HtmlRenderer;
 
 class HtmlBuilder extends AbstractRendererBuilder
@@ -14,15 +13,6 @@ class HtmlBuilder extends AbstractRendererBuilder
     protected $widgetAttributes = array();
     protected $filterForm;
     protected $rendererOptions = array();
-
-    public function __construct(
-        EngineInterface $templatingEngine,
-        TypeFactoryInterface $factory,
-        array $options = array()
-    ) {
-        $this->templatingEngine = $templatingEngine;
-        parent::__construct($factory, $options);
-    }
 
     public function getTemplate()
     {
@@ -39,6 +29,13 @@ class HtmlBuilder extends AbstractRendererBuilder
     {
         return $this->templatingEngine;
     }
+
+    public function setTemplatingEngine(EngineInterface $templatingEngine)
+    {
+        $this->templatingEngine = $templatingEngine;
+        return $this;
+    }
+
 
     /**
      * @param FormInterface $filterForm
@@ -95,10 +92,16 @@ class HtmlBuilder extends AbstractRendererBuilder
     }
 
     /**
+     * @throws \RuntimeException
      * @return HtmlRenderer
      */
     public function getRenderer()
     {
+        if (!$this->getTemplatingEngine()) {
+
+            throw new \RuntimeException('The templating engine is required to build the html renderer');
+        }
+
         $renderer =  new HtmlRenderer(
             $this->getTemplatingEngine(),
             $this->getGrid(),

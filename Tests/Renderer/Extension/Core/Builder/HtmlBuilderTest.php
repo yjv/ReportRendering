@@ -8,9 +8,7 @@
 
 namespace Yjv\ReportRendering\Tests\Renderer\Extension\Core\Builder;
 
-
 use Mockery;
-use Yjv\ReportRendering\Renderer\Csv\CsvRenderer;
 use Yjv\ReportRendering\Renderer\Extension\Core\Builder\HtmlBuilder;
 use Yjv\ReportRendering\Renderer\Html\HtmlRenderer;
 use Yjv\ReportRendering\Tests\Renderer\AbstractRendererBuilderTest;
@@ -31,7 +29,7 @@ class HtmlBuilderTest extends AbstractRendererBuilderTest
     {
         parent::setUp();
         $this->templatingEngine = Mockery::mock('Symfony\Component\Templating\EngineInterface');
-        $this->builder = new HtmlBuilder($this->templatingEngine, $this->factory);
+        $this->builder = new HtmlBuilder($this->factory);
     }
 
     public function testGettersSetters()
@@ -43,6 +41,7 @@ class HtmlBuilderTest extends AbstractRendererBuilderTest
         $this->assertSame($filterForm, $this->builder->getFilterForm());
         $this->assertSame($this->builder, $this->builder->setTemplate($template = 'saddaads'));
         $this->assertEquals($template, $this->builder->getTemplate());
+        $this->assertSame($this->builder, $this->builder->setTemplatingEngine($this->templatingEngine));
         $this->assertSame($this->templatingEngine, $this->builder->getTemplatingEngine());
         $this->assertSame($this->builder, $this->builder->setWidgetAttributes($attributes = array('fsdfdssdf' => 'vadule')));
         $this->assertEquals($attributes, $this->builder->getWidgetAttributes());
@@ -60,6 +59,7 @@ class HtmlBuilderTest extends AbstractRendererBuilderTest
             ->setTemplate($template)
             ->setWidgetAttributes($attributes)
             ->setRendererOptions($rendererOptions)
+            ->setTemplatingEngine($this->templatingEngine)
         ;
         $renderer = new HtmlRenderer($this->templatingEngine, $grid, $template);
         $renderer
@@ -72,6 +72,15 @@ class HtmlBuilderTest extends AbstractRendererBuilderTest
         ;
         $renderer->setFilterForm($filterForm);
         $this->assertEquals($renderer, $this->builder->getRenderer());
+    }
+
+    /**
+     * @expectedException \RuntimeException
+     * @expectedExceptionMessage The templating engine is required to build the html renderer
+     */
+    public function testGetRendererWithNoTemplatingEngine()
+    {
+        $this->builder->getRenderer();
     }
 }
  

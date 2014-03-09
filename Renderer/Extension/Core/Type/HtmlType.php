@@ -2,7 +2,6 @@
 namespace Yjv\ReportRendering\Renderer\Extension\Core\Type;
 
 use Symfony\Component\Templating\EngineInterface;
-
 use Yjv\ReportRendering\Renderer\Extension\Core\Builder\HtmlBuilder;
 use Yjv\ReportRendering\Util\Factory;
 use Symfony\Component\OptionsResolver\Options;
@@ -24,11 +23,12 @@ class HtmlType extends AbstractRendererType
     }
 
     /**
-     * @param \Yjv\ReportRendering\Renderer\RendererBuilderInterface $builder
+     * @param RendererBuilderInterface|HtmlBuilder $builder
      * @param array $options
      */
     public function buildRenderer(RendererBuilderInterface $builder, array $options)
     {
+        $builder->setTemplatingEngine($options['templating_engine']);
         $builder->setTemplate($options['template']);
 
         if ($options['filter_form']) {
@@ -76,7 +76,8 @@ class HtmlType extends AbstractRendererType
                         'filter_uri' => $options['filter_uri'],
                         'paginate' => $options['paginate']
                     );
-                }
+                },
+                'templating_engine' => $this->templatingEngine
             ))
             ->setAllowedTypes(array(
                 'filter_form' => array(
@@ -90,7 +91,8 @@ class HtmlType extends AbstractRendererType
                 'data_key' => 'string',
                 'filter_uri' => array('null', 'string'),
                 'paginate' => 'bool',
-                'renderer_options' => 'array'
+                'renderer_options' => 'array',
+                'templating_engine' => 'Symfony\Component\Templating\EngineInterface'
             ))
             ->setNormalizers(array(
                 'filter_fields' => function (Options $options, $filterFields)
@@ -132,7 +134,7 @@ class HtmlType extends AbstractRendererType
 
     public function createBuilder(TypeFactoryInterface $factory, array $options)
     {
-        return new HtmlBuilder($this->templatingEngine, $factory, $options);
+        return new HtmlBuilder($factory, $options);
     }
 
 }
