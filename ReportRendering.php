@@ -14,6 +14,7 @@ use Yjv\ReportRendering\DataTransformer\PropertyPathTransformer;
 use Yjv\ReportRendering\Report\Extension\Core\CoreExtension as CoreReportExtension;
 use Yjv\ReportRendering\Datasource\Extension\Core\CoreExtension as CoreDatasourceExtension;
 use Yjv\ReportRendering\Renderer\Extension\Core\CoreExtension as CoreRendererExtension;
+use Yjv\ReportRendering\Renderer\Extension\Symfony\SymfonyExtension as SymfonyRendererExtension;
 use Yjv\ReportRendering\Renderer\Grid\Column\Extension\Core\CoreExtension as CoreColumnExtension;
 
 use Yjv\ReportRendering\Report\ReportFactoryBuilder;
@@ -54,6 +55,15 @@ class ReportRendering
                 $formFactory ?: Forms::createFormFactory()
             ))
         ;
+
+        if ($formFactory) {
+
+            $reportFactoryBuilder
+                ->getRendererFactoryBuilder()
+                ->addExtension(new SymfonyRendererExtension($formFactory))
+            ;
+        }
+
         
         $reportFactoryBuilder
             ->getRendererFactoryBuilder()

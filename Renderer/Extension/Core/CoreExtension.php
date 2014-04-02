@@ -17,12 +17,10 @@ use Yjv\TypeFactory\AbstractExtension;
 class CoreExtension extends AbstractExtension
 {
     protected $renderer;
-    protected $formFactory;
-    
-    public function __construct(EngineInterface $renderer = null, FormFactoryInterface $formFactory = null)
+
+    public function __construct(EngineInterface $renderer = null)
     {
         $this->renderer = $renderer;
-        $this->formFactory = $formFactory;
     }
     
     public function loadTypes()
@@ -35,7 +33,7 @@ class CoreExtension extends AbstractExtension
         
         if ($this->renderer) {
             
-            $types[] = new HtmlType($this->renderer, $this->formFactory);
+            $types[] = new HtmlType($this->renderer);
         }
         
         return $types;

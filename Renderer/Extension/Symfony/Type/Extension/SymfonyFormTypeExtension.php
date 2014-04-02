@@ -6,7 +6,7 @@
  * Time: 8:57 PM
  */
 
-namespace Yjv\ReportRendering\Renderer\Extension\Core\Type\Extension;
+namespace Yjv\ReportRendering\Renderer\Extension\Symfony\Type\Extension;
 
 
 use Symfony\Component\Form\FormFactoryInterface;

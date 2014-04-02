@@ -6,13 +6,13 @@
  * Time: 9:39 PM
  */
 
-namespace Yjv\ReportRendering\Tests\Renderer\Extension\Core\Extension;
+namespace Yjv\ReportRendering\Tests\Renderer\Extension\Symfony\Type\Extension;
 
 
 use Mockery\MockInterface;
 use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Yjv\ReportRendering\Renderer\Extension\Core\Type\Extension\SymfonyFormTypeExtension;
+use Yjv\ReportRendering\Renderer\Extension\Symfony\Type\Extension\SymfonyFormTypeExtension;
 use Yjv\ReportRendering\Renderer\Html\Filter\SymfonyForm;
 
 class SymfonyFormTypeExtensionTest extends \PHPUnit_Framework_TestCase
