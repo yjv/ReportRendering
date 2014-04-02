@@ -9,6 +9,7 @@ use Yjv\ReportRendering\Filter\FilterCollectionInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Yjv\ReportRendering\Renderer\RendererInterface;
 use Yjv\ReportRendering\Datasource\DatasourceInterface;
+use Yjv\TypeFactory\TypeInterface;
 
 interface ReportBuilderInterface extends BuilderInterface
 {
@@ -18,14 +19,17 @@ interface ReportBuilderInterface extends BuilderInterface
     public function getReport();
 
     /**
-     * 
+     *
      * @param DatasourceInterface $datasource
+     * @param array $options
+     * @return $this
      */
     public function setDatasource($datasource, array $options = array());
 
     /**
-     * 
-     * @param DatasourceInterface $datasource
+     *
+     * @param \Yjv\ReportRendering\Filter\FilterCollectionInterface $filterCollection
+     * @return $this
      */
     public function setFilters(FilterCollectionInterface $filterCollection);
 
@@ -44,16 +48,19 @@ interface ReportBuilderInterface extends BuilderInterface
     public function addEventSubscriber(EventSubscriberInterface $subscriber);
 
     /**
-     * 
-     * @param RendererInterface|string|TypeInterface $renderer
+     *
+     * @param string $name
+     * @return $this
      */
     public function setDefaultRenderer($name);
 
     /**
-     * 
+     *
      * @param string $name
-     * @param RendererInterface|RendererTypeInterface|string $renderer an actual renderer, renderer type
+     * @param RendererInterface|TypeInterface|string $renderer an actual renderer, renderer type
      *  or name of a renderer type
+     * @param array $options
+     * @return
      */
     public function addRenderer($name, $renderer, array $options = array());
     

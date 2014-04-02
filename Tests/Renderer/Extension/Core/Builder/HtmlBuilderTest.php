@@ -37,7 +37,7 @@ class HtmlBuilderTest extends AbstractRendererBuilderTest
         parent::testGettersSetters();
         $this->assertSame($this->builder, $this->builder->setRendererOptions($rendererOptions = array('key' => 'value')));
         $this->assertEquals($rendererOptions, $this->builder->getRendererOptions());
-        $this->assertSame($this->builder, $this->builder->setFilterForm($filterForm = Mockery::mock('Symfony\Component\Form\FormInterface')));
+        $this->assertSame($this->builder, $this->builder->setFilterForm($filterForm = Mockery::mock('Yjv\ReportRendering\Renderer\Html\Filter\FormInterface')));
         $this->assertSame($filterForm, $this->builder->getFilterForm());
         $this->assertSame($this->builder, $this->builder->setTemplate($template = 'saddaads'));
         $this->assertEquals($template, $this->builder->getTemplate());
@@ -45,6 +45,10 @@ class HtmlBuilderTest extends AbstractRendererBuilderTest
         $this->assertSame($this->templatingEngine, $this->builder->getTemplatingEngine());
         $this->assertSame($this->builder, $this->builder->setWidgetAttributes($attributes = array('fsdfdssdf' => 'vadule')));
         $this->assertEquals($attributes, $this->builder->getWidgetAttributes());
+        $this->assertSame($this->builder, $this->builder->setJavascripts($javascripts = array('zxczzczcx' => 'tyuyt')));
+        $this->assertEquals($javascripts, $this->builder->getJavascripts());
+        $this->assertSame($this->builder, $this->builder->setStylesheets($stylesheets = array('hkhjkhk' => 'asdsa')));
+        $this->assertEquals($stylesheets, $this->builder->getStylesheets());
     }
 
     public function testGetRenderer()
@@ -52,19 +56,25 @@ class HtmlBuilderTest extends AbstractRendererBuilderTest
         $grid = Mockery::mock('Yjv\ReportRendering\Renderer\Grid\GridInterface');
         $template = 'fsfsdsfd';
         $attributes = array('fsdfdssdf' => 'vadule');
-        $filterForm = Mockery::mock('Symfony\Component\Form\FormInterface');
+        $filterForm = Mockery::mock('Yjv\ReportRendering\Renderer\Html\Filter\FormInterface');
         $rendererOptions = array('key' => 'value');
+        $javascripts = array('zxczzczcx' => 'tyuyt');
+        $stylesheets = array('hkhjkhk' => 'asdsa');
         $this->builder
             ->setGrid($grid)
             ->setTemplate($template)
             ->setWidgetAttributes($attributes)
             ->setRendererOptions($rendererOptions)
             ->setTemplatingEngine($this->templatingEngine)
+            ->setJavascripts($javascripts)
+            ->setStylesheets($stylesheets)
         ;
         $renderer = new HtmlRenderer($this->templatingEngine, $grid, $template);
         $renderer
             ->setAttribute('fsdfdssdf', 'vadule')
             ->setOption('key', 'value')
+            ->addJavascript(key($javascripts), current($javascripts))
+            ->addStylesheet(key($stylesheets), current($stylesheets))
         ;
         $this->assertEquals($renderer, $this->builder->getRenderer());
         $this->builder

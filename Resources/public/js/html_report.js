@@ -72,7 +72,7 @@ function ReportFiltering(reportId, dataKey, limit, offset) {
 
         var callback = function (data) {
 
-            self.report.find('.report-content').html(jQuery('#' + self.reportId + ' .report-content', data).html());
+            self.report.find('.report-content').html(jQuery(data).filter('#' + self.reportId).children('.report-content').html());
         };
 
         var outerCallback;

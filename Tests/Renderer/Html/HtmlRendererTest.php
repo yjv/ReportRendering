@@ -17,7 +17,8 @@ class HtmlRendererTest extends \PHPUnit_Framework_TestCase{
 	protected $grid;
 	protected $template;
 	protected $rendererEngine;
-	protected $renderer;
+	/** @var HtmlRenderer */
+    protected $renderer;
 	
 	public function setUp(){
 		
@@ -148,8 +149,8 @@ class HtmlRendererTest extends \PHPUnit_Framework_TestCase{
 	public function testFilterMethods() {
 		
 		$filters = new NullFilterCollection();
-		$filterForm = Mockery::mock('Symfony\Component\Form\FormInterface')
-		    ->shouldReceive('bind')
+		$filterForm = Mockery::mock('Yjv\ReportRendering\Renderer\Html\Filter\FormInterface')
+		    ->shouldReceive('setFilters')
 		    ->getMock()
 		;
 		
@@ -281,4 +282,48 @@ class HtmlRendererTest extends \PHPUnit_Framework_TestCase{
 	    $this->renderer->setFilters($filters);
 	    $this->assertEquals(4, $this->renderer->getPageCount());
 	}
+
+    public function testJavascriptGettersSetters()
+    {
+        $javascript1 = 'asddsaasd';
+        $javascript1Name = 'asddsaasdqweeqw';
+        $this->assertEquals(array(), $this->renderer->getJavascripts());
+        $this->assertSame($this->renderer, $this->renderer->addJavascript($javascript1Name, $javascript1));
+        $this->assertEquals(array(
+            $javascript1Name => $javascript1
+        ), $this->renderer->getJavascripts());
+        $javascript2 = 'asddsaasdsdffds';
+        $javascript2Name = 'asddsaasdqweeqwvbnvbn';
+        $this->assertSame($this->renderer, $this->renderer->addJavascript($javascript2Name, $javascript2));
+        $this->assertEquals(array(
+            $javascript1Name => $javascript1,
+            $javascript2Name => $javascript2
+        ), $this->renderer->getJavascripts());
+        $this->assertSame($this->renderer, $this->renderer->removeJavascript($javascript1Name));
+        $this->assertEquals(array(
+            $javascript2Name => $javascript2,
+        ), $this->renderer->getJavascripts());
+    }
+
+    public function testStylesheetsGettersSetters()
+    {
+        $stylesheet1 = 'asddsaasd';
+        $stylesheet1Name = 'asddsaasdqweeqw';
+        $this->assertEquals(array(), $this->renderer->getStylesheets());
+        $this->assertSame($this->renderer, $this->renderer->addStylesheet($stylesheet1Name, $stylesheet1));
+        $this->assertEquals(array(
+            $stylesheet1Name => $stylesheet1
+        ), $this->renderer->getStylesheets());
+        $stylesheet2 = 'asddsaasdsdffds';
+        $stylesheet2Name = 'asddsaasdqweeqwvbnvbn';
+        $this->assertSame($this->renderer, $this->renderer->addStylesheet($stylesheet2Name, $stylesheet2));
+        $this->assertEquals(array(
+            $stylesheet1Name => $stylesheet1,
+            $stylesheet2Name => $stylesheet2
+        ), $this->renderer->getStylesheets());
+        $this->assertSame($this->renderer, $this->renderer->removeStylesheet($stylesheet1Name));
+        $this->assertEquals(array(
+            $stylesheet2Name => $stylesheet2,
+        ), $this->renderer->getStylesheets());
+    }
 }

@@ -7,8 +7,8 @@ use Yjv\ReportRendering\FilterConstants;
 
 use Yjv\ReportRendering\Renderer\Grid\GridInterface;
 use Yjv\ReportRendering\Filter\FilterCollectionInterface;
+use Yjv\ReportRendering\Renderer\Html\Filter\FormInterface;
 use Yjv\ReportRendering\ReportData\ImmutableDataInterface;
-use Symfony\Component\Form\FormInterface;
 use Yjv\ReportRendering\Renderer\FilterAwareRendererInterface;
 
 class HtmlRenderer implements FilterAwareRendererInterface
@@ -16,16 +16,25 @@ class HtmlRenderer implements FilterAwareRendererInterface
     const DEFAULT_PAGINATION_OVERFLOW = 3;
     const PAGINATION_OVERFLOW_KEY = 'pagination_overflow';
     
+    /** @var  FilterCollectionInterface */
     protected $filters;
+    /** @var EngineInterface  */
     protected $renderer;
+    /** @var  string */
     protected $template;
     protected $attributes = array();
     protected $options = array();
+    /** @var  FormInterface|null */
     protected $filterForm;
+    /** @var  ImmutableDataInterface */
     protected $data;
+    /** @var GridInterface  */
     protected $grid;
+    /** @var  string|integer */
     protected $reportId;
     protected $forceReload = false;
+    protected $javascripts = array();
+    protected $stylesheets = array();
 
     public function __construct(EngineInterface $renderer, GridInterface $grid, $template)
     {
@@ -122,7 +131,10 @@ class HtmlRenderer implements FilterAwareRendererInterface
         $this->filters = $filters;
         return $this;
     }
-    
+
+    /**
+     * @return FilterCollectionInterface
+     */
     public function getFilters()
     {
         return $this->filters;
@@ -134,11 +146,22 @@ class HtmlRenderer implements FilterAwareRendererInterface
         return $this;
     }
 
+    /**
+     * @return FormInterface
+     */
     public function getFilterForm()
     {
         $this->assertFilterFormSet();
         $this->assertFiltersSet();
-        $this->filterForm->bind($this->filters->all());
+
+        static $filtersSet = false;
+
+        if (!$filtersSet) {
+
+            $this->filterForm->setFilters($this->filters->all());
+            $filtersSet = true;
+        }
+
         return $this->filterForm;
     }
 
@@ -187,6 +210,40 @@ class HtmlRenderer implements FilterAwareRendererInterface
     {
         $paginationOverflow = $this->getOption(self::PAGINATION_OVERFLOW_KEY, self::DEFAULT_PAGINATION_OVERFLOW);
         return (int)min($this->getPageCount(), $this->getPage() + $paginationOverflow);
+    }
+
+    public function getJavascripts()
+    {
+        return $this->javascripts;
+    }
+
+    public function addJavascript($name, $path)
+    {
+        $this->javascripts[$name] = $path;
+        return $this;
+    }
+
+    public function removeJavascript($name)
+    {
+        unset($this->javascripts[$name]);
+        return $this;
+    }
+
+    public function getStylesheets()
+    {
+        return $this->stylesheets;
+    }
+
+    public function addStylesheet($name, $path)
+    {
+        $this->stylesheets[$name] = $path;
+        return $this;
+    }
+
+    public function removeStylesheet($name)
+    {
+        unset($this->stylesheets[$name]);
+        return $this;
     }
 
     protected function assertDataSet()

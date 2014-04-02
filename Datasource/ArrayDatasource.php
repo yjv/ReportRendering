@@ -91,7 +91,7 @@ class ArrayDatasource implements MappedFilterDatasourceInterface
                 }
             );
         }
-        
+
         if ($sort = $this->filters->get(FilterConstants::SORT, false)) {
 
             reset($sort);

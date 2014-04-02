@@ -10,7 +10,7 @@ interface FilterCollectionInterface
 {
     /**
      * 
-     * @param scalar $name
+     * @param string $name
      * @param mixed $value
      */
     public function set($name, $value);
@@ -24,9 +24,10 @@ interface FilterCollectionInterface
     /**
      * an exception should be thrown if the collection requires the report to be set before filter
      * loading
-     * @param scalar $name
+     * @param string $name
      * @param mixed $default
      * @throws \Yjv\ReportRendering\Filter\ReportIdNotSetException
+     * @return mixed
      */
     public function get($name, $default = null);
 

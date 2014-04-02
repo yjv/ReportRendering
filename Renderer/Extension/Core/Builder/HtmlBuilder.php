@@ -1,9 +1,9 @@
 <?php
 namespace Yjv\ReportRendering\Renderer\Extension\Core\Builder;
 
-use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Templating\EngineInterface;
 use Yjv\ReportRendering\Renderer\AbstractRendererBuilder;
+use Yjv\ReportRendering\Renderer\Html\Filter\FormInterface;
 use Yjv\ReportRendering\Renderer\Html\HtmlRenderer;
 
 class HtmlBuilder extends AbstractRendererBuilder
@@ -13,7 +13,9 @@ class HtmlBuilder extends AbstractRendererBuilder
     protected $widgetAttributes = array();
     protected $filterForm;
     protected $rendererOptions = array();
+    protected $javascripts = array();
 
+    protected $stylesheets = array();
     public function getTemplate()
     {
         return $this->template;
@@ -36,7 +38,6 @@ class HtmlBuilder extends AbstractRendererBuilder
         return $this;
     }
 
-
     /**
      * @param FormInterface $filterForm
      * @return $this
@@ -46,6 +47,7 @@ class HtmlBuilder extends AbstractRendererBuilder
         $this->filterForm = $filterForm;
         return $this;
     }
+
 
     /**
      * @return mixed
@@ -92,6 +94,42 @@ class HtmlBuilder extends AbstractRendererBuilder
     }
 
     /**
+     * @param array $javascripts
+     * @return $this
+     */
+    public function setJavascripts(array $javascripts)
+    {
+        $this->javascripts = $javascripts;
+        return $this;
+    }
+
+    /**
+     * @return array
+     */
+    public function getJavascripts()
+    {
+        return $this->javascripts;
+    }
+
+    /**
+     * @param array $stylesheets
+     * @return $this
+     */
+    public function setStylesheets(array $stylesheets)
+    {
+        $this->stylesheets = $stylesheets;
+        return $this;
+    }
+
+    /**
+     * @return array
+     */
+    public function getStylesheets()
+    {
+        return $this->stylesheets;
+    }
+
+    /**
      * @throws \RuntimeException
      * @return HtmlRenderer
      */
@@ -121,6 +159,16 @@ class HtmlBuilder extends AbstractRendererBuilder
         foreach ($this->getRendererOptions() as $name => $value) {
 
             $renderer->setOption($name, $value);
+        }
+
+        foreach ($this->getJavascripts() as $name => $path) {
+
+            $renderer->addJavascript($name, $path);
+        }
+
+        foreach ($this->getStylesheets() as $name => $path) {
+
+            $renderer->addStylesheet($name, $path);
         }
 
         return $renderer;

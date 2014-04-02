@@ -3,9 +3,7 @@ namespace Yjv\ReportRendering\Renderer\Extension\Core\Type;
 
 use Symfony\Component\Templating\EngineInterface;
 use Yjv\ReportRendering\Renderer\Extension\Core\Builder\HtmlBuilder;
-use Yjv\ReportRendering\Util\Factory;
 use Symfony\Component\OptionsResolver\Options;
-use Symfony\Component\Form\FormFactoryInterface;
 use Yjv\ReportRendering\Renderer\RendererBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Yjv\ReportRendering\Renderer\AbstractRendererType;
@@ -14,12 +12,10 @@ use Yjv\TypeFactory\TypeFactoryInterface;
 class HtmlType extends AbstractRendererType
 {
     protected $templatingEngine;
-    protected $formFactory;
 
-    public function __construct(EngineInterface $templatingEngine, FormFactoryInterface $formFactory = null)
+    public function __construct(EngineInterface $templatingEngine)
     {
         $this->templatingEngine = $templatingEngine;
-        $this->formFactory = $formFactory;
     }
 
     /**
@@ -45,6 +41,9 @@ class HtmlType extends AbstractRendererType
 
             $builder->setWidgetAttributes($options['widget_attributes']);
         }
+
+        $builder->setJavascripts($options['javascripts']);
+        $builder->setStylesheets($options['stylesheets']);
     }
 
     /**
@@ -55,17 +54,10 @@ class HtmlType extends AbstractRendererType
         $type = $this;
 
         $resolver
-            ->setRequired(array('template'))
             ->setDefaults(array(
-                'filter_form' => function (Options $options) use ($type)
-                {
-                    //@codeCoverageIgnoreStart
-                    return $type->buildFilterForm($options);
-                    //@codeCoverageIgnoreEnd
-                },
+                'template' => 'html.html.twig',
+                'filter_form' => null,
                 'widget_attributes' => array(),
-                'filter_fields' => array(),
-                'filter_form_options' => array('csrf_protection' => false),
                 'data_key' => 'report_filters',
                 'filter_uri' => null,
                 'paginate' => true,
@@ -77,49 +69,28 @@ class HtmlType extends AbstractRendererType
                         'paginate' => $options['paginate']
                     );
                 },
-                'templating_engine' => $this->templatingEngine
+                'templating_engine' => $this->templatingEngine,
+                'report_rendering_resources_dir' => dirname(dirname(dirname(dirname(__DIR__)))).DIRECTORY_SEPARATOR.'Resources'.DIRECTORY_SEPARATOR.'views',
+                'javascripts' => array(),
+                'stylesheets' => array()
             ))
             ->setAllowedTypes(array(
                 'filter_form' => array(
                     'null',
-                    'Symfony\Component\Form\FormInterface'
+                    'Yjv\ReportRendering\Renderer\Html\Filter\FormInterface'
                 ),
                 'widget_attributes' => 'array',
                 'template' => 'string',
-                'filter_fields' => 'array',
-                'filter_form_options' => 'array',
                 'data_key' => 'string',
                 'filter_uri' => array('null', 'string'),
                 'paginate' => 'bool',
                 'renderer_options' => 'array',
-                'templating_engine' => 'Symfony\Component\Templating\EngineInterface'
-            ))
-            ->setNormalizers(array(
-                'filter_fields' => function (Options $options, $filterFields)
-                {
-                    //@codeCoverageIgnoreStart
-                    return Factory::normalizeCollectionToFactoryArguments($filterFields);
-                    //@codeCoverageIgnoreEnd
-                }
+                'templating_engine' => 'Symfony\Component\Templating\EngineInterface',
+                'report_rendering_resources_dir' => 'string',
+                'javascripts' => 'array',
+                'stylesheets' => 'array',
             ));
 
-    }
-
-    public function buildFilterForm(Options $options)
-    {
-        if (!$this->formFactory || empty($options['filter_fields'])) {
-
-            return null;
-        }
-
-        $builder = $this->formFactory->createBuilder('form', null, $options['filter_form_options']);
-
-        foreach ($options['filter_fields'] as $name => $fieldOptions) {
-
-            $builder->add($name, $fieldOptions[0], $fieldOptions[1]);
-        }
-
-        return $builder->getForm();
     }
 
     public function getName()

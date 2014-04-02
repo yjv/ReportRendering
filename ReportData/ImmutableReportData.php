@@ -9,7 +9,7 @@ class ImmutableReportData implements ImmutableDataInterface
     /**
      * 
      * @param ImmutableDataInterface $data
-     * @return \Yjv\ReportRendering\ReportData\ImmutableReportData
+     * @return static
      */
     public static function createFromData(ImmutableDataInterface $data)
     {

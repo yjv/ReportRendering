@@ -27,6 +27,7 @@ abstract class AbstractSessionFilterCollection implements
     public function setReportId($reportId)
     {
         $this->reportId = $reportId;
+        $this->loadFilters();
         return $this;
     }
 

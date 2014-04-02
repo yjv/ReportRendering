@@ -16,7 +16,9 @@
 	    "twig/twig": "*",
 	    "mockery/mockery": "@dev",
 	    "symfony/templating": "~2.0",
-	    "symfony/dependency-injection": "~2.0"
+	    "symfony/dependency-injection": "~2.0",
+        "symfony/twig-bridge": "~2.0",
+        "twig/extensions": "*"
 	},
 	"autoload": {
 	    "psr-0": {

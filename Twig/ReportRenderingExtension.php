@@ -1,35 +1,33 @@
 <?php
+/**
+ * Created by PhpStorm.
+ * User: yosefderay
+ * Date: 3/23/14
+ * Time: 12:57 AM
+ */
+
 namespace Yjv\ReportRendering\Twig;
+
 
 class ReportRenderingExtension extends \Twig_Extension
 {
-    public function attributes(array $attributes, array $defaults = array())
-    {
-
-        if (isset($defaults['class']) && isset($attributes['class'])) {
-
-            $attributes['class'] .= ' ' . $defaults['class'];
-        }
-
-        $attributes = array_replace($defaults, $attributes);
-
-        $attributesString = ' ';
-
-        foreach ($attributes as $name => $value) {
-
-            $attributesString .= sprintf('%s="%s" ', $name, $value);
-        }
-
-        return $attributesString;
-    }
-
     public function getFilters()
     {
-        return array('attributes' => new \Twig_Filter_Method($this, 'attributes', array('is_safe' => array('html'))));
+        return array('trans' => new \Twig_Filter_Method($this, 'trans'));
     }
 
+    /**
+     * Returns the name of the extension.
+     *
+     * @return string The extension name
+     */
     public function getName()
     {
-        return 'report_rendering_extension';
+        return 'report_rendering';
+    }
+
+    public function trans($value)
+    {
+        return $value;
     }
 }

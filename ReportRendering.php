@@ -20,6 +20,11 @@ use Yjv\ReportRendering\Report\ReportFactoryBuilder;
 
 class ReportRendering
 {
+    /**
+     * @param EngineInterface $templatingEngine
+     * @param FormFactoryInterface $formFactory
+     * @return \Yjv\TypeFactory\TypeFactoryInterface
+     */
     public static function createReportFactory(
         EngineInterface $templatingEngine = null,
         FormFactoryInterface $formFactory = null

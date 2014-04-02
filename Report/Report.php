@@ -138,8 +138,10 @@ class Report implements ReportInterface
     }
 
     /**
-     * 
-     * @return mixed the data returned from the datasoucre filtered by the post load listeners
+     *
+     * @param $rendererName
+     * @param \Yjv\ReportRendering\Renderer\RendererInterface $renderer
+     * @return mixed the data returned from the datasource filtered by the post load listeners
      */
     public function getData($rendererName, RendererInterface $renderer)
     {

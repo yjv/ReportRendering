@@ -28,7 +28,6 @@ class HtmlTypeTest extends TypeTestCase
         $this->type = new HtmlType($this->templatingEngine, $this->formFactory);
     }
 
-
     public function testSetDefaultOptions()
     {
         $testCase = $this;
@@ -36,11 +35,6 @@ class HtmlTypeTest extends TypeTestCase
         $templatingEngine = $this->templatingEngine;
 
         $resolver = Mockery::mock('Symfony\Component\OptionsResolver\OptionsResolverInterface')
-            ->shouldReceive('setRequired')
-            ->once()
-            ->with(array('template'))
-            ->andReturn(Mockery::self())
-            ->getMock()
             ->shouldReceive('setDefaults')
             ->once()
             ->with(
@@ -48,26 +42,24 @@ class HtmlTypeTest extends TypeTestCase
                     function ($value) use ($testCase, $type, $templatingEngine) {
                         $testCase->assertEquals(
                             array(
-                                'filter_form' => function (Options $options) use ($type, $templatingEngine) {
-                                        //@codeCoverageIgnoreStart
-                                        return $type->buildFilterForm($options);
-                                        //@codeCoverageIgnoreEnd
-                                    },
+                                'template' => 'html.html.twig',
+                                'filter_form' => null,
                                 'widget_attributes' => array(),
-                                'filter_fields' => array(),
-                                'filter_form_options' => array('csrf_protection' => false),
                                 'data_key' => 'report_filters',
                                 'filter_uri' => null,
                                 'paginate' => true,
                                 'renderer_options' => function (Options $options)
-                                {
-                                    return array(
-                                        'data_key' => $options['data_key'],
-                                        'filter_uri' => $options['filter_uri'],
-                                        'paginate' => $options['paginate']
-                                    );
-                                },
-                                'templating_engine' => $templatingEngine
+                                    {
+                                        return array(
+                                            'data_key' => $options['data_key'],
+                                            'filter_uri' => $options['filter_uri'],
+                                            'paginate' => $options['paginate']
+                                        );
+                                    },
+                                'templating_engine' => $templatingEngine,
+                                'report_rendering_resources_dir' => dirname(dirname(dirname(dirname(dirname(__DIR__))))).DIRECTORY_SEPARATOR.'Resources'.DIRECTORY_SEPARATOR.'views',
+                                'javascripts' => array(),
+                                'stylesheets' => array()
                             ),
                             $value
                         );
@@ -79,43 +71,22 @@ class HtmlTypeTest extends TypeTestCase
             ->getMock()
             ->shouldReceive('setAllowedTypes')
             ->once()
-            ->with(
-                array(
-                    'filter_form' => array(
-                        'null',
-                        'Symfony\Component\Form\FormInterface'
-                    ),
-                    'widget_attributes' => 'array',
-                    'template' => 'string',
-                    'filter_fields' => 'array',
-                    'filter_form_options' => 'array',
-                    'data_key' => 'string',
-                    'filter_uri' => array('null', 'string'),
-                    'paginate' => 'bool',
-                    'renderer_options' => 'array',
-                    'templating_engine' => 'Symfony\Component\Templating\EngineInterface'
-                )
-            )
-            ->andReturn(Mockery::self())
-            ->getMock()
-            ->shouldReceive('setNormalizers')
-            ->once()
-            ->with(
-                Mockery::on(
-                    function ($value) use ($testCase) {
-                        $testCase->assertEquals(
-                            array(
-                                'filter_fields' => function (Options $options, $filterFields)
-                                {
-                                    return Factory::normalizeCollectionToFactoryArguments($filterFields);
-                                }
-                            ),
-                            $value
-                        );
-                        return true;
-                    }
-                )
-            )
+            ->with(array(
+                'filter_form' => array(
+                    'null',
+                    'Yjv\ReportRendering\Renderer\Html\Filter\FormInterface'
+                ),
+                'widget_attributes' => 'array',
+                'template' => 'string',
+                'data_key' => 'string',
+                'filter_uri' => array('null', 'string'),
+                'paginate' => 'bool',
+                'renderer_options' => 'array',
+                'templating_engine' => 'Symfony\Component\Templating\EngineInterface',
+                'report_rendering_resources_dir' => 'string',
+                'javascripts' => 'array',
+                'stylesheets' => 'array',
+            ))
             ->andReturn(Mockery::self())
             ->getMock();
         $this->type->setDefaultOptions($resolver);
@@ -137,70 +108,6 @@ class HtmlTypeTest extends TypeTestCase
         $this->assertSame($this->templatingEngine, $options['templating_engine']);
     }
 
-    public function testBuildFilterForm()
-    {
-        $fields = array(
-            'field1' => array('sfsdfds', array('key1' => 'value1')),
-            'field2' => array('sfsdfds', array('key2' => 'value2')),
-        );
-        $formOptions = array('key' => 'value');
-
-        $options = Mockery::mock('Symfony\Component\OptionsResolver\Options')
-            ->shouldReceive('offsetGet')
-            ->once()
-            ->with('filter_form_options')
-            ->andReturn($formOptions)
-            ->getMock()
-            ->shouldReceive('offsetExists')
-            ->once()
-            ->with('filter_fields')
-            ->andReturn(true)
-            ->getMock()
-            ->shouldReceive('offsetGet')
-            ->twice()
-            ->with('filter_fields')
-            ->andReturn($fields)
-            ->getMock()
-        ;
-        $form = Mockery::mock('Symfony\Component\Form\FormInterface');
-        $builder = Mockery::mock('Symfony\Component\Form\FormBuilderInterface')
-            ->shouldReceive('add')
-            ->once()
-            ->with('field1', $fields['field1'][0], $fields['field1'][1])
-            ->getMock()
-            ->shouldReceive('add')
-            ->once()
-            ->with('field2', $fields['field2'][0], $fields['field2'][1])
-            ->getMock()
-            ->shouldReceive('getForm')
-            ->once()
-            ->andReturn($form)
-            ->getMock();
-        $this->formFactory
-            ->shouldReceive('createBuilder')
-            ->once()
-            ->with('form', null, $formOptions)
-            ->andReturn($builder);
-        $this->assertSame($form, $this->type->buildFilterForm($options));
-    }
-
-    public function testBuildFilterFormWithNoFormFactory()
-    {
-        $type = new HtmlType($this->templatingEngine);
-        $this->assertNull($type->buildFilterForm(Mockery::mock('Symfony\Component\OptionsResolver\Options')));
-    }
-
-    public function testBuildFilterFormWithoutFormFields()
-    {
-        $options = Mockery::mock('Symfony\Component\OptionsResolver\Options')
-            ->shouldReceive('offsetExists')
-            ->once()
-            ->with('filter_fields')
-            ->andReturn(false)
-            ->getMock();
-        $this->assertNull($this->type->buildFilterForm($options));
-    }
-
     public function testGetName()
     {
         $this->assertEquals('html', $this->type->getName());
@@ -218,7 +125,9 @@ class HtmlTypeTest extends TypeTestCase
             'renderer_options' => array(),
             'widget_attributes' => array(),
             'template' => 'wrewer',
-            'templating_engine' => $this->templatingEngine
+            'templating_engine' => $this->templatingEngine,
+            'javascripts' => array('key' => 'value'),
+            'stylesheets' => array('key2' => 'value2')
         );
         $builder = Mockery::mock('Yjv\ReportRendering\Renderer\RendererBuilderInterface')
             ->shouldReceive('setTemplate')
@@ -228,6 +137,14 @@ class HtmlTypeTest extends TypeTestCase
             ->shouldReceive('setTemplatingEngine')
             ->once()
             ->with($options['templating_engine'])
+            ->getMock()
+            ->shouldReceive('setJavascripts')
+            ->once()
+            ->with($options['javascripts'])
+            ->getMock()
+            ->shouldReceive('setStylesheets')
+            ->once()
+            ->with($options['stylesheets'])
             ->getMock()
         ;
         $this->type->buildRenderer($builder, $options);
@@ -240,7 +157,9 @@ class HtmlTypeTest extends TypeTestCase
             'renderer_options' => array(),
             'widget_attributes' => array(),
             'template' => 'wrewer',
-            'templating_engine' => $this->templatingEngine
+            'templating_engine' => $this->templatingEngine,
+            'javascripts' => array('key' => 'value'),
+            'stylesheets' => array('key2' => 'value2')
         );
         $builder = Mockery::mock('Yjv\ReportRendering\Renderer\RendererBuilderInterface')
             ->shouldReceive('setTemplate')
@@ -255,6 +174,14 @@ class HtmlTypeTest extends TypeTestCase
             ->once()
             ->with($options['templating_engine'])
             ->getMock()
+            ->shouldReceive('setJavascripts')
+            ->once()
+            ->with($options['javascripts'])
+            ->getMock()
+            ->shouldReceive('setStylesheets')
+            ->once()
+            ->with($options['stylesheets'])
+            ->getMock()
         ;
         $this->type->buildRenderer($builder, $options);
     }
@@ -266,7 +193,9 @@ class HtmlTypeTest extends TypeTestCase
             'renderer_options' => array('key' => 'value'),
             'widget_attributes' => array(),
             'template' => 'wrewer',
-            'templating_engine' => $this->templatingEngine
+            'templating_engine' => $this->templatingEngine,
+            'javascripts' => array('key' => 'value'),
+            'stylesheets' => array('key2' => 'value2')
         );
         $builder = Mockery::mock('Yjv\ReportRendering\Renderer\RendererBuilderInterface')
             ->shouldReceive('setTemplate')
@@ -281,6 +210,14 @@ class HtmlTypeTest extends TypeTestCase
             ->once()
             ->with($options['templating_engine'])
             ->getMock()
+            ->shouldReceive('setJavascripts')
+            ->once()
+            ->with($options['javascripts'])
+            ->getMock()
+            ->shouldReceive('setStylesheets')
+            ->once()
+            ->with($options['stylesheets'])
+            ->getMock()
         ;
         $this->type->buildRenderer($builder, $options);
     }
@@ -292,7 +229,9 @@ class HtmlTypeTest extends TypeTestCase
             'renderer_options' => array(),
             'widget_attributes' => array('key' => 'value'),
             'template' => 'wrewer',
-            'templating_engine' => $this->templatingEngine
+            'templating_engine' => $this->templatingEngine,
+            'javascripts' => array('key' => 'value'),
+            'stylesheets' => array('key2' => 'value2')
         );
         $builder = Mockery::mock('Yjv\ReportRendering\Renderer\RendererBuilderInterface')
             ->shouldReceive('setTemplate')
@@ -306,6 +245,14 @@ class HtmlTypeTest extends TypeTestCase
             ->shouldReceive('setTemplatingEngine')
             ->once()
             ->with($options['templating_engine'])
+            ->getMock()
+            ->shouldReceive('setJavascripts')
+            ->once()
+            ->with($options['javascripts'])
+            ->getMock()
+            ->shouldReceive('setStylesheets')
+            ->once()
+            ->with($options['stylesheets'])
             ->getMock()
         ;
         $this->type->buildRenderer($builder, $options);
