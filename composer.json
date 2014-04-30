@@ -22,7 +22,8 @@
 	},
 	"autoload": {
 	    "psr-0": {
-	        "Yjv\\ReportRendering": ""
+	        "Yjv\\ReportRendering": "",
+            "": "vendor/Links"
 	    }
 	},
 	"target-dir": "Yjv/ReportRendering"

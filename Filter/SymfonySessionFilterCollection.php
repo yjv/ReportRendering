@@ -23,7 +23,7 @@ class SymfonySessionFilterCollection extends AbstractSessionFilterCollection
      */
     protected function getFilterPath()
     {
-        return $this->sessionPath . '.' . $this->reportId;
+        return $this->sessionPath . '.' . $this->reportName;
     }
 
     /**

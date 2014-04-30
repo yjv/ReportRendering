@@ -70,10 +70,4 @@ interface ColumnBuilderInterface extends BuilderInterface
      * @return \Yjv\ReportRendering\Renderer\Grid\Column\ColumnBuilderInterface
      */
     public function prependDataTransformer($dataTransformer);
-
-    /**
-     * returns the built column
-     * @return \Yjv\ReportRendering\Renderer\Grid\Column\ColumnInterface
-     */
-    public function getColumn();
 }

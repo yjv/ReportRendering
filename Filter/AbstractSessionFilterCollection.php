@@ -1,6 +1,8 @@
 <?php
 namespace Yjv\ReportRendering\Filter;
 
+use Yjv\ReportRendering\Report\ReportInterface;
+
 /**
  * filter collection that holds filter values in the session for multiple reports
  * @author yosefderay
@@ -11,7 +13,7 @@ abstract class AbstractSessionFilterCollection implements
     DefaultedFilterCollectionInterface
 {
 
-    protected $reportId;
+    protected $reportName;
     protected $sessionPath = 'report_filters';
     protected $filters = array();
 
@@ -22,11 +24,11 @@ abstract class AbstractSessionFilterCollection implements
     
     /**
      * (non-PHPdoc)
-     * @see \Yjv\ReportRendering\Filter\MultiReportFilterCollectionInterface::setReportId()
+     * @see \Yjv\ReportRendering\Filter\MultiReportFilterCollectionInterface::setReportName()
      */
-    public function setReportId($reportId)
+    public function setReportName($reportName)
     {
-        $this->reportId = $reportId;
+        $this->reportName = $reportName;
         $this->loadFilters();
         return $this;
     }

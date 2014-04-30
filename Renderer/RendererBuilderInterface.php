@@ -6,7 +6,6 @@ use Yjv\TypeFactory\BuilderInterface;
 
 interface RendererBuilderInterface extends BuilderInterface
 {
-    public function getRenderer();
     public function setGrid(GridInterface $grid);
     public function getGrid();
     public function addColumn($column, array $options = array());

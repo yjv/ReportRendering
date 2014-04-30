@@ -14,11 +14,6 @@ use Yjv\TypeFactory\TypeInterface;
 interface ReportBuilderInterface extends BuilderInterface
 {
     /**
-     * @return ReportInterface the fully configured report
-     */
-    public function getReport();
-
-    /**
      *
      * @param DatasourceInterface $datasource
      * @param array $options
@@ -63,10 +58,4 @@ interface ReportBuilderInterface extends BuilderInterface
      * @return
      */
     public function addRenderer($name, $renderer, array $options = array());
-    
-    /**
-     * 
-     * @param IdGeneratorInterface $idGenerator
-     */
-    public function setIdGenerator(IdGeneratorInterface $idGenerator);
 }

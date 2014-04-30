@@ -8,6 +8,7 @@ use Yjv\ReportRendering\FilterConstants;
 use Yjv\ReportRendering\Renderer\Grid\GridInterface;
 use Yjv\ReportRendering\Filter\FilterCollectionInterface;
 use Yjv\ReportRendering\Renderer\Html\Filter\FormInterface;
+use Yjv\ReportRendering\Report\ReportInterface;
 use Yjv\ReportRendering\ReportData\ImmutableDataInterface;
 use Yjv\ReportRendering\Renderer\FilterAwareRendererInterface;
 
@@ -31,7 +32,7 @@ class HtmlRenderer implements FilterAwareRendererInterface
     /** @var GridInterface  */
     protected $grid;
     /** @var  string|integer */
-    protected $reportId;
+    protected $report;
     protected $forceReload = false;
     protected $javascripts = array();
     protected $stylesheets = array();
@@ -175,15 +176,15 @@ class HtmlRenderer implements FilterAwareRendererInterface
         return $this->template;
     }
 
-    public function setReportId($reportId)
+    public function setReport(ReportInterface $report)
     {
-        $this->reportId = $reportId;
+        $this->report = $report->getName();
         return $this;
     }
 
-    public function getReportId()
+    public function getReport()
     {
-        return $this->reportId;
+        return $this->report;
     }
     
     public function getPage()

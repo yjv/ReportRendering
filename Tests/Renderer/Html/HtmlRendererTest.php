@@ -35,7 +35,7 @@ class HtmlRendererTest extends \PHPUnit_Framework_TestCase{
 		$reportId = 'sddsffsdsfsd';
 		
 		$this->renderer->setReportId($reportId);
-		$this->assertEquals($reportId, $this->renderer->getReportId()); 
+		$this->assertEquals($reportId, $this->renderer->getReport());
 		$this->assertFalse($this->renderer->getForceReload());
 		$this->grid
 		    ->shouldReceive('setForceReload')

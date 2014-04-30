@@ -1,6 +1,7 @@
 <?php
 namespace Yjv\ReportRendering\Renderer;
 
+use Yjv\ReportRendering\Report\ReportInterface;
 use Yjv\ReportRendering\ReportData\ImmutableDataInterface;
 
 /**
@@ -28,7 +29,8 @@ interface RendererInterface
 
     /**
      * sets the report's id
-     * @param scalar $reportId
+     * @param \Yjv\ReportRendering\Report\ReportInterface $report
+     * @return
      */
-    public function setReportId($reportId);
+    public function setReport(ReportInterface $report);
 }

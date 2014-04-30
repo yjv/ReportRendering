@@ -110,7 +110,5 @@ interface ReportInterface
      */
     public function setEventDispatcher(EventDispatcherInterface $eventDispatcher);
 
-    public function getId();
-
-    public function setIdGenerator(IdGeneratorInterface $idGenerator);
+    public function getName();
 }

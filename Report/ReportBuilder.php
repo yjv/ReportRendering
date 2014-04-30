@@ -5,6 +5,7 @@ use Yjv\ReportRendering\IdGenerator\IdGeneratorInterface;
 
 use Yjv\ReportRendering\Renderer\LazyLoadedRenderer;
 
+use Yjv\TypeFactory\AbstractNamedBuilder;
 use Yjv\TypeFactory\Builder;
 
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
@@ -13,7 +14,13 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Yjv\ReportRendering\Renderer\RendererInterface;
 use Yjv\ReportRendering\Datasource\DatasourceInterface;
 
-class ReportBuilder extends Builder implements ReportBuilderInterface
+/**
+ * Class ReportBuilder
+ * @package Yjv\ReportRendering\Report
+ *
+ * @property $factory ReportFactoryInterface
+ */
+class ReportBuilder extends AbstractNamedBuilder implements ReportBuilderInterface
 {
     protected $renderers = array();
     protected $defaultRenderer = ReportInterface::DEFAULT_RENDERER_KEY;
@@ -22,25 +29,29 @@ class ReportBuilder extends Builder implements ReportBuilderInterface
     protected $eventDispatcher;
     protected $idGenerator;
 
-    public function __construct(ReportFactoryInterface $factory, EventDispatcherInterface $eventDispatcher, array $options = array())
-    {
+    public function __construct(
+        $name,
+        ReportFactoryInterface $factory,
+        EventDispatcherInterface $eventDispatcher,
+        array $options = array()
+    ) {
         $this->eventDispatcher = $eventDispatcher;
-        parent::__construct($factory, $options);
+        parent::__construct($name, $factory, $options);
     }
 
     /**
      * @return ReportInterface the fully configured report
      */
-    public function getReport()
+    public function build()
     {
         $this->assertBuildable();
         
-        $report = new Report($this->datasource, $this->renderers[$this->defaultRenderer], $this->eventDispatcher);
-        
-        if ($this->idGenerator) {
-            
-            $report->setIdGenerator($this->idGenerator);
-        }
+        $report = new Report(
+            $this->getName(),
+            $this->datasource,
+            $this->renderers[$this->defaultRenderer],
+            $this->eventDispatcher
+        );
 
         if ($this->filterCollection) {
 
@@ -57,8 +68,10 @@ class ReportBuilder extends Builder implements ReportBuilderInterface
     }
 
     /**
-     * 
-     * @param $datasource
+     *
+     * @param \Yjv\ReportRendering\Datasource\DatasourceInterface $datasource
+     * @param array $options
+     * @return $this
      */
     public function setDatasource($datasource, array $options = array())
     {   
@@ -67,8 +80,9 @@ class ReportBuilder extends Builder implements ReportBuilderInterface
     }
 
     /**
-     * 
-     * @param DatasourceInterface $datasource
+     *
+     * @param \Yjv\ReportRendering\Filter\FilterCollectionInterface $filterCollection
+     * @return $this
      */
     public function setFilters(FilterCollectionInterface $filterCollection)
     {
@@ -78,7 +92,7 @@ class ReportBuilder extends Builder implements ReportBuilderInterface
 
     /**
      *
-     * {@inherited}
+     * {@inheritdoc}
      */
     public function addRenderer($name, $renderer, array $options = array())
     {
@@ -88,7 +102,7 @@ class ReportBuilder extends Builder implements ReportBuilderInterface
 
     /**
      * 
-     * {@inherited}
+     * {@inheritdoc}
      */
     public function addEventListener($eventName, $listener, $priority = 0)
     {
@@ -98,7 +112,7 @@ class ReportBuilder extends Builder implements ReportBuilderInterface
 
     /**
      * 
-     * {@inherited}
+     * {@inheritdoc}
      */
     public function addEventSubscriber(EventSubscriberInterface $subscriber)
     {
@@ -108,17 +122,11 @@ class ReportBuilder extends Builder implements ReportBuilderInterface
 
     /**
      * 
-     * {@inherited}
+     * {@inheritdoc}
      */
     public function setDefaultRenderer($name)
     {
         $this->defaultRenderer = (string)$name;
-        return $this;
-    }
-    
-    public function setIdGenerator(IdGeneratorInterface $idGenerator)
-    {
-        $this->idGenerator = $idGenerator;
         return $this;
     }
     

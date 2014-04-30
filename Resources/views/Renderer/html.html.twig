@@ -6,7 +6,7 @@
         <script type="text/javascript">
             jQuery(function() {
                 window.reportFiltering = new ReportFiltering(
-                        '{{ renderer.reportId }}',
+                        '{{ renderer.report.name }}',
                         '{{ renderer.getOption('data_key', 'report_filters') }}',
                         '{{ renderer.filters.get(constant('Yjv\\ReportRendering\\FilterConstants::LIMIT'), constant('Yjv\\ReportRendering\\FilterConstants::DEFAULT_LIMIT')) }}',
                         '{{ renderer.filters.get(constant('Yjv\\ReportRendering\\FilterConstants::OFFSET'), constant('Yjv\\ReportRendering\\FilterConstants::DEFAULT_OFFSET')) }}'
@@ -27,13 +27,13 @@
         <link rel="stylesheet" type="text/css" href="{{ path }}" data-stylesheet-name="{{ name }}">
     {% endfor %}
 {% endblock %}
-{% set html_attributes, default_html_attributes = renderer.attributes, {"id": renderer.reportId, "class": "report"} %}
+{% set html_attributes, default_html_attributes = renderer.attributes, {"id": "yjv-report-" ~ renderer.report.name, "class": "report"} %}
 <div {{ block('html_attributes') }}>
     {% if renderer.hasFilterForm() %}
     {% block report_filters %}
-    <div id="report-filters{{ renderer.reportId }}" class="report-filters well well-small collapse">
+    <div id="yjv-report-filters-{{ renderer.report.name }}" class="report-filters well well-small collapse">
     	<div>
-    		<button type="button" data-toggle="collapse" data-target="#report-filters{{ renderer.reportId }}" class="btn">
+    		<button type="button" data-toggle="collapse" data-target="#yjv-report-filters-{{ renderer.report.name }}" class="btn">
     		    Filters
     		</button>
     	</div>

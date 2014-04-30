@@ -1,9 +1,9 @@
 <?php
 namespace Yjv\ReportRendering\Report;
 
-use Yjv\TypeFactory\TypeFactoryInterface;
+use Yjv\TypeFactory\NamedTypeFactoryInterface;
 
-interface ReportFactoryInterface extends TypeFactoryInterface
+interface ReportFactoryInterface extends NamedTypeFactoryInterface
 {
 	public function getRendererFactory();
 	public function getDatasourceFactory();

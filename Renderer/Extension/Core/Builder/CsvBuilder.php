@@ -7,7 +7,7 @@ use Yjv\ReportRendering\Renderer\AbstractRendererBuilder;
 
 class CsvBuilder extends AbstractRendererBuilder
 {
-    public function getRenderer()
+    public function build()
     {
         return new CsvRenderer($this->getGrid());
     }

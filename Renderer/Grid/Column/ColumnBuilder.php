@@ -1,9 +1,9 @@
 <?php
 namespace Yjv\ReportRendering\Renderer\Grid\Column;
 
-use Yjv\TypeFactory\Builder;
+use Yjv\TypeFactory\AbstractBuilder;
 
-class ColumnBuilder extends Builder implements ColumnBuilderInterface
+class ColumnBuilder extends AbstractBuilder implements ColumnBuilderInterface
 {
     protected $rowOptions = array();
     protected $cellOptions = array();
@@ -99,7 +99,7 @@ class ColumnBuilder extends Builder implements ColumnBuilderInterface
     /**
      * @return \Yjv\ReportRendering\Renderer\Grid\Column\ColumnInterface
      */
-    public function getColumn()
+    public function build()
     {
         $column = new Column();
         $column

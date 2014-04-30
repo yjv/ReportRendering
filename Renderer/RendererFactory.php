@@ -4,9 +4,9 @@ namespace Yjv\ReportRendering\Renderer;
 use Yjv\TypeFactory\TypeResolverInterface;
 
 use Yjv\ReportRendering\Renderer\Grid\Column\ColumnFactoryInterface;
-use Yjv\TypeFactory\AbstractTypeFactory;
+use Yjv\TypeFactory\TypeFactory;
 
-class RendererFactory extends AbstractTypeFactory implements RendererFactoryInterface
+class RendererFactory extends TypeFactory implements RendererFactoryInterface
 {
     protected $columnFactory;
 

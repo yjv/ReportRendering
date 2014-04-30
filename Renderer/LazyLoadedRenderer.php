@@ -1,14 +1,15 @@
 <?php
 namespace Yjv\ReportRendering\Renderer;
 
+use Yjv\ReportRendering\Report\ReportInterface;
 use Yjv\ReportRendering\ReportData\ImmutableDataInterface;
-use Yjv\ReportRendering\Renderer\RendererFactoryInterface;
 
 class LazyLoadedRenderer implements LazyLoadedRendererInterface
 {
     protected $rendererFactory;
     protected $type;
     protected $options;
+    /** @var  RendererInterface */
     protected $renderer;
 
     public function __construct(RendererFactoryInterface $rendererFactory, $type, array $options)
@@ -44,6 +45,7 @@ class LazyLoadedRenderer implements LazyLoadedRendererInterface
 
     /**
      * @param ImmutableDataInterface $data
+     * @return $this
      */
     public function setData(ImmutableDataInterface $data)
     {
@@ -53,12 +55,13 @@ class LazyLoadedRenderer implements LazyLoadedRendererInterface
     }
 
     /**
-     * @param unknown $reportId
+     * @param \Yjv\ReportRendering\Report\ReportInterface $report
+     * @return $this
      */
-    public function setReportId($reportId)
+    public function setReport(ReportInterface $report)
     {
         $this->load();
-        $this->renderer->setReportId($reportId);
+        $this->renderer->setReport($report);
         return $this;
     }
 

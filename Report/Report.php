@@ -29,10 +29,10 @@ class Report implements ReportInterface
     protected $renderers = array();
     protected $filters;
     protected $eventDispatcher;
-    protected $idGenerator;
-    protected $id;
+    protected $name;
 
     public function __construct(
+        $name,
         DatasourceInterface $datasource,
         RendererInterface $defaultRenderer,
         EventDispatcherInterface $eventDispatcher
@@ -42,7 +42,7 @@ class Report implements ReportInterface
         $this->addRenderer(ReportInterface::DEFAULT_RENDERER_KEY, $defaultRenderer);
         $this->eventDispatcher = $eventDispatcher;
         $this->filters = new NullFilterCollection();
-        $this->idGenerator = new CallCountIdGenerator();
+        $this->name = $name;
     }
 
     /**
@@ -77,7 +77,7 @@ class Report implements ReportInterface
             $renderer = $this->renderers[$name] = $renderer->getRenderer();
         }
 
-        $renderer->setReportId($this->getId());
+        $renderer->setReport($this);
 
         if ($renderer instanceof FilterAwareRendererInterface) {
 
@@ -114,10 +114,10 @@ class Report implements ReportInterface
     }
 
     /**
-     * 
+     *
      * @param string $eventName
      * @param callable $listener
-     * @param number $priority
+     * @param int $priority
      * @return \Yjv\ReportRendering\Report\Report
      */
     public function addEventListener($eventName, $listener, $priority = 0)
@@ -127,8 +127,8 @@ class Report implements ReportInterface
     }
 
     /**
-     * 
-     * @param EventSubscriberInterface $eventSubscriber
+     *
+     * @param \Symfony\Component\EventDispatcher\EventSubscriberInterface $subscriber
      * @return \Yjv\ReportRendering\Report\Report
      */
     public function addEventSubscriber(EventSubscriberInterface $subscriber)
@@ -192,7 +192,7 @@ class Report implements ReportInterface
     {
         if ($filters instanceof MultiReportFilterCollectionInterface) {
 
-            $filters->setReportId($this->getId());
+            $filters->setReportName($this);
         }
 
         $this->filters = $filters;
@@ -219,16 +219,9 @@ class Report implements ReportInterface
         return $this;
     }
 
-    public function getId()
+    public function getName()
     {
-        $this->generateId();
-        return $this->id;
-    }
-
-    public function setIdGenerator(IdGeneratorInterface $idGenerator)
-    {
-        $this->idGenerator = $idGenerator;
-        return $this;
+        return $this->name;
     }
 
     public function __toString()
@@ -244,15 +237,5 @@ class Report implements ReportInterface
     protected function lockData(ImmutableDataInterface $data)
     {
         return ImmutableReportData::createFromData($data);
-    }
-
-    protected function generateId()
-    {
-        if (empty($this->id)) {
-
-            $this->id = $this->idGenerator->getId($this);
-        }
-
-        return $this;
     }
 }

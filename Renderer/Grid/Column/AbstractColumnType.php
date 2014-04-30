@@ -11,7 +11,7 @@ abstract class AbstractColumnType extends AbstractType implements TypeInterface
 {
     final public function build(BuilderInterface $builder, array $options)
     {
-        return $this->buildColumn($builder, $options);
+        $this->buildColumn($builder, $options);
     }
 
     public function buildColumn(ColumnBuilderInterface $builder, array $options)

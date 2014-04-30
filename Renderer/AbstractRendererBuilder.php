@@ -7,9 +7,9 @@ use Yjv\ReportRendering\Renderer\Grid\Column\ColumnInterface;
 
 use Yjv\ReportRendering\Renderer\Grid\GridInterface;
 
-use Yjv\TypeFactory\Builder;
+use Yjv\TypeFactory\AbstractBuilder;
 
-abstract class AbstractRendererBuilder extends Builder implements RendererBuilderInterface
+abstract class AbstractRendererBuilder extends AbstractBuilder implements RendererBuilderInterface
 {
     protected $grid;
 

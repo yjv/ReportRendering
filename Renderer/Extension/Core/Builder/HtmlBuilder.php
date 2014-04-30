@@ -133,7 +133,7 @@ class HtmlBuilder extends AbstractRendererBuilder
      * @throws \RuntimeException
      * @return HtmlRenderer
      */
-    public function getRenderer()
+    public function build()
     {
         if (!$this->getTemplatingEngine()) {
 

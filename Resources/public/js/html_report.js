@@ -1,16 +1,16 @@
-function ReportFiltering(reportId, dataKey, limit, offset) {
+function ReportFiltering(reportName, dataKey, limit, offset) {
 
     var self = this;
-	self.reportId = reportId;
-	self.report = jQuery('#'+self.reportId);
+	self.reportName = reportName;
+	self.report = jQuery('#'+self.reportName);
 	self.dataKey = dataKey;
 	self.filterUri = window.location.pathname;
 	self.limit = limit;
 	self.offset = offset;
 	self.sortColumn = null;
 	self.sortDirection = 'asc';
-	self.sortKey = self.dataKey + '[' + self.reportId + '][sort]';
-	self.offsetKey = self.dataKey + '[' + self.reportId + '][offset]';
+	self.sortKey = self.dataKey + '[' + self.reportName + '][sort]';
+	self.offsetKey = self.dataKey + '[' + self.reportName + '][offset]';
 	self.filterData = {};
 	
 	self.replaceFilterData = function(filterData, keysToPreserve) {
@@ -60,7 +60,7 @@ function ReportFiltering(reportId, dataKey, limit, offset) {
 		
 		jQuery.each($form.serializeArray(), function(index, elem) {
 			
-			newFilterData[self.dataKey + '[' + self.reportId + ']' + elem.name.substring(4)] = elem.value;
+			newFilterData[self.dataKey + '[' + self.reportName + ']' + elem.name.substring(4)] = elem.value;
 		});
 		
 		self.replaceFilterData(newFilterData, [self.sortKey]);
@@ -72,7 +72,7 @@ function ReportFiltering(reportId, dataKey, limit, offset) {
 
         var callback = function (data) {
 
-            self.report.find('.report-content').html(jQuery(data).filter('#' + self.reportId).children('.report-content').html());
+            self.report.find('.report-content').html(jQuery(data).filter('#' + self.reportName).children('.report-content').html());
         };
 
         var outerCallback;

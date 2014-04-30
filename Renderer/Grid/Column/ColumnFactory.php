@@ -4,16 +4,11 @@ namespace Yjv\ReportRendering\Renderer\Grid\Column;
 use Yjv\TypeFactory\TypeResolverInterface;
 
 use Yjv\ReportRendering\DataTransformer\DataTransformerRegistry;
-use Yjv\TypeFactory\AbstractTypeFactory;
+use Yjv\TypeFactory\TypeFactory;
 
-class ColumnFactory extends AbstractTypeFactory implements ColumnFactoryInterface
+class ColumnFactory extends TypeFactory implements ColumnFactoryInterface
 {
     protected $dataTransformerRegistry;
-
-    public function create($type, array $options = array())
-    {
-        return $this->createBuilder($type, $options)->getColumn();
-    }
 
     public function __construct(TypeResolverInterface $typeResolver, DataTransformerRegistry $dataTransformerRegistry)
     {
