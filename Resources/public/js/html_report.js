@@ -48,7 +48,7 @@ function ReportFiltering(reportName, dataKey, limit, offset) {
 			.removeAttr('checked')
 			.removeAttr('selected')
 		;
-		self.report.find('.submit-filters').click();
+		self.report.find('.yjv-report-submit-filters').click();
 	};
 	
 	self.doSubmitFilters = function(event) {
@@ -72,7 +72,7 @@ function ReportFiltering(reportName, dataKey, limit, offset) {
 
         var callback = function (data) {
 
-            self.report.find('.report-content').html(jQuery(data).filter('#' + self.reportName).children('.report-content').html());
+            self.report.find('.yjv-report-content').html(jQuery(data).filter('#yjv-report-' + self.reportName).children('.yjv-report-content').html());
         };
 
         var outerCallback;
@@ -109,7 +109,7 @@ function ReportFiltering(reportName, dataKey, limit, offset) {
 	
 	self.doSubmitSort = function(event) {
 
-        var $this = jQuery(event.target).closest('.sort-column');
+        var $this = jQuery(event.target).closest('.yjv-report-sort-column');
 		self.setSort($this.data('sort-name'));
 		self.sendFilterData();
 	};
@@ -121,7 +121,7 @@ function ReportFiltering(reportName, dataKey, limit, offset) {
 	
 	self.doSubmitPage = function(event) {
 
-        var $this = jQuery(event.target).closest('.report-pagination-page');
+        var $this = jQuery(event.target).closest('.yjv-report-pagination-page');
 		
 		if ($this.hasClass('disabled') || $this.hasClass('active')) {
 			
@@ -137,8 +137,8 @@ function ReportFiltering(reportName, dataKey, limit, offset) {
 		self.filterData[self.offsetKey] = self.limit * (page - 1);
 	};
 	
-	self.report.on('click', '.submit-filters', this.submitFilters);
-	self.report.on('click', '.clear-filters', this.clearFilters);
-	self.report.on('click', '.sort-column', this.submitSort);
-	self.report.on('click', '.report-pagination-page', this.submitPage);
+	self.report.on('click', '.yjv-report-submit-filters', this.submitFilters);
+	self.report.on('click', '.yjv-report-clear-filters', this.clearFilters);
+	self.report.on('click', '.yjv-report-sort-column', this.submitSort);
+	self.report.on('click', '.yjv-report-pagination-page', this.submitPage);
 }
