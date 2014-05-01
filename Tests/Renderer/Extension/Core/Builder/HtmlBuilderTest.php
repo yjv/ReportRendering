@@ -76,12 +76,12 @@ class HtmlBuilderTest extends AbstractRendererBuilderTest
             ->addJavascript(key($javascripts), current($javascripts))
             ->addStylesheet(key($stylesheets), current($stylesheets))
         ;
-        $this->assertEquals($renderer, $this->builder->getRenderer());
+        $this->assertEquals($renderer, $this->builder->build());
         $this->builder
             ->setFilterForm($filterForm)
         ;
         $renderer->setFilterForm($filterForm);
-        $this->assertEquals($renderer, $this->builder->getRenderer());
+        $this->assertEquals($renderer, $this->builder->build());
     }
 
     /**
@@ -90,7 +90,7 @@ class HtmlBuilderTest extends AbstractRendererBuilderTest
      */
     public function testGetRendererWithNoTemplatingEngine()
     {
-        $this->builder->getRenderer();
+        $this->builder->build();
     }
 }
  

@@ -192,7 +192,7 @@ class Report implements ReportInterface
     {
         if ($filters instanceof MultiReportFilterCollectionInterface) {
 
-            $filters->setReportName($this);
+            $filters->setReportName($this->getName());
         }
 
         $this->filters = $filters;

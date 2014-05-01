@@ -13,6 +13,7 @@ class ReportBuilderTest extends \PHPUnit_Framework_TestCase
     protected $factory;
     protected $rendererFactory;
     protected $datasourceFactory;
+    protected $name;
     
     public function setUp()
     {
@@ -27,8 +28,9 @@ class ReportBuilderTest extends \PHPUnit_Framework_TestCase
             ->andReturn($this->datasourceFactory)
             ->getMock()
         ;
+        $this->name = 'report';
         $this->options = array('key' => 'value');
-        $this->builder = new ReportBuilder($this->factory, $this->eventDispatcher, $this->options);
+        $this->builder = new ReportBuilder($this->name, $this->factory, $this->eventDispatcher, $this->options);
     }
     
     public function testOptionsArePassed()
@@ -36,7 +38,7 @@ class ReportBuilderTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($this->options, $this->builder->getOptions());
     }
     
-    public function testGetReport()
+    public function testBuild()
     {
         $datasource = Mockery::mock('Yjv\ReportRendering\Datasource\DatasourceInterface');
         $datasource2 = Mockery::mock('Yjv\ReportRendering\Datasource\DatasourceInterface');
@@ -68,11 +70,10 @@ class ReportBuilderTest extends \PHPUnit_Framework_TestCase
             ->setDefaultRenderer('name')
             ->addRenderer('name', $renderer)
             ->addRenderer('name2', 'renderer', array('key' => 'value'))
-            ->setIdGenerator($idGenerator)
         );
-        $report = $this->builder->getReport();
+        $report = $this->builder->build();
         $this->builder->setDatasource($datasourceName, $datasourceOptions);
-        $report2 = $this->builder->getReport();
+        $report2 = $this->builder->build();
         $this->assertTrue($report->hasRenderer('name'));
         $this->assertTrue($report->hasRenderer('name2'));
         $this->assertTrue($report->hasRenderer('default'));
@@ -80,9 +81,9 @@ class ReportBuilderTest extends \PHPUnit_Framework_TestCase
         $this->assertSame($datasource2, $report2->getDatasource());
         $this->assertSame($this->eventDispatcher, $report->getEventDispatcher());
         $this->assertInstanceOf('Yjv\ReportRendering\Filter\NullFilterCollection', $report->getFilters());
-        $this->assertEquals('hello', $report->getId());
+        $this->assertEquals($this->name, $report->getName());
         $this->builder->setFilters($filterCollection);
-        $report = $this->builder->getReport();
+        $report = $this->builder->build();
         $this->assertSame($filterCollection, $report->getFilters());
     }
     
@@ -90,19 +91,19 @@ class ReportBuilderTest extends \PHPUnit_Framework_TestCase
      * @expectedException RuntimeException
      * @expectedExceptionMessage The datasource is required to build the report
      */
-    public function testGetReportWithDatasourceNotSet()
+    public function testBuildWithDatasourceNotSet()
     {
-        $this->builder->getReport();
+        $this->builder->build();
     }
     
     /**
      * @expectedException RuntimeException
      * @expectedExceptionMessage The default renderer is required to build the report
      */
-    public function testGetReportWithDefaultRendererNotSet()
+    public function testBuildWithDefaultRendererNotSet()
     {
         $this->builder->setDatasource(Mockery::mock('Yjv\ReportRendering\Datasource\DatasourceInterface'));
-        $this->builder->getReport();
+        $this->builder->build();
     }
     
     public function testAddEventListener()

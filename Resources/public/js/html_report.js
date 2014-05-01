@@ -2,7 +2,7 @@ function ReportFiltering(reportName, dataKey, limit, offset) {
 
     var self = this;
 	self.reportName = reportName;
-	self.report = jQuery('#'+self.reportName);
+	self.report = jQuery('#yjv-report-'+self.reportName);
 	self.dataKey = dataKey;
 	self.filterUri = window.location.pathname;
 	self.limit = limit;

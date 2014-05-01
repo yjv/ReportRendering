@@ -9,7 +9,7 @@ class SymfonySessionFilterCollectionTest extends ArrayFilterCollectionTest
 {
 	protected $session;
 	public $sessionData;
-	public $currentReportId;
+	public $currentReportName;
 	
 	public function setUp() {
 		
@@ -21,12 +21,12 @@ class SymfonySessionFilterCollectionTest extends ArrayFilterCollectionTest
 		
 		$this->setUpSessionExpects(14, 8);
 
-		$this->currentReportId = 'special_report';
-		$this->filters->setReportId($this->currentReportId);
+		$this->currentReportName = 'special_report';
+		$this->filters->setReportName($this->currentReportName);
 		parent::testGettersSetters();
 
-		$this->currentReportId = 'other_special_report';
-		$this->filters->setReportId($this->currentReportId);
+		$this->currentReportName = 'other_special_report';
+		$this->filters->setReportName($this->currentReportName);
 		parent::testGettersSetters();
 	}
 	
@@ -39,7 +39,7 @@ class SymfonySessionFilterCollectionTest extends ArrayFilterCollectionTest
 			->method('get')
 			->will($this->returnCallback(function($path, $default) use ($tester){
 				
-				$tester->assertContains($tester->currentReportId, $path);
+				$tester->assertContains($tester->currentReportName, $path);
 				return isset($tester->sessionData[$path]) ? $tester->sessionData[$path] : $default;
 			}))
 		;
@@ -49,7 +49,7 @@ class SymfonySessionFilterCollectionTest extends ArrayFilterCollectionTest
 			->method('set')
 			->will($this->returnCallback(function($path, $value) use ($tester){
 				
-				$tester->assertContains($tester->currentReportId, $path);
+				$tester->assertContains($tester->currentReportName, $path);
 				$tester->sessionData[$path] = $value;
 			}))
 		;

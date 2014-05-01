@@ -11,7 +11,7 @@ class NativeSessionFilterCollectionTest extends ArrayFilterCollectionTest
 {
 	protected $session;
 	public $sessionData;
-	public $currentReportId;
+	public $currentReportName;
 	
 	public function setUp() {
 		
@@ -20,13 +20,13 @@ class NativeSessionFilterCollectionTest extends ArrayFilterCollectionTest
 	
 	public function testGettersSetters(){
 		
-		$this->currentReportId = 'special_report';
-		$this->filters->setReportId($this->currentReportId);
+		$this->currentReportName = 'special_report';
+		$this->filters->setReportName($this->currentReportName);
 		parent::testGettersSetters();
 		$this->assertEquals($this->filters->all(), $_SESSION['other_path']['special_report']);
 
-		$this->currentReportId = 'other_special_report';
-		$this->filters->setReportId($this->currentReportId);
+		$this->currentReportName = 'other_special_report';
+		$this->filters->setReportName($this->currentReportName);
 		parent::testGettersSetters();
 		$this->assertEquals($this->filters->all(), $_SESSION['other_path']['special_report']);
 	}

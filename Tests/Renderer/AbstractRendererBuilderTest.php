@@ -5,9 +5,10 @@ use Yjv\ReportRendering\Renderer\AbstractRendererBuilder;
 
 use Mockery;
 use Yjv\ReportRendering\Renderer\Grid\Column\Column;
+use Yjv\TypeFactory\Tests\AbstractBuilderTest;
 use Yjv\TypeFactory\Tests\BuilderTest;
 
-abstract class AbstractRendererBuilderTest extends BuilderTest
+abstract class AbstractRendererBuilderTest extends AbstractBuilderTest
 {
     /**
      * @var AbstractRendererBuilder

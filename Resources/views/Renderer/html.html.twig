@@ -31,7 +31,7 @@
 <div {{ block('html_attributes') }}>
     {% if renderer.hasFilterForm() %}
     {% block report_filters %}
-    <div id="yjv-report-filters-{{ renderer.report.name }}" class="yjv-report-filters well well-small collapse">
+       <div id="yjv-report-filters-{{ renderer.report.name }}" class="yjv-report-filters well well-small collapse">
     	<div>
     		<button type="button" data-toggle="collapse" data-target="#yjv-report-filters-{{ renderer.report.name }}" class="btn">
     		    Filters
@@ -39,7 +39,7 @@
     	</div>
     	<div>
     		<form>
-    			{% for filter in renderer.filterForm.createView() %}
+    			{% for filter in renderer.filterForm.form.createView() %}
     			{{ form_label(filter) }}
     			{{ form_widget(filter) }}
     			{% endfor %}

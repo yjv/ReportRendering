@@ -24,36 +24,6 @@ class ReportFactoryTest extends \PHPUnit_Framework_TestCase {
         );
 	}
 	
-	public function testCreate()
-	{
-	    $factory = $this
-			->getMockBuilder(get_class($this->factory))
-			->disableOriginalConstructor()
-			->setMethods(array('createBuilder'))
-			->getMock()
-	    ;
-	    
-	    $type = 'type';
-	    $options = array('key' => 'value');
-	    $report = Mockery::mock('Yjv\ReportRendering\Report\ReportInterface');
-
-	    $builder = Mockery::mock('Yjv\ReportRendering\Report\ReportBuilderInterface')
-	        ->shouldReceive('getReport')
-	        ->once()
-	        ->andReturn($report)
-	        ->getMock()
-	    ;
-	    
-	    $factory
-    	    ->expects($this->once())
-    	    ->method('createBuilder')
-    	    ->with($type, $options)
-    	    ->will($this->returnValue($builder))
-	    ;
-	    
-	    $this->assertSame($report, $factory->create($type, $options));
-	}
-	
 	public function testGetBuilderInterfaceName()
 	{
 	    $this->assertEquals('Yjv\ReportRendering\Report\ReportBuilderInterface', $this->factory->getBuilderInterfaceName());

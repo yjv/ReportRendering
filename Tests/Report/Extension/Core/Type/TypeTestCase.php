@@ -25,7 +25,7 @@ class TypeTestCase extends BaseTypeTestCase
 		$this->eventDispatcher = Mockery::mock('Symfony\Component\EventDispatcher\EventDispatcherInterface');
 	    
 	    $this->factory = new ReportFactory($this->resolver, $this->datasourceFactory, $this->rendererFactory);
-		$this->builder = new ReportBuilder($this->factory, $this->eventDispatcher);
+		$this->builder = new ReportBuilder('report', $this->factory, $this->eventDispatcher);
 	}
 	
 	protected function getExtensions()

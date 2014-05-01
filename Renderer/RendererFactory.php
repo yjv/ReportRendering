@@ -16,11 +16,6 @@ class RendererFactory extends TypeFactory implements RendererFactoryInterface
         parent::__construct($resolver);
     }
 
-    public function create($type, array $options = array())
-    {
-        return $this->createBuilder($type, $options)->getRenderer();
-    }
-
     public function getBuilderInterfaceName()
     {
         return 'Yjv\ReportRendering\Renderer\RendererBuilderInterface';

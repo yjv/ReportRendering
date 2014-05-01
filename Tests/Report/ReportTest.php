@@ -27,38 +27,28 @@ class ReportTest extends \PHPUnit_Framework_TestCase {
 	protected $datasource;
 	protected $eventDispatcher;
 	protected $report;
+    protected $name;
 	
 	public function setUp(){
 	
 		$this->datasource = $this->getMock('Yjv\\ReportRendering\\Datasource\\DatasourceInterface');
 		$this->renderer = $this->getMock('Yjv\\ReportRendering\\Renderer\\RendererInterface');
 		$this->eventDispatcher = $this->getMock('Symfony\\Component\\EventDispatcher\\EventDispatcher');
-		$this->report = new Report($this->datasource, $this->renderer, $this->eventDispatcher);
+		$this->name = 'report';
+        $this->report = new Report($this->name, $this->datasource, $this->renderer, $this->eventDispatcher);
 	}
 	
 	public function testGettersSetters() {
 		
 		$datasource = $this->getMock('Yjv\\ReportRendering\\Datasource\\DatasourceInterface');
 		$eventDispatcher = $this->getMock('Symfony\\Component\\EventDispatcher\\EventDispatcher');
-		$idGenerator = $this->getMock('Yjv\\ReportRendering\\IdGenerator\\IdGeneratorInterface');
-		$id = 'reportId';
 		$this->assertSame($this->datasource, $this->report->getDatasource());
 		$this->report->setDatasource($datasource);
 		$this->assertSame($datasource,	$this->report->getDatasource());
 		$this->assertSame($this->eventDispatcher, $this->report->getEventDispatcher());
 		$this->report->setEventDispatcher($eventDispatcher);
 		$this->assertSame($eventDispatcher, $this->report->getEventDispatcher());
-		$this->report->setIdGenerator($idGenerator);
-		
-		$idGenerator
-			->expects($this->once())
-			->method('getId')
-			->with($this->report)
-			->will($this->returnValue($id))
-		;
-		
-		$this->assertEquals($id, $this->report->getId());
-		$this->assertEquals($id, $this->report->getId());
+		$this->assertEquals($this->name, $this->report->getName());
 	}
 	
 	public function testRendererGettersSetters() {
@@ -122,7 +112,8 @@ class ReportTest extends \PHPUnit_Framework_TestCase {
     		->shouldReceive('setData')
     		->twice()
     		->getMock()
-    		->shouldReceive('setReportId')
+    		->shouldReceive('setReport')
+            ->with($this->report)
     		->twice()
     		->getMock()
     		->shouldReceive('getForceReload')
@@ -147,17 +138,13 @@ class ReportTest extends \PHPUnit_Framework_TestCase {
 	
 	public function testFiltersGettersSetters() {
 		
-		$filters = $this->getMock('Yjv\\ReportRendering\\Filter\\FilterCollectionInterface');
-		$multiReportFilters = $this->getMock('Yjv\\ReportRendering\\Filter\\MultiReportFilterCollectionInterface');
-		
-		$filters
-			->expects($this->never())
-			->method('setReportId')
-		;
+		$filters = Mockery::mock('Yjv\\ReportRendering\\Filter\\FilterCollectionInterface');
+		$multiReportFilters = Mockery::mock('Yjv\\ReportRendering\\Filter\\MultiReportFilterCollectionInterface');
 		
 		$multiReportFilters
-			->expects($this->once())
-			->method('setReportId')
+			->shouldReceive('setReportName')
+            ->once()
+            ->with($this->name)
 		;
 		
 		$this->assertInstanceOf('Yjv\\ReportRendering\\Filter\\FilterCollectionInterface', $this->report->getFilters());

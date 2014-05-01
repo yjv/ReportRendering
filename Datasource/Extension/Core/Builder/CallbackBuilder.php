@@ -11,9 +11,9 @@ namespace Yjv\ReportRendering\Datasource\Extension\Core\Builder;
 
 use Yjv\ReportRendering\Datasource\CallbackDatasource;
 use Yjv\ReportRendering\Datasource\DatasourceBuilderInterface;
-use Yjv\TypeFactory\Builder;
+use Yjv\TypeFactory\AbstractBuilder;
 
-class CallbackBuilder extends Builder implements DatasourceBuilderInterface
+class CallbackBuilder extends AbstractBuilder implements DatasourceBuilderInterface
 {
     protected $callback;
     protected $params = array();
@@ -53,7 +53,7 @@ class CallbackBuilder extends Builder implements DatasourceBuilderInterface
         return $this->params;
     }
 
-    public function getDatasource()
+    public function build()
     {
         if (!is_callable($this->getCallback())) {
 

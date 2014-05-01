@@ -13,15 +13,15 @@ use Symfony\Component\PropertyAccess\PropertyAccess;
 use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
 use Yjv\ReportRendering\Datasource\ArrayDatasource;
 use Yjv\ReportRendering\Datasource\DatasourceBuilderInterface;
-use Yjv\TypeFactory\Builder;
+use Yjv\TypeFactory\AbstractBuilder;
 
-class ArrayBuilder extends Builder implements DatasourceBuilderInterface
+class ArrayBuilder extends AbstractBuilder implements DatasourceBuilderInterface
 {
     protected $filterMap = array();
     protected $data = array();
     protected $propertyAccessor;
 
-    public function getDatasource()
+    public function build()
     {
         $datasource = new ArrayDatasource(
             $this->getData(),

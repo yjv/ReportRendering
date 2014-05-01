@@ -1,15 +1,10 @@
 <?php
 namespace Yjv\ReportRendering\Datasource;
 
-use Yjv\TypeFactory\AbstractTypeFactory;
+use Yjv\TypeFactory\TypeFactory;
 
-class DatasourceFactory extends AbstractTypeFactory
+class DatasourceFactory extends TypeFactory
 {
-    public function create($type, array $options = array())
-    {
-        return $this->createBuilder($type, $options)->getDatasource();
-    }
-
     public function getBuilderInterfaceName()
     {
         return 'Yjv\ReportRendering\Datasource\DatasourceBuilderInterface';

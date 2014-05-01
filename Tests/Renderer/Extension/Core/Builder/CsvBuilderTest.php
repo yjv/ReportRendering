@@ -26,7 +26,7 @@ class CsvBuilderTest extends AbstractRendererBuilderTest
     {
         $grid = Mockery::mock('Yjv\ReportRendering\Renderer\Grid\GridInterface');
         $this->builder->setGrid($grid);
-        $this->assertEquals(new CsvRenderer($grid), $this->builder->getRenderer());
+        $this->assertEquals(new CsvRenderer($grid), $this->builder->build());
     }
 }
  

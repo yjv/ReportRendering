@@ -12,7 +12,7 @@ namespace Yjv\ReportRendering\Tests\Datasource\Extension\Core\Builder;
 use Mockery;
 use Yjv\ReportRendering\Datasource\CallbackDatasource;
 use Yjv\ReportRendering\Datasource\Extension\Core\Builder\CallbackBuilder;
-use Yjv\TypeFactory\Tests\BuilderTest;
+use Yjv\TypeFactory\Tests\AbstractBuilderTest;
 
 /**
  * Class CallbackBuilderTest
@@ -20,7 +20,7 @@ use Yjv\TypeFactory\Tests\BuilderTest;
  *
  * @property CallbackBuilder $builder
  */
-class CallbackBuilderTest extends BuilderTest
+class CallbackBuilderTest extends AbstractBuilderTest
 {
     public function setUp()
     {
@@ -37,23 +37,23 @@ class CallbackBuilderTest extends BuilderTest
         $this->assertEquals($callback, $this->builder->getCallback());
     }
 
-    public function testGetDatasource()
+    public function testBuild()
     {
         $this->builder = new CallbackBuilder($this->factory, $this->options);
         $this->builder
             ->setCallback($callback = array($this, 'testGettersSetters'))
             ->setParams($params = array('value1', 'value2'))
         ;
-        $this->assertEquals(new CallbackDatasource($callback, $params), $this->builder->getDatasource());
+        $this->assertEquals(new CallbackDatasource($callback, $params), $this->builder->build());
     }
 
     /**
      * @expectedException \RuntimeException
      * @expectedExceptionMessage The callable callback is required to build the callback datasource
      */
-    public function testGetDatasourceWithNoCallback()
+    public function testBuildWithNoCallback()
     {
-        $this->builder->getDatasource();
+        $this->builder->build();
     }
 }
  

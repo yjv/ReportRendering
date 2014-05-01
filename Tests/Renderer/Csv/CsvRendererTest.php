@@ -35,9 +35,9 @@ class CsvRendererTest extends \PHPUnit_Framework_TestCase{
 		$this->assertSame($this->renderer, $this->renderer->setData($data));
 	}
 	
-	public function testSetReportId(){
+	public function testSetReport(){
 		
-		$this->assertSame($this->renderer, $this->renderer->setReportId('reportId'));
+		$this->assertSame($this->renderer, $this->renderer->setReport(Mockery::mock('Yjv\ReportRendering\Report\Report')));
 	}
 	
 	public function testForceReload() {

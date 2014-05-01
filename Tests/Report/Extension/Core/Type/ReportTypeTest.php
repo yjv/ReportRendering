@@ -85,16 +85,6 @@ class ReportTypeTest extends TypeTestCase
                     'filters' => null,
                     'default_renderer' => 'default', 
                     'renderers' => array(),
-                    'id_generator' => function (Options $options)
-                    {
-                        if (!is_null($options['id'])) {
-                            
-                            return new ConstantValueIdGenerator($options['id']);
-                        }
-                        
-                        return null;
-                    },
-                    'id' => null,
                     'filter_defaults' => array()
                 ), $arg);
                 return true;
@@ -118,10 +108,6 @@ class ReportTypeTest extends TypeTestCase
                     ),
                     'default_renderer' => array('string'), 
                     'renderers' => 'array',
-                    'id_generator' => array(
-                        'null', 
-                        'Yjv\ReportRendering\IdGenerator\IdGeneratorInterface'
-                    ),
                     'filter_defaults' => 'array'
                 ), $arg);
                 return true;
@@ -156,17 +142,6 @@ class ReportTypeTest extends TypeTestCase
         $this->type->setDefaultOptions($resolver);
     }
     
-    public function testResolvingOfIdGenerator()
-    {
-        $resolver = new OptionsResolver();
-        $this->type->setDefaultOptions($resolver);
-        $options = $resolver->resolve();
-        $this->assertNull($options['id_generator']);
-        $options = $resolver->resolve(array('id' => 43));
-        $this->assertInstanceOf('Yjv\ReportRendering\IdGenerator\ConstantValueIdGenerator', $options['id_generator']);
-        $this->assertEquals(43, $options['id_generator']->getId(Mockery::mock('Yjv\ReportRendering\Report\ReportInterface')));
-    }
-    
     public function testResolvingOfRenderers()
     {
         $resolver = new OptionsResolver();
@@ -198,9 +173,9 @@ class ReportTypeTest extends TypeTestCase
     
     public function testGetBuilder()
     {
-        $options = array('key' => 'value');
+        $options = array('key' => 'value', 'name' => 'report');
         
-        $this->assertEquals(new ReportBuilder($this->factory, new EventDispatcher(), $options), $this->type->createBuilder($this->factory, $options));
+        $this->assertEquals(new ReportBuilder('report', $this->factory, new EventDispatcher(), $options), $this->type->createBuilder($this->factory, $options));
     }
     
     public function testFinalizeReportWithNonDefaultingFilters()
@@ -244,8 +219,7 @@ class ReportTypeTest extends TypeTestCase
 
                 'renderer1' => array(Mockery::mock('Yjv\ReportRendering\Renderer\RendererInterface'), array()),
                 'default1' => array(Mockery::mock('Yjv\ReportRendering\Renderer\RendererInterface'), array())
-            ),
-            'id_generator' => Mockery::mock('Yjv\ReportRendering\IdGenerator\IdGeneratorInterface')
+            )
         );
     }
     
@@ -279,11 +253,6 @@ class ReportTypeTest extends TypeTestCase
             ->shouldReceive('addRenderer')
             ->once()
             ->with('default1', $this->options['renderers']['default1'][0], $this->options['renderers']['default1'][1])
-            ->byDefault()
-            ->getMock()
-            ->shouldReceive('setIdGenerator')
-            ->once()
-            ->with($this->options['id_generator'])
             ->byDefault()
             ->getMock()
         ;

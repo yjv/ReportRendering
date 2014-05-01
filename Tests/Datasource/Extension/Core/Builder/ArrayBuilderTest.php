@@ -11,7 +11,7 @@ namespace Yjv\ReportRendering\Tests\Datasource\Extension\Core\Builder;
 use Mockery;
 use Yjv\ReportRendering\Datasource\ArrayDatasource;
 use Yjv\ReportRendering\Datasource\Extension\Core\Builder\ArrayBuilder;
-use Yjv\TypeFactory\Tests\BuilderTest;
+use Yjv\TypeFactory\Tests\AbstractBuilderTest;
 
 /**
  * Class ArrayBuilderTest
@@ -19,7 +19,7 @@ use Yjv\TypeFactory\Tests\BuilderTest;
  *
  * @property ArrayBuilder $builder
  */
-class ArrayBuilderTest extends BuilderTest
+class ArrayBuilderTest extends AbstractBuilderTest
 {
     public function setUp()
     {
@@ -43,7 +43,7 @@ class ArrayBuilderTest extends BuilderTest
         $this->assertEquals($filterMap, $this->builder->getFilterMap());
     }
 
-    public function testGetDatasource()
+    public function testBuild()
     {
         $propertyAccessor = Mockery::mock('Symfony\Component\PropertyAccess\PropertyAccessorInterface');
         $data = array(array('data' => 'value'));
@@ -62,6 +62,6 @@ class ArrayBuilderTest extends BuilderTest
             ->setData($data)
         ;
 
-        $this->assertEquals($datasource, $this->builder->getDatasource());
+        $this->assertEquals($datasource, $this->builder->build());
     }
 }

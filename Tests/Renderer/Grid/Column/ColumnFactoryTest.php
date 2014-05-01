@@ -35,30 +35,6 @@ class ColumnFactoryTest extends \PHPUnit_Framework_TestCase{
 		$this->factory = new ColumnFactory($this->resolver, $this->dataTransformerRegistry);
 	}
 	
-	/**
-	 * 
-	 */
-	public function testCreate(){
-		
-		$type = 'type';
-		$options = array('key' => 'value');
-		$column = new Column();
-		$builder = Mockery::mock('Yjv\ReportRendering\Renderer\Grid\Column\ColumnBuilderInterface')
-		    ->shouldReceive('getColumn')
-		    ->once()
-		    ->andReturn($column)
-		    ->getMock()
-		;
-		
-		$factory = $this
-			->getMockBuilder(get_class($this->factory))
-			->disableOriginalConstructor()
-			->setMethods(array('createBuilder'))
-			->getMock();
-		$factory->expects($this->once())->method('createBuilder')->with($type, $options)->will($this->returnValue($builder));
-		$this->assertSame($column, $factory->create($type, $options));
-	}
-	
 	public function testGetBuilderInterfaceName(){
 		
 		$this->assertEquals('Yjv\ReportRendering\Renderer\Grid\Column\ColumnBuilderInterface', $this->factory->getBuilderInterfaceName());

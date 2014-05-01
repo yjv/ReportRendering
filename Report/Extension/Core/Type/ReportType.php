@@ -42,11 +42,6 @@ class ReportType extends AbstractReportType
             
             $reportBuilder->addRenderer($name, $renderer[0], $renderer[1]);
         }
-
-        if ($options['id_generator']) {
-            
-            $reportBuilder->setIdGenerator($options['id_generator']);
-        }
     }
 
     /**
@@ -61,16 +56,6 @@ class ReportType extends AbstractReportType
                 'filters' => null,
                 'default_renderer' => 'default', 
                 'renderers' => array(),
-                'id_generator' => function (Options $options)
-                {
-                    if (!is_null($options['id'])) {
-                        
-                        return new ConstantValueIdGenerator($options['id']);
-                    }
-                    
-                    return null;
-                },
-                'id' => null,
                 'filter_defaults' => array()
             ))
             ->setAllowedTypes(array(
@@ -85,10 +70,6 @@ class ReportType extends AbstractReportType
                 ),
                 'default_renderer' => array('string'), 
                 'renderers' => 'array',
-                'id_generator' => array(
-                    'null', 
-                    'Yjv\ReportRendering\IdGenerator\IdGeneratorInterface'
-                ),
                 'filter_defaults' => 'array'
             ))
             ->setNormalizers(array(
@@ -125,7 +106,7 @@ class ReportType extends AbstractReportType
 
     public function createBuilder(TypeFactoryInterface $factory, array $options)
     {
-        return new ReportBuilder($factory, new EventDispatcher(), $options);
+        return new ReportBuilder($options['name'], $factory, new EventDispatcher(), $options);
     }
 
     /**

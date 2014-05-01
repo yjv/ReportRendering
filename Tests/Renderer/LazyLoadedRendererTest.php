@@ -53,13 +53,13 @@ class LazyLoadedRendererTest extends \PHPUnit_Framework_TestCase
         $this->assertSame($this->lazyRenderer, $this->lazyRenderer->setData($data));
     }
     
-    public function testSetReportId()
+    public function testSetReport()
     {
         $this->setUpLoadExpectations();
-        $reportId = 7;
-        $this->renderer->shouldReceive('setReportId')->twice()->with($reportId);
-        $this->assertSame($this->lazyRenderer, $this->lazyRenderer->setReportId($reportId));
-        $this->assertSame($this->lazyRenderer, $this->lazyRenderer->setReportId($reportId));
+        $report = Mockery::mock('Yjv\ReportRendering\Report\ReportInterface');
+        $this->renderer->shouldReceive('setReport')->twice()->with($report);
+        $this->assertSame($this->lazyRenderer, $this->lazyRenderer->setReport($report));
+        $this->assertSame($this->lazyRenderer, $this->lazyRenderer->setReport($report));
     }
     
     protected function setUpLoadExpectations()

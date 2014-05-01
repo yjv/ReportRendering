@@ -163,7 +163,7 @@ class ReportBuilder extends AbstractNamedBuilder implements ReportBuilderInterfa
         
         if (!$this->defaultRenderer || !isset($this->renderers[$this->defaultRenderer])) {
             
-            throw new \RuntimeException('The default renderer is required to build the report');
+            throw new \RuntimeException(sprintf('The default renderer is required to build the report it is set to %s but no such renderer is registered.', $this->defaultRenderer));
         }
     }
 }

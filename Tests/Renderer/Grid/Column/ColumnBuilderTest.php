@@ -71,7 +71,7 @@ class ColumnBuilderTest extends \PHPUnit_Framework_TestCase {
 			->setRowOptions($rowOptions)
 			->setCellOptions($cellOptions)
 			->setDataTransformers($dataTransformers)
-			->getColumn()
+			->build()
 		;
 		
 		$this->assertEquals($options, $column->getOptions());

@@ -38,7 +38,7 @@ class PropertyPathTypeTest extends TypeTestCase{
             'escape_strategy' => 'html'
 		);
 		$this->type->buildColumn($this->builder, $options);
-		$column = $this->builder->getColumn();
+		$column = $this->builder->build();
 		$dataTransformers = $column->getDataTransformers();
 		$this->assertCount(1, $dataTransformers);
 		$transformer = $dataTransformers[0];

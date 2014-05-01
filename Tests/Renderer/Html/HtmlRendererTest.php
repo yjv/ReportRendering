@@ -32,10 +32,8 @@ class HtmlRendererTest extends \PHPUnit_Framework_TestCase{
 	
 	public function testGettersSetters() {
 		
-		$reportId = 'sddsffsdsfsd';
-		
-		$this->renderer->setReportId($reportId);
-		$this->assertEquals($reportId, $this->renderer->getReport());
+		$this->renderer->setReport($report = Mockery::mock('Yjv\ReportRendering\Report\ReportInterface'));
+		$this->assertEquals($report, $this->renderer->getReport());
 		$this->assertFalse($this->renderer->getForceReload());
 		$this->grid
 		    ->shouldReceive('setForceReload')

@@ -31,7 +31,7 @@ class HtmlRenderer implements FilterAwareRendererInterface
     protected $data;
     /** @var GridInterface  */
     protected $grid;
-    /** @var  string|integer */
+    /** @var  ReportInterface */
     protected $report;
     protected $forceReload = false;
     protected $javascripts = array();
@@ -178,7 +178,7 @@ class HtmlRenderer implements FilterAwareRendererInterface
 
     public function setReport(ReportInterface $report)
     {
-        $this->report = $report->getName();
+        $this->report = $report;
         return $this;
     }
 
