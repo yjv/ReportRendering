@@ -130,4 +130,9 @@ class ReportBuilderTest extends \PHPUnit_Framework_TestCase
         ;
         $this->builder->addEventSubscriber($subscriber);
     }
+
+    public function testGetName()
+    {
+        $this->assertEquals($this->name, $this->builder->getName());
+    }
 }

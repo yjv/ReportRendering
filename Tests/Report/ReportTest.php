@@ -222,4 +222,9 @@ class ReportTest extends \PHPUnit_Framework_TestCase {
 		$this->report->addEventListener($event, $eventListener, 10);
 		$this->report->addEventSubscriber($eventSubscriber);
 	}
+
+    public function testGetName()
+    {
+        $this->assertEquals($this->name, $this->report->getName());
+    }
 }
