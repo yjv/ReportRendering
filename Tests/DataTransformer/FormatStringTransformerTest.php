@@ -1,70 +1,49 @@
 <?php
 namespace Yjv\ReportRendering\Test\DataTransformer;
 
-use Yjv\ReportRendering\Data\DataEscaper;
 
 use Symfony\Component\PropertyAccess\Exception\ExceptionInterface;
-
-use Yjv\ReportRendering\Tests\DataTransformer\DataWithHiddenProperty;
-
-use Symfony\Component\Form\Exception\PropertyAccessDeniedException;
-
-use Symfony\Component\Form\Exception\InvalidPropertyException;
-
+use Yjv\ReportRendering\Tests\DataTransformer\AbstractDataTransformerTest;
 use Yjv\ReportRendering\DataTransformer\FormatStringTransformer;
 use Mockery;
+use Yjv\ReportRendering\Tests\DataTransformer\Fixtures\DataWithHiddenProperty;
 
 
-class FormatStringTransformerTest extends \PHPUnit_Framework_TestCase{
+class FormatStringTransformerTest extends AbstractDataTransformerTest
+{
+    protected $transaformerData;
 
-	public function setUp(){
-		
-		$this->transformer = new FormatStringTransformer();
-		$this->transformer->setConfig(array());
-		$this->data = array('firstName' => 'John', 'lastName' => 'Smith');
+    public function setUp()
+    {
+		$this->transformer = new FormatStringTransformer('{[firstName]} {[lastName]}');
+		$this->transaformerData = array('firstName' => 'John', 'lastName' => 'Smith');
 	}
 	
-	/**
-	 * @expectedException Yjv\ReportRendering\DataTransformer\Config\ConfigValueRequiredException
-	 */
-	public function testMissingRequiredOptions(){
-		
-		$this->transformer->transform($this->data, $this->data);
+	public function testFormatStringTransform()
+    {
+        $this->assertEquals('John Smith', $this->transformer->transform($this->transaformerData, array()));
 	}
 	
-	public function testFormatStringTranform() {
-		
-		$this->transformer->setConfig(array('format_string' => '{[firstName]} {[lastName]}'));
-		$this->assertEquals('John Smith', $this->transformer->transform($this->data, $this->data));
-	}
-	
-	public function testDefaultValueOnNotFound() {
-		
-		$this->transformer->setConfig(array(
-				'empty_value' => 'Name Unknown',
-				'format_string' => '{name}',
-				'required' => false
-		));
-		
-		$this->assertEquals('Name Unknown', $this->transformer->transform($this->data, $this->data));
+	public function testDefaultValueOnNotFound()
+    {
+		$this->transformer = new FormatStringTransformer('{name}', false, 'Name Unknown');
+		$this->assertEquals('Name Unknown', $this->transformer->transform($this->transaformerData, array()));
 	}
 
-	public function testExceptionOnNotFound() {
-	
-		$this->transformer->setConfig(array(
-			'format_string' => '{name}',
-		));
+	public function testExceptionOnNotFound()
+    {
+		$this->transformer = new FormatStringTransformer('{name}');
 	
 		try {
 				
-			$this->transformer->transform($this->data, $this->data);
+			$this->transformer->transform($this->transaformerData, array());
 			$this->fail('did not throw exception on path not found');
 		} catch (ExceptionInterface $e) {
 		}
 	
 		try {
 				
-			$this->transformer->transform(new DataWithHiddenProperty(), $this->data);
+			$this->transformer->transform(new DataWithHiddenProperty(), array());
 			$this->fail('did not throw exception on path not found');
 		} catch (ExceptionInterface $e) {
 		}
@@ -72,61 +51,44 @@ class FormatStringTransformerTest extends \PHPUnit_Framework_TestCase{
 	
 	public function testEscapingOfPaths()
 	{
-	    $escaper = new DataEscaper();
-	    $this->transformer->setConfig(array(
-				'format_string' => '{[firstName]} {[lastName]}'
-		));
-	    $this->assertEquals($escaper->escape('<h1></h1> <span></span>'), $this->transformer->transform(array(
-            'firstName' => '<h1></h1>', 
-            'lastName' => '<span></span>'
-        ), array()));
-	    $this->transformer->setConfig(array(
-				'format_string' => '{[firstName]} {[lastName]}',
-	            'escape_values' => false
-		));
-	    $this->assertEquals('<h1></h1> <span></span>', $this->transformer->transform(array(
-            'firstName' => '<h1></h1>', 
-            'lastName' => '<span></span>'
-        ), array()));
-	}
-	
-	public function testEscapePathStrategies()
-	{
 	    $escaper = Mockery::mock('Yjv\ReportRendering\Data\DataEscaperInterface');
-	    $transformer = new FormatStringTransformer(null, $escaper);
-	    $transformer->setConfig(array(
-            'format_string' => '{[firstName]} {[lastName]}',
-            'escape_strategies' => array(
-                '[lastName]' => 'html_attr'
-            )
-        ));
-	    $escaper
-	        ->shouldReceive('escape')
-	        ->once()
-	        ->with('John', 'html')
-	        ->andReturn('John2')
-	        ->getMock()
-	        ->shouldReceive('escape')
-	        ->once()
-	        ->with('Smith', 'html_attr')
-	        ->andReturn('Smith2')
-	        ->getMock()
-	    ;
-	    $this->assertEquals('John2 Smith2', $transformer->transform($this->data, $this->data));
-	     
-	    $transformer->setConfig(array(
-			'format_string' => '{[firstName]} {[lastName]}',
-            'escape_strategies' => array(
-                '[lastName]' => false
-            )
-		));
-	    ;
+	    $decider = Mockery::mock('Yjv\ReportRendering\Data\StrategyDeciderInterface');
+	    $this->transformer = new FormatStringTransformer('{[firstName]} {[lastName]}');
+        $this->transformer
+            ->setEscaper($escaper)
+            ->setEscapeStrategyDecider($decider)
+        ;
+        $data = array(
+            'firstName' => '<h1></h1>',
+            'lastName' => '<span></span>'
+        );
+        $decider
+            ->shouldReceive('getStrategy')
+            ->once()
+            ->with('[firstName]', $data['firstName'])
+            ->andReturn('strategy1')
+            ->getMock()
+            ->shouldReceive('getStrategy')
+            ->once()
+            ->with('[lastName]', $data['lastName'])
+            ->andReturn('strategy2')
+            ->getMock()
+        ;
         $escaper
             ->shouldReceive('escape')
             ->once()
-            ->with('John', 'html')
-            ->andReturn('John2')
+            ->with($data['firstName'], 'strategy1')
+            ->andReturn('escaped1')
+            ->getMock()
+            ->shouldReceive('escape')
+            ->once()
+            ->with($data['lastName'], 'strategy2')
+            ->andReturn('escaped2')
+            ->getMock()
         ;
-        $this->assertEquals('John2 Smith', $transformer->transform($this->data, $this->data));
+	    $this->assertEquals('escaped1 escaped2', $this->transformer->transform(array(
+            'firstName' => '<h1></h1>', 
+            'lastName' => '<span></span>'
+        ), array()));
 	}
 }

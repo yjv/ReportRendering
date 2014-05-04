@@ -3,6 +3,7 @@ namespace Yjv\ReportRendering\Tests\Renderer\Grid\Column\Extension\Core\Type;
 
 use Yjv\ReportRendering\Data\DataEscaperInterface;
 
+use Yjv\ReportRendering\DataTransformer\DataTransformerInterface;
 use Yjv\ReportRendering\DataTransformer\PropertyPathTransformer;
 
 use Yjv\ReportRendering\Renderer\Grid\Column\Extension\Core\Type\PropertyPathType;
@@ -11,44 +12,78 @@ use Yjv\ReportRendering\Renderer\Grid\Column\Column;
 
 use Mockery;
 
-class PropertyPathTypeTest extends TypeTestCase{
-
+class PropertyPathTypeTest extends TypeTestCase
+{
 	protected $type;
 	
-	protected function setUp() {
-
+	public function setUp()
+    {
 		parent::setUp();
-		$this->dataTransformerRegistry->set('property_path', new PropertyPathTransformer());
 		$this->type = new PropertyPathType();
 	}
 	
-	public function testGetName() {
-		
+	public function testGetName()
+    {
 		$this->assertEquals('property_path', $this->type->getName());
 	}
-	
-	public function testBuildColumn(){
-		
-		$options = array(
-	        'path' => 'column', 
-	        'required' => true, 
-	        'empty_value' => '', 
-	        'ignored_option' => 'ignored',
+
+
+    public function testBuildColumnWithNoEscaping()
+    {
+        $options = array(
+            'path' => 'column',
+            'required' => true,
+            'empty_value' => 'empty value',
+            'escape_value' => false
+        );
+        $expectedTransformer = new PropertyPathTransformer(
+            $options['path'],
+            $options['required'],
+            $options['empty_value']
+        );
+        $testCase = $this;
+        $this->mockedBuilder
+            ->shouldReceive('appendDataTransformer')
+            ->once()
+            ->with(Mockery::on(function(DataTransformerInterface $transformer) use ($testCase, $expectedTransformer)
+            {
+                $testCase->assertEquals($expectedTransformer, $transformer);
+                return true;
+            }))
+        ;
+        $this->type->buildColumn($this->mockedBuilder, $options);
+    }
+
+    public function testBuildColumnWithEscaping()
+    {
+        $options = array(
+            'path' => 'column',
+            'required' => true,
+            'empty_value' => 'empty value',
             'escape_value' => true,
             'escape_strategy' => 'html'
-		);
-		$this->type->buildColumn($this->builder, $options);
-		$column = $this->builder->build();
-		$dataTransformers = $column->getDataTransformers();
-		$this->assertCount(1, $dataTransformers);
-		$transformer = $dataTransformers[0];
-		$this->assertInstanceOf('Yjv\ReportRendering\DataTransformer\PropertyPathTransformer', $transformer);
-		$this->assertEquals('column', $transformer->getConfig()->get('path'));
-		$this->assertEquals(true, $transformer->getConfig()->get('required'));
-		$this->assertEquals('', $transformer->getConfig()->get('empty_value'));
-		$this->assertEquals(true, $transformer->getConfig()->get('escape_value'));
-		$this->assertEquals('html', $transformer->getConfig()->get('escape_strategy'));
-	}
+        );
+        $expectedTransformer = new PropertyPathTransformer(
+            $options['path'],
+            $options['required'],
+            $options['empty_value']
+        );
+        $expectedTransformer
+            ->turnOnEscaping()
+            ->setPathStrategies(array($options['path'] => $options['escape_strategy']))
+        ;
+        $testCase = $this;
+        $this->mockedBuilder
+            ->shouldReceive('appendDataTransformer')
+            ->once()
+            ->with(Mockery::on(function(DataTransformerInterface $transformer) use ($testCase, $expectedTransformer)
+                    {
+                        $testCase->assertEquals($expectedTransformer, $transformer);
+                        return true;
+                    }))
+        ;
+        $this->type->buildColumn($this->mockedBuilder, $options);
+    }
 	
 	public function testSetDefaultOptions() {
 		

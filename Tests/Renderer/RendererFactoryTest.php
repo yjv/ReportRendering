@@ -6,19 +6,19 @@ use Yjv\ReportRendering\Renderer\RendererFactory;
 use Yjv\ReportRendering\Report\ReportFactory;
 
 use Mockery;
+use Yjv\TypeFactory\Tests\TypeFactoryTest;
 
-class RendererFactoryTest extends \PHPUnit_Framework_TestCase {
-
-	protected $factory;
-	protected $resolver;
+class RendererFactoryTest extends TypeFactoryTest
+{
 	protected $columnFactory;
 	
 	public function setUp(){
 		
-		$this->resolver = Mockery::mock('Yjv\TypeFactory\TypeResolverInterface');
+		parent::setUp();
 		$this->columnFactory = Mockery::mock('Yjv\ReportRendering\Renderer\Grid\Column\ColumnFactoryInterface');
 		$this->factory = new RendererFactory($this->resolver, $this->columnFactory);
-	}
+        $this->builder = Mockery::mock('Yjv\ReportRendering\Renderer\RendererBuilderInterface');
+    }
 	
 	public function testGetBuilderInterfaceName()
 	{

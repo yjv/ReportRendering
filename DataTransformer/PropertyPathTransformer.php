@@ -1,38 +1,43 @@
 <?php
 namespace Yjv\ReportRendering\DataTransformer;
 
+
 use Yjv\ReportRendering\Data\DataEscaperInterface;
-
 use Symfony\Component\PropertyAccess\Exception\ExceptionInterface;
-
 use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
-
 use Symfony\Component\PropertyAccess\PropertyAccess;
 
-class PropertyPathTransformer extends AbstractEscapingDataTransformer
+class PropertyPathTransformer extends AbstractDataTransformer
 {
+    protected $path;
+    protected $required = true;
+    protected $emptyValue = '';
     protected $propertyAccessor;
-    
+
     public function __construct(
-        PropertyAccessorInterface $propertyAccessor = null, 
-        DataEscaperInterface $escaper = null
+        $path,
+        $required = true,
+        $emptyValue = '',
+        PropertyAccessorInterface $propertyAccessor = null
     ) {
+        $this->path = $path;
+        $this->required = $required;
+        $this->emptyValue = $emptyValue;
         $this->propertyAccessor = $propertyAccessor ?: PropertyAccess::getPropertyAccessor();
-        parent::__construct($escaper);
     }
-        
+
     /**
-     * @param unknown $data
+     * @param mixed $data
+     * @param mixed $originalData
+     * @return mixed|string
      */
     public function transform($data, $originalData)
     {
-        $path = $this->config->get('path');
-
         try {
 
             return $this->escapeValue(
-                $this->propertyAccessor->getValue($data, $path),
-                $this->getEscapeStrategy($path)
+                $this->path,
+                $this->propertyAccessor->getValue($data, $this->path)
             );
         } catch (ExceptionInterface $e) {
 
@@ -42,21 +47,11 @@ class PropertyPathTransformer extends AbstractEscapingDataTransformer
 
     protected function handlePathSearchException(ExceptionInterface $e)
     {
-        if (!$this->config->get('required', true)) {
+        if (!$this->required) {
 
-            return $this->config->get('empty_value', '');
+            return $this->emptyValue;
         }
 
         throw $e;
-    }    
-    
-    protected function getEscapeStrategy($path)
-    {
-        if (!$this->getConfig()->get('escape_value', true)) {
-    
-            return false;
-        }
-    
-        return $this->getConfig()->get('escape_strategy', DataEscaperInterface::DEFAULT_STRATEGY);
     }
 }

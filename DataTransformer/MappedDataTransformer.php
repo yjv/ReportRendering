@@ -3,27 +3,38 @@ namespace Yjv\ReportRendering\DataTransformer;
 
 class MappedDataTransformer extends AbstractDataTransformer
 {
+    protected $map;
+    protected $required = true;
+    protected $emptyValue = '';
+
+    public function __construct(
+        array $map,
+        $required = true,
+        $emptyValue = ''
+    ) {
+        $this->map = $map;
+        $this->required = $required;
+        $this->emptyValue = $emptyValue;
+    }
+
     /**
-     * @param unknown $data
+     * @param mixed $data
+     * @param mixed $originalData
+     * @throws \InvalidArgumentException
+     * @return string
      */
     public function transform($data, $originalData)
     {
-        $map = $this->config->get('map');
+        if (isset($this->map[$data]) || array_key_exists($data, $this->map)) {
 
-        if (isset($map[$data]) || array_key_exists($data, $map)) {
-
-            $value = $map[$data];
-        } else {
-
-            if ($this->config->get('required', true)) {
-
-                throw new \InvalidArgumentException(sprintf('map does not contain a value for %s', $data));
-            } else {
-
-                $value = $this->config->get('empty_value', '');
-            }
+            return $this->map[$data];
         }
 
-        return $value;
+        if ($this->required) {
+
+            throw new \InvalidArgumentException(sprintf('map does not contain a value for %s', $data));
+        }
+
+        return $this->emptyValue;
     }
 }

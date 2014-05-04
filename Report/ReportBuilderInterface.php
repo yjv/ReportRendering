@@ -3,7 +3,7 @@ namespace Yjv\ReportRendering\Report;
 
 use Yjv\ReportRendering\IdGenerator\IdGeneratorInterface;
 
-use Yjv\TypeFactory\BuilderInterface;
+use Yjv\TypeFactory\NamedBuilderInterface;
 
 use Yjv\ReportRendering\Filter\FilterCollectionInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -11,7 +11,7 @@ use Yjv\ReportRendering\Renderer\RendererInterface;
 use Yjv\ReportRendering\Datasource\DatasourceInterface;
 use Yjv\TypeFactory\TypeInterface;
 
-interface ReportBuilderInterface extends BuilderInterface
+interface ReportBuilderInterface extends NamedBuilderInterface
 {
     /**
      *

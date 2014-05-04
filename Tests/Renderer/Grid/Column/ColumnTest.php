@@ -8,19 +8,20 @@ use Yjv\ReportRendering\Renderer\Grid\Column\Column;
 class ColumnTest extends \PHPUnit_Framework_TestCase {
 
 	protected $column;
-	
-	public function setUp() {
+    protected $transformerData;
+    protected $transformer1;
+    protected $transformer2;
+    protected $transformer3;
+
+    public function setUp() {
 		
 		$this->column = new Column();
-		$this->data = array('column1' => 'test', 'column2' => 'noTest3');
-		$this->column->setData($this->data);
+		$this->transformerData = array('column1' => 'test', 'column2' => 'noTest3');
+		$this->column->setData($this->transformerData);
 		
-		$this->transformer1 = new MappedDataTransformer();
-		$this->transformer2 = new MappedDataTransformer();
-		$this->transformer3 = new MappedDataTransformer();
-		$this->transformer1->setConfig(array('map' => array('1' => '2')));
-		$this->transformer2->setConfig(array('map' => array('2' => '3')));
-		$this->transformer3->setConfig(array('map' => array('3' => '4')));
+		$this->transformer1 = new MappedDataTransformer(array('1' => '2'));
+		$this->transformer2 = new MappedDataTransformer(array('2' => '3'));
+		$this->transformer3 = new MappedDataTransformer(array('3' => '4'));
 	}
 	
 	public function testGetRowOptions() {

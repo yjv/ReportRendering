@@ -3,6 +3,9 @@ namespace Yjv\ReportRendering\Renderer\Grid\Column\Extension\Core\Type;
 
 use Symfony\Component\OptionsResolver\Options;
 
+use Yjv\ReportRendering\Data\DefaultDataEscaper;
+use Yjv\ReportRendering\Data\PathStrategyDecider;
+use Yjv\ReportRendering\DataTransformer\FormatStringTransformer;
 use Yjv\ReportRendering\Renderer\Grid\Column\ColumnBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Yjv\ReportRendering\Renderer\Grid\Column\AbstractColumnType;
@@ -16,14 +19,18 @@ class FormatStringType extends AbstractColumnType
 
     public function buildColumn(ColumnBuilderInterface $builder, array $options)
     {
-        $dataTransformer = $builder->getFactory()->getDataTransformerRegistry()->get('format_string');
-        $dataTransformer->setConfig(array(
-            'format_string' => $options['format_string'],
-            'required' => $options['required'],
-            'empty_value' => $options['empty_value'],
-            'escape_values' => $options['escape_values'],
-            'escape_strategies' => $options['escape_strategies']
-        ));
+        $dataTransformer = new FormatStringTransformer(
+            $options['format_string'],
+            $options['required'],
+            $options['empty_value']
+        );
+
+        if ($options['escape_values']) {
+
+            $dataTransformer->turnOnEscaping();
+            $dataTransformer->setPathStrategies($options['escape_strategies']);
+        }
+
         $builder->appendDataTransformer($dataTransformer);
     }
 

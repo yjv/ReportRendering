@@ -2,9 +2,7 @@
 namespace Yjv\ReportRendering\Renderer\Grid\Column\Extension\Core\Type;
 
 use Yjv\ReportRendering\Data\DataEscaperInterface;
-
-use Symfony\Component\OptionsResolver\Options;
-
+use Yjv\ReportRendering\DataTransformer\PropertyPathTransformer;
 use Yjv\ReportRendering\Renderer\Grid\Column\ColumnBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Yjv\ReportRendering\Renderer\Grid\Column\AbstractColumnType;
@@ -18,14 +16,20 @@ class PropertyPathType extends AbstractColumnType
 
     public function buildColumn(ColumnBuilderInterface $builder, array $options)
     {
-        $dataTransformer = $builder->getFactory()->getDataTransformerRegistry()->get('property_path');
-        $dataTransformer->setConfig(array(
-            'path' => $options['path'],
-            'required' => $options['required'],
-            'empty_value' => $options['empty_value'],
-            'escape_value' => $options['escape_value'],
-            'escape_strategy' => $options['escape_strategy']
-        ));
+        $dataTransformer = new PropertyPathTransformer(
+            $options['path'],
+            $options['required'],
+            $options['empty_value']
+        );
+
+        if ($options['escape_value']) {
+
+            $dataTransformer->turnOnEscaping();
+            $dataTransformer->setPathStrategies(array(
+                $options['path'] => $options['escape_strategy']
+            ));
+        }
+
         $builder->appendDataTransformer($dataTransformer);
     }
 

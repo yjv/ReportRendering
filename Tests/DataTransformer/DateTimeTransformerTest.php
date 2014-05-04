@@ -11,42 +11,45 @@ use Symfony\Component\OptionsResolver\Exception\MissingOptionsException;
 
 use Yjv\ReportRendering\DataTransformer\PropertyPathTransformer;
 
-class DateTimeTransformerTest extends \PHPUnit_Framework_TestCase{
-
-	protected $transformer;
+class DateTimeTransformerTest extends AbstractDataTransformerTest
+{
+    /** @var  DateTimeTransformer */
+    protected $transformer;
 	protected $data;
-	
-	public function setUp(){
-	
-		$this->transformer = new DateTimeTransformer();
-		$this->data = array('firstName' => 'John', 'lastName' => 'Smith');
-		$this->dateString = '+1 year';
-		$this->format = 'Y-m-d';
+    protected $dateString;
+    protected $format;
+
+    public function setUp()
+    {
+        $this->format = 'Y-m-d';
+        $this->transformer = new DateTimeTransformer($this->format);
+        $this->data = array('firstName' => 'John', 'lastName' => 'Smith');
+        $this->dateString = '+1 year';
 	}
 	
-	public function testDateTranform() {
-		
+	public function testDateTranform()
+    {
 		$dateTime = new \DateTime($this->dateString);
-		$this->transformer->setConfig(array('format' => $this->format));
 		$this->assertEquals($dateTime->format($this->format), $this->transformer->transform($this->dateString, array()));
 	}
 	
-	public function testInvalidData() {
-		
-		$this->transformer->setConfig(array('format' => $this->format));
-		
-		try {
+	public function testInvalidData()
+    {
+
+        try {
 			
 			$this->transformer->transform('sgdsgd', array());
 			$this->fail('no exception thrown on invalid date string');
-		} catch (\Exception $e) {
+		} catch (\InvalidArgumentException $e) {
+            $this->assertEquals('$data must be an instance of DateTime, a valid date string or an integer timestamp', $e->getMessage());
 		}
 		
 		try {
 			
 			$this->transformer->transform(new \stdClass(), array());
 			$this->fail('no excpetion thrown on invalid data type');
-		} catch (\Exception $e) {
+		} catch (\InvalidArgumentException $e) {
+            $this->assertEquals('$data must be an instance of DateTime, a valid date string or an integer timestamp', $e->getMessage());
 		}
 	}
 }

@@ -44,9 +44,9 @@ class ColumnBuilderTest extends \PHPUnit_Framework_TestCase {
 	
 	public function testDatatransformerGetterSetter() {
 		
-		$transformer1 = new MappedDataTransformer();
-		$transformer2 = new MappedDataTransformer();
-		$transformer3 = new MappedDataTransformer();
+		$transformer1 = \Mockery::mock('Yjv\ReportRendering\DataTransformer\DataTransformerInterface');
+		$transformer2 = \Mockery::mock('Yjv\ReportRendering\DataTransformer\DataTransformerInterface');
+		$transformer3 = \Mockery::mock('Yjv\ReportRendering\DataTransformer\DataTransformerInterface');
 		
 		$dataTransformers = array($transformer2);
 		$this->assertSame($this->builder, $this->builder->setDataTransformers($dataTransformers));
@@ -64,7 +64,7 @@ class ColumnBuilderTest extends \PHPUnit_Framework_TestCase {
 		$options = array('options1' => 'value1');
 		$rowOptions = array('option2' => 'value2');
 		$cellOptions = array('option3' => 'value3');
-		$dataTransformers = array(new MappedDataTransformer());
+		$dataTransformers = array(\Mockery::mock('Yjv\ReportRendering\DataTransformer\DataTransformerInterface'));
 		
 		$column = $this->builder
 			->setOptions($options)

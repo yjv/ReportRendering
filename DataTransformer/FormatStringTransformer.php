@@ -1,26 +1,28 @@
 <?php
 namespace Yjv\ReportRendering\DataTransformer;
 
-use Yjv\ReportRendering\Data\DataEscaper;
-
-use Yjv\ReportRendering\Data\DataEscaperInterface;
 
 use Symfony\Component\PropertyAccess\Exception\ExceptionInterface;
-
 use Symfony\Component\PropertyAccess\PropertyAccess;
-
 use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
 
-class FormatStringTransformer extends AbstractEscapingDataTransformer
+class FormatStringTransformer extends AbstractDataTransformer
 {
+    protected $formatString;
+    protected $required = true;
+    protected $emptyValue = '';
     protected $propertyAccessor;
-    
+
     public function __construct(
-        PropertyAccessorInterface $propertyAccessor = null, 
-        DataEscaperInterface $escaper = null
+        $formatString,
+        $required = true,
+        $emptyValue = '',
+        PropertyAccessorInterface $propertyAccessor = null
     ) {
+        $this->formatString = $formatString;
+        $this->required = $required;
+        $this->emptyValue = $emptyValue;
         $this->propertyAccessor = $propertyAccessor ?: PropertyAccess::getPropertyAccessor();
-        parent::__construct($escaper);
     }
 
     /**
@@ -30,7 +32,7 @@ class FormatStringTransformer extends AbstractEscapingDataTransformer
      */
     public function transform($data, $originalData)
     {
-        $string = $this->config->get('format_string');
+        $string = $this->formatString;
 
         if (preg_match_all('/\{([^}]*)\}/', $string, $matches)) {
 
@@ -41,8 +43,8 @@ class FormatStringTransformer extends AbstractEscapingDataTransformer
                     $string = str_replace(
                         sprintf('{%s}', $path), 
                         $this->escapeValue(
-                            $this->propertyAccessor->getValue($data, $path),
-                            $this->getEscapeStrategy($path)
+                            $path,
+                            $this->propertyAccessor->getValue($data, $path)
                         ), 
                         $string
                     );
@@ -58,10 +60,9 @@ class FormatStringTransformer extends AbstractEscapingDataTransformer
 
     protected function handlePathSearchException(ExceptionInterface $e)
     {
+        if (!$this->required) {
 
-        if (!$this->config->get('required', true)) {
-
-            return $this->config->get('empty_value', '');
+            return $this->emptyValue;
         }
 
         throw $e;

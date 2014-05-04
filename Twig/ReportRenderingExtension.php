@@ -8,7 +8,13 @@
 
 namespace Yjv\ReportRendering\Twig;
 
-
+/**
+ * Class ReportRenderingExtension
+ * @package Yjv\ReportRendering\Twig
+ *
+ * use this class with your twig setup if you are using the form component and you dont want to setup
+ * the Symfony\Bridge\Twig\ExtensionTranslationExtension class
+ */
 class ReportRenderingExtension extends \Twig_Extension
 {
     public function getFilters()

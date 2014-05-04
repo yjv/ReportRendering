@@ -18,12 +18,4 @@ class ColumnFactoryBuilderTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertInstanceOf('Yjv\ReportRendering\Renderer\Grid\Column\ColumnFactory', $this->builder->build());
     }
-    
-    public function testGettersSetters()
-    {
-        $this->assertInstanceOf('Yjv\ReportRendering\DataTransformer\DataTransformerRegistry', $this->builder->getDataTransformerRegistry());
-        $dataTransformerRegistry = Mockery::mock('Yjv\ReportRendering\DataTransformer\DataTransformerRegistry');
-        $this->assertSame($this->builder, $this->builder->setDataTransformerRegistry($dataTransformerRegistry));
-        $this->assertSame($dataTransformerRegistry, $this->builder->getDataTransformerRegistry());
-    }
 }

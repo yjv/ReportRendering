@@ -10,7 +10,10 @@ class ReportFactoryBuilder extends AbstractTypeFactoryBuilder
 {
     protected $rendererFactoryBuilder;
     protected $datasourceFactoryBuilder;
-    
+
+    /**
+     * @return RendererFactoryBuilder
+     */
     public function getRendererFactoryBuilder()
     {
         if (!$this->rendererFactoryBuilder) {
@@ -26,7 +29,10 @@ class ReportFactoryBuilder extends AbstractTypeFactoryBuilder
         $this->rendererFactoryBuilder = $rendererFactoryBuilder;
         return $this;
     }
-    
+
+    /**
+     * @return DatasourceFactoryBuilder
+     */
     public function getDatasourceFactoryBuilder()
     {
         if (!$this->datasourceFactoryBuilder) {

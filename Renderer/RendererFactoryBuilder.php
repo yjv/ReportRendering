@@ -10,7 +10,10 @@ use Yjv\TypeFactory\AbstractTypeFactoryBuilder;
 class RendererFactoryBuilder extends AbstractTypeFactoryBuilder
 {
     protected $columnFactoryBuilder;
-    
+
+    /**
+     * @return ColumnFactoryBuilder
+     */
     public function getColumnFactoryBuilder()
     {
         if (!$this->columnFactoryBuilder) {
@@ -20,7 +23,11 @@ class RendererFactoryBuilder extends AbstractTypeFactoryBuilder
         
         return $this->columnFactoryBuilder;
     }
-    
+
+    /**
+     * @param ColumnFactoryBuilder $columnFactoryBuilder
+     * @return $this
+     */
     public function setColumnFactoryBuilder(ColumnFactoryBuilder $columnFactoryBuilder)
     {
         $this->columnFactoryBuilder = $columnFactoryBuilder;

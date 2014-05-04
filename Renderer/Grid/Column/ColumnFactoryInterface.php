@@ -5,5 +5,4 @@ use Yjv\TypeFactory\TypeFactoryInterface;
 
 interface ColumnFactoryInterface extends TypeFactoryInterface
 {
-    public function getDataTransformerRegistry();
 }

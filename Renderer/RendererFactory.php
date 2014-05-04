@@ -28,5 +28,4 @@ class RendererFactory extends TypeFactory implements RendererFactoryInterface
     {
         return $this->columnFactory;
     }
-
 }

@@ -18,24 +18,41 @@ use Yjv\ReportRendering\Renderer\Extension\Symfony\SymfonyExtension as SymfonyRe
 use Yjv\ReportRendering\Renderer\Grid\Column\Extension\Core\CoreExtension as CoreColumnExtension;
 
 use Yjv\ReportRendering\Report\ReportFactoryBuilder;
+use Yjv\TypeFactory\TypeFactoryInterface;
 
 class ReportRendering
 {
     /**
      * @param EngineInterface $templatingEngine
-     * @param FormFactoryInterface $formFactory
-     * @return \Yjv\TypeFactory\TypeFactoryInterface
+     * @return TypeFactoryInterface
      */
     public static function createReportFactory(
-        EngineInterface $templatingEngine = null,
-        FormFactoryInterface $formFactory = null
+        EngineInterface $templatingEngine = null
     ) {
-        return self::createReportFactoryBuilder($templatingEngine, $formFactory)->build();
+        return self::createReportFactoryBuilder($templatingEngine)->build();
     }
-    
+
+    /**
+     * @param EngineInterface $templatingEngine
+     * @param FormFactoryInterface $formFactory
+     * @return TypeFactoryInterface
+     */
+    public static function createReportFactoryWithSymfonyFormFactory(
+        FormFactoryInterface $formFactory,
+        EngineInterface $templatingEngine = null
+    ) {
+        return self::createReportFactoryBuilderWithSymfonyFormFactory(
+            $formFactory,
+            $templatingEngine
+        )->build();
+    }
+
+    /**
+     * @param EngineInterface $templatingEngine
+     * @return ReportFactoryBuilder
+     */
     public static function createReportFactoryBuilder(
-        EngineInterface $templatingEngine = null,
-        FormFactoryInterface $formFactory = null
+        EngineInterface $templatingEngine = null
     ) {
         $reportFactoryBuilder = ReportFactoryBuilder::getInstance();
         
@@ -50,31 +67,33 @@ class ReportRendering
 
         $reportFactoryBuilder
             ->getRendererFactoryBuilder()
-            ->addExtension(new CoreRendererExtension(
-                $templatingEngine,
-                $formFactory ?: Forms::createFormFactory()
-            ))
+            ->addExtension(new CoreRendererExtension($templatingEngine))
         ;
-
-        if ($formFactory) {
-
-            $reportFactoryBuilder
-                ->getRendererFactoryBuilder()
-                ->addExtension(new SymfonyRendererExtension($formFactory))
-            ;
-        }
-
         
         $reportFactoryBuilder
             ->getRendererFactoryBuilder()
             ->getColumnFactoryBuilder()
             ->addExtension(new CoreColumnExtension())
-            ->addDataTransformer('mapped_data', new MappedDataTransformer())
-            ->addDataTransformer('format_string', new FormatStringTransformer())
-            ->addDataTransformer('property_path', new PropertyPathTransformer())
-            ->addDataTransformer('date_time', new DateTimeTransformer())
         ;
         
+        return $reportFactoryBuilder;
+    }
+
+    /**
+     * @param FormFactoryInterface $formFactory
+     * @param EngineInterface $templatingEngine
+     * @return ReportFactoryBuilder
+     */
+    public static function createReportFactoryBuilderWithSymfonyFormFactory(
+        FormFactoryInterface $formFactory,
+        EngineInterface $templatingEngine = null
+
+    ) {
+        $reportFactoryBuilder = self::createReportFactoryBuilder($templatingEngine);
+        $reportFactoryBuilder
+            ->getRendererFactoryBuilder()
+            ->addExtension(new SymfonyRendererExtension($formFactory))
+        ;
         return $reportFactoryBuilder;
     }
 }

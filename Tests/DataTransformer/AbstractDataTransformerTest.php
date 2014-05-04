@@ -1,33 +1,33 @@
 <?php
 namespace Yjv\ReportRendering\Tests\DataTransformer;
 
-use Yjv\ReportRendering\DataTransformer\Config\Config;
-
-use Yjv\ReportRendering\DataTransformer\AbstractDataTransformer;
+use Yjv\ReportRendering\Tests\DataTransformer\Fixtures\MockDataTransformer;
 
 class AbstractDataTransformerTest extends \PHPUnit_Framework_TestCase
 {
+    /** @var MockDataTransformer */
     protected $transformer;
     
     public function setUp()
     {
-        $this->transformer = new TestAbstractDataTransformer();
+        $this->transformer = new MockDataTransformer();
     }
     
     public function testGettersSetters()
     {
-        $this->assertEquals(new Config(array()), $this->transformer->getConfig());
-        $this->assertSame($this->transformer, $this->transformer->setConfig(array('key' => 'value')));
-        $this->assertEquals(new Config(array('key' => 'value')), $this->transformer->getConfig());
-        $config = new Config(array('key' => 'value'));
-        $this->assertSame($this->transformer, $this->transformer->setConfig($config));
-        $this->assertSame($config, $this->transformer->getConfig());
+        $this->assertInstanceOf('Yjv\ReportRendering\Data\IdentityDataEscaper', $this->transformer->getEscaper());
+        $escaper = \Mockery::mock('Yjv\ReportRendering\Data\DataEscaperInterface');
+        $this->assertSame($this->transformer, $this->transformer->setEscaper($escaper));
+        $this->assertSame($escaper, $this->transformer->getEscaper());
+        $strategyDecider = \Mockery::mock('Yjv\ReportRendering\Data\StrategyDeciderInterface');
+        $this->assertSame($this->transformer, $this->transformer->setEscapeStrategyDecider($strategyDecider));
+        $this->assertSame($strategyDecider, $this->transformer->getEscapeStrategyDecider());
     }
-}
 
-class TestAbstractDataTransformer extends AbstractDataTransformer
-{
-    public function transform($data, $originalData)
+    public function testTurnOnEscaping()
     {
+        $this->assertInstanceOf('Yjv\ReportRendering\Data\IdentityDataEscaper', $this->transformer->getEscaper());
+        $this->assertSame($this->transformer, $this->transformer->turnOnEscaping());
+        $this->assertInstanceOf('Yjv\ReportRendering\Data\DefaultDataEscaper', $this->transformer->getEscaper());
     }
 }

@@ -4,17 +4,16 @@ namespace Yjv\ReportRendering\Tests\Report;
 use Yjv\ReportRendering\Report\ReportFactory;
 
 use Mockery;
+use Yjv\TypeFactory\Tests\NamedTypeFactoryTest;
 
-class ReportFactoryTest extends \PHPUnit_Framework_TestCase {
-
-	protected $factory;
-	protected $resolver;
+class ReportFactoryTest extends NamedTypeFactoryTest
+{
 	protected $datasourceFactory;
 	protected $rendererFactory;
 	
 	public function setUp(){
 		
-		$this->resolver = Mockery::mock('Yjv\TypeFactory\TypeResolverInterface');
+		parent::setUp();
 		$this->datasourceFactory = Mockery::mock('Yjv\TypeFactory\TypeFactoryInterface');
 		$this->rendererFactory = Mockery::mock('Yjv\ReportRendering\Renderer\RendererFactoryInterface');
 		$this->factory = new ReportFactory(
@@ -22,7 +21,8 @@ class ReportFactoryTest extends \PHPUnit_Framework_TestCase {
 	        $this->datasourceFactory, 
 	        $this->rendererFactory
         );
-	}
+        $this->builder = Mockery::mock('Yjv\ReportRendering\Report\ReportBuilderInterface');
+    }
 	
 	public function testGetBuilderInterfaceName()
 	{

@@ -10,27 +10,29 @@ if (!defined('ENT_SUBSTITUTE')) {
  * @author yosefderay
  *
  */
-class DataEscaper implements DataEscaperInterface
+class DefaultDataEscaper implements DataEscaperInterface
 {
 	public function escape(
         $value, 
-        $strategy = DataEscaperInterface::DEFAULT_STRATEGY, 
-        $charset = DataEscaperInterface::DEFAULT_CHARSET
+        $strategy = DataEscaperInterface::DEFAULT_STRATEGY,
+        array $options = array()
     ) {
-		switch ($strategy) {
-	        case 'js':
+		$charset = isset($options['charset']) ? $options['charset'] : self::DEFAULT_CHARSET;
+
+        switch ($strategy) {
+	        case EscapeStrategies::JS:
 	            return $this->escapeJs($value, $charset);
 	
-	        case 'css':
+	        case EscapeStrategies::CSS:
 	            return $this->escapeCss($value, $charset);
 	
-	        case 'html_attr':
+	        case EscapeStrategies::HTML_ATTR:
 	            return $this->escapeHtmlAttr($value, $charset);
 	
-	        case 'html':
+	        case EscapeStrategies::HTML:
 	            return $this->escapeHtml($value, $charset);
 	
-	        case 'url':
+	        case EscapeStrategies::URL:
 	            return $this->escapeUrl($value, $charset);
 	
 	        default:
@@ -41,11 +43,11 @@ class DataEscaper implements DataEscaperInterface
 	public function getSupportedStrategies()
 	{
 		return array(
-				'js',
-				'css',
-				'html_attr',
-				'html',
-				'url'
+            EscapeStrategies::JS,
+            EscapeStrategies::CSS,
+            EscapeStrategies::HTML_ATTR,
+            EscapeStrategies::HTML,
+            EscapeStrategies::URL
 		);
 	}
 	
@@ -168,7 +170,7 @@ class DataEscaper implements DataEscaperInterface
         return rawurlencode($string);
 	}
 	
-	protected function escapeJsCallback($matches)
+	public function escapeJsCallback($matches)
 	{
 		$char = $matches[0];
 
@@ -182,8 +184,8 @@ class DataEscaper implements DataEscaperInterface
     
         return '\\u'.strtoupper(substr('0000'.bin2hex($char), -4));
 	}
-	
-	protected function escapeCssCallback($matches)
+
+    public function escapeCssCallback($matches)
 	{
         $char = $matches[0];
     
@@ -209,7 +211,7 @@ class DataEscaper implements DataEscaperInterface
 	 * @copyright Copyright (c) 2005-2012 Zend Technologies USA Inc. (http://www.zend.com)
 	 * @license   http://framework.zend.com/license/new-bsd New BSD License
 	 */
-	protected function escapeHtmlAttrCallback($matches)
+    public function escapeHtmlAttrCallback($matches)
 	{
         /*
          * While HTML supports far more named entities, the lowest common denominator

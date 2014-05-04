@@ -18,9 +18,9 @@ class TypeTestCase extends BaseTypeTestCase
 	protected function setUp() {
 
 		parent::setUp();
-	    $this->dataTransformerRegistry = new DataTransformerRegistry();
-		$this->factory = new ColumnFactory($this->resolver, $this->dataTransformerRegistry);
+		$this->factory = new ColumnFactory($this->resolver);
 		$this->builder = new ColumnBuilder($this->factory);
+        $this->mockedBuilder = \Mockery::mock(get_class($this->builder));
 	}
 	
 	protected function getExtensions()

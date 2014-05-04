@@ -1,6 +1,7 @@
 <?php
 namespace Yjv\ReportRendering\Renderer\Grid\Column;
 
+use Yjv\ReportRendering\DataTransformer\DataTransformerInterface;
 use Yjv\TypeFactory\BuilderInterface;
 
 interface ColumnBuilderInterface extends BuilderInterface
@@ -59,14 +60,14 @@ interface ColumnBuilderInterface extends BuilderInterface
 
     /**
      * appends a datatransformer to the array
-     * @param DataTransofrmerInterface|callable $dataTransformer
+     * @param DataTransformerInterface|callable $dataTransformer
      * @return \Yjv\ReportRendering\Renderer\Grid\Column\ColumnBuilderInterface
      */
     public function appendDataTransformer($dataTransformer);
 
     /**
      * prepends a datatransformer to the array
-     * @param DataTransofrmerInterface|callable $dataTransformer
+     * @param DataTransformerInterface|callable $dataTransformer
      * @return \Yjv\ReportRendering\Renderer\Grid\Column\ColumnBuilderInterface
      */
     public function prependDataTransformer($dataTransformer);
