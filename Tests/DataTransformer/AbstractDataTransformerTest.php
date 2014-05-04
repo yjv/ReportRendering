@@ -24,10 +24,12 @@ class AbstractDataTransformerTest extends \PHPUnit_Framework_TestCase
         $this->assertSame($strategyDecider, $this->transformer->getEscapeStrategyDecider());
     }
 
-    public function testTurnOnEscaping()
+    public function testTurningEscapingOnAndOff()
     {
         $this->assertInstanceOf('Yjv\ReportRendering\Data\IdentityDataEscaper', $this->transformer->getEscaper());
         $this->assertSame($this->transformer, $this->transformer->turnOnEscaping());
         $this->assertInstanceOf('Yjv\ReportRendering\Data\DefaultDataEscaper', $this->transformer->getEscaper());
+        $this->assertSame($this->transformer, $this->transformer->turnOffEscaping());
+        $this->assertInstanceOf('Yjv\ReportRendering\Data\IdentityDataEscaper', $this->transformer->getEscaper());
     }
 }
