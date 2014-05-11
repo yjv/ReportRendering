@@ -28,5 +28,8 @@ class RendererFactoryBuilderTest extends \PHPUnit_Framework_TestCase
         $templatingEngine = Mockery::mock('Symfony\Component\Templating\EngineInterface');
         $this->assertSame($this->builder, $this->builder->setTemplatingEngine($templatingEngine));
         $this->assertSame($templatingEngine, $this->builder->getTemplatingEngine());
+        $formFactory = Mockery::mock('Symfony\Component\Form\FormFactoryInterface');
+        $this->assertSame($this->builder, $this->builder->setFormFactory($formFactory));
+        $this->assertSame($formFactory, $this->builder->getFormFactory());
     }
 }

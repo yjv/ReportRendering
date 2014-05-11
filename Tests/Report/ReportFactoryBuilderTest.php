@@ -29,5 +29,11 @@ class ReportFactoryBuilderTest extends \PHPUnit_Framework_TestCase
         $rendererFactoryBuilder = Mockery::mock('Yjv\ReportRendering\Renderer\RendererFactoryBuilder');
         $this->assertSame($this->builder, $this->builder->setRendererFactoryBuilder($rendererFactoryBuilder));
         $this->assertSame($rendererFactoryBuilder, $this->builder->getRendererFactoryBuilder());
+        $templatingEngine = Mockery::mock('Symfony\Component\Templating\EngineInterface');
+        $this->assertSame($this->builder, $this->builder->setTemplatingEngine($templatingEngine));
+        $this->assertSame($templatingEngine, $this->builder->getTemplatingEngine());
+        $formFactory = Mockery::mock('Symfony\Component\Form\FormFactoryInterface');
+        $this->assertSame($this->builder, $this->builder->setFormFactory($formFactory));
+        $this->assertSame($formFactory, $this->builder->getFormFactory());
     }
 }
