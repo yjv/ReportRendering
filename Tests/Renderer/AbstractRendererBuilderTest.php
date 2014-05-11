@@ -27,7 +27,7 @@ abstract class AbstractRendererBuilderTest extends AbstractBuilderTest
     
     public function setUp()
     {
-        $this->columnFactory = Mockery::mock('Yjv\ReportRendering\Renderer\Grid\Column\ColumnFactoryInterface');
+        $this->columnFactory = Mockery::mock('Yjv\TypeFactory\TypeFactoryInterface');
         $this->factory = Mockery::mock('Yjv\ReportRendering\Renderer\RendererFactoryInterface')
             ->shouldReceive('getColumnFactory')
             ->andReturn($this->columnFactory)

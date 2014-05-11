@@ -185,6 +185,14 @@ class ReportTypeTest extends TypeTestCase
             ->once()
             ->andReturn(Mockery::mock('Yjv\ReportRendering\Filter\FilterCollectionInterface'))
             ->getMock()
+            ->shouldReceive('addEventSubscriber')
+            ->once()
+            ->with('Yjv\ReportRendering\EventListener\LazyLoadedRendererManagementSubscriber')
+            ->getMock()
+            ->shouldReceive('addEventSubscriber')
+            ->once()
+            ->with('Yjv\ReportRendering\EventListener\RenderFilterManagementSubscriber')
+            ->getMock()
         ;
         $this->type->finalizeReport($report, array());
     }
@@ -203,6 +211,14 @@ class ReportTypeTest extends TypeTestCase
                     ->with($filterDefaults)
                     ->getMock()
             )
+            ->getMock()
+            ->shouldReceive('addEventSubscriber')
+            ->once()
+            ->with('Yjv\ReportRendering\EventListener\LazyLoadedRendererManagementSubscriber')
+            ->getMock()
+            ->shouldReceive('addEventSubscriber')
+            ->once()
+            ->with('Yjv\ReportRendering\EventListener\RenderFilterManagementSubscriber')
             ->getMock()
         ;
         $this->type->finalizeReport($report, array('filter_defaults' => $filterDefaults));

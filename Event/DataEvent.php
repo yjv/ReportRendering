@@ -1,33 +1,32 @@
 <?php
 namespace Yjv\ReportRendering\Event;
 
-use Symfony\Component\EventDispatcher\Event;
 use Yjv\ReportRendering\Renderer\RendererInterface;
-use Yjv\ReportRendering\Filter\FilterCollectionInterface;
 use Yjv\ReportRendering\Datasource\DatasourceInterface;
+use Yjv\ReportRendering\Report\ReportInterface;
+use Yjv\ReportRendering\ReportData\ImmutableDataInterface;
 
-class DataEvent extends Event
+class DataEvent extends RendererEvent
 {
     protected $data;
     protected $datasource;
-    protected $filters;
-    protected $renderer;
-    protected $rendererName;
+    protected $filterValues;
 
     public function __construct(
-        $rendererName, 
+        ReportInterface $report,
+        $rendererName,
         RendererInterface $renderer, 
         DatasourceInterface $datasource, 
-        FilterCollectionInterface $filters
+        array $filterValues,
+        ImmutableDataInterface $data = null
     ) {
-        $this->rendererName = $rendererName;
-        $this->renderer = $renderer;
+        parent::__construct($report, $rendererName, $renderer);
         $this->datasource = $datasource;
-        $this->filters = $filters;
+        $this->filterValues = $filterValues;
+        $this->data = $data;
     }
 
     /**
-     * 
      * @return DatasourceInterface
      */
     public function getDatasource()
@@ -36,27 +35,38 @@ class DataEvent extends Event
     }
 
     /**
-     * 
-     * @return FilterCollectionInterface
+     * @return array
      */
-    public function getFilters()
+    public function getFilterValues()
     {
-        return $this->filters;
+        return $this->filterValues;
     }
-    
-    public function setFilters(FilterCollectionInterface $filters)
+
+    /**
+     * @param array $filters
+     * @return $this
+     */
+    public function setFilterValues(array $filters)
     {
-        $this->filters = $filters;
+        $this->filterValues = $filters;
         return $this;
     }
 
-    public function getRenderer()
+    /**
+     * @return null|ImmutableDataInterface
+     */
+    public function getData()
     {
-        return $this->renderer;
+        return $this->data;
     }
 
-    public function getRendererName()
+    /**
+     * @param ImmutableDataInterface $data
+     * @return $this
+     */
+    public function setData(ImmutableDataInterface $data)
     {
-        return $this->rendererName;
+        $this->data = $data;
+        return $this;
     }
 }

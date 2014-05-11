@@ -15,16 +15,16 @@ class RendererFactoryTest extends TypeFactoryTest
 	public function setUp(){
 		
 		parent::setUp();
-		$this->columnFactory = Mockery::mock('Yjv\ReportRendering\Renderer\Grid\Column\ColumnFactoryInterface');
+		$this->columnFactory = Mockery::mock('Yjv\TypeFactory\TypeFactoryInterface');
 		$this->factory = new RendererFactory($this->resolver, $this->columnFactory);
         $this->builder = Mockery::mock('Yjv\ReportRendering\Renderer\RendererBuilderInterface');
     }
-	
+
 	public function testGetBuilderInterfaceName()
 	{
 	    $this->assertEquals('Yjv\ReportRendering\Renderer\RendererBuilderInterface', $this->factory->getBuilderInterfaceName());
 	}
-	
+
 	public function testGetColumnFactory()
 	{
 	    $this->assertSame($this->columnFactory, $this->factory->getColumnFactory());

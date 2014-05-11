@@ -1,15 +1,20 @@
 <?php
 namespace Yjv\ReportRendering\Renderer;
 
-use Yjv\ReportRendering\Renderer\RendererFactory;
 
+use Symfony\Component\Form\FormFactoryInterface;
+use Symfony\Component\Templating\EngineInterface;
+use Yjv\ReportRendering\BuilderInterfaces;
+use Yjv\ReportRendering\Renderer\Extension\Core\CoreExtension;
+use Yjv\ReportRendering\Renderer\Extension\Symfony\SymfonyExtension;
 use Yjv\ReportRendering\Renderer\Grid\Column\ColumnFactoryBuilder;
+use Yjv\TypeFactory\TypeFactoryBuilder;
 
-use Yjv\TypeFactory\AbstractTypeFactoryBuilder;
-
-class RendererFactoryBuilder extends AbstractTypeFactoryBuilder
+class RendererFactoryBuilder extends TypeFactoryBuilder
 {
     protected $columnFactoryBuilder;
+    protected $templatingEngine;
+    protected $formFactory;
 
     /**
      * @return ColumnFactoryBuilder
@@ -17,10 +22,10 @@ class RendererFactoryBuilder extends AbstractTypeFactoryBuilder
     public function getColumnFactoryBuilder()
     {
         if (!$this->columnFactoryBuilder) {
-            
+
             $this->columnFactoryBuilder = $this->getDefaultColumnFactoryBuilder();
         }
-        
+
         return $this->columnFactoryBuilder;
     }
 
@@ -33,14 +38,71 @@ class RendererFactoryBuilder extends AbstractTypeFactoryBuilder
         $this->columnFactoryBuilder = $columnFactoryBuilder;
         return $this;
     }
-    
-    protected function getFactoryInstance()
+
+    /**
+     * @param EngineInterface $templatingEngine
+     * @return $this
+     */
+    public function setTemplatingEngine(EngineInterface $templatingEngine)
     {
-        return new RendererFactory($this->getTypeResolver(), $this->getColumnFactoryBuilder()->build());
+        $this->templatingEngine = $templatingEngine;
+        return $this;
     }
-    
+
+    /**
+     * @return mixed
+     */
+    public function getTemplatingEngine()
+    {
+        return $this->templatingEngine;
+    }
+
+    /**
+     * @param FormFactoryInterface $formFactory
+     * @return $this
+     */
+    public function setFormFactory(FormFactoryInterface $formFactory)
+    {
+        $this->formFactory = $formFactory;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getFormFactory()
+    {
+        return $this->formFactory;
+    }
+
+    protected function getDefaultBuilderInterfaceName()
+    {
+        return BuilderInterfaces::RENDERER;
+    }
+
     protected function getDefaultColumnFactoryBuilder()
     {
-        return ColumnFactoryBuilder::getInstance();
+        return ColumnFactoryBuilder::create();
     }
+    protected function getDefaultExtensions()
+    {
+        $extensions = array(new CoreExtension($this->templatingEngine));
+
+        if ($this->formFactory) {
+
+            $extensions[] = new SymfonyExtension($this->formFactory);
+        }
+
+        return $extensions;
+    }
+
+    protected function getFactoryInstance()
+    {
+        return new RendererFactory(
+            $this->getTypeResolver(),
+            $this->getColumnFactoryBuilder()->build(),
+            $this->getBuilderInterfaceName()
+        );
+    }
+
 }

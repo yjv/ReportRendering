@@ -1,6 +1,7 @@
 <?php
 namespace Yjv\ReportRendering\Report;
 
+use Yjv\ReportRendering\BuilderInterfaces;
 use Yjv\TypeFactory\NamedTypeFactory;
 use Yjv\TypeFactory\TypeFactoryInterface;
 
@@ -16,16 +17,12 @@ class ReportFactory extends NamedTypeFactory implements ReportFactoryInterface
     public function __construct(
         TypeResolverInterface $typeResolver, 
         TypeFactoryInterface $datasourceFactory,
-        RendererFactoryInterface $rendererFactory
+        RendererFactoryInterface $rendererFactory,
+        $builderInterfaceName = BuilderInterfaces::REPORT
     ) {
         $this->datasourceFactory = $datasourceFactory;
         $this->rendererFactory = $rendererFactory;
-        parent::__construct($typeResolver);
-    }
-
-    public function getBuilderInterfaceName()
-    {
-        return 'Yjv\ReportRendering\Report\ReportBuilderInterface';
+        parent::__construct($typeResolver, $builderInterfaceName);
     }
 
     public function getDatasourceFactory()

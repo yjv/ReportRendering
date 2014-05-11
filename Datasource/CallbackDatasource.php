@@ -11,8 +11,6 @@ class CallbackDatasource implements DatasourceInterface
     protected $callback;
     protected $callbackObject;
     protected $params;
-    protected $filters;
-    protected $data;
 
     public function __construct($callback, array $params = array())
     {
@@ -36,18 +34,11 @@ class CallbackDatasource implements DatasourceInterface
 
         $this->callback = $callback;
         $this->params = $params;
-        $this->filters = new NullFilterCollection();
     }
 
-    public function getData($forceReload = false)
+    public function getData(array $filters)
     {
-
-        if (!empty($this->data) && !$forceReload) {
-
-            return $this->data;
-        }
-
-        $params = array_replace($this->params, $this->filters->all());
+        $params = array_replace($this->params, $filters);
         $params['params'] = $params;
 
         $args = array();
@@ -65,34 +56,26 @@ class CallbackDatasource implements DatasourceInterface
                 $args[] = null;
             } else {
 
-                throw new \InvalidArgumentException(
-                    sprintf(
-                        'the parameter $%s was not defined in the filters or the default params',
-                        $parameter->getName())
-                    );
+                throw new \InvalidArgumentException(sprintf(
+                    'the parameter $%s was not defined in the filters or the default params',
+                    $parameter->getName()
+                ));
             }
         }
 
         if ($this->callback instanceof \ReflectionMethod) {
 
-            $this->data = $this->callback->invokeArgs($this->callbackObject, $args);
+            $data = $this->callback->invokeArgs($this->callbackObject, $args);
         } else {
-            $this->data = $this->callback->invokeArgs($args);
+            $data = $this->callback->invokeArgs($args);
         }
 
-        if (!$this->data instanceof DataInterface) {
+        if (!$data instanceof DataInterface) {
 
-            $unpaginatedCount = is_array($this->data) || $this->data instanceof \Countable ? count($this->data) : 0;
-            $this->data = new ReportData($this->data, $unpaginatedCount);
+            $unpaginatedCount = is_array($data) || $data instanceof \Countable ? count($data) : 0;
+            $data = new ReportData($data, $unpaginatedCount);
         }
 
-        return $this->data;
+        return $data;
     }
-
-    public function setFilters(FilterCollectionInterface $filters)
-    {
-        $this->filters = $filters;
-        return $this;
-    }
-
 }

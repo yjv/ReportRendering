@@ -27,7 +27,15 @@ class SymfonyForm implements FormInterface
      */
     public function processFilters(array $filters)
     {
-        return $this->form->submit($filters)->getData();
+        foreach ($filters as $name => $value) {
+
+            if ($this->form->has($name)) {
+
+                $child = clone $this->form->get($name);
+                $filters[$name] = $child->submit($value)->getData();
+            }
+        }
+        return $filters;
     }
 
     public function getForm()

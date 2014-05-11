@@ -47,7 +47,21 @@ class HtmlRendererTest extends \PHPUnit_Framework_TestCase{
 		$this->assertSame($this->renderer, $this->renderer->setFilters($filters));
 		$this->assertSame($filters, $this->renderer->getFilters());
 		$this->assertSame($this->grid, $this->renderer->getGrid());
-	}
+        $filterForm = Mockery::mock('Yjv\ReportRendering\Renderer\Html\Filter\FormInterface')
+            ->shouldReceive('setFilters')
+            ->once()
+            ->with($filterValues = array('key' => 'value'))
+            ->getMock()
+        ;
+        $filters
+            ->shouldReceive('all')
+            ->once()
+            ->andReturn($filterValues)
+        ;
+        $this->assertSame($this->renderer, $this->renderer->setFilterForm($filterForm));
+        $this->assertSame($filterForm, $this->renderer->getFilterForm());
+
+    }
 	
 	public function testSetData() {
 		
@@ -323,5 +337,27 @@ class HtmlRendererTest extends \PHPUnit_Framework_TestCase{
         $this->assertEquals(array(
             $stylesheet2Name => $stylesheet2,
         ), $this->renderer->getStylesheets());
+    }
+
+    public function testProcessFiltersWhereNoFilterFormSet()
+    {
+        $filterValues = array('key' => 'value');
+        $this->assertEquals($filterValues, $this->renderer->processFilterValues($filterValues));
+    }
+
+    public function testProcessFiltersWhereFilterFormSet()
+    {
+        $filterValues = array('key' => 'value');
+        $returnedFilterValues = $filterValues;
+        $returnedFilterValues['key2'] = 'value2';
+        $filterForm = Mockery::mock('Yjv\ReportRendering\Renderer\Html\Filter\FormInterface')
+            ->shouldReceive('processFilters')
+            ->once()
+            ->with($filterValues)
+            ->andReturn($returnedFilterValues)
+            ->getMock()
+        ;
+        $this->renderer->setFilterForm($filterForm);
+        $this->assertEquals($returnedFilterValues, $this->renderer->processFilterValues($filterValues));
     }
 }

@@ -1,5 +1,5 @@
 <?php
-namespace Yjv\ReportRendering\Test\Event;
+namespace Yjv\ReportRendering\Tests\Event;
 
 use Yjv\ReportRendering\Filter\ArrayFilterCollection;
 
@@ -8,33 +8,45 @@ use Yjv\ReportRendering\Filter\NullFilterCollection;
 use Yjv\ReportRendering\Datasource\FakeDatasource;
 
 use Yjv\ReportRendering\Event\DataEvent;
+use Yjv\ReportRendering\ReportData\ReportData;
 
 
-class DataEventTest extends \PHPUnit_Framework_TestCase{
-
+class DataEventTest extends RendererEventTest
+{
 	protected $rendererName;
 	protected $renderer;
 	protected $datasource;
-	protected $filters;
-	protected $dataEvent;
+	protected $filterValues;
+    protected $data;
+	protected $event;
 	
-	public function setUp() {
-		
-		$this->rendererName = 'test';
-		$this->renderer = $this->getMockBuilder('Yjv\ReportRendering\Renderer\RendererInterface')->getMock();
-		$this->datasource = new FakeDatasource();
-		$this->filters = new NullFilterCollection();
-		$this->dataEvent = new DataEvent($this->rendererName, $this->renderer, $this->datasource, $this->filters);
+	public function setUp()
+    {
+		parent::setUp();
+		$this->datasource = \Mockery::mock('Yjv\ReportRendering\Datasource\DatasourceInterface');
+		$this->filterValues = array('key' => 'value');
+        $this->data = new ReportData(array(), 32);
+		$this->event = new DataEvent(
+            $this->report,
+            $this->rendererName,
+            $this->renderer,
+            $this->datasource,
+            $this->filterValues,
+            $this->data
+        );
 	}
 	
-	public function testGettersSetters() {
-		
-		$this->assertEquals($this->rendererName, $this->dataEvent->getRendererName());
-		$this->assertSame($this->renderer, $this->dataEvent->getRenderer());
-		$this->assertSame($this->datasource, $this->dataEvent->getDatasource());
-		$this->assertSame($this->filters, $this->dataEvent->getFilters());
-		$filters = new ArrayFilterCollection();
-		$this->assertSame($this->dataEvent, $this->dataEvent->setFilters($filters));
-		$this->assertSame($filters, $this->dataEvent->getFilters());
+	public function testGettersSetters()
+    {
+        parent::testGettersSetters();
+		$this->assertSame($this->datasource, $this->event->getDatasource());
+		$this->assertSame($this->filterValues, $this->event->getFilterValues());
+		$filters = array('key2' => 'value2');
+		$this->assertSame($this->event, $this->event->setFilterValues($filters));
+		$this->assertSame($filters, $this->event->getFilterValues());
+        $this->assertSame($this->data, $this->event->getData());
+        $data = new ReportData(array(), 32);
+        $this->assertSame($this->event, $this->event->setData($data));
+        $this->assertSame($data, $this->event->getData());
 	}
 }

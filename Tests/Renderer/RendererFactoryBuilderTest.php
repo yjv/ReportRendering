@@ -25,5 +25,8 @@ class RendererFactoryBuilderTest extends \PHPUnit_Framework_TestCase
         $columnFactoryBuilder = Mockery::mock('Yjv\ReportRendering\Renderer\Grid\Column\ColumnFactoryBuilder');
         $this->assertSame($this->builder, $this->builder->setColumnFactoryBuilder($columnFactoryBuilder));
         $this->assertSame($columnFactoryBuilder, $this->builder->getColumnFactoryBuilder());
+        $templatingEngine = Mockery::mock('Symfony\Component\Templating\EngineInterface');
+        $this->assertSame($this->builder, $this->builder->setTemplatingEngine($templatingEngine));
+        $this->assertSame($templatingEngine, $this->builder->getTemplatingEngine());
     }
 }

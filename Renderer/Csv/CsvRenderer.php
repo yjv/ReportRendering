@@ -1,13 +1,16 @@
 <?php
 namespace Yjv\ReportRendering\Renderer\Csv;
 
+
+use Yjv\ReportRendering\FilterConstants;
+use Yjv\ReportRendering\Renderer\FilterValuesProcessingRendererInterface;
+use Yjv\ReportRendering\Renderer\Grid\Column\ColumnInterface;
 use Yjv\ReportRendering\Report\ReportInterface;
 use Yjv\ReportRendering\ReportData\ImmutableDataInterface;
 use Yjv\ReportRendering\Renderer\Grid\GridInterface;
 use Symfony\Component\HttpFoundation\Response;
-use Yjv\ReportRendering\Renderer\ResponseAwareRendererInterface;
 
-class CsvRenderer implements ResponseAwareRendererInterface
+class CsvRenderer implements FilterValuesProcessingRendererInterface
 {
     protected $grid;
     protected $csvOptions;
@@ -50,10 +53,11 @@ class CsvRenderer implements ResponseAwareRendererInterface
 
         $columnNames = array();
 
+        /** @var ColumnInterface $column */
         foreach ($this->grid->getColumns() as $column) {
 
-            $options = $column->getOptions();
-            $columnNames[] = isset($options['name']) ? $options['name'] : '';
+            $columnOptions = $column->getOptions();
+            $columnNames[] = isset($columnOptions['name']) ? $columnOptions['name'] : '';
         }
 
         $data[] = $columnNames;
@@ -84,7 +88,13 @@ class CsvRenderer implements ResponseAwareRendererInterface
         return $this;
     }
 
-    protected function getCsvEncoder()
+    public function processFilterValues(array $filterValues)
+    {
+        $filterValues[FilterConstants::LIMIT] = 100000;
+        return $filterValues;
+    }
+
+    public function getCsvEncoder()
     {
         if (empty($this->csvEncoder)) {
 
@@ -92,5 +102,11 @@ class CsvRenderer implements ResponseAwareRendererInterface
         }
 
         return $this->csvEncoder;
+    }
+
+    public function setCsvEncoder(CsvEncoder $csvEncoder)
+    {
+        $this->csvEncoder = $csvEncoder;
+        return $this;
     }
 }

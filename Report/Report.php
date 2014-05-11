@@ -1,15 +1,13 @@
 <?php
 namespace Yjv\ReportRendering\Report;
 
-use Yjv\ReportRendering\Renderer\LazyLoadedRendererInterface;
+use Yjv\ReportRendering\Event\RendererEvent;
 use Yjv\ReportRendering\Filter\MultiReportFilterCollectionInterface;
-use Yjv\ReportRendering\IdGenerator\CallCountIdGenerator;
-use Yjv\ReportRendering\IdGenerator\IdGeneratorInterface;
+use Yjv\ReportRendering\ReportData\DataInterface;
+use Yjv\ReportRendering\ReportData\DataNotReturnedException;
 use Yjv\ReportRendering\ReportData\ImmutableDataInterface;
-use Yjv\ReportRendering\Event\FilterDataEvent;
 use Yjv\ReportRendering\Event\DataEvent;
 use Yjv\ReportRendering\ReportData\ImmutableReportData;
-use Yjv\ReportRendering\Renderer\FilterAwareRendererInterface;
 use Yjv\ReportRendering\Filter\FilterCollectionInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
@@ -26,7 +24,9 @@ use Yjv\ReportRendering\Datasource\DatasourceInterface;
 class Report implements ReportInterface
 {
     protected $datasource;
+    /** @var RendererInterface[] */
     protected $renderers = array();
+    protected $initializedRenderers = array();
     protected $filters;
     protected $eventDispatcher;
     protected $name;
@@ -65,28 +65,47 @@ class Report implements ReportInterface
      */
     public function getRenderer($name = ReportInterface::DEFAULT_RENDERER_KEY)
     {
-        if (!$this->hasRenderer($name)) {
+        if (isset($this->initializedRenderers[$name])) {
 
-            throw new RendererNotFoundException($name);
+            return $this->initializedRenderers[$name];
         }
 
-        $renderer = $this->renderers[$name];
+        $event = new RendererEvent($this, $name);
+        $this->eventDispatcher->dispatch(
+            ReportEvents::PRE_INITIALIZE_RENDERER,
+            $event
+        );
+        $renderer = $event->getRenderer();
 
-        if ($renderer instanceof LazyLoadedRendererInterface) {
+        if (!$renderer) {
 
-            $renderer = $this->renderers[$name] = $renderer->getRenderer();
+            if (!$this->hasRenderer($name)) {
+
+                throw new RendererNotFoundException($name);
+            }
+
+            $renderer = $this->renderers[$name];
         }
+
+        $event = new RendererEvent($this, $name, $renderer);
+        $this->eventDispatcher->dispatch(
+            ReportEvents::INITIALIZE_RENDERER,
+            $event
+        );
+        $renderer = $event->getRenderer();
 
         $renderer->setReport($this);
 
-        if ($renderer instanceof FilterAwareRendererInterface) {
-
-            $renderer->setFilters($this->getFilters());
-        }
+        $event = new RendererEvent($this, $name, $renderer);
+        $this->eventDispatcher->dispatch(
+            ReportEvents::POST_INITIALIZE_RENDERER,
+            $event
+        );
+        $renderer = $event->getRenderer();
 
         $renderer->setData($this->getData($name, $renderer));
 
-        return $renderer;
+        return $this->initializedRenderers[$name] = $renderer;
     }
     
     public function hasRenderer($name)
@@ -95,11 +114,11 @@ class Report implements ReportInterface
     }
 
     /**
-     * @return array
+     * @return RendererInterface[]
      */
-    public function getRenderers()
+    public function getRendererNames()
     {
-        return $this->renderers;
+        return array_keys($this->renderers);
     }
 
     /**
@@ -109,7 +128,7 @@ class Report implements ReportInterface
      */
     public function removeRenderer($name)
     {
-        unset($this->renderers[$name]);
+        unset($this->renderers[$name], $this->initializedRenderers[$name]);
         return $this;
     }
 
@@ -141,18 +160,44 @@ class Report implements ReportInterface
      *
      * @param $rendererName
      * @param \Yjv\ReportRendering\Renderer\RendererInterface $renderer
+     * @throws \Yjv\ReportRendering\ReportData\DataNotReturnedException
      * @return mixed the data returned from the datasource filtered by the post load listeners
      */
     public function getData($rendererName, RendererInterface $renderer)
     {
-        $dataEvent = new DataEvent($rendererName, $renderer, $this->datasource, $this->filters);
+        $filterValues = $this->filters->all();
+
+        $dataEvent = new DataEvent(
+            $this,
+            $rendererName,
+            $renderer,
+            $this->datasource,
+            $filterValues
+        );
         $this->eventDispatcher->dispatch(ReportEvents::PRE_LOAD_DATA, $dataEvent);
+        $data = $dataEvent->getData();
+        $filterValues = $dataEvent->getFilterValues();
 
-        $this->datasource->setFilters($dataEvent->getFilters());
-        $data = $this->datasource->getData($renderer->getForceReload());
-        $dataEvent = new FilterDataEvent($rendererName, $renderer, $this->datasource, $this->filters, $data);
+        if (!$data instanceof DataInterface) {
 
+            $data = $this->datasource->getData($filterValues);
+
+            if (!$data instanceof ImmutableDataInterface) {
+
+                throw new DataNotReturnedException();
+            }
+        }
+
+        $dataEvent = new DataEvent(
+            $this,
+            $rendererName,
+            $renderer,
+            $this->datasource,
+            $filterValues,
+            $data
+        );
         $this->eventDispatcher->dispatch(ReportEvents::POST_LOAD_DATA, $dataEvent);
+
         return $this->lockData($dataEvent->getData());
     }
 
@@ -230,7 +275,7 @@ class Report implements ReportInterface
     }
 
     /**
-     * 
+     *
      * @param ImmutableDataInterface $data
      * @return \Yjv\ReportRendering\ReportData\ImmutableReportData
      */

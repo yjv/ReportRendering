@@ -8,18 +8,13 @@ use Symfony\Component\PropertyAccess\PropertyAccess;
 use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
 
 use Yjv\ReportRendering\ReportData\ReportData;
-use Yjv\ReportRendering\Filter\NullFilterCollection;
-use Yjv\ReportRendering\Filter\FilterCollectionInterface;
 
 class ArrayDatasource implements MappedFilterDatasourceInterface
 {
-    protected $data;
-    protected $processedData;
-    protected $unpaginatedCount;
-    protected $filters;
     protected $sortMap = array();
     protected $filterMap = array();
     protected $propertyAccessor;
+    protected $data;
 
     public function __construct($data, PropertyAccessorInterface $propertyAccessor = null)
     {
@@ -34,72 +29,49 @@ class ArrayDatasource implements MappedFilterDatasourceInterface
         }
 
         $this->data = $data;
-        $this->filters = new NullFilterCollection();
         $this->propertyAccessor = $propertyAccessor ?: PropertyAccess::getPropertyAccessor();
     }
 
-    public function getData($forceReload = false)
+    public function getData(array $filterValues)
     {
-        if ($forceReload || empty($this->processedData)) {
-
-            $this->processData();
-        }
-
-        return new ReportData($this->processedData, $this->unpaginatedCount);
-    }
-
-    public function setFilters(FilterCollectionInterface $filters)
-    {
-        $this->filters = $filters;
-        return $this;
-    }
-
-    public function setFilterMap(array $filterMap)
-    {
-        $this->filterMap = $filterMap;
-        return $this;
-    }
-
-    protected function processData()
-    {
-        $this->processedData = $this->data;
+        $processedData = $this->data;
         $propertyAccessor = $this->propertyAccessor;
 
-        $filters = $this->filters->all();
-        
+        $sort = isset($filterValues[FilterConstants::SORT]) ? $filterValues[FilterConstants::SORT] : false;
+        $limit = isset($filterValues[FilterConstants::LIMIT]) ? $filterValues[FilterConstants::LIMIT] : FilterConstants::DEFAULT_LIMIT;
+        $offset = isset($filterValues[FilterConstants::LIMIT]) ? $filterValues[FilterConstants::OFFSET] : FilterConstants::DEFAULT_OFFSET;
         unset(
-            $filters[FilterConstants::SORT], 
-            $filters[FilterConstants::LIMIT], 
-            $filters[FilterConstants::OFFSET]
+            $filterValues[FilterConstants::SORT],
+            $filterValues[FilterConstants::LIMIT],
+            $filterValues[FilterConstants::OFFSET]
         );
 
-        foreach ($filters as $name => $value) {
+        foreach ($filterValues as $name => $value) {
 
             $filterPath = $this->mapFilter($name);
 
-            $this->processedData = array_filter(
-                $this->processedData,
+            $processedData = array_filter(
+                $processedData,
                 function ($data) use ($value, $propertyAccessor, $filterPath)
                 {
                     $data = $propertyAccessor->getValue($data, $filterPath);
-                    if ($value === '' || stripos($data, $value) === 0) {
+                    if ($value === '' || is_null($value) || stripos($data, $value) === 0) {
 
                         return true;
                     }
-                    
+
                     return false;
                 }
             );
         }
 
-        if ($sort = $this->filters->get(FilterConstants::SORT, false)) {
+        if ($sort) {
 
-            reset($sort);
-            $order = current($sort);
+            $order = reset($sort);
             $sort = $this->mapFilter(key($sort));
 
             usort(
-                $this->processedData,
+                $processedData,
                 function ($a, $b) use ($propertyAccessor, $order, $sort)
                 {
                     $valueA = $propertyAccessor->getValue($a, (string)$sort);
@@ -109,12 +81,16 @@ class ArrayDatasource implements MappedFilterDatasourceInterface
             );
         }
 
-        $this->unpaginatedCount = count($this->processedData);
+        return new ReportData(
+            array_slice($processedData, $offset, $limit),
+            count($processedData)
+        );
+    }
 
-        $limit = $this->filters->get(FilterConstants::LIMIT, FilterConstants::DEFAULT_LIMIT);
-        $offset = $this->filters->get(FilterConstants::OFFSET, FilterConstants::DEFAULT_OFFSET);
-        
-        $this->processedData = array_slice($this->processedData, $offset, $limit);
+    public function setFilterMap(array $filterMap)
+    {
+        $this->filterMap = $filterMap;
+        return $this;
     }
 
     protected function mapFilter($filter)

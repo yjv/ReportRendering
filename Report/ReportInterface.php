@@ -43,7 +43,7 @@ interface ReportInterface
     /**
      * @return array
      */
-    public function getRenderers();
+    public function getRendererNames();
 
     /**
      * 

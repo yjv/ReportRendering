@@ -16,10 +16,8 @@ class FakeDatasourceTest extends \PHPUnit_Framework_TestCase {
 	
 	public function testGettersSetter() {
 		
-		$this->datasource->setFilters(new NullFilterCollection());
-		
-		$reportData = $this->datasource->getData();
-		$this->assertNotEmpty($reportData->getData());
+		$reportData = $this->datasource->getData(array());
+		$this->assertNotEmpty($reportData->getData(array()));
 		$this->assertNotEmpty($reportData->getCount());
 		$this->assertNotEmpty($reportData->getUnpaginatedCount());
 	}

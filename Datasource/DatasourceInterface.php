@@ -11,12 +11,7 @@ interface DatasourceInterface
 {
     /**
      * returns the report data must a ReportDataInterface interface object (must be editable)
+     *
      */
-    public function getData($forceReload = false);
-
-    /**
-     * 
-     * @param FilterCollectionInterface $filters
-     */
-    public function setFilters(FilterCollectionInterface $filters);
+    public function getData(array $filterValues);
 }

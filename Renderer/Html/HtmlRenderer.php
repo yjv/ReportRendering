@@ -3,8 +3,9 @@ namespace Yjv\ReportRendering\Renderer\Html;
 
 use Symfony\Component\Templating\EngineInterface;
 
-use Yjv\ReportRendering\FilterConstants;
 
+use Yjv\ReportRendering\FilterConstants;
+use Yjv\ReportRendering\Renderer\FilterValuesProcessingRendererInterface;
 use Yjv\ReportRendering\Renderer\Grid\GridInterface;
 use Yjv\ReportRendering\Filter\FilterCollectionInterface;
 use Yjv\ReportRendering\Renderer\Html\Filter\FormInterface;
@@ -12,7 +13,7 @@ use Yjv\ReportRendering\Report\ReportInterface;
 use Yjv\ReportRendering\ReportData\ImmutableDataInterface;
 use Yjv\ReportRendering\Renderer\FilterAwareRendererInterface;
 
-class HtmlRenderer implements FilterAwareRendererInterface
+class HtmlRenderer implements FilterAwareRendererInterface, FilterValuesProcessingRendererInterface
 {
     const DEFAULT_PAGINATION_OVERFLOW = 3;
     const PAGINATION_OVERFLOW_KEY = 'pagination_overflow';
@@ -198,7 +199,7 @@ class HtmlRenderer implements FilterAwareRendererInterface
     {
         $limit = $this->filters->get(FilterConstants::LIMIT, FilterConstants::DEFAULT_LIMIT);
         $unpaginatedCount = $this->getUnpaginatedCount();
-        return (int)ceil($unpaginatedCount / $limit);
+        return (int)max(1, ceil($unpaginatedCount / $limit));
     }
     
     public function getMinPage()
@@ -210,7 +211,7 @@ class HtmlRenderer implements FilterAwareRendererInterface
     public function getMaxPage()
     {
         $paginationOverflow = $this->getOption(self::PAGINATION_OVERFLOW_KEY, self::DEFAULT_PAGINATION_OVERFLOW);
-        return (int)min($this->getPageCount(), $this->getPage() + $paginationOverflow);
+        return (int)max(1, min($this->getPageCount(), $this->getPage() + $paginationOverflow));
     }
 
     public function getJavascripts()
@@ -245,6 +246,16 @@ class HtmlRenderer implements FilterAwareRendererInterface
     {
         unset($this->stylesheets[$name]);
         return $this;
+    }
+
+    public function processFilterValues(array $filterValues)
+    {
+        if ($this->filterForm) {
+
+            $filterValues = $this->filterForm->processFilters($filterValues);
+        }
+
+        return $filterValues;
     }
 
     protected function assertDataSet()

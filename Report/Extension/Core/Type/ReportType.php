@@ -1,14 +1,12 @@
 <?php
 namespace Yjv\ReportRendering\Report\Extension\Core\Type;
 
+
+use Yjv\ReportRendering\EventListener\LazyLoadedRendererManagementSubscriber;
+use Yjv\ReportRendering\EventListener\RenderFilterManagementSubscriber;
 use Yjv\ReportRendering\Filter\DefaultedFilterCollectionInterface;
-
 use Yjv\ReportRendering\Report\ReportInterface;
-
 use Yjv\ReportRendering\Util\Factory;
-
-use Yjv\ReportRendering\IdGenerator\ConstantValueIdGenerator;
-
 use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Yjv\ReportRendering\Report\ReportBuilder;
@@ -115,11 +113,12 @@ class ReportType extends AbstractReportType
      */
     public function finalizeReport(ReportInterface $report, array $options)
     {
-        if (!$report->getFilters() instanceof DefaultedFilterCollectionInterface) {
-    
-            return;
+        if ($report->getFilters() instanceof DefaultedFilterCollectionInterface) {
+
+            $report->getFilters()->setDefaults($options['filter_defaults']);
         }
-    
-        $report->getFilters()->setDefaults($options['filter_defaults']);
-    }    
+
+        $report->addEventSubscriber(new RenderFilterManagementSubscriber());
+        $report->addEventSubscriber(new LazyLoadedRendererManagementSubscriber());
+    }
 }

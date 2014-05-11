@@ -18,7 +18,7 @@ class TypeTestCase extends BaseTypeTestCase
     protected function setUp()
 	{
 	    parent::setUp();
-		$this->columnFactory = Mockery::mock('Yjv\ReportRendering\Renderer\Grid\Column\ColumnFactoryInterface');
+		$this->columnFactory = Mockery::mock('Yjv\TypeFactory\TypeFactoryInterface');
 	    
 	    $this->factory = new RendererFactory($this->resolver, $this->columnFactory);
 	}

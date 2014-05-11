@@ -43,17 +43,41 @@ class SymfonyFormTest extends \PHPUnit_Framework_TestCase
 
     public function testProcessFilters()
     {
-        $filters = array('key' => 'value');
-        $returnedFilters = array('key2' => 'value2');
-        $this->form
+        $filters = array(
+            'key' => 'value',
+            'key2' => 'value2'
+        );
+        $returnedFilters = array(
+            'key' => 'value3',
+            'key2' => 'value2'
+        );
+
+        $child = \Mockery::mock('Symfony\Component\FOrm\FormInterface')
             ->shouldReceive('submit')
             ->once()
-            ->with($filters)
+            ->with($filters['key'])
             ->andReturn(\Mockery::self())
             ->getMock()
             ->shouldReceive('getData')
             ->once()
-            ->andReturn($returnedFilters)
+            ->andReturn($returnedFilters['key'])
+            ->getMock()
+        ;
+        $this->form
+            ->shouldReceive('has')
+            ->once()
+            ->with('key')
+            ->andReturn(true)
+            ->getMock()
+            ->shouldReceive('get')
+            ->once()
+            ->with('key')
+            ->andReturn($child)
+            ->getMock()
+            ->shouldReceive('has')
+            ->once()
+            ->with('key2')
+            ->andReturn(false)
             ->getMock()
         ;
         $this->assertSame($returnedFilters, $this->filterForm->processFilters($filters));
