@@ -79,4 +79,16 @@ class ArrayFilterCollection implements DefaultedFilterCollectionInterface
 
         return $this;
     }
+
+    public function replace(array $values)
+    {
+        $this->filters = $values;
+        return $this;
+    }
+
+    public function remove($name)
+    {
+        unset($this->filters[$name]);
+        return $this;
+    }
 }

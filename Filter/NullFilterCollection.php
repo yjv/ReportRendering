@@ -43,4 +43,14 @@ class NullFilterCollection implements FilterCollectionInterface
     {
         return array();
     }
+
+    public function replace(array $values)
+    {
+        return $this;
+    }
+
+    public function remove($name)
+    {
+        return $this;
+    }
 }

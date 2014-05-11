@@ -1,7 +1,6 @@
 <?php
 namespace Yjv\ReportRendering\Filter;
 
-use Yjv\ReportRendering\Report\ReportInterface;
 
 /**
  * filter collection that holds filter values in the session for multiple reports
@@ -100,6 +99,20 @@ abstract class AbstractSessionFilterCollection implements
             $this->set($name, $value);
         }
 
+        return $this;
+    }
+
+    public function replace(array $values)
+    {
+        $this->filters = $values;
+        $this->syncFilters();
+        return $this;
+    }
+
+    public function remove($name)
+    {
+        unset($this->filters[$name]);
+        $this->syncFilters();
         return $this;
     }
 

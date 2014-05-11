@@ -26,7 +26,7 @@ interface FilterCollectionInterface
      * loading
      * @param string $name
      * @param mixed $default
-     * @throws \Yjv\ReportRendering\Filter\ReportIdNotSetException
+     * @throws \Yjv\ReportRendering\Filter\ReportNameNotSetException
      * @return mixed
      */
     public function get($name, $default = null);
@@ -34,8 +34,12 @@ interface FilterCollectionInterface
     /**
      * an exception should be thrown if the collection requires the report to be set before filter
      * loading
-     * @throws \Yjv\ReportRendering\Filter\ReportIdNotSetException
-     * @return array|\ArrayAccess
+     * @throws \Yjv\ReportRendering\Filter\ReportNameNotSetException
+     * @return array
      */
     public function all();
+
+    public function replace(array $values);
+
+    public function remove($name);
 }
