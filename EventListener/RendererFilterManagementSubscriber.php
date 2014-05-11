@@ -16,7 +16,7 @@ use Yjv\ReportRendering\Renderer\FilterAwareRendererInterface;
 use Yjv\ReportRendering\Renderer\FilterValuesProcessingRendererInterface;
 use Yjv\ReportRendering\Report\ReportEvents;
 
-class RenderFilterManagementSubscriber implements EventSubscriberInterface
+class RendererFilterManagementSubscriber implements EventSubscriberInterface
 {
     public static function getSubscribedEvents()
     {

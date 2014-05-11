@@ -3,7 +3,7 @@ namespace Yjv\ReportRendering\Report\Extension\Core\Type;
 
 
 use Yjv\ReportRendering\EventListener\LazyLoadedRendererManagementSubscriber;
-use Yjv\ReportRendering\EventListener\RenderFilterManagementSubscriber;
+use Yjv\ReportRendering\EventListener\RendererFilterManagementSubscriber;
 use Yjv\ReportRendering\Filter\DefaultedFilterCollectionInterface;
 use Yjv\ReportRendering\Report\ReportInterface;
 use Yjv\ReportRendering\Util\Factory;
@@ -118,7 +118,7 @@ class ReportType extends AbstractReportType
             $report->getFilters()->setDefaults($options['filter_defaults']);
         }
 
-        $report->addEventSubscriber(new RenderFilterManagementSubscriber());
+        $report->addEventSubscriber(new RendererFilterManagementSubscriber());
         $report->addEventSubscriber(new LazyLoadedRendererManagementSubscriber());
     }
 }

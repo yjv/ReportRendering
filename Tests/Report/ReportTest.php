@@ -169,6 +169,17 @@ class ReportTest extends \PHPUnit_Framework_TestCase
         $data = $this->setUpGetDataExpectations($rendererName, $renderer, $listenerReturnsData);
         $this->assertEquals(ImmutableReportData::createFromData($data), $this->report->getData($rendererName, $renderer));
 	}
+    /**
+     * @expectedException \Yjv\ReportRendering\ReportData\DataNotReturnedException
+     * @expectedExceptionMessage datasource did not return data
+     */
+    public function testExceptionIsThrownWhenDataNotReturned()
+    {
+        $name = 'xvvcvxc';
+        $this->setUpGetDataExpectations($name, $this->renderer, false, false);
+        $this->report->getData($name, $this->renderer);
+    }
+
 
     public function testEventListenerAdditions()
     {

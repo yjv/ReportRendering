@@ -191,7 +191,7 @@ class ReportTypeTest extends TypeTestCase
             ->getMock()
             ->shouldReceive('addEventSubscriber')
             ->once()
-            ->with('Yjv\ReportRendering\EventListener\RenderFilterManagementSubscriber')
+            ->with('Yjv\ReportRendering\EventListener\RendererFilterManagementSubscriber')
             ->getMock()
         ;
         $this->type->finalizeReport($report, array());
@@ -218,7 +218,7 @@ class ReportTypeTest extends TypeTestCase
             ->getMock()
             ->shouldReceive('addEventSubscriber')
             ->once()
-            ->with('Yjv\ReportRendering\EventListener\RenderFilterManagementSubscriber')
+            ->with('Yjv\ReportRendering\EventListener\RendererFilterManagementSubscriber')
             ->getMock()
         ;
         $this->type->finalizeReport($report, array('filter_defaults' => $filterDefaults));
