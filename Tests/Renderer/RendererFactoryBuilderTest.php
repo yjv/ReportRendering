@@ -1,24 +1,70 @@
 <?php
 namespace Yjv\ReportRendering\Tests\Renderer;
 
+use Yjv\ReportRendering\Renderer\Extension\Core\CoreExtension;
+use Yjv\ReportRendering\Renderer\Extension\Symfony\SymfonyExtension;
+use Yjv\ReportRendering\Renderer\Grid\Column\ColumnFactoryBuilder;
+use Yjv\ReportRendering\Renderer\RendererFactory;
 use Yjv\ReportRendering\Renderer\RendererFactoryBuilder;
 
 use Mockery;
+use Yjv\TypeFactory\TypeRegistry;
+use Yjv\TypeFactory\TypeResolver;
 
 class RendererFactoryBuilderTest extends \PHPUnit_Framework_TestCase
 {
+    /** @var RendererFactoryBuilder  */
     protected $builder;
+    /** @var  Mockery\MockInterface */
+    protected $templatingEngine;
+    /** @var  Mockery\MockInterface */
+    protected $formFactory;
 
-    protected function setUp()
+    public function setUp()
     {
         $this->builder = new RendererFactoryBuilder();
+        $this->templatingEngine = Mockery::mock('Symfony\Component\Templating\EngineInterface');
+        $this->formFactory = Mockery::mock('Symfony\Component\Form\FormFactoryInterface');
     }
-    
-    public function testBuild()
+
+    public function testBuildWithNoFormFactoryAndNoTemplatingEngine()
     {
-        $this->assertInstanceOf('Yjv\ReportRendering\Renderer\RendererFactory', $this->builder->build());
+        $factory = new RendererFactory(
+            new TypeResolver(new TypeRegistry($this->builder->getTypeName())),
+            ColumnFactoryBuilder::create()->build()
+        );
+        $factory->getTypeRegistry()->addExtension(new CoreExtension());
+        $this->assertEquals($factory, $this->builder->build());
     }
-    
+
+    public function testBuildWithNoFormFactoryAndTemplatingEngine()
+    {
+        $factory = new RendererFactory(
+            new TypeResolver(new TypeRegistry($this->builder->getTypeName())),
+            ColumnFactoryBuilder::create()->build()
+        );
+        $factory->getTypeRegistry()->addExtension(new CoreExtension($this->templatingEngine));
+        $this->builder->setTemplatingEngine($this->templatingEngine);
+        $this->assertEquals($factory, $this->builder->build());
+    }
+
+    public function testBuildWithFormFactoryAndTemplatingEngine()
+    {
+        $factory = new RendererFactory(
+            new TypeResolver(new TypeRegistry($this->builder->getTypeName())),
+            ColumnFactoryBuilder::create()->build()
+        );
+        $factory->getTypeRegistry()
+            ->addExtension(new CoreExtension($this->templatingEngine))
+            ->addExtension(new SymfonyExtension($this->formFactory))
+        ;
+        $this->builder
+            ->setTemplatingEngine($this->templatingEngine)
+            ->setFormFactory($this->formFactory)
+        ;
+        $this->assertEquals($factory, $this->builder->build());
+    }
+
     public function testGettersSetters()
     {
         $this->assertInstanceOf('Yjv\ReportRendering\Renderer\Grid\Column\ColumnFactoryBuilder', $this->builder->getColumnFactoryBuilder());

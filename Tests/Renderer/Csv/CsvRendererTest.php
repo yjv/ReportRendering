@@ -5,6 +5,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 use Mockery;
 
+use Yjv\ReportRendering\FilterConstants;
 use Yjv\ReportRendering\Renderer\Csv\CsvEncoder;
 
 use Yjv\ReportRendering\Renderer\Grid\Column\Column;
@@ -13,19 +14,23 @@ use Yjv\ReportRendering\ReportData\ImmutableReportData;
 
 use Yjv\ReportRendering\Renderer\Csv\CsvRenderer;
 
-class CsvRendererTest extends \PHPUnit_Framework_TestCase{
-
+class CsvRendererTest extends \PHPUnit_Framework_TestCase
+{
+    /** @var  CsvRenderer */
 	protected $renderer;
+    /** @var  Mockery\MockInterface */
 	protected $grid;
-	
-	public function setUp() {
-		
+    protected $csvOptions;
+
+    public function setUp()
+    {
 		$this->grid = Mockery::mock('Yjv\ReportRendering\Renderer\Grid\GridInterface');
-		$this->renderer = new CsvRenderer($this->grid);
+        $this->csvOptions = array();
+		$this->renderer = new CsvRenderer($this->grid, $this->csvOptions);
 	}
 	
-	public function testSetData() {
-		
+	public function testSetData()
+    {
 	    $data = new ImmutableReportData(array(), 0);
 		$this->grid
 		    ->shouldReceive('setData')
@@ -35,21 +40,21 @@ class CsvRendererTest extends \PHPUnit_Framework_TestCase{
 		$this->assertSame($this->renderer, $this->renderer->setData($data));
 	}
 	
-	public function testSetReport(){
-		
+	public function testSetReport()
+    {
 		$this->assertSame($this->renderer, $this->renderer->setReport(Mockery::mock('Yjv\ReportRendering\Report\Report')));
 	}
 	
-	public function testForceReload() {
-		
+	public function testForceReload()
+    {
 		$this->assertFalse($this->renderer->getForceReload());
 		$renderer = new CsvRenderer($this->grid, array(), true);
 		
 		$this->assertTrue($renderer->getForceReload());
 	}
 	
-	public function testRender() {
-		
+	public function testRender()
+    {
 		$this->setupGridForRender(2);
 		
 		$expectedCsv = <<<CSV
@@ -60,7 +65,7 @@ CSV;
 		
 		$this->assertEquals($expectedCsv, $this->renderer->render());
 		
-		$this->renderer->setCsvOption('delimiter', 'l');
+		$this->renderer->getCsvEncoder()->setOption('delimiter', 'l');
 		
 		$expectedCsv = <<<CSV
 "column1"l"column2"
@@ -70,52 +75,37 @@ CSV;
 		
 		$this->assertEquals($expectedCsv, $this->renderer->render());
 	}
-	
-	public function testSetCsvOption() {
-		
-		$this->assertSame($this->renderer, $this->renderer->setCsvOption('delimiter', 'l'));
-	}
-	
-	public function testRenderResponse() {
-		
-		$this->setupGridForRender(2);
-		
-		$expectedCsv = <<<CSV
-column1,column2
-"column1 data","column2 data"
-column1_data,column2_data
-CSV;
-		$filename = 'filename.csv';
-		
-		$expectedResponse = new Response($expectedCsv, 200, array(
 
-			'Content-Type' => 'text/csv',
-			'Content-Disposition' => 'attachment; filename=' . $filename,
-			'Pragma' => 'no-cache',
-			'Expires' => '0'	
-		));
-		
-		$this->assertEquals($expectedResponse, $this->renderer->renderResponse(array('filename' => $filename)));
-		
-		$response = $this->renderer->renderResponse();
-		
-		$this->assertEquals(1, preg_match('/attachment; filename=.*\.csv/', $response->headers->get('Content-Disposition')));
-	}
-	
-	protected function setupGridForRender($expectedCallCount) {
-		
+    public function testCsvEncoderGetterSetter()
+    {
+        $this->assertEquals(new CsvEncoder($this->csvOptions), $this->renderer->getCsvEncoder());
+        $encoder = new CsvEncoder($this->csvOptions);
+        $this->assertSame($this->renderer, $this->renderer->setCsvEncoder($encoder));
+        $this->assertSame($encoder, $this->renderer->getCsvEncoder());
+    }
+
+    public function testProcessFilterValues()
+    {
+        $filterValues = array('key' => 'value');
+        $processedFilterValues = $filterValues;
+        $processedFilterValues[FilterConstants::LIMIT] = 100000;
+        $this->assertEquals($processedFilterValues, $this->renderer->processFilterValues($filterValues));
+    }
+
+    protected function setupGridForRender($expectedCallCount)
+    {
 		$column1 = new Column();
 		$column1->setOptions(array('name' => 'column1'));
-		
+
 		$column2 = new Column();
 		$column2->setOptions(array('name' => 'column2'));
-		
+
 		$this->grid
 		    ->shouldReceive('getColumns')
 		    ->times($expectedCallCount)
 		    ->andReturn(array($column1, $column2))
 		;
-		
+
 		$rows = array(
 
 				array('cells' => array(
@@ -129,7 +119,7 @@ CSV;
 						array('data' => 'column2_data'),
 				)),
 		);
-		
+
 		$this->grid
 		    ->shouldReceive('getRows')
 		    ->times($expectedCallCount)

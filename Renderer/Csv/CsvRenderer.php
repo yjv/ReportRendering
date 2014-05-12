@@ -24,18 +24,6 @@ class CsvRenderer implements FilterValuesProcessingRendererInterface
         $this->forceReload = $forceReload;
     }
 
-    public function renderResponse(array $options = array())
-    {
-        $filename = !empty($options['filename']) ? $options['filename'] : uniqid() . '.csv';
-
-        return new Response($this->render($options), 200, array(
-            'Content-Type' => 'text/csv',
-            'Content-Disposition' => 'attachment; filename=' . $filename,
-            'Pragma' => 'no-cache', 
-            'Expires' => '0'
-        ));
-    }
-
     public function setData(ImmutableDataInterface $data)
     {
         $this->grid->setData($data);
@@ -79,12 +67,6 @@ class CsvRenderer implements FilterValuesProcessingRendererInterface
 
     public function setReport(ReportInterface $report)
     {
-        return $this;
-    }
-
-    public function setCsvOption($name, $value)
-    {
-        $this->getCsvEncoder()->setOption($name, $value);
         return $this;
     }
 

@@ -118,13 +118,15 @@ abstract class AbstractSessionFilterCollection implements
 
     /**
      * loads the filters for the report into the filters array
-     * @return \Yjv\ReportRendering\Filter\SessionFilterCollection
+     * @return \Yjv\ReportRendering\Filter\AbstractSessionFilterCollection
+     * @codeCoverageIgnore
      */
     abstract protected function loadFilters();
 
     /**
      * syncronizes the filters array with the session storage
-     * @return \Yjv\ReportRendering\Filter\SessionFilterCollection
+     * @return \Yjv\ReportRendering\Filter\AbstractSessionFilterCollection
+     * @codeCoverageIgnore
      */
     abstract protected function syncFilters();
 }

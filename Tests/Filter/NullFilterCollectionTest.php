@@ -3,17 +3,17 @@ namespace Yjv\ReportRendering\Tests\Filter;
 
 use Yjv\ReportRendering\Filter\NullFilterCollection;
 
-class NullFilterCollectionTest extends \PHPUnit_Framework_TestCase{
-
+class NullFilterCollectionTest extends \PHPUnit_Framework_TestCase
+{
 	protected $filters;
 	
-	public function setUp() {
-		
+	public function setUp()
+    {
 		$this->filters = new NullFilterCollection();
 	}
 	
-	public function testGettersSetters(){
-		
+	public function testGettersSetters()
+    {
 		$name = 'sdfsds';
 		$value = 'tretet';
 		$default = 'ewcvxvdfg';
@@ -23,5 +23,7 @@ class NullFilterCollectionTest extends \PHPUnit_Framework_TestCase{
 		$this->assertEmpty($this->filters->all());
 		$this->filters->setAll(array($name => $value));
 		$this->assertEmpty($this->filters->all());
+        $this->assertSame($this->filters, $this->filters->replace(array()));
+        $this->assertSame($this->filters, $this->filters->remove('name'));
 	}
 }

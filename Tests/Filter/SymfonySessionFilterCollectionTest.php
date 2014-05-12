@@ -19,7 +19,7 @@ class SymfonySessionFilterCollectionTest extends ArrayFilterCollectionTest
 	
 	public function testGettersSetters(){
 		
-		$this->setUpSessionExpects(14, 8);
+		$this->setUpSessionExpects(18, 12);
 
 		$this->currentReportName = 'special_report';
 		$this->filters->setReportName($this->currentReportName);

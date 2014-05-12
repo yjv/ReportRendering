@@ -12,6 +12,7 @@ interface FilterCollectionInterface
      * 
      * @param string $name
      * @param mixed $value
+     * @return $this
      */
     public function set($name, $value);
 
@@ -39,7 +40,15 @@ interface FilterCollectionInterface
      */
     public function all();
 
+    /**
+     * @param array $values
+     * @return $this
+     */
     public function replace(array $values);
 
+    /**
+     * @param $name
+     * @return $this
+     */
     public function remove($name);
 }

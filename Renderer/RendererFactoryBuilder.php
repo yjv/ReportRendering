@@ -104,5 +104,4 @@ class RendererFactoryBuilder extends TypeFactoryBuilder
             $this->getBuilderInterfaceName()
         );
     }
-
 }
