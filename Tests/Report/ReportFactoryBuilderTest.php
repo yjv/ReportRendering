@@ -2,7 +2,7 @@
 namespace Yjv\ReportRendering\Tests\Factory;
 
 use Yjv\ReportRendering\Datasource\DatasourceFactoryBuilder;
-use Yjv\ReportRendering\Renderer\Extension\Symfony\SymfonyExtension;
+
 use Yjv\ReportRendering\Renderer\RendererFactoryBuilder;
 use Yjv\ReportRendering\Report\Extension\Core\CoreExtension;
 use Yjv\ReportRendering\Report\ReportFactory;
@@ -76,7 +76,6 @@ class ReportFactoryBuilderTest extends \PHPUnit_Framework_TestCase
         $datasourceFactoryBuilder = Mockery::mock('Yjv\ReportRendering\Datasource\DatasourceFactoryBuilder');
         $this->assertSame($this->builder, $this->builder->setDatasourceFactoryBuilder($datasourceFactoryBuilder));
         $this->assertSame($datasourceFactoryBuilder, $this->builder->getDatasourceFactoryBuilder());
-        $rendererFactoryBuilder = Mockery::mock('Yjv\ReportRendering\Renderer\RendererFactoryBuilder');
         $this->assertInstanceOf('Yjv\ReportRendering\Renderer\RendererFactoryBuilder', $this->builder->getRendererFactoryBuilder());
         $rendererFactoryBuilder = Mockery::mock('Yjv\ReportRendering\Renderer\RendererFactoryBuilder');
         $this->assertSame($this->builder, $this->builder->setRendererFactoryBuilder($rendererFactoryBuilder));

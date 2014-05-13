@@ -17,7 +17,7 @@ interface DefaultedFilterCollectionInterface extends FilterCollectionInterface
 
     /**
      * this method should override the defaults with whats already set
-     * @param scalar $name
+     * @param string|mixed $name
      * @param mixed $value
      */
     public function setDefault($name, $value);

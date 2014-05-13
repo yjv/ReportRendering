@@ -105,7 +105,7 @@ class HtmlRendererTest extends \PHPUnit_Framework_TestCase{
 	}
 	
 	/**
-	 * @expectedException BadMethodCallException
+	 * @expectedException \BadMethodCallException
 	 * @expectedExceptionMessage data must be set to use this method
 	 */
 	public function testGetUnpaginatedCountWithDataNotSet()
@@ -128,7 +128,7 @@ class HtmlRendererTest extends \PHPUnit_Framework_TestCase{
 	}
 	
 	/**
-	 * @expectedException BadMethodCallException
+	 * @expectedException \BadMethodCallException
 	 * @expectedExceptionMessage data must be set to use this method
 	 */
 	public function testGetCountWithDataNotSet()

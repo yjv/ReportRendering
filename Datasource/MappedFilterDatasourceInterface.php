@@ -1,7 +1,7 @@
 <?php
 namespace Yjv\ReportRendering\Datasource;
 
-use Yjv\ReportRendering\Datasource\DatasourceInterface;
+
 
 interface MappedFilterDatasourceInterface extends DatasourceInterface
 {

@@ -1,17 +1,6 @@
 <?php
 namespace Yjv\ReportRendering\Tests\Renderer\Grid\Column;
 
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
-
-use Yjv\ReportRendering\Renderer\Grid\Column\ColumnInterface;
-
-use Symfony\Component\OptionsResolver\OptionsResolver;
-
-use Yjv\ReportRendering\Renderer\Grid\Column\Column;
-
-use Yjv\ReportRendering\Renderer\Grid\Column\ColumnRegistry;
-
-use Yjv\ReportRendering\Renderer\Grid\Column\ColumnFactory;
 
 use Mockery;
 

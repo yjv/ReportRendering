@@ -1,13 +1,9 @@
 <?php
 namespace Yjv\ReportRendering\Report;
 
-use Yjv\ReportRendering\IdGenerator\IdGeneratorInterface;
 
 use Yjv\ReportRendering\Renderer\LazyLoadedRenderer;
-
 use Yjv\TypeFactory\AbstractNamedBuilder;
-use Yjv\TypeFactory\Builder;
-
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Yjv\ReportRendering\Filter\FilterCollectionInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;

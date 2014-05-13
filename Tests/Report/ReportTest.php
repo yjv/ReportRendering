@@ -3,7 +3,7 @@ namespace Yjv\ReportRendering\Tests\Report;
 
 
 use Faker\Factory;
-use Faker\Generator;
+
 use Mockery;
 use Yjv\ReportRendering\Event\DataEvent;
 use Yjv\ReportRendering\Event\RendererEvent;
@@ -14,7 +14,7 @@ use Yjv\ReportRendering\ReportData\DataInterface;
 use Yjv\ReportRendering\ReportData\ImmutableDataInterface;
 use Yjv\ReportRendering\ReportData\ImmutableReportData;
 use Yjv\ReportRendering\ReportData\ReportData;
-use Yjv\ReportRendering\Renderer\RendererNotFoundException;
+
 use Yjv\ReportRendering\Report\Report;
 use Yjv\ReportRendering\Tests\EqualsMatcher;
 

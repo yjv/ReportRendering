@@ -1,19 +1,14 @@
 <?php
 namespace Yjv\ReportRendering\Tests\Report\Extension\Core\Type;
 
+
 use Symfony\Component\EventDispatcher\EventDispatcher;
-
 use Yjv\ReportRendering\Report\ReportBuilder;
-
 use Symfony\Component\OptionsResolver\OptionsResolver;
-
 use Symfony\Component\OptionsResolver\Options;
-
-use Yjv\ReportRendering\IdGenerator\ConstantValueIdGenerator;
-
 use Yjv\ReportRendering\Report\Extension\Core\Type\ReportType;
-
 use Mockery;
+use Yjv\ReportRendering\Util\Factory;
 
 class ReportTypeTest extends TypeTestCase
 {

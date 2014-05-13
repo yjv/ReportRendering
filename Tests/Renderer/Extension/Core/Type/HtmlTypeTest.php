@@ -3,7 +3,7 @@ namespace Yjv\ReportRendering\Tests\Renderer\Extension\Core;
 
 use Symfony\Component\OptionsResolver\Options;
 use Yjv\ReportRendering\Renderer\Extension\Core\Builder\HtmlBuilder;
-use Yjv\ReportRendering\Util\Factory;
+
 use Yjv\ReportRendering\Renderer\Extension\Core\Type\HtmlType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Yjv\ReportRendering\Tests\Renderer\Extension\Core\Type\TypeTestCase;

@@ -1,10 +1,7 @@
 <?php
 namespace Yjv\ReportRendering\Renderer\Grid\Column\Extension\Core\Type;
 
-use Symfony\Component\OptionsResolver\Options;
 
-use Yjv\ReportRendering\Data\DefaultDataEscaper;
-use Yjv\ReportRendering\Data\PathStrategyDecider;
 use Yjv\ReportRendering\DataTransformer\FormatStringTransformer;
 use Yjv\ReportRendering\Renderer\Grid\Column\ColumnBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;

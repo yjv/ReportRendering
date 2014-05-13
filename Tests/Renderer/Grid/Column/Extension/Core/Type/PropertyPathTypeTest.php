@@ -8,7 +8,6 @@ use Yjv\ReportRendering\DataTransformer\PropertyPathTransformer;
 
 use Yjv\ReportRendering\Renderer\Grid\Column\Extension\Core\Type\PropertyPathType;
 
-use Yjv\ReportRendering\Renderer\Grid\Column\Column;
 
 use Mockery;
 

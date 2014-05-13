@@ -1,11 +1,6 @@
 <?php
 namespace Yjv\ReportRendering\Tests\Event;
 
-use Yjv\ReportRendering\Filter\ArrayFilterCollection;
-
-use Yjv\ReportRendering\Filter\NullFilterCollection;
-
-use Yjv\ReportRendering\Datasource\FakeDatasource;
 
 use Yjv\ReportRendering\Event\DataEvent;
 use Yjv\ReportRendering\ReportData\ReportData;

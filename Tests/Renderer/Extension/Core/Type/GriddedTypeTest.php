@@ -41,8 +41,6 @@ class GriddedTypeTest extends TypeTestCase
             ->getMock()
         ;
         
-        $testCase = $this;
-        
         $columns = array(
             array($column1, array()),
             array($column2Name, $column2Options),

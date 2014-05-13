@@ -1,12 +1,13 @@
 <?php
 namespace Yjv\ReportRendering\Report;
 
-use Yjv\ReportRendering\IdGenerator\IdGeneratorInterface;
+
 use Yjv\ReportRendering\Filter\FilterCollectionInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Yjv\ReportRendering\Renderer\RendererInterface;
 use Yjv\ReportRendering\Datasource\DatasourceInterface;
+use Yjv\ReportRendering\Renderer\RendererNotFoundException;
 
 /**
  * 
@@ -36,7 +37,7 @@ interface ReportInterface
     /**
      * 
      * @param string $name
-     * @return boll
+     * @return bool
      */
     public function hasRenderer($name);
 

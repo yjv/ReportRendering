@@ -1,7 +1,7 @@
 <?php
 namespace Yjv\ReportRendering\Tests\Datasource;
 
-use Yjv\ReportRendering\Filter\ArrayFilterCollection;
+
 
 use Yjv\ReportRendering\Datasource\CallbackDatasource;
 
@@ -29,7 +29,7 @@ class CallbackDatasourceTest extends \PHPUnit_Framework_TestCase{
 		$this->assertInstanceOf('Yjv\ReportRendering\ReportData\DataInterface', $datasource->getData(array()));
 		
 		$this->setExpectedException('InvalidArgumentException');
-		$datasource = new CallbackDatasource('invalidCallback');
+		new CallbackDatasource('invalidCallback');
 	}
 	
 	public function testCallbackThatReturnsANonInstanceOfReportData() {

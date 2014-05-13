@@ -17,7 +17,7 @@ use Yjv\ReportRendering\Renderer\Html\Filter\SymfonyForm;
 
 class SymfonyFormTypeExtensionTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var \Yjv\ReportRendering\Renderer\Extension\Core\Type\Extension\SymfonyFormTypeExtension */
+    /** @var \Yjv\ReportRendering\Renderer\Extension\Symfony\Type\Extension\SymfonyFormTypeExtension */
     protected $typeExtension;
     /** @var MockInterface */
     protected $formFactory;

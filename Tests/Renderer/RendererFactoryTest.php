@@ -3,7 +3,6 @@ namespace Yjv\ReportRendering\Tests\Report;
 
 use Yjv\ReportRendering\Renderer\RendererFactory;
 
-use Yjv\ReportRendering\Report\ReportFactory;
 
 use Mockery;
 use Yjv\TypeFactory\Tests\TypeFactoryTest;

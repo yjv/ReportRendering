@@ -1,7 +1,7 @@
 <?php
 namespace Yjv\ReportRendering\Datasource;
 
-use Yjv\ReportRendering\Filter\FilterCollectionInterface;
+
 use Yjv\ReportRendering\ReportData\ReportData;
 
 class FakeDatasource implements DatasourceInterface

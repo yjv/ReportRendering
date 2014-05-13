@@ -1,19 +1,10 @@
 <?php
 namespace Yjv\ReportRendering\Tests\DataTransformer;
 
-use Yjv\ReportRendering\Data\DefaultDataEscaper;
+
 use Mockery;
 
 use Symfony\Component\PropertyAccess\Exception\ExceptionInterface;
-
-use Symfony\Component\Form\Util\PropertyPath;
-
-use Symfony\Component\Form\Exception\PropertyAccessDeniedException;
-
-use Symfony\Component\Form\Exception\InvalidPropertyException;
-
-use Symfony\Component\OptionsResolver\Exception\MissingOptionsException;
-
 use Yjv\ReportRendering\DataTransformer\PropertyPathTransformer;
 use Yjv\ReportRendering\Tests\DataTransformer\Fixtures\DataWithHiddenProperty;
 

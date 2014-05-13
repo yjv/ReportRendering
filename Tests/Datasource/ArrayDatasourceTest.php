@@ -3,7 +3,6 @@ namespace Yjv\ReportRendering\Tests\Datasource;
 
 use Yjv\ReportRendering\FilterConstants;
 
-use Yjv\ReportRendering\Filter\ArrayFilterCollection;
 
 use Yjv\ReportRendering\Datasource\ArrayDatasource;
 

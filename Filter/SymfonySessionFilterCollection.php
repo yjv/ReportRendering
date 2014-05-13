@@ -28,7 +28,7 @@ class SymfonySessionFilterCollection extends AbstractSessionFilterCollection
 
     /**
      * loads the filters for the report into the filters array
-     * @return \Yjv\ReportRendering\Filter\SessionFilterCollection
+     * @return $this
      */
     protected function loadFilters()
     {
@@ -38,7 +38,7 @@ class SymfonySessionFilterCollection extends AbstractSessionFilterCollection
 
     /**
      * syncronizes the filters array with the session storage
-     * @return \Yjv\ReportRendering\Filter\SessionFilterCollection
+     * @return $this
      */
     protected function syncFilters()
     {

@@ -44,14 +44,8 @@ class ReportBuilderTest extends \PHPUnit_Framework_TestCase
         $datasource2 = Mockery::mock('Yjv\ReportRendering\Datasource\DatasourceInterface');
         $datasourceName = 'datasource';
         $datasourceOptions = array('key' => 'value');
-        $defaultRenderer = Mockery::mock('Yjv\ReportRendering\Renderer\RendererInterface');
         $renderer = Mockery::mock('Yjv\ReportRendering\Renderer\RendererInterface');
         $filterCollection = Mockery::mock('Yjv\ReportRendering\Filter\FilterCollectionInterface');
-        $idGenerator = Mockery::mock('Yjv\ReportRendering\IdGenerator\IdGeneratorInterface')
-            ->shouldReceive('getId')
-            ->andReturn('hello')
-            ->getMock()        
-        ;
         $typeChain = Mockery::mock('Yjv\TypeFactory\TypeChainInterface')
 	        ->shouldReceive('finalize')
 	        ->with('Yjv\ReportRendering\Report\ReportInterface', $this->options)
@@ -88,7 +82,7 @@ class ReportBuilderTest extends \PHPUnit_Framework_TestCase
     }
     
     /**
-     * @expectedException RuntimeException
+     * @expectedException \RuntimeException
      * @expectedExceptionMessage The datasource is required to build the report
      */
     public function testBuildWithDatasourceNotSet()
@@ -97,7 +91,7 @@ class ReportBuilderTest extends \PHPUnit_Framework_TestCase
     }
     
     /**
-     * @expectedException RuntimeException
+     * @expectedException \RuntimeException
      * @expectedExceptionMessage The default renderer is required to build the report
      */
     public function testBuildWithDefaultRendererNotSet()

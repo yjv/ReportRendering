@@ -3,8 +3,7 @@ namespace Yjv\ReportRendering\Datasource;
 
 use Yjv\ReportRendering\ReportData\ReportData;
 use Yjv\ReportRendering\ReportData\DataInterface;
-use Yjv\ReportRendering\Filter\NullFilterCollection;
-use Yjv\ReportRendering\Filter\FilterCollectionInterface;
+
 
 class CallbackDatasource implements DatasourceInterface
 {

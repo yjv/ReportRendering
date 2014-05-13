@@ -2,7 +2,7 @@
 namespace Yjv\ReportRendering\DataTransformer;
 
 
-use Yjv\ReportRendering\Data\DataEscaperInterface;
+
 use Symfony\Component\PropertyAccess\Exception\ExceptionInterface;
 use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
 use Symfony\Component\PropertyAccess\PropertyAccess;

@@ -3,9 +3,6 @@ namespace Yjv\ReportRendering\Tests\Renderer\Grid\Column;
 
 use Yjv\ReportRendering\Renderer\Grid\Column\ColumnBuilder;
 
-use Yjv\ReportRendering\DataTransformer\MappedDataTransformer;
-
-use Yjv\ReportRendering\Renderer\Grid\Column\Column;
 
 class ColumnBuilderTest extends \PHPUnit_Framework_TestCase {
 

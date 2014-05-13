@@ -7,7 +7,6 @@ use Yjv\ReportRendering\Renderer\Grid\GridInterface;
 
 use Yjv\ReportRendering\Renderer\RendererBuilderInterface;
 
-use Yjv\ReportRendering\Renderer\Grid\Grid;
 
 use Symfony\Component\OptionsResolver\Options;
 

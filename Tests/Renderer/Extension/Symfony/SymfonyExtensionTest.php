@@ -1,7 +1,7 @@
 <?php
 namespace Yjv\ReportRendering\Tests\Renderer\Extension\Symfony;
 
-use Yjv\ReportRendering\Renderer\Extension\Core\CoreExtension;
+
 
 use Mockery;
 use Yjv\ReportRendering\Renderer\Extension\Symfony\SymfonyExtension;

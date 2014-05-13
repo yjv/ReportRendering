@@ -1,13 +1,13 @@
 <?php
 namespace Yjv\ReportRendering\Tests\Twig;
 
-use Yjv\ReportRendering\Twig\ReportRenderingExtension;
 
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use Yjv\ReportRendering\Twig\ReportRenderingExtension;
 
 class ReportRenderingExtensionTest extends \PHPUnit_Framework_TestCase {
 
-	protected $extension;
+	/** @var ReportRenderingExtension  */
+    protected $extension;
 	
 	public function setUp() {
 		

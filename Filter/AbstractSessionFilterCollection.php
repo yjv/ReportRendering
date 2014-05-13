@@ -75,9 +75,7 @@ abstract class AbstractSessionFilterCollection implements
     }
 
     /**
-     * 
-     * @param array $defaults
-     * @return \Yjv\ReportRendering\Filter\SessionFilterCollection
+     * {@inheritdoc}
      */
     public function setDefaults(array $defaults)
     {
@@ -87,10 +85,7 @@ abstract class AbstractSessionFilterCollection implements
     }
 
     /**
-     * 
-     * @param unknown $name
-     * @param unknown $value
-     * @return \Yjv\ReportRendering\Filter\SessionFilterCollection
+     * {@inheritdoc}
      */
     public function setDefault($name, $value)
     {

@@ -1,7 +1,7 @@
 <?php
 namespace Yjv\ReportRendering\Filter;
 
-use Yjv\ReportRendering\Report\ReportInterface;
+
 
 /**
  * interface for filtercollections that want to store filters for more that one report to follow

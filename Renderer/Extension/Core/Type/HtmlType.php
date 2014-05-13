@@ -51,8 +51,6 @@ class HtmlType extends AbstractRendererType
      */
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
-        $type = $this;
-
         $resolver
             ->setDefaults(array(
                 'template' => 'html.html.twig',

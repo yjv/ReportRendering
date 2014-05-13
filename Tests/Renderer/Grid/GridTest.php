@@ -139,7 +139,6 @@ class GridTest extends \PHPUnit_Framework_TestCase{
 			->will($this->returnCallback(function($previousOptions) use ($tester, $rowOptions){
 			
 				$tester->assertEmpty($previousOptions);
-				$savedOptions = $rowOptions;
 				return $rowOptions;
 			}))
 		;
@@ -207,7 +206,7 @@ class GridTest extends \PHPUnit_Framework_TestCase{
 	}
 	
 	/**
-	 * @expectedException BadMethodCallException
+	 * @expectedException \BadMethodCallException
 	 * @expectedExceptionMessage data must be set to use this method
 	 */
 	public function testGetRowsWithDataNotSet()

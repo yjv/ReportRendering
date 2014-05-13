@@ -3,9 +3,6 @@ namespace Yjv\ReportRendering\Tests\Filter;
 
 use Yjv\ReportRendering\Filter\NativeSessionFilterCollection;
 
-use Yjv\ReportRendering\Filter\SymfonySessionFilterCollection;
-
-use Yjv\ReportRendering\Filter\ArrayFilterCollection;
 
 class NativeSessionFilterCollectionTest extends ArrayFilterCollectionTest
 {

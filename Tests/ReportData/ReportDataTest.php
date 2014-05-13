@@ -1,7 +1,7 @@
 <?php
 namespace Yjv\ReportRendering\Tests\ReportData;
 
-use Yjv\ReportRendering\ReportData\ImmutableReportData;
+
 
 
 class ReportDataTest extends ImmutableReportDataTest{

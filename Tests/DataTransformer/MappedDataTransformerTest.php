@@ -1,15 +1,8 @@
 <?php
 namespace Yjv\ReportRendering\Tests\DataTransformer;
 
+
 use Yjv\ReportRendering\DataTransformer\MappedDataTransformer;
-
-use Symfony\Component\Form\Exception\PropertyAccessDeniedException;
-
-use Symfony\Component\Form\Exception\InvalidPropertyException;
-
-use Symfony\Component\OptionsResolver\Exception\MissingOptionsException;
-
-use Yjv\ReportRendering\DataTransformer\PropertyPathTransformer;
 
 class MappedDataTransformerTest extends AbstractDataTransformerTest
 {

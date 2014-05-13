@@ -65,10 +65,7 @@ class ArrayFilterCollection implements DefaultedFilterCollectionInterface
     }
 
     /**
-     * 
-     * @param scalar $name
-     * @param mixed $value
-     * @return \Yjv\ReportRendering\Filter\ArrayFilterCollection
+     * {@inheritdoc}
      */
     public function setDefault($name, $value)
     {

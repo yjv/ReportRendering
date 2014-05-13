@@ -8,7 +8,7 @@ use Yjv\ReportRendering\Renderer\Grid\Column\ColumnInterface;
 use Yjv\ReportRendering\Report\ReportInterface;
 use Yjv\ReportRendering\ReportData\ImmutableDataInterface;
 use Yjv\ReportRendering\Renderer\Grid\GridInterface;
-use Symfony\Component\HttpFoundation\Response;
+
 
 class CsvRenderer implements FilterValuesProcessingRendererInterface
 {

@@ -1,15 +1,8 @@
 <?php
 namespace Yjv\ReportRendering\Tests\DataTransformer;
 
-use MyProject\Proxies\__CG__\OtherProject\Proxies\__CG__\stdClass;
 
 use Yjv\ReportRendering\DataTransformer\DateTimeTransformer;
-
-use Symfony\Component\Form\Exception\InvalidPropertyException;
-
-use Symfony\Component\OptionsResolver\Exception\MissingOptionsException;
-
-use Yjv\ReportRendering\DataTransformer\PropertyPathTransformer;
 
 class DateTimeTransformerTest extends AbstractDataTransformerTest
 {

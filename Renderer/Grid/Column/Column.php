@@ -38,7 +38,7 @@ class Column implements ColumnInterface
 
     /**
      * appends a datatransformer to the array
-     * @param DataTransofrmerInterface|callable $dataTransformer
+     * @param DataTransformerInterface|callable $dataTransformer
      * @return \Yjv\ReportRendering\Renderer\Grid\Column\Column
      */
     public function appendDataTransformer($dataTransformer)
@@ -49,7 +49,7 @@ class Column implements ColumnInterface
 
     /**
      * prepends a datatransformer to the array
-     * @param DataTransofrmerInterface|callable $dataTransformer
+     * @param DataTransformerInterface|callable $dataTransformer
      * @return \Yjv\ReportRendering\Renderer\Grid\Column\Column
      */
     public function prependDataTransformer($dataTransformer)
@@ -71,8 +71,9 @@ class Column implements ColumnInterface
     }
 
     /**
-     * @param unknown $name
-     * @param unknown $value
+     * @param string|number $name
+     * @param mixed $value
+     * @return $this
      */
     public function setOption($name, $value)
     {
@@ -102,8 +103,9 @@ class Column implements ColumnInterface
     }
 
     /**
-     * @param unknown $name
-     * @param unknown $value
+     * @param string|number $name
+     * @param mixed $value
+     * @return $this
      */
     public function setRowOption($name, $value)
     {
@@ -133,8 +135,9 @@ class Column implements ColumnInterface
     }
 
     /**
-     * @param unknown $name
-     * @param unknown $value
+     * @param string|number $name
+     * @param mixed $value
+     * @return $this
      */
     public function setCellOption($name, $value)
     {

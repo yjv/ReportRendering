@@ -1,9 +1,6 @@
 <?php
 namespace Yjv\ReportRendering\Tests\Renderer\Grid\Column\Extension\Core\Type;
 
-use Yjv\ReportRendering\Renderer\Grid\Column\ColumnBuilder;
-
-use Yjv\ReportRendering\Renderer\Grid\Column\Column;
 
 use Yjv\ReportRendering\Renderer\Grid\Column\Extension\Core\Type\ColumnType;
 
