@@ -116,6 +116,13 @@ abstract class AbstractSessionFilterCollection implements
         return $this;
     }
 
+    public function clear()
+    {
+        $this->filters = array();
+        $this->syncFilters();
+        return $this;
+    }
+
     /**
      * loads the filters for the report into the filters array
      * @return \Yjv\ReportRendering\Filter\AbstractSessionFilterCollection

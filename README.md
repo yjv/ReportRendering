@@ -152,22 +152,31 @@ if no name is passed it defaults to that report's default renderer.
 Events
 ------
 
-the report will fire events during the loading of data and allow you to change things both befroe and after the data is loaded.
+the report will fire events during the initialization of a renderer
+
+the report will fire events during the loading of data and allow you to change
+things both befroe and after the data is loaded.
 
 `report.pre_load_data`
 
-this event is good to use if you want to make some changes before the data is loaded for example change some some filter values or something like that. Note: changes to data are ignored.
+this event is good to use if you want to make some changes before the data is
+loaded for example change some some filter values or something like that.
+Note: changes to data are ignored.
 
 `report.post_load_data`
 
-this event is good to use for editing data returned form the data source before it's given to the renderer. Calling setData on the event will replace the data it has with the data you've supplied.
+this event is good to use for editing data returned form the data source before
+it's given to the renderer. Calling setData on the event will replace the data
+it has with the data you've supplied.
 
 
 Factories
 ---------
 
-even though you could technically set up the report on your own, configurable factories make this alot easier by allowing some simple config
-changes to make a big difference. Also it supplies reasonable defaults for alot of things allowing you to only change what you 
+even though you could set up the report on your own, configurable
+factories make this alot easier by allowing some simple config
+changes to make a big difference. Also it supplies reasonable defaults for
+alot of things allowing you to only change what you
 need and use the rest as is.
 
 there are 4 factories in report rendering

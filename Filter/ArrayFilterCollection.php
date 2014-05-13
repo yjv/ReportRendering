@@ -91,4 +91,10 @@ class ArrayFilterCollection implements DefaultedFilterCollectionInterface
         unset($this->filters[$name]);
         return $this;
     }
+
+    public function clear()
+    {
+        $this->filters = array();
+        return $this;
+    }
 }

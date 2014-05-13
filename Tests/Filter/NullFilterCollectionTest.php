@@ -25,5 +25,6 @@ class NullFilterCollectionTest extends \PHPUnit_Framework_TestCase
 		$this->assertEmpty($this->filters->all());
         $this->assertSame($this->filters, $this->filters->replace(array()));
         $this->assertSame($this->filters, $this->filters->remove('name'));
+        $this->assertSame($this->filters, $this->filters->clear());
 	}
 }

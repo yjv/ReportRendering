@@ -37,5 +37,7 @@ class ArrayFilterCollectionTest extends \PHPUnit_Framework_TestCase
         unset($replacingValues['xcvvxvxc']);
         $this->assertSame($this->filters, $this->filters->remove('xcvvxvxc'));
         $this->assertEquals($replacingValues, $this->filters->all());
+        $this->assertSame($this->filters, $this->filters->clear());
+        $this->assertEquals(array(), $this->filters->all());
     }
 }

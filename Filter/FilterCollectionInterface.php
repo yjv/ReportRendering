@@ -51,4 +51,6 @@ interface FilterCollectionInterface
      * @return $this
      */
     public function remove($name);
+
+    public function clear();
 }

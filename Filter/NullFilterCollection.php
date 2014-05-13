@@ -53,4 +53,9 @@ class NullFilterCollection implements FilterCollectionInterface
     {
         return $this;
     }
+
+    public function clear()
+    {
+        return $this;
+    }
 }
