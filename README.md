@@ -23,6 +23,7 @@ for rendering this data
  */
 require 'vendor/autoload.php';
 
+use Yjv\ReportRendering\Filter\NativeSessionFilterCollection;
 use Yjv\ReportRendering\ReportRendering;
 use Symfony\Component\Templating\TemplateNameParser;
 use Symfony\Component\Form\Forms;
@@ -30,12 +31,13 @@ use Symfony\Bridge\Twig\TwigEngine;
 use Symfony\Bridge\Twig\Extension\FormExtension;
 use Symfony\Bridge\Twig\Form\TwigRenderer;
 use Symfony\Bridge\Twig\Form\TwigRendererEngine;
+use Yjv\ReportRendering\Twig\ReportRenderingExtension;
 
 /**
  * set filters posted to this page
  */
 session_start();
-$filters = new \Yjv\ReportRendering\Filter\NativeSessionFilterCollection();
+$filters = new NativeSessionFilterCollection();
 
 if (isset($_POST['report_filters'])) {
 
@@ -62,13 +64,13 @@ $twig->addExtension(new FormExtension(new TwigRenderer(new TwigRendererEngine(ar
  * if you want to use the symfony translation component
  * you can use the Symfony\Bridge\Twig\ExtensionTranslationExtension class
  */
-$twig->addExtension(new \Yjv\ReportRendering\Twig\ReportRenderingExtension());
+$twig->addExtension(new ReportRenderingExtension());
 $twig->addExtension(new Twig_Extension_Debug());
 $templating = new TwigEngine($twig, new TemplateNameParser());
 $formFactory = Forms::createFormFactory();
 
 /** @var \Yjv\ReportRendering\Report\ReportFactoryInterface $reportFactory */
-$reportFactory = \Yjv\ReportRendering\Report\ReportFactoryBuilder::create()
+$reportFactory = ReportRendering::createReportFactoryBuilder()
     ->setTemplatingEngine($templating)
     ->setFormFactory($formFactory)
     ->build()
