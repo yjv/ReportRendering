@@ -35,7 +35,7 @@ class ArrayBuilder extends AbstractBuilder implements DatasourceBuilderInterface
     {
         if (!$this->propertyAccessor) {
 
-            $this->propertyAccessor = PropertyAccess::createPropertyAccessor();
+            $this->propertyAccessor = PropertyAccess::getPropertyAccessor();
         }
 
         return $this->propertyAccessor;

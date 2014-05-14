@@ -10,6 +10,7 @@
 	    "symfony/form": "~2.1",
 	    "symfony/event-dispatcher": "~2.0",
 	    "symfony/http-foundation": "~2.0",
+        "symfony/property-access": "~2.2",
 	    "yjv/type-factory": "dev-master"
 	},
 	"require-dev":{
