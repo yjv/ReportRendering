@@ -65,7 +65,14 @@ class SymfonyFormTypeExtension extends AbstractTypeExtension
                 'symfony_form_fields' => function (Options $options, $filterFields)
                 {
                     //@codeCoverageIgnoreStart
-                    return Factory::normalizeCollectionToFactoryArguments($filterFields);
+                    return array_map(
+                        function($fieldOptions)
+                        {
+                            $fieldOptions[1] = array_merge(array('required' => false), $fieldOptions[1]);
+                            return $fieldOptions;
+                        },
+                        Factory::normalizeCollectionToFactoryArguments($filterFields)
+                    );
                     //@codeCoverageIgnoreEnd
                 }
             ));
