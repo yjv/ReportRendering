@@ -15,7 +15,7 @@ or otherwise of a report table, row or cell, whether it is static, per row or da
 Documentation
 -------------
 
-See the [wiki](/wiki) for examples and tutorials.
+See the [wiki](https://github.com/yjv/ReportRendering/wiki) for examples and tutorials.
 
 About
 =====
