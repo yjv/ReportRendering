@@ -39,7 +39,7 @@ class ArrayDatasource implements MappedFilterDatasourceInterface
 
         $sort = isset($filterValues[FilterConstants::SORT]) ? $filterValues[FilterConstants::SORT] : false;
         $limit = isset($filterValues[FilterConstants::LIMIT]) ? $filterValues[FilterConstants::LIMIT] : FilterConstants::DEFAULT_LIMIT;
-        $offset = isset($filterValues[FilterConstants::LIMIT]) ? $filterValues[FilterConstants::OFFSET] : FilterConstants::DEFAULT_OFFSET;
+        $offset = isset($filterValues[FilterConstants::OFFSET]) ? $filterValues[FilterConstants::OFFSET] : FilterConstants::DEFAULT_OFFSET;
         unset(
             $filterValues[FilterConstants::SORT],
             $filterValues[FilterConstants::LIMIT],
