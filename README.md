@@ -63,6 +63,7 @@ if (isset($_POST['report_filters'])) {
 $twig = new Twig_Environment(new Twig_Loader_Filesystem(array(
     __DIR__.'/Resources/views/Renderer',
     __DIR__.'/vendor/symfony/twig-bridge/Symfony/Bridge/Twig/Resources/views/Form'
+//remove this array in prod mode. friendly reminder :)
 )), array('debug' => true));
 /**
  * add the form extension so that the form methods work for rendering the form
