@@ -8,10 +8,16 @@ Purpose
 -------
 Report Rendering is meant to be used to render any tabulatable data from just about any source into just about any format.
 This is done by using datasource classes that feed the report and allowing the report to hold multiple renderers
-for rendering this data
+for rendering this data. The main idea with this library was to make it as flexible
+as possible to be able to accommodate whatever requests you may get with formatting, coloring
+or otherwise of a report table, row or cell, whether it is static, per row or data driven.
 
  Usage
 -----
+
+this is an example of a report with 2 renderers having an array datasource.
+it uses twig to render the html one and uses the symfony form component for
+rendering the filters.
 
 ```php
 <?php
@@ -24,6 +30,7 @@ for rendering this data
 require 'vendor/autoload.php';
 
 use Yjv\ReportRendering\Filter\NativeSessionFilterCollection;
+use Yjv\ReportRendering\Report\ReportInterface;
 use Yjv\ReportRendering\ReportRendering;
 use Symfony\Component\Templating\TemplateNameParser;
 use Symfony\Component\Form\Forms;
@@ -36,7 +43,9 @@ use Yjv\ReportRendering\Twig\ReportRenderingExtension;
 /**
  * set filters posted to this page
  */
-session_start();
+
+//uncomment if you have session issues
+//session_start();
 $filters = new NativeSessionFilterCollection();
 
 if (isset($_POST['report_filters'])) {
@@ -56,7 +65,7 @@ $twig = new Twig_Environment(new Twig_Loader_Filesystem(array(
     __DIR__.'/vendor/symfony/twig-bridge/Symfony/Bridge/Twig/Resources/views/Form'
 )), array('debug' => true));
 /**
- * add the form extension so that the form methods work
+ * add the form extension so that the form methods work for rendering the form
  */
 $twig->addExtension(new FormExtension(new TwigRenderer(new TwigRendererEngine(array('form_div_layout.html.twig')))));
 /**
@@ -69,44 +78,84 @@ $twig->addExtension(new Twig_Extension_Debug());
 $templating = new TwigEngine($twig, new TemplateNameParser());
 $formFactory = Forms::createFormFactory();
 
-/** @var \Yjv\ReportRendering\Report\ReportFactoryInterface $reportFactory */
+/**
+ * This is where the actual report creation happens. everything above is basic setup
+ * for any application to use twig and forms in twig. other than the first few lines that deal
+ * with filters being sent in from the rendered html report
+ *
+ * @var \Yjv\ReportRendering\Report\ReportFactoryInterface $reportFactory
+ */
 $reportFactory = ReportRendering::createReportFactoryBuilder()
     ->setTemplatingEngine($templating)
     ->setFormFactory($formFactory)
     ->build()
 ;
 $report = $reportFactory->create('report', array(
+    //here you are telling the report factory what filter collection to use
+    //in the report
     'filters' => $filters,
+    //here you are setting up the data source
+    //in this case it is an array data source which takes an array as its data
+    //and returns it to the report. filtered by the data in the filters set above
     'datasource' => array('array', array(
+        //this is the data the array data source will use to pass the filtered data to the
+        //report
         'data' => array(
             array('key1' => 'value1', 'key2' => 'value2'),
             array('key1' => 'value3', 'key2' => 'value4'),
         ),
+        //this allows for filters in the filter collection that dont match keys in the
+        //array data to be mapped
         'filter_map' => array(
+            //this means that if a filter key is 'column1' it will be mapped and used to filter
+            //on the '[key1]' property path
             'column1' => '[key1]',
             'column2' => '[key2]',
             0 => '[key1]',
             1 => '[key2]',
         )
     )),
+    //here you are setting all the renderers the report will have. in this case
+    //we are setting it up with an html renderer as the default renderer and also adding
+    //a csv renderer to render the same data in csv format. at the moment the columns need
+    //to be set on both renderers as they are built seperately. Plans are to make it possible to
+    //set the columns once
     'renderers' => array(
-        'default' => array('html', array(
+        //this makes this the default renderer used when $report->getRenderer() is
+        //called with no arguments
+        ReportInterface::DEFAULT_RENDERER_KEY => array('html', array(
+            //this sets the columns to use in the html renderer. in this case the first column
+            //will be a property_path column and will be named column1 second will be a format_string
+            //column and be named column2
             'columns' => array(
                 array('property_path', array('name' => 'column1', 'path' => '[key1]')),
                 array('format_string', array('name' => 'column2', 'format_string' => 'key2 = {[key2]}')),
             ),
+            //this tells the renderer factory to use a symfony form for the filter fields
+            //this defines the actual fields to use as the filters
             'symfony_form_fields' => array(
                 'column1' => 'text',
                 'column2' => 'text'
             ),
+            //this tells the renderer that you want to have these javascripts added when rendering
+            //the report. This is not necessary and you can add it somewhere else on the page that
+            //you render the report on but it's here if it's needed
             'javascripts' => array(
                 'jquery' => 'http://code.jquery.com/jquery-1.9.1.js',
                 'report_rendering' => 'Resources/public/js/html_report.js',
                 'bootstrap' => '//netdna.bootstrapcdn.com/bootstrap/2.3.2/js/bootstrap.min.js'
             ),
+            //this tells the renderer that you want to have these css stylesheets added when rendering
+            //the report. This is not necessary and you can add it somewhere else on the page that
+            //you render the report on but it's here if it's needed
             'stylesheets' => array('bootstrap' => '//netdna.bootstrapcdn.com/bootstrap/2.3.2/css/bootstrap.min.css'),
         )),
+        //this will make it that the call to $report->getRenderer('csv') will return this renderer
+        //the type of it is also csv
         'csv' => array('csv', array(
+            //this sets the columns to use in the html renderer. in this case the first column
+            //will be a property_path column and will be named column1 second will be a format_string
+            //column and be named column2
             'columns' => array(
                 array('property_path', array('name' => 'column1', 'path' => '[key1]')),
                 array('format_string', array('name' => 'column2', 'format_string' => 'key2 = {[key2]}')),
@@ -115,6 +164,7 @@ $report = $reportFactory->create('report', array(
     )
 ));
 
+//if the url has ?csv=1 in it render a csv
 if (!empty($_GET['csv'])) {
 
     header('Content-Type: application/csv');
@@ -126,6 +176,7 @@ if (!empty($_GET['csv'])) {
 ?>
 <html>
 <body>
+<!-- if not render the default renderer which is the html renderer -->
 <?php echo $report->getRenderer()->render(); ?>
 </body>
 </html>
@@ -139,68 +190,9 @@ value1, key2 = value2
 value3, key2 = value4
 ```
 
-Core Concepts
--------------
+###Explanation of the above example###
 
-A report is a class that holds a datasource, filter collection and as many renderers as you want.
-all datasources must follow the `Yjv\ReportRendering\Datasource\DatasourceInterface` this interface defines general methods for a class that takes filters and returns tabular data.
-all filter collections must follow the `Yjv\ReportRendering\Filter\FilterColletctionInterface` this interface defines methods for a class that takes and returns filter values.
-all renderers must follow the `Yjv\ReportRendering\Renderer\RendererInterface` this interface defines general methods for renderers that take tabular data and convert it into some reprot format.
-when you want to render a report in a certain way you call the report's getRenderer method with the name.
-if no name is passed it defaults to that report's default renderer.
-
-
-Events
-------
-
-the report will fire events during the initialization of a renderer
-
-the report will fire events during the loading of data and allow you to change
-things both befroe and after the data is loaded.
-
-`report.pre_load_data`
-
-this event is good to use if you want to make some changes before the data is
-loaded for example change some some filter values or something like that.
-Note: changes to data are ignored.
-
-`report.post_load_data`
-
-this event is good to use for editing data returned form the data source before
-it's given to the renderer. Calling setData on the event will replace the data
-it has with the data you've supplied.
-
-
-Factories
----------
-
-even though you could set up the report on your own, configurable
-factories make this alot easier by allowing some simple config
-changes to make a big difference. Also it supplies reasonable defaults for
-alot of things allowing you to only change what you
-need and use the rest as is.
-
-there are 4 factories in report rendering
- * ReportFactory
- * RendererFactory
- * ColumnFactory
- * DatasourceFactory
-
-If you know how the symfony2 form factory works this will seem very familiar.
-
-### Types
-
-
-
-### Type Extensions
-
-### Extensions
-
-
-
-Utilities
----------
-
+What you are basicly
 
 
 About
