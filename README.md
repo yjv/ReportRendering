@@ -183,7 +183,7 @@ if (!empty($_GET['csv'])) {
 ```
 going to ../index.php will output the html version. something like this.
 ![Html Screen Shot](/html_screenshot.png?raw=true "Html Screen Shot")
-and going to ../index.php?csv=1 wii output something like this
+and going to ../index.php?csv=1 wii output something like this as a csv download.
 
 ```csv
 column1, column2
