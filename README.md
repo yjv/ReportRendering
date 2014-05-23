@@ -76,7 +76,6 @@ $reportFactory = ReportRendering::createReportFactoryBuilder()
     ->build()
 ;
 $report = $reportFactory->create('report', array(
-    'default_renderer' => 'html',
     'filters' => $filters,
     'datasource' => array('array', array(
         'data' => array(
@@ -91,14 +90,14 @@ $report = $reportFactory->create('report', array(
         )
     )),
     'renderers' => array(
-        'html' => array('html', array(
+        'default' => array('html', array(
             'columns' => array(
                 array('property_path', array('name' => 'column1', 'path' => '[key1]')),
                 array('format_string', array('name' => 'column2', 'format_string' => 'key2 = {[key2]}')),
             ),
             'symfony_form_fields' => array(
-                'column1' => array('text', array('property_path' => '[column1]', 'required' => false)),
-                'column2' => array('text', array('property_path' => '[column2]', 'required' => false))
+                'column1' => 'text',
+                'column2' => 'text'
             ),
             'javascripts' => array(
                 'jquery' => 'http://code.jquery.com/jquery-1.9.1.js',
