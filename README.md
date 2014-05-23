@@ -181,7 +181,8 @@ if (!empty($_GET['csv'])) {
 </body>
 </html>
 ```
-going to ../index.php will output the html version of the report
+going to ../index.php will output the html version. something like this.
+![Html Screen Shot](/html_screenshot.png?raw=true "Html Screen Shot")
 and going to ../index.php?csv=1 wii output something like this
 
 ```csv
@@ -189,10 +190,6 @@ column1, column2
 value1, key2 = value2
 value3, key2 = value4
 ```
-
-###Explanation of the above example###
-
-What you are basicly
 
 
 About
