@@ -2,6 +2,12 @@
 	"name": "yjv/report-rendering",
 	"description": "library with classes that allow easy rendering of report data",
 	"license": "MIT",
+    "authors": [
+        {
+            "name": "Yosef Deray",
+            "email": "joseph.deray@giftcards.com"
+        }
+    ],
     "keywords": ["report", "reporting","report rendering","tables"],
 	"require": {
 	    
