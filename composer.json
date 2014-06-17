@@ -17,7 +17,7 @@
 	    "symfony/event-dispatcher": "~2.0",
 	    "symfony/http-foundation": "~2.0",
         "symfony/property-access": "~2.2",
-	    "yjv/type-factory": "dev-master"
+	    "yjv/type-factory": "~2.0"
 	},
 	"require-dev":{
 	    "twig/twig": "*",
